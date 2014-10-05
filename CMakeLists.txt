@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 2.8.4)
+project(glGraphics)
+
+set(SOURCE_FILES main.cpp gpu_program.cpp debug.cpp static_mesh.cpp exs3d.cpp material.cpp render_window.cpp)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" CMAKE_MODULE_PATH)
+SET(CMAKE_CXX_FLAGS "-std=c++11")
+find_package(OpenGL REQUIRED)
+find_package(GLEW   REQUIRED)
+find_package(SFML 2 REQUIRED window system graphics)
+add_executable(glGraphics ${SOURCE_FILES})
+target_link_libraries(glGraphics ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} ${GLEW_LIBRARY} ${SFML_LIBRARIES})
