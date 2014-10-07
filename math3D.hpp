@@ -385,7 +385,7 @@ namespace math3D
 
 
         template<typename another_numeric_t>
-        vector3<another_numeric_t> withAnotherNumericType()
+        vector3<another_numeric_t> convertType()
         {
             return vector3<another_numeric_t> ((another_numeric_t) _x, (another_numeric_t) _y, (another_numeric_t) _z);
         }
@@ -962,9 +962,9 @@ namespace math3D
 
 
         template<typename another_numeric_t>
-        quaternion<another_numeric_t> withAnotherNumericType()
+        quaternion<another_numeric_t> convertType()
         {
-            return quaternion<another_numeric_t> (_im.withAnotherNumericType<another_numeric_t>(), (another_numeric_t) _re);
+            return quaternion<another_numeric_t> (_im.convertType<another_numeric_t>(), (another_numeric_t) _re);
         }
     };
 
@@ -1038,9 +1038,9 @@ namespace math3D
 
 
         template<typename another_numeric_t>
-        rotation<another_numeric_t> withAnotherNumericType()
+        rotation<another_numeric_t> convertType()
         {
-            return rotation<another_numeric_t> (_quaternion.withAnotherNumericType<another_numeric_t>());
+            return rotation<another_numeric_t> (_quaternion.convertType<another_numeric_t>());
         }
 
 
@@ -1216,11 +1216,11 @@ namespace math3D
 
 
         template<typename another_numeric_t>
-        transform<another_numeric_t> withAnotherNumericType()
+        transform<another_numeric_t> convertType()
         {
-            return transform<another_numeric_t> (_translation.withAnotherNumericType<another_numeric_t>(),
-                                                 _rotation.withAnotherNumericType<another_numeric_t>(),
-                                                 _scale.withAnotherNumericType<another_numeric_t>());
+            return transform<another_numeric_t> (_translation.convertType<another_numeric_t>(),
+                                                 _rotation.convertType<another_numeric_t>(),
+                                                 _scale.convertType<another_numeric_t>());
         }
     };
 

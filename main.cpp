@@ -72,7 +72,7 @@ int main (int argc, char **argv)
         {
             vector3_d forward (0, 0, -1);
             forward = camera.getRotation().inversed().apply (forward);
-            forward / 50000;
+            forward /= 10;
             camera = transform_d (camera.getTranslation() + forward, camera.getRotation());
         }
 
@@ -80,7 +80,7 @@ int main (int argc, char **argv)
         {
             vector3_d forward (0, 0, 1);
             forward = camera.getRotation().inversed().apply (forward);
-            forward / 50000;
+            forward /= 10;
             camera = transform_d (camera.getTranslation() + forward, camera.getRotation());
         }
 
@@ -88,7 +88,7 @@ int main (int argc, char **argv)
         {
             vector3_d forward (-1, 0, 0);
             forward = camera.getRotation().inversed().apply (forward);
-            forward / 50000;
+            forward /= 10;
             camera = transform_d (camera.getTranslation() + forward, camera.getRotation());
         }
 
@@ -96,7 +96,7 @@ int main (int argc, char **argv)
         {
             vector3_d forward (1, 0, 0);
             forward = camera.getRotation().inversed().apply (forward);
-            forward / 50000;
+            forward /= 10;
             camera = transform_d (camera.getTranslation() + forward, camera.getRotation());
         }
 
@@ -181,11 +181,11 @@ int main (int argc, char **argv)
         glEnable (GL_CULL_FACE);
 
         //alpha += 0.04;
-        rotation_f f (vector3_f (1, 0, 0), angle_d::pi / 2);
+        rotation_f f (vector3_f (1, 0, 0), angle_f::pi / 2);
         //rotation_f r (rotation_f (vector3_f (0, 1, 0), alpha));
 
-        object2screen_transform_f t
-          (transform_f (vector3_f (0, 0, 0), f), camera.withAnotherNumericType<float>(), perspective_projection_f (angle_f::pi / 4, 900.0 / 700.0, interval_f (1, 10000)));
+        object2screen_transform_f t (
+            transform_f (vector3_f (0, 0, 0), f), camera.convertType<float>(), perspective_projection_f (angle_f::pi / 4, 900.0 / 700.0, interval_f (0.3, 10000)));
 
         auto tm = t.asMatrix();
 
@@ -194,7 +194,7 @@ int main (int argc, char **argv)
         {
             auto shader = component->getMaterial()->getRenderingProgram();
             shader->setUniformSampler ("uTexture", 0);
-            shader->setUniform ("uViewPos", camera.getTranslation().withAnotherNumericType<float>());
+            shader->setUniform ("uViewPos", camera.getTranslation().convertType<float>());
             shader->setUniform ("uMatTransform", tm);
             shader->setUniform ("uMatWorldTransform", t.getWorldTransform().asMatrix());
         }
