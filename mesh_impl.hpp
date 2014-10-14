@@ -1,11 +1,6 @@
 
 #include "mesh.hpp"
-#include "debug.hpp"
-
-#include <GL/glew.h>
-#include <fstream>
-#include <exception>
-#include <stdexcept>
+#include "gpu_buffer_impl.hpp"
 
 using oo_extensions::mkstr;
 

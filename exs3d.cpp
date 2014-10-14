@@ -1,5 +1,6 @@
 
 #include "exs3d.hpp"
+#include "mesh_impl.hpp"
 
 using oo_extensions::mkstr;
 
@@ -137,9 +138,9 @@ namespace render
             return nullptr;
         }
 
-        auto shader = make_shared<gpu_program> (make_shared<exs3d_vertex_layout>(), "shader.vert", "shader.frag");
-        auto mat = make_shared<textured_material> (shader, texture);
-        //static material mat (shader);
+        auto shader = gpu_program::alloc (exs3d_vertex_layout::alloc(), "shader.vert", "shader.frag");
+        auto mat = textured_material::alloc (shader, texture);
+
         return new mesh_component_t (mat, vertices, indices, componentName);
     }
 

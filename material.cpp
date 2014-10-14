@@ -1,11 +1,5 @@
 
 #include "material.hpp"
-#include "debug.hpp"
-
-#include <GL/glew.h>
-#include <fstream>
-#include <exception>
-#include <stdexcept>
 
 using oo_extensions::mkstr;
 

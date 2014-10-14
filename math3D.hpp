@@ -385,7 +385,7 @@ namespace math3D
 
 
         template<typename another_numeric_t>
-        vector3<another_numeric_t> convertType()
+        vector3<another_numeric_t> convertType() const
         {
             return vector3<another_numeric_t> ((another_numeric_t) _x, (another_numeric_t) _y, (another_numeric_t) _z);
         }
@@ -835,6 +835,12 @@ namespace math3D
         }
 
 
+        bool isIdent() const
+        {
+            return *this == ident();
+        }
+
+
         void add (const quaternion<numeric_t> &operand)
         {
             _im += operand._im;
@@ -962,7 +968,7 @@ namespace math3D
 
 
         template<typename another_numeric_t>
-        quaternion<another_numeric_t> convertType()
+        quaternion<another_numeric_t> convertType() const
         {
             return quaternion<another_numeric_t> (_im.convertType<another_numeric_t>(), (another_numeric_t) _re);
         }
@@ -987,6 +993,10 @@ namespace math3D
 
     protected:
         quaternion_t _quaternion;
+        bool _ident = true;
+
+    public:
+        property_get (IsIdent, _ident)
 
 
     public:
@@ -994,7 +1004,7 @@ namespace math3D
         { }
 
 
-        rotation (vector3<numeric_t> axis, numeric_t angle)
+        rotation (vector3<numeric_t> axis, numeric_t angle) : _ident (false)
         {
             axis.normalize();
             numeric_t half_angle = angle / 2;
@@ -1005,7 +1015,7 @@ namespace math3D
         }
 
 
-        rotation (quaternion_t quaternion_) : _quaternion (quaternion_)
+        rotation (quaternion_t quaternion_) : _quaternion (quaternion_), _ident (false)
         { }
 
 
@@ -1017,7 +1027,7 @@ namespace math3D
 
             vector3<numeric_t> axis (1, 0, 0);
 
-            if (s > 0.001)
+            if (s > 0.00001)
             {
                 axis = _quaternion.getIm();
                 axis.scale (1 / s);
@@ -1033,12 +1043,21 @@ namespace math3D
 
         void combine (const rotation &rot)
         {
+            if (_ident)
+            {
+                if (rot._ident) return;
+                _quaternion = rot._quaternion;
+                _ident = false;
+                return;
+            }
+
             _quaternion = rot._quaternion.product (_quaternion);
+            _ident = false;
         }
 
 
         template<typename another_numeric_t>
-        rotation<another_numeric_t> convertType()
+        rotation<another_numeric_t> convertType() const
         {
             return rotation<another_numeric_t> (_quaternion.convertType<another_numeric_t>());
         }
@@ -1046,6 +1065,7 @@ namespace math3D
 
         void inverse()
         {
+            if (_ident) return;
             _quaternion.inverse();
         }
 
@@ -1059,8 +1079,10 @@ namespace math3D
         }
 
 
-        vector3<numeric_t> apply (const vector3<numeric_t> vec)
+        vector3<numeric_t> apply (const vector3<numeric_t> &vec) const
         {
+            if (_ident) return vec;
+
             quaternion_t pseudoQuat (vec, 0);
             auto conjugated = _quaternion.conjugated();
             auto result = _quaternion.product (pseudoQuat);
@@ -1147,9 +1169,9 @@ namespace math3D
 
 
     public:
-        property_get (Translation, _translation)
-        property_get (Rotation,    _rotation)
-        property_get (Scale,       _scale)
+        property_get_ref (Translation, _translation)
+        property_get_ref (Rotation,    _rotation)
+        property_get_ref (Scale,       _scale)
 
 
     public:
@@ -1161,6 +1183,12 @@ namespace math3D
                                                                              _rotation    (rot),
                                                                              _scale       (scale)
         {  }
+
+
+        static this_t ident()
+        {
+            return this_t();
+        }
 
 
         matrix_4x4<numeric_t> asMatrix() const
@@ -1191,6 +1219,13 @@ namespace math3D
                 transformMatrix.at (2, 3) = transformMatrix.rowVec3 (2) * _translation;
                 transformMatrix.at (3, 3) = 1;
 
+                if (!_identScale)
+                {
+                    transformMatrix.scaleRow3 (0, _scale.getX());
+                    transformMatrix.scaleRow3 (1, _scale.getY());
+                    transformMatrix.scaleRow3 (2, _scale.getZ());
+                }
+
                 return std::move (transformMatrix);
             }
         }
@@ -1216,11 +1251,49 @@ namespace math3D
 
 
         template<typename another_numeric_t>
-        transform<another_numeric_t> convertType()
+        transform<another_numeric_t> convertType() const
         {
             return transform<another_numeric_t> (_translation.convertType<another_numeric_t>(),
                                                  _rotation.convertType<another_numeric_t>(),
                                                  _scale.convertType<another_numeric_t>());
+        }
+
+
+        void add (const this_t& theOtherTransform)
+        {
+            _translation += theOtherTransform._translation;
+            _rotation.combine (theOtherTransform._rotation);
+
+            if (!theOtherTransform._identScale)
+            {
+                _scale = vector3<numeric_t> (_scale.getX() * theOtherTransform._scale.getX(),
+                                             _scale.getY() * theOtherTransform._scale.getY(),
+                                             _scale.getZ() * theOtherTransform._scale.getZ());
+            }
+        }
+
+
+        void operator+= (const this_t& theOtherTransform)
+        {
+            add (theOtherTransform);
+        }
+
+
+        void translate (const vector3<numeric_t> &deltaPos)
+        {
+            _translation += deltaPos;
+        }
+
+
+        void rotate (const rotation<numeric_t> &deltaRot)
+        {
+            _rotation.combine (deltaRot);
+        }
+
+
+        void scale (const vector3<numeric_t> &scaleVec)
+        {
+            _scale *= scaleVec;
         }
     };
 

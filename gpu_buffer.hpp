@@ -46,6 +46,7 @@ namespace render
         virtual void _registerAttributes() = 0;
 
     public:
+        declare_ptr (i_vertex_layout)
         virtual const std::vector<attribute>& getAttributes() const = 0;
         virtual size_t getStride() const = 0;
     };
@@ -67,6 +68,7 @@ namespace render
 
 
     public:
+        declare_ptr_alloc (vertex_layout)
         property_get_ref (Attributes, _attributes)
 
         virtual size_t getStride() const
@@ -110,6 +112,8 @@ namespace render
         property_get (Size,        _size)
 
     public:
+        declare_ptr_alloc (gpu_buffer)
+
         gpu_buffer (GLenum target, const element_t *data, unsigned size, preferred_access_t preferredAccess, change_rate_t changeRate);
         gpu_buffer (GLenum target, const std::vector<element_t> &data, preferred_access_t preferredAccess, change_rate_t changeRate);
 
@@ -128,6 +132,9 @@ namespace render
         typedef gpu_buffer<vertex_t> base_t;
 
     public:
+        typedef vertex_buffer<vertex_t> this_t;
+        declare_ptr_alloc (this_t)
+
         vertex_buffer (vertex_t *vertices, unsigned vertexCount,
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
@@ -148,6 +155,9 @@ namespace render
         typedef gpu_buffer<index_t> base_t;
 
     public:
+        typedef index_buffer<index_t> this_t;
+        declare_ptr_alloc (this_t)
+
         index_buffer (index_t *indices, unsigned indexCount,
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
@@ -161,8 +171,6 @@ namespace render
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-
-#include "vertex_buffer.cpp"
 
 #endif
 

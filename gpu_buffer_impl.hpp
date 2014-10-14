@@ -1,5 +1,5 @@
 
-#include "vertex_buffer.hpp"
+#include "gpu_buffer.hpp"
 #include "debug.hpp"
 
 #include <GL/glew.h>
@@ -74,7 +74,6 @@ namespace render
         glBindBuffer (_target, _bufferId);
         debug::gl::test();
     }
-
 
 //----------------------------------------------------------------------------------------------------------------------
 }

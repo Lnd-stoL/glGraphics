@@ -7,7 +7,7 @@ using oo_extensions::mkstr;
 
 namespace render
 {
-    void static_mesh::addComponent (shared_ptr<basic_mesh_component> component)
+    void static_mesh::addComponent (basic_mesh_component::ptr component)
     {
         _components.push_back (component);
     }

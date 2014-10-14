@@ -7,7 +7,7 @@
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
 #include "gpu_program.hpp"
-#include "vertex_buffer.hpp"
+#include "gpu_buffer.hpp"
 
 #include <GL/glew.h>
 #include <SFML/Graphics.hpp>
@@ -18,16 +18,49 @@
 
 namespace render
 {
+    template<typename component_t>
+    class color_rgb
+    {
+        component_t _r = component_t();
+        component_t _g = component_t();
+        component_t _b = component_t();
+
+    public:
+        property_get (R, _r)
+        property_get (G, _g)
+        property_get (B, _b)
+
+
+    public:
+        color_rgb (component_t r, component_t g, component_t b) : _r (r), _g (g), _b(b)
+        { }
+
+        color_rgb()
+        { }
+
+        color_rgb (component_t grayscale) : _r (grayscale), _g (grayscale), _b (grayscale)
+        { }
+
+        color_rgb (math3D::vector3<component_t> colorAsVector) : _r (colorAsVector.getX()),
+                                                                 _g (colorAsVector.getY()),
+                                                                 _b (colorAsVector.getZ())
+        { }
+
+    };
+
+    //------------------------------------------------------------------------------------------------------------------
+
     class material
     {
     protected:
-        shared_ptr<gpu_program> _renderingProgram;
+        gpu_program::ptr _renderingProgram;
 
     public:
         property_get (RenderingProgram, _renderingProgram)
 
     public:
-        material (shared_ptr<gpu_program> renderingProgram) : _renderingProgram (renderingProgram)
+        declare_ptr_alloc (material)
+        material (gpu_program::ptr renderingProgram) : _renderingProgram (renderingProgram)
         { }
 
         virtual void use() const;
@@ -44,7 +77,9 @@ namespace render
         property_get (Texture, _texture)
 
     public:
-        textured_material (shared_ptr<gpu_program> renderingProgram, shared_ptr<sf::Texture> texture) :
+        declare_ptr_alloc (textured_material)
+
+        textured_material (gpu_program::ptr renderingProgram, shared_ptr<sf::Texture> texture) :
                 material (renderingProgram),
                 _texture (texture)
         { }

@@ -6,7 +6,7 @@
 
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
-#include "vertex_buffer.hpp"
+#include "gpu_buffer.hpp"
 
 #include <GL/glew.h>
 #include <SFML/Graphics.hpp>
@@ -32,6 +32,7 @@ namespace render
         shader (const string &fileName, GLint shaderType);
 
     public:
+        declare_ptr_alloc (shader)
         ~shader();
 
         void compileFromFile (const string &fileName);
@@ -42,20 +43,20 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    class vertex_shader
-        : public shader
+    class vertex_shader : public shader
     {
     public:
+        declare_ptr_alloc (vertex_shader)
         vertex_shader();
         vertex_shader (const string &fileName);
     };
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    class fragment_shader
-        : public shader
+    class fragment_shader : public shader
     {
     public:
+        declare_ptr_alloc (fragment_shader)
         fragment_shader();
         fragment_shader (const string &fileName);
     };
@@ -69,7 +70,7 @@ namespace render
         GLuint _programId = GL_INVALID_INDEX;
         bool   _linked    = false;
 
-        shared_ptr<i_vertex_layout> _vertexLayout;
+        i_vertex_layout::ptr _vertexLayout;
 
     public:
         property_get (GlId,         _programId)
@@ -86,9 +87,11 @@ namespace render
         GLuint _locateUniform (const string &name) const;
 
     public:
-        gpu_program (shared_ptr<i_vertex_layout> vertexLayout);
-        gpu_program (shared_ptr<i_vertex_layout> vertexLayout, const vertex_shader &vshader, const fragment_shader &fshader);
-        gpu_program (shared_ptr<i_vertex_layout> vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName);
+        declare_ptr_alloc (gpu_program)
+
+        gpu_program (i_vertex_layout::ptr vertexLayout);
+        gpu_program (i_vertex_layout::ptr vertexLayout, const vertex_shader &vshader, const fragment_shader &fshader);
+        gpu_program (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName);
         ~gpu_program();
 
         void attach (const shader& attachement);

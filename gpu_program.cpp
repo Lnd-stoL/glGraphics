@@ -119,13 +119,13 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    gpu_program::gpu_program (shared_ptr<i_vertex_layout> vertexLayout) : _vertexLayout (vertexLayout)
+    gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout) : _vertexLayout (vertexLayout)
     {
         _initializeGLProgram();
     }
 
 
-    gpu_program::gpu_program (shared_ptr<i_vertex_layout> vertexLayout,
+    gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout,
                               const vertex_shader &vshader,
                               const fragment_shader &fshader) : gpu_program (vertexLayout)
     {
@@ -133,7 +133,7 @@ namespace render
     }
 
 
-    gpu_program::gpu_program (shared_ptr<i_vertex_layout> vertexLayout,
+    gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout,
                               const std::string &vertShaderFileName,
                               const std::string &fragShaderFileName) : gpu_program (vertexLayout)
     {

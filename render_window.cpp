@@ -10,6 +10,7 @@ render_window::render_window (unsigned width, unsigned height, const string &tit
     : _window (sf::VideoMode (width, height), title, sf::Style::Default, sf::ContextSettings (24))
 {
     _window.setFramerateLimit (60);
+    glewInit();
 }
 
 
@@ -24,8 +25,7 @@ void render_window::runEventLoop()
 
             else if (event.type == sf::Event::Resized)
             {
-                //ReshapeFunc (event.size.width, event.size.height);
-                //glViewport(0, 0, event.size.width, event.size.height);
+                _handleWindowResize (event.size.width, event.size.height);
             }
 
             else if (event.type == sf::Event::KeyPressed)
@@ -35,7 +35,6 @@ void render_window::runEventLoop()
         }
 
         _frameUpdateEvent (*this);
-
 
         glEnable (GL_DEPTH_TEST);
         glEnable (GL_CULL_FACE);
@@ -48,4 +47,11 @@ void render_window::runEventLoop()
         glFlush();
         _window.display();
     }
+}
+
+
+void render_window::_handleWindowResize (unsigned width, unsigned height)
+{
+    //glFrustum(-1, 1, -1, 1, 1, 100000);
+    glViewport (0, 0, width, height);
 }

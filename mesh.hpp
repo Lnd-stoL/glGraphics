@@ -6,7 +6,7 @@
 
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
-#include "vertex_buffer.hpp"
+#include "gpu_buffer.hpp"
 #include "material.hpp"
 
 #include <GL/glew.h>
@@ -19,7 +19,7 @@ namespace render
     {
     protected:
         string _name;
-        shared_ptr<material> _material;
+        material::ptr _material;
 
     public:
         property_get (Material, _material)
@@ -27,7 +27,9 @@ namespace render
 
 
     public:
-        basic_mesh_component (shared_ptr<material> mat, const string &name) : _material (mat), _name (name)
+        declare_ptr_alloc (basic_mesh_component)
+
+        basic_mesh_component (material::ptr mat, const string &name) : _material (mat), _name (name)
         { }
 
         virtual ~basic_mesh_component() { }
@@ -42,20 +44,23 @@ namespace render
         public basic_mesh_component,
         public oo_extensions::non_copyable
     {
-        shared_ptr<vertex_buffer<vertex_t>> _vertexBuffer;
-        shared_ptr<index_buffer<index_t>>   _indexBuffer;
+        typename vertex_buffer<vertex_t>::ptr _vertexBuffer;
+        typename index_buffer<index_t>::ptr   _indexBuffer;
 
     public:
-        mesh_component (shared_ptr<material> material,
-                        shared_ptr<vertex_buffer<vertex_t>> vertexBuffer,
-                        shared_ptr<index_buffer<index_t>> indexBuffer,
+        typedef mesh_component<vertex_t, index_t> this_t;
+        declare_ptr_alloc (this_t)
+
+        mesh_component (material::ptr material,
+                        typename vertex_buffer<vertex_t>::ptr vertexBuffer,
+                        typename index_buffer<index_t>::ptr indexBuffer,
                         string name = "") : basic_mesh_component (material, name),
                                             _vertexBuffer (vertexBuffer),
                                             _indexBuffer  (indexBuffer)
         { }
 
 
-        mesh_component (shared_ptr<material> material,
+        mesh_component (material::ptr material,
                         const vector<vertex_t> &vertices,
                         const vector<index_t>  &indices,
                         string name = "") : basic_mesh_component (material, name),
@@ -72,16 +77,17 @@ namespace render
         public oo_extensions::non_copyable
     {
     protected:
-        vector<shared_ptr<basic_mesh_component>> _components;
+        vector<basic_mesh_component::ptr> _components;
 
     public:
         property_get_ref (Components, _components)
 
 
     public:
+        declare_ptr_alloc (static_mesh)
         static_mesh() { };
 
-        void addComponent (shared_ptr<basic_mesh_component> component);
+        void addComponent (basic_mesh_component::ptr component);
         void removeComponent (const string &name);
 
         void draw() const;
@@ -89,7 +95,5 @@ namespace render
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-
-#include "mesh.cpp"
 
 #endif

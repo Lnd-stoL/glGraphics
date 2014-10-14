@@ -15,19 +15,26 @@ using oo_extensions::event;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-class render_window
+class render_window :
+    public oo_extensions::non_copyable
 {
     sf::RenderWindow _window;
     event<void, const render_window&> _frameUpdateEvent;
     event<void, const render_window&> _frameDrawEvent;
 
+
 public:
-    property_get_ref (Window, _window)
+    property_get_ref (SfmlWindow, _window)
     event_access (frameUpdate, _frameUpdateEvent)
     event_access (frameDraw,   _frameDrawEvent)
 
 
+private:
+    void _handleWindowResize (unsigned width, unsigned height);
+
 public:
+    declare_ptr_alloc (render_window)
+
     render_window (unsigned width, unsigned height, const string &title);
     void runEventLoop();
 };

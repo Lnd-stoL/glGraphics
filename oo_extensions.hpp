@@ -133,10 +133,20 @@ namespace oo_extensions
 
 
 #define event_access(public_name, private_name)                       \
-    inline const decltype(private_name)& public_name##Event() const   \
+    inline decltype(private_name)& public_name##Event()               \
     {                                                                 \
         return private_name;                                          \
     }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    #define declare_ptr(object_t)          typedef shared_ptr<object_t> ptr;
+
+    #define declare_ptr_alloc(object_t)    declare_ptr (object_t)                                   \
+                                           template<typename... args_t>                             \
+                                           static typename object_t::ptr alloc (args_t... ctorArgs) \
+                                           { return make_shared<object_t> (ctorArgs...); }
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------

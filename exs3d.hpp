@@ -43,6 +43,7 @@ namespace render
             }
 
         public:
+            declare_ptr_alloc (exs3d_vertex_layout)
             exs3d_vertex_layout()  { _registerAttributes(); }
         };
 
@@ -52,7 +53,7 @@ namespace render
 
 
     protected:
-        std::shared_ptr<static_mesh> _mesh;
+        static_mesh::ptr _mesh;
 
     protected:
         static_mesh* _loadMeshFromFile (const std::string &fileName) const;
@@ -68,6 +69,7 @@ namespace render
 
 
     public:
+        declare_ptr_alloc (exs3d_mesh)
         exs3d_mesh (const std::string &fileName);
         void draw() const;
     };
