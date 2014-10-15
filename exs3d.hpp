@@ -7,6 +7,7 @@
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
 #include "mesh.hpp"
+#include "renderable.hpp"
 
 #include <GL/glew.h>
 #include <string>
@@ -21,7 +22,8 @@ using math3D::vector2_f;
 namespace render
 {
     class exs3d_mesh :
-        public oo_extensions::non_copyable
+        public oo_extensions::non_copyable,
+        public renderable
     {
     public:
         struct exs3d_vertex
@@ -71,7 +73,7 @@ namespace render
     public:
         declare_ptr_alloc (exs3d_mesh)
         exs3d_mesh (const std::string &fileName);
-        void draw() const;
+        void draw (const camera &viewer) const;
     };
 }
 

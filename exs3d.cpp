@@ -174,8 +174,8 @@ namespace render
     }
 
 
-    void exs3d_mesh::draw() const
+    void exs3d_mesh::draw (const camera &viewer) const
     {
-        _mesh->draw();
+        //_mesh->draw (viewer);
     }
 }

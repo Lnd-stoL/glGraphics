@@ -8,6 +8,7 @@
 #include "math3D.hpp"
 #include "gpu_program.hpp"
 #include "gpu_buffer.hpp"
+#include "camera.hpp"
 
 #include <GL/glew.h>
 #include <SFML/Graphics.hpp>
@@ -48,7 +49,7 @@ namespace render
 
     };
 
-    //------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     class material
     {
@@ -64,9 +65,10 @@ namespace render
         { }
 
         virtual void use() const;
+        virtual void setupViewerTransform (const math3D::object2screen_transform_f &transform);
     };
 
-    //------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 
     class textured_material : public material
     {
@@ -82,9 +84,12 @@ namespace render
         textured_material (gpu_program::ptr renderingProgram, shared_ptr<sf::Texture> texture) :
                 material (renderingProgram),
                 _texture (texture)
-        { }
+        {
+            _renderingProgram->setUniformSampler ("uTexture", 0);
+        }
 
         virtual void use() const;
+        virtual void setupViewerTransform (const math3D::object2screen_transform_f &transform);
     };
 }
 

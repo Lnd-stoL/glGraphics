@@ -45,6 +45,12 @@ namespace math3D
                 // TODO: implement it
             }
         }
+
+        template<typename another_numeric_t>
+        angle<another_numeric_t> convertType() const
+        {
+            return angle<another_numeric_t> (_angleRad);
+        }
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -112,7 +118,7 @@ namespace math3D
         {
             this_t temp (*this);
             temp.intersect (operand);
-            return std::move (temp);
+            return temp;
         }
 
 
@@ -122,6 +128,13 @@ namespace math3D
             _end   = std::min (_end, operand._end);
 
             if (_end < _begin) _end = _begin;
+        }
+
+
+        template<typename another_numeric_t>
+        interval<another_numeric_t> convertType() const
+        {
+            return interval<another_numeric_t> (_begin, _end);
         }
     };
 
@@ -889,7 +902,7 @@ namespace math3D
             this_t temp (*this);
             temp.normalize();
 
-            return std::move (temp);
+            return temp;
         }
 
 
@@ -904,7 +917,7 @@ namespace math3D
             this_t temp (*this);
             temp.conjugate();
 
-            return std::move (temp);
+            return temp;
         }
 
 
@@ -920,7 +933,7 @@ namespace math3D
             this_t temp (*this);
             temp.inverse();
 
-            return std::move (temp);
+            return temp;
         }
 
 
@@ -948,7 +961,7 @@ namespace math3D
             this_t temp (*this);
             temp.add (operand);
 
-            return std::move (temp);
+            return temp;
         }
 
 
@@ -963,7 +976,7 @@ namespace math3D
             this_t temp (*this);
             temp.scale (operand);
 
-            return std::move (temp);
+            return temp;
         }
 
 
@@ -1149,6 +1162,14 @@ namespace math3D
             matrix_4x4<numeric_t> projectionMatrix();
             return projectionMatrix;
         }
+
+
+        template<typename another_numeric_t>
+        perspective_projection<another_numeric_t> convertType() const
+        {
+            return perspective_projection<another_numeric_t> (_fovy.convertType<another_numeric_t>(), (another_numeric_t) _aspect,
+                _viewInterval.convertType<another_numeric_t>());
+        }
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -1167,11 +1188,50 @@ namespace math3D
         bool _identScale = true;
         bool _inversed = false;
 
+        mutable matrix_4x4<numeric_t> _cachedMatrix;
+        mutable bool _matrixCalculated = false;
 
     public:
         property_get_ref (Translation, _translation)
         property_get_ref (Rotation,    _rotation)
         property_get_ref (Scale,       _scale)
+
+
+    private:
+        void _calculateMatrix() const
+        {
+            if (!_inversed)
+            {
+                _cachedMatrix.setCol (3, _translation.getX(), _translation.getY(), _translation.getZ(), 1.0);
+                _rotation.write2Matrix (_cachedMatrix);
+
+                if (!_identScale)
+                {
+                    _cachedMatrix.scaleRow3 (0, _scale.getX());
+                    _cachedMatrix.scaleRow3 (1, _scale.getY());
+                    _cachedMatrix.scaleRow3 (2, _scale.getZ());
+                }
+            }
+
+            else
+            {
+                _rotation.write2Matrix (_cachedMatrix);
+
+                _cachedMatrix.at (0, 3) = _cachedMatrix.rowVec3 (0) * _translation;
+                _cachedMatrix.at (1, 3) = _cachedMatrix.rowVec3 (1) * _translation;
+                _cachedMatrix.at (2, 3) = _cachedMatrix.rowVec3 (2) * _translation;
+                _cachedMatrix.at (3, 3) = 1;
+
+                if (!_identScale)
+                {
+                    _cachedMatrix.scaleRow3 (0, _scale.getX());
+                    _cachedMatrix.scaleRow3 (1, _scale.getY());
+                    _cachedMatrix.scaleRow3 (2, _scale.getZ());
+                }
+            }
+
+            _matrixCalculated = true;
+        }
 
 
     public:
@@ -1181,7 +1241,8 @@ namespace math3D
         transform (vector3<numeric_t> translation, rotation<numeric_t> rot,
                    vector3<numeric_t> scale = vector3<numeric_t>::ident()) : _translation (translation),
                                                                              _rotation    (rot),
-                                                                             _scale       (scale)
+                                                                             _scale       (scale),
+                                                                             _identScale  (scale == vector3<numeric_t>::ident())
         {  }
 
 
@@ -1191,43 +1252,10 @@ namespace math3D
         }
 
 
-        matrix_4x4<numeric_t> asMatrix() const
+        const matrix_4x4<numeric_t>& asMatrix() const
         {
-            if (!_inversed)
-            {
-                matrix_4x4<numeric_t> transformMatrix;
-                transformMatrix.setCol (3, _translation.getX(), _translation.getY(), _translation.getZ(), 1.0);
-                _rotation.write2Matrix (transformMatrix);
-
-                if (!_identScale)
-                {
-                    transformMatrix.scaleRow3 (0, _scale.getX());
-                    transformMatrix.scaleRow3 (1, _scale.getY());
-                    transformMatrix.scaleRow3 (2, _scale.getZ());
-                }
-
-                return std::move (transformMatrix);
-            }
-
-            else
-            {
-                matrix_4x4<numeric_t> transformMatrix;
-                _rotation.write2Matrix (transformMatrix);
-
-                transformMatrix.at (0, 3) = transformMatrix.rowVec3 (0) * _translation;
-                transformMatrix.at (1, 3) = transformMatrix.rowVec3 (1) * _translation;
-                transformMatrix.at (2, 3) = transformMatrix.rowVec3 (2) * _translation;
-                transformMatrix.at (3, 3) = 1;
-
-                if (!_identScale)
-                {
-                    transformMatrix.scaleRow3 (0, _scale.getX());
-                    transformMatrix.scaleRow3 (1, _scale.getY());
-                    transformMatrix.scaleRow3 (2, _scale.getZ());
-                }
-
-                return std::move (transformMatrix);
-            }
+            if (!_matrixCalculated)  _calculateMatrix();
+            return _cachedMatrix;
         }
 
 
@@ -1238,15 +1266,17 @@ namespace math3D
             _translation.inverse();
             _rotation.inverse();
             _scale.inverse();
+
+            _matrixCalculated = false;
         }
 
 
-        this_t inversed()
+        this_t inversed() const
         {
             this_t tmp (*this);
             tmp.inverse();
 
-            return std::move (tmp);
+            return tmp;
         }
 
 
@@ -1270,6 +1300,8 @@ namespace math3D
                                              _scale.getY() * theOtherTransform._scale.getY(),
                                              _scale.getZ() * theOtherTransform._scale.getZ());
             }
+
+            _matrixCalculated = false;
         }
 
 
@@ -1282,18 +1314,21 @@ namespace math3D
         void translate (const vector3<numeric_t> &deltaPos)
         {
             _translation += deltaPos;
+            _matrixCalculated = false;
         }
 
 
         void rotate (const rotation<numeric_t> &deltaRot)
         {
             _rotation.combine (deltaRot);
+            _matrixCalculated = false;
         }
 
 
         void scale (const vector3<numeric_t> &scaleVec)
         {
             _scale *= scaleVec;
+            _matrixCalculated = false;
         }
     };
 
@@ -1306,22 +1341,21 @@ namespace math3D
         transform<numeric_t> _cameraTransform = transform<numeric_t>();
         perspective_projection<numeric_t> _projection = perspective_projection<numeric_t>();
 
-        matrix_4x4<numeric_t> _cachedWorldMatrix;
         matrix_4x4<numeric_t> _cachedWCMatrix;
         matrix_4x4<numeric_t> _cachedMatrix;
 
 
     public:
         property_get_ref (WorldTransform,  _worldTransform)
-        property_get_ref (CameraTransform, _cameraTransform.inversed())
+        property_get_ref (CameraTransform, _cameraTransform)
         property_get_ref (Projection,      _projection)
-
-        property_get_ref (WorldTransformMatrix,    _cachedWorldMatrix)
         property_get_ref (WorldCamTransformMatrix, _cachedWCMatrix)
+
+        const matrix_4x4<numeric_t> getWorldTransformMatrix() const  { return _worldTransform.asMatrix(); }
 
 
     protected:
-        void _implicitlyMultiplyByProjectionMatrix (matrix_4x4<numeric_t> &wcMatrix)
+        void _implicitlyLeftMultiplyByProjectionMatrix (matrix_4x4<numeric_t> &wcMatrix)
         {
             numeric_t f = 1.0 / std::tan (_projection.getFov() / 2);
             wcMatrix.scaleRow (0, f / _projection.getAspect());
@@ -1337,26 +1371,53 @@ namespace math3D
 
 
     public:
+        object2screen_transform()  { }
+
         object2screen_transform (transform<numeric_t> worldTransform,
                                  transform<numeric_t> cameraTransform,
                                  perspective_projection<numeric_t> projection) : _worldTransform  (worldTransform),
                                                                                  _cameraTransform (cameraTransform),
                                                                                  _projection      (projection)
         {
-            _cameraTransform.inverse();
-
-            _cachedWorldMatrix = _worldTransform.asMatrix();
-            _cachedWCMatrix = _cameraTransform.asMatrix();
-            _cachedWCMatrix.fastTransformMultiply (_cachedWorldMatrix);
+            _cachedWCMatrix = _cameraTransform.inversed().asMatrix();
+            _cachedWCMatrix.fastTransformMultiply (getWorldTransformMatrix());
 
             _cachedMatrix = _cachedWCMatrix;
-            _implicitlyMultiplyByProjectionMatrix (_cachedMatrix);
+            _implicitlyLeftMultiplyByProjectionMatrix (_cachedMatrix);
         }
 
 
         const matrix_4x4<numeric_t>& asMatrix() const
         {
             return _cachedMatrix;
+        }
+
+
+        object2screen_transform<numeric_t> withChangedCameraTransform (const transform<numeric_t> &newCameraTransform)
+        {
+            return object2screen_transform<numeric_t> (_worldTransform, newCameraTransform, _projection);
+        }
+
+
+        object2screen_transform<numeric_t> withChangedProjection (const perspective_projection<numeric_t> &newProjection)
+        {
+            object2screen_transform<numeric_t> result;
+            result._cameraTransform = _cameraTransform;
+            result._projection = newProjection;
+
+            result._cachedMatrix = result._cachedWCMatrix = _cachedWCMatrix;
+            result._implicitlyLeftMultiplyByProjectionMatrix (result._cachedMatrix);
+
+            return result;
+        }
+
+
+        template<typename another_numeric_t>
+        object2screen_transform<another_numeric_t> convertType() const
+        {
+            return object2screen_transform<another_numeric_t> (_worldTransform.convertType<another_numeric_t>(),
+                                                               _cameraTransform.convertType<another_numeric_t>(),
+                                                               _projection.convertType<another_numeric_t>());
         }
     };
 
@@ -1380,7 +1441,7 @@ namespace math3D
     typedef rotation<double>   rotation_d;
     typedef transform<double>  transform_d;
     typedef matrix_4x4<double> matrix_4x4_d;
-    typedef perspective_projection<float> perspective_projection_d;
+    typedef perspective_projection<double>  perspective_projection_d;
     typedef object2screen_transform<double> object2screen_transform_d;
 }
 

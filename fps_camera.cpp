@@ -60,8 +60,7 @@ rotation_d fps_camera_controller::_updateRotation()
 
             double deltaYaw = _rotationSpeed * mouseDeltaY;
             _yaw += deltaYaw;
-            debug::log::println (mkstr (_yaw));
-            if (abs (_yaw) < angle_d::pi / 2 - 0.2) deltaRot.combine (rotation_d (xvec, deltaYaw));
+            if (abs (_yaw) < angle_d::pi / 2 - 0.001) deltaRot.combine (rotation_d (xvec, deltaYaw));
         }
     }
 

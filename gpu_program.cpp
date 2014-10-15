@@ -1,12 +1,5 @@
 
 #include "gpu_program.hpp"
-#include "debug.hpp"
-
-#include <GL/glew.h>
-#include <fstream>
-#include <exception>
-#include <stdexcept>
-#include <algorithm>
 
 using oo_extensions::mkstr;
 
@@ -252,10 +245,10 @@ namespace render
     }
 
 
-    GLuint gpu_program::_locateUniform (const string &name) const
+    GLuint gpu_program::_locateUniform (const string &name, bool ignoreIfNotExists) const
     {
         GLint location = glGetUniformLocation (_programId, name.c_str());
-        if (location < 0)
+        if (location < 0 && !ignoreIfNotExists)
         {
             debug::log::println_err (mkstr ("can't find uniform named '", name, "' in ", asString()));
             return GL_INVALID_INDEX;
@@ -265,11 +258,11 @@ namespace render
     }
 
 
-    void gpu_program::setUniform (const std::string &name, const math3D::matrix_4x4<float> &value)
+    void gpu_program::setUniform (const std::string &name, const math3D::matrix_4x4<float> &value, bool ignoreIfNotExists)
     {
         if (!_testValid()) return;
         _bind();
-        GLuint location = _locateUniform (name);
+        GLuint location = _locateUniform (name, ignoreIfNotExists);
         if (location == GL_INVALID_INDEX) return;
 
         glUniformMatrix4fv (location, 1, GL_TRUE, value.raw());
@@ -277,11 +270,11 @@ namespace render
     }
 
 
-    void gpu_program::setUniform (const std::string &name, const math3D::vector3_f &value)
+    void gpu_program::setUniform (const std::string &name, const math3D::vector3_f &value, bool ignoreIfNotExists)
     {
         if (!_testValid()) return;
         _bind();
-        GLuint location = _locateUniform (name);
+        GLuint location = _locateUniform (name, ignoreIfNotExists);
         if (location == GL_INVALID_INDEX) return;
 
         glUniform3f (location, value.getX(), value.getY(), value.getZ());
@@ -289,11 +282,11 @@ namespace render
     }
 
 
-    void gpu_program::setUniformSampler (const std::string &name, unsigned textureIndex)
+    void gpu_program::setUniformSampler (const std::string &name, unsigned textureIndex, bool ignoreIfNotExists)
     {
         if (!_testValid()) return;
         _bind();
-        GLuint location = _locateUniform (name);
+        GLuint location = _locateUniform (name, ignoreIfNotExists);
         if (location == GL_INVALID_INDEX) return;
 
         glUniform1i (location, textureIndex);

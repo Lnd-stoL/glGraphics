@@ -100,22 +100,22 @@ namespace oo_extensions
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    template<typename handler_ret_val_t = void, typename... handler_args_t>
+    template<typename... handler_args_t>
     class event
     {
     public:
-        typedef std::function<handler_ret_val_t(handler_args_t...)> handler_t;
+        typedef std::function<void(handler_args_t...)> handler_t;
 
     protected:
         vector<handler_t> _handlers;
 
     public:
-        inline handler_ret_val_t fire (const handler_args_t&... arguments)
+        inline void fire (const handler_args_t&... arguments)
         {
-            for (auto nextHandler : _handlers) nextHandler (arguments...);
+            for (auto nextHandler : _handlers)  nextHandler (arguments...);
         }
 
-        inline handler_ret_val_t operator() (const handler_args_t&... arguments)
+        inline void operator() (const handler_args_t&... arguments)
         {
             fire (arguments...);
         }

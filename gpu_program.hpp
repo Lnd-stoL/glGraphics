@@ -84,7 +84,7 @@ namespace render
         void _bindVertexAttributes();
         bool _testValid() const;
         void _bind() const;
-        GLuint _locateUniform (const string &name) const;
+        GLuint _locateUniform (const string &name, bool ignoreIfNotExists) const;
 
     public:
         declare_ptr_alloc (gpu_program)
@@ -98,9 +98,9 @@ namespace render
         void link();
         void use() const;
 
-        void setUniform (const string &name, const math3D::matrix_4x4<float> &value);
-        void setUniform (const string &name, const math3D::vector3_f &value);
-        void setUniformSampler (const string &name, unsigned textureIndex);
+        void setUniform (const string &name, const math3D::matrix_4x4<float> &value, bool ignoreIfNotExists = false);
+        void setUniform (const string &name, const math3D::vector3_f &value, bool ignoreIfNotExists = false);
+        void setUniformSampler (const string &name, unsigned textureIndex, bool ignoreIfNotExists = false);
 
         virtual string asString() const;
     };

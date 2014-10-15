@@ -22,11 +22,11 @@ namespace render
     }
 
 
-    void static_mesh::draw() const
+    void static_mesh::draw (const object2screen_transform_d &screenTransform) const
     {
         for (auto component : _components)
         {
-            component->draw();
+            component->draw (screenTransform);
         }
     }
 }

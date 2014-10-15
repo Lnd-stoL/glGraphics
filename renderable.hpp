@@ -1,21 +1,23 @@
 
-#ifndef __render_state__included__
-#define __render_state__included__
+#ifndef __rendererable__included__
+#define __rendererable__included__
 
 //----------------------------------------------------------------------------------------------------------------------
 
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
-
-#include <GL/glew.h>
-#include <string>
-#include <vector>
-#include <memory>
+#include "camera.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace render
 {
+    class renderable
+    {
+    public:
+        declare_ptr (renderable)
+        virtual void draw (const camera &viewer) const = 0;
+    };
 }
 
 //----------------------------------------------------------------------------------------------------------------------

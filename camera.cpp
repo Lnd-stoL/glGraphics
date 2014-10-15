@@ -1,6 +1,5 @@
 
 #include "camera.hpp"
-#include "debug.hpp"
 
 using oo_extensions::mkstr;
 
@@ -30,9 +29,18 @@ namespace render
         _updateCached();
     }
 
+
     void camera::_updateCached()
     {
         _inversedTransform = _transform.inversed();
         _updateBasis();
+        //_screenTransform = _screenTransform.withChangedCameraTransform (_transform);
+    }
+
+
+    void camera::changeProjection (const perspective_projection_d &projection)
+    {
+        _projection = projection;
+        //_screenTransform = _screenTransform.withChangedProjection (projection);
     }
 }

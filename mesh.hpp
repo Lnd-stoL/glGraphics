@@ -8,8 +8,11 @@
 #include "math3D.hpp"
 #include "gpu_buffer.hpp"
 #include "material.hpp"
+#include "renderable.hpp"
 
 #include <GL/glew.h>
+
+using math3D::object2screen_transform_d;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -33,8 +36,7 @@ namespace render
         { }
 
         virtual ~basic_mesh_component() { }
-
-        virtual void draw() const = 0;
+        virtual void draw (const object2screen_transform_d &screenTransform) const = 0;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -68,7 +70,7 @@ namespace render
                                             _indexBuffer  (make_shared<index_buffer<index_t>> (indices))
         { }
 
-        void draw() const;
+        void draw (const object2screen_transform_d &screenTransform) const;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -90,7 +92,7 @@ namespace render
         void addComponent (basic_mesh_component::ptr component);
         void removeComponent (const string &name);
 
-        void draw() const;
+        void draw (const object2screen_transform_d &screenTransform) const;
     };
 }
 

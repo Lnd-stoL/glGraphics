@@ -19,8 +19,8 @@ class render_window :
     public oo_extensions::non_copyable
 {
     sf::RenderWindow _window;
-    event<void, const render_window&> _frameUpdateEvent;
-    event<void, const render_window&> _frameDrawEvent;
+    event<const render_window&> _frameUpdateEvent;
+    event<const render_window&> _frameDrawEvent;
 
 
 public:

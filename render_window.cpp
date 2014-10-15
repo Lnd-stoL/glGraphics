@@ -1,6 +1,5 @@
 
 #include "render_window.hpp"
-#include "debug.hpp"
 
 using oo_extensions::mkstr;
 
