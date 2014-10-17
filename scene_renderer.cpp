@@ -7,7 +7,7 @@ using oo_extensions::mkstr;
 
 namespace render
 {
-    scene_renderer::scene_renderer() :
+    scene_renderer::scene_renderer (const render_window& renderWindow) :
             _sceneObjects ([] (const scene_object::ptr& obj1, const scene_object::ptr& obj2)
             {
                 return *obj1 < *obj2;

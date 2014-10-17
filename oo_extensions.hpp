@@ -31,6 +31,13 @@ using std::make_shared;
     }
 
 
+#define property_ref(public_name, private_name)          \
+    inline decltype(private_name)& get##public_name()    \
+    {                                                    \
+        return private_name;                             \
+    }
+
+
 #define property_set(public_name, private_name)                 \
     inline void set##public_name(decltype(private_name) value)  \
     {                                                           \
@@ -97,11 +104,20 @@ namespace oo_extensions
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7)
         { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7)).str(); }
 
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
+    inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8)
+    { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8)).str(); }
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
+    inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8, T9 x9)
+    { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8 << x9)).str(); }
+
 
 //----------------------------------------------------------------------------------------------------------------------
 
     template<typename... handler_args_t>
-    class event
+    class event :
+        public non_copyable
     {
     public:
         typedef std::function<void(handler_args_t...)> handler_t;

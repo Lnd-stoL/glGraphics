@@ -53,4 +53,12 @@ void render_window::_handleWindowResize (unsigned width, unsigned height)
 {
     //glFrustum(-1, 1, -1, 1, 1, 100000);
     glViewport (0, 0, width, height);
+
+    _sizeChangedEvent (width, height);
+}
+
+
+double render_window::getAspectRatio() const
+{
+    return _window.getSize().x / _window.getSize().y;
 }

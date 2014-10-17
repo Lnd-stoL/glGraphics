@@ -43,4 +43,12 @@ namespace render
         _projection = projection;
         //_screenTransform = _screenTransform.withChangedProjection (projection);
     }
+
+
+    void camera::syncProjectionAspectRatio (event<unsigned, unsigned> &sizeChangeEvent)
+    {
+        sizeChangeEvent.handleWith ([this] (unsigned newWidth, unsigned newHeight) {
+            changeProjection (perspective_projection_d (_projection.getFov(), newWidth / newHeight, _projection.getViewInterval()));
+        });
+    }
 }

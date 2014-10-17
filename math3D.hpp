@@ -1028,6 +1028,12 @@ namespace math3D
         }
 
 
+        /*rotation (angle<numeric_t>, angle<numeric_t>, angle<numeric_t>) : _ident (false)
+        {
+
+        }*/
+
+
         rotation (quaternion_t quaternion_) : _quaternion (quaternion_), _ident (false)
         { }
 
@@ -1040,7 +1046,7 @@ namespace math3D
 
             vector3<numeric_t> axis (1, 0, 0);
 
-            if (s > 0.00001)
+            if (s > 0.000001)
             {
                 axis = _quaternion.getIm();
                 axis.scale (1 / s);

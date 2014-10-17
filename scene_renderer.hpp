@@ -8,6 +8,7 @@
 #include "math3D.hpp"
 #include "renderable.hpp"
 #include "camera.hpp"
+#include "render_window.hpp"
 
 #include <GL/glew.h>
 #include <set>
@@ -40,7 +41,8 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    class scene_renderer
+    class scene_renderer :
+        public renderable
     {
         std::set<scene_object::ptr, std::function<bool (const scene_object::ptr&, const scene_object::ptr&)>> _sceneObjects;
 
@@ -49,7 +51,7 @@ namespace render
 
     public:
         declare_ptr_alloc (scene_renderer)
-        scene_renderer();
+        scene_renderer (const render_window& renderWindow);
 
         scene_object::ptr addSceneObject (renderable::ptr renderableObject, int renderQueue = 0);
         void addSceneObject (scene_object::ptr sceneObject);

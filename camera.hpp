@@ -10,6 +10,7 @@
 #include <GL/glew.h>
 
 using namespace math3D;
+using oo_extensions::event;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -17,8 +18,8 @@ namespace render
 {
     class camera
     {
-        transform_d _transform         = math3D::transform_d::ident();
-        transform_d _inversedTransform = math3D::transform_d::ident();
+        transform_d _transform         = transform_d::ident();
+        transform_d _inversedTransform = transform_d::ident();
 
         perspective_projection_d _projection;
 
@@ -50,6 +51,8 @@ namespace render
         void addTransform (const transform_d &deltaTransform);
         void changeProjection (const perspective_projection_d& projection);
         void translateRotate (const vector3_d &trans, const rotation_d &rot);
+
+        void syncProjectionAspectRatio (event<unsigned, unsigned> &sizeChangeEvent);
     };
 }
 

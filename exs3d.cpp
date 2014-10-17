@@ -96,6 +96,8 @@ namespace render
             parser >> componentName >> componentName;
         }
 
+        debug::log::println (mkstr ("Loading component '", componentName, "'"));
+
         while (!(nextLine = _nextLineInFile (infile)).empty())
         {
             if (nextLine.find ("texture") == 0)
@@ -141,12 +143,15 @@ namespace render
         auto shader = gpu_program::alloc (exs3d_vertex_layout::alloc(), "shader.vert", "shader.frag");
         auto mat = textured_material::alloc (shader, texture);
 
+        debug::log::println (mkstr ("'", componentName, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));
         return new mesh_component_t (mat, vertices, indices, componentName);
     }
 
 
     static_mesh* exs3d_mesh::_loadMeshFromFile (const std::string& fileName) const
     {
+        debug::log::println (mkstr ("Started loading exs3d from '", fileName, "'"));
+
         std::ifstream infile (fileName);
         if (!infile)
         {

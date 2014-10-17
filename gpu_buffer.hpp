@@ -40,6 +40,11 @@ namespace render
                 dimension  (dimension),
                 normalized (normalized)
             { }
+
+            string hashString() const
+            {
+                return mkstr (name, '#', type, '#', offset, '#', dimension, '#', normalized);
+            }
         };
 
     protected:
@@ -49,6 +54,13 @@ namespace render
         declare_ptr (i_vertex_layout)
         virtual const std::vector<attribute>& getAttributes() const = 0;
         virtual size_t getStride() const = 0;
+
+        string hashString() const
+        {
+            std::stringstream tmp;
+            for (auto nextAttribute : getAttributes())  tmp << nextAttribute.hashString() << '*';
+            return tmp.str();
+        }
     };
 
 //----------------------------------------------------------------------------------------------------------------------

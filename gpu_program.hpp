@@ -7,6 +7,7 @@
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
 #include "gpu_buffer.hpp"
+#include "resource.hpp"
 
 #include <GL/glew.h>
 #include <SFML/Graphics.hpp>
@@ -63,10 +64,39 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    class raw_gpu_program :
+        public resource
+    {
+
+    };
+
+//----------------------------------------------------------------------------------------------------------------------
+
     class gpu_program :
+        public resource,
         public oo_extensions::non_copyable,
         public oo_extensions::i_as_string
     {
+    public:
+        class id : public resource::identifyer
+        {
+        public:
+            i_vertex_layout::ptr _vertexLayout;
+            const string &_vertShaderFileName;
+            const string &_fragShaderFileName;
+
+        public:
+            id (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName) :
+                _vertexLayout (vertexLayout),
+                _vertShaderFileName (vertShaderFileName),
+                _fragShaderFileName (fragShaderFileName)
+            { }
+
+            virtual string hashString() const;
+        };
+
+
+    protected:
         GLuint _programId = GL_INVALID_INDEX;
         bool   _linked    = false;
 
@@ -89,6 +119,7 @@ namespace render
     public:
         declare_ptr_alloc (gpu_program)
 
+        gpu_program (const gpu_program::id &resourceId);
         gpu_program (i_vertex_layout::ptr vertexLayout);
         gpu_program (i_vertex_layout::ptr vertexLayout, const vertex_shader &vshader, const fragment_shader &fshader);
         gpu_program (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName);

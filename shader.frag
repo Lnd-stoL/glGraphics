@@ -20,5 +20,5 @@ void main()
     vec3 r = reflect (-vert2Eye, normal);
 
     vec3 diff = texture2D (uTexture, vTexUV).xyz * max (0.1, dot (normal, light2Vert));
-    gl_FragColor *= vec4 (diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 40), 1);
+    gl_FragColor *= vec4 (diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60), 1);
 }

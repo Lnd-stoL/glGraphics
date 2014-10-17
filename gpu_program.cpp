@@ -232,8 +232,8 @@ namespace render
         auto attributes = _vertexLayout->getAttributes();
         for (unsigned i = 0; i < attributes.size(); ++i)
         {
-            glVertexAttribPointer (i, attributes[i].dimension, attributes[i].type, attributes[i].normalized,
-                                   _vertexLayout->getStride(), (GLvoid *) attributes[i].offset);
+            glVertexAttribPointer (i, attributes[i].dimension, attributes[i].type, (GLboolean) attributes[i].normalized,
+                                   (GLsizei) _vertexLayout->getStride(), (GLvoid *) attributes[i].offset);
         }
     }
 
@@ -310,4 +310,15 @@ namespace render
     {
         return mkstr ("gpu_program [with id ", _programId, "; ", _linked ? "linked" : "raw", "]");
     }
+
+
+    /*virtual*/ string gpu_program::id::hashString() const
+    {
+        return mkstr (_vertShaderFileName, '*', _fragShaderFileName, '*', _vertexLayout->hashString());
+    }
+
+
+    gpu_program::gpu_program (const gpu_program::id &resourceId) :
+        gpu_program (resourceId._vertexLayout, resourceId._vertShaderFileName, resourceId._fragShaderFileName)
+    { }
 }
