@@ -1,6 +1,7 @@
 
 #include "exs3d.hpp"
 #include "mesh_impl.hpp"
+#include "resource_manager_impl.hpp"
 
 using oo_extensions::mkstr;
 
@@ -8,8 +9,11 @@ using oo_extensions::mkstr;
 
 namespace render
 {
-    exs3d_mesh::exs3d_mesh (const std::string& fileName) : _mesh (_loadMeshFromFile (fileName))
-    { }
+    exs3d_mesh::exs3d_mesh (const std::string &fileName, resources &renderResources) :
+        _mesh (_loadMeshFromFile (fileName, renderResources))
+    {
+        resource::_loaded();
+    }
 
 
     const string& exs3d_mesh::_emptyLine() const
@@ -76,11 +80,12 @@ namespace render
     }
 
 
-    exs3d_mesh::mesh_component_t* exs3d_mesh::_loadMeshComponent (std::ifstream &infile) const
+    exs3d_mesh::mesh_component_t* exs3d_mesh::
+    _loadMeshComponent (std::ifstream &infile, resources &renderResources) const
     {
         vector<exs3d_mesh::exs3d_vertex> vertices;
         vector<unsigned short> indices;
-        shared_ptr<sf::Texture> texture;
+        texture::ptr componentTexture;
         string componentName;
 
         auto nextLine = _nextLineInFile (infile);
@@ -96,7 +101,7 @@ namespace render
             parser >> componentName >> componentName;
         }
 
-        debug::log::println (mkstr ("Loading component '", componentName, "'"));
+        debug::log::println (mkstr ("loading component '", componentName, "'"));
 
         while (!(nextLine = _nextLineInFile (infile)).empty())
         {
@@ -107,8 +112,8 @@ namespace render
                 parser >> textureName >> textureName;
 
                 textureName = mkstr ("/home/leonid/Загрузки/3d1/", textureName);
-                texture = make_shared<sf::Texture>();
-                texture->loadFromFile (textureName);
+                componentTexture = renderResources.getTexturesManager().request (textureName);
+
                 continue;
             }
 
@@ -140,17 +145,19 @@ namespace render
             return nullptr;
         }
 
-        auto shader = gpu_program::alloc (exs3d_vertex_layout::alloc(), "shader.vert", "shader.frag");
-        auto mat = textured_material::alloc (shader, texture);
+        auto shader = renderResources.getGpuProgramsManager().request (gpu_program::id (exs3d_vertex_layout::alloc(),
+                                                                                        "/home/leonid/Dev/glGraphics/shader.vert", "/home/leonid/Dev/glGraphics/shader.frag"));
+        //auto shader = gpu_program::alloc (exs3d_vertex_layout::alloc(), "shader.vert", "shader.frag");
+        auto mat = textured_material::alloc (shader, componentTexture);
 
         debug::log::println (mkstr ("'", componentName, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));
         return new mesh_component_t (mat, vertices, indices, componentName);
     }
 
 
-    static_mesh* exs3d_mesh::_loadMeshFromFile (const std::string& fileName) const
+    static_mesh* exs3d_mesh::_loadMeshFromFile (const std::string& fileName, resources &renderResources) const
     {
-        debug::log::println (mkstr ("Started loading exs3d from '", fileName, "'"));
+        debug::log::println (mkstr ("started loading exs3d from '", fileName, "'"));
 
         std::ifstream infile (fileName);
         if (!infile)
@@ -169,7 +176,7 @@ namespace render
         static_mesh *mesh = new static_mesh();
         while (infile)
         {
-            auto ptr = _loadMeshComponent (infile);
+            auto ptr = _loadMeshComponent (infile, renderResources);
             if (ptr == nullptr) break;
             auto nextComponent = shared_ptr<mesh_component_t> (ptr);
             mesh->addComponent (nextComponent);

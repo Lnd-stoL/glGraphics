@@ -12,17 +12,24 @@ class resource :
     public oo_extensions::non_copyable,
     public oo_extensions::i_as_string
 {
+protected:
+    bool _wasChangedAfterLoading = true;
+    void _changedAfterLoading()  { _wasChangedAfterLoading = true;  }
+    void _loaded()               { _wasChangedAfterLoading = false; }
+
 public:
-    class identifyer
+    struct id
     {
-    public:
         virtual string hashString() const = 0;
     };
 
 
 public:
     declare_ptr (resource)
+    virtual ~resource()  { };
     virtual string asString() const  { return "<resource>"; }
+
+    bool isValidAsResource()  { return !_wasChangedAfterLoading; }
 };
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -1,6 +1,5 @@
 
 #include "material.hpp"
-
 using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -24,13 +23,13 @@ namespace render
     /*virtual*/ void textured_material::use() const
     {
         material::use();
-        sf::Texture::bind (_texture.get());
+        _texture->bind();
     }
 
 
     /*virtual*/ void textured_material::setupViewerTransform (const math3D::object2screen_transform_f &trans)
     {
         material::setupViewerTransform (trans);
-        _renderingProgram->setUniformSampler ("uTexture", 0);
+        //_renderingProgram->setUniformSampler ("uTexture", 0);
     }
 }

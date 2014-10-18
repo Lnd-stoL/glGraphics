@@ -63,15 +63,54 @@ _findFile (const string &fileName, fs::path& foundIn, const vector<string> &addi
 
 
 template<typename resource_t>
-typename resource_t::ptr resource_manager<resource_t>::request (const resource::identifyer &resourceId)
+template<typename ...args_t>
+typename resource_t::ptr resource_manager<resource_t>::_request (const string &hashString, args_t&&... ctorArgs)
 {
-    string hashString = resourceId.hashString();
-    debug::log::println (mkstr ("resource manager: acquired resource with hash '", hashString, "'"));
+    debug::log::println (mkstr ("resource manager: requested resource with hash '", hashString, "'"));
 
     auto foundInAlreadyLoaded = _loadedResources.find (hashString);
-    if (foundInAlreadyLoaded != _loadedResources.end())  return foundInAlreadyLoaded->second;
+    if (foundInAlreadyLoaded != _loadedResources.end() && foundInAlreadyLoaded->second->isValidAsResource())
+        return foundInAlreadyLoaded->second;
 
-    auto loadedResource = resource_t::alloc (resourceId);
+    auto loadedResource = resource_t::alloc (std::forward<args_t> (ctorArgs)...);
     _loadedResources[hashString] = loadedResource;
     return loadedResource;
+}
+
+
+template<typename resource_t>
+template<typename ...args_t>
+typename resource_t::ptr resource_manager<resource_t>::
+_requestFromFile (const string &fileName, const vector<string> &additionalSearchLocations, args_t&&... ctorArgs)
+{
+    fs::path foundIn;
+    if (!_findFile (fileName, foundIn, additionalSearchLocations))  return typename resource_t::ptr();
+    foundIn = fs::absolute (foundIn);
+
+    return _request (foundIn.string(), foundIn.string(), std::forward<args_t> (ctorArgs)...);
+}
+
+
+template<typename resource_t>
+template<typename ...args_t>
+typename resource_t::ptr resource_manager<resource_t>::request (const typename resource_t::id &resourceId, args_t&&... ctorArgs)
+{
+    return _request (resourceId.hashString(), resourceId, std::forward<args_t> (ctorArgs)...);
+}
+
+
+template<typename resource_t>
+template<typename ...args_t>
+typename resource_t::ptr resource_manager<resource_t>::
+request (const string &fileName, const vector<string> &additionalSearchLocations, args_t&&... ctorArgs)
+{
+    return _requestFromFile (fileName, additionalSearchLocations, std::forward<args_t> (ctorArgs)...);
+}
+
+
+template<typename resource_t>
+template<typename ...args_t>
+typename resource_t::ptr resource_manager<resource_t>::request (const string &fileName, args_t&&... ctorArgs)
+{
+    return _requestFromFile (fileName, vector<string>(), std::forward<args_t> (ctorArgs)...);
 }

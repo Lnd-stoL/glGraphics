@@ -20,8 +20,8 @@ namespace render
         public oo_extensions::non_copyable,
         public oo_extensions::i_as_string
     {
-        GLint _shaderId  = GL_INVALID_INDEX;
-        bool  _compiled  = false;
+        GLuint _shaderId  = GL_INVALID_INDEX;
+        bool   _compiled  = false;
 
     public:
         property_get (Compiled, _compiled)
@@ -64,28 +64,15 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    class raw_gpu_program :
-        public resource
-    {
-
-    };
-
-//----------------------------------------------------------------------------------------------------------------------
-
-    class gpu_program :
-        public resource,
-        public oo_extensions::non_copyable,
-        public oo_extensions::i_as_string
+    class gpu_program : public resource
     {
     public:
-        class id : public resource::identifyer
+        struct id : resource::id
         {
-        public:
             i_vertex_layout::ptr _vertexLayout;
             const string &_vertShaderFileName;
             const string &_fragShaderFileName;
 
-        public:
             id (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName) :
                 _vertexLayout (vertexLayout),
                 _vertShaderFileName (vertShaderFileName),

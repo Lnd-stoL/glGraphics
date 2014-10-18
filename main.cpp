@@ -23,21 +23,28 @@ int main (int argc, char **argv)
     camera->syncProjectionAspectRatio (window.sizeChangedEvent());
     fps_camera_controller cameraController (window, camera);
 
-    auto mesh = render::exs3d_mesh::alloc ("/home/leonid/Загрузки/3d1/gaz3d.exs3d");
+    render::resources res;
+
+    auto mesh = res.getMeshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", res);
+    auto mesh3 = res.getMeshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", res);
     //render::exs3d_mesh mesh ("/home/leonid/Загрузки/3d1/DefenderLingerie00.exs3d");
-    auto mesh2 = render::exs3d_mesh::alloc ("/home/leonid/Загрузки/Small Tropical Island/untitled.exs3d");
+    //auto mesh2 = res.getMeshesManager().request ("/home/leonid/Загрузки/Small Tropical Island/untitled.exs3d", res);
     mesh->getMesh()->removeComponent ("Cube");
-    mesh2->getMesh()->removeComponent ("Cube");
+    //mesh2->getMesh()->removeComponent ("Cube");
 
     rotation_d f (vector3_d (1, 0, 0), angle_d::pi / 2);
-    mesh_renderable_object::ptr ro = mesh_renderable_object::alloc (mesh->getMesh(),  transform_d (vector3_d (0, 0, 0), f));
+    mesh_renderable_object::ptr ro = mesh_renderable_object::alloc (mesh->getMesh(), transform_d (vector3_d (0, 0, 0), f));
 
     mesh_renderable_object::ptr ro2 =
-            mesh_renderable_object::alloc (mesh2->getMesh(),  transform_d (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04)));
+            mesh_renderable_object::alloc (mesh->getMesh(), transform_d (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04)));
+
+    mesh_renderable_object::ptr ro3 =
+            mesh_renderable_object::alloc (mesh3->getMesh(), transform_d (vector3_d (20, 0, 0), f));
 
     render::scene_renderer renderer (window);
     renderer.addSceneObject (ro2, 0);
     renderer.addSceneObject (ro, 1);
+    renderer.addSceneObject (ro3, 10);
 
     window.frameDrawEvent().handleWith ([&renderer, camera, &cameraController] (const render_window&) {
         renderer.draw (*camera);

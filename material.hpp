@@ -9,9 +9,9 @@
 #include "gpu_program.hpp"
 #include "gpu_buffer.hpp"
 #include "camera.hpp"
+#include "texture.hpp"
 
 #include <GL/glew.h>
-#include <SFML/Graphics.hpp>
 #include <vector>
 #include <memory>
 
@@ -73,7 +73,7 @@ namespace render
     class textured_material : public material
     {
     protected:
-        shared_ptr<sf::Texture> _texture;
+        texture::ptr _texture;
 
     public:
         property_get (Texture, _texture)
@@ -81,7 +81,7 @@ namespace render
     public:
         declare_ptr_alloc (textured_material)
 
-        textured_material (gpu_program::ptr renderingProgram, shared_ptr<sf::Texture> texture) :
+        textured_material (gpu_program::ptr renderingProgram, texture::ptr texture) :
                 material (renderingProgram),
                 _texture (texture)
         {

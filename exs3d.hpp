@@ -8,6 +8,7 @@
 #include "math3D.hpp"
 #include "mesh.hpp"
 #include "renderable.hpp"
+#include "resource.hpp"
 
 #include <GL/glew.h>
 #include <string>
@@ -21,9 +22,9 @@ using math3D::vector2_f;
 
 namespace render
 {
-    class exs3d_mesh :
-        public oo_extensions::non_copyable,
-        public renderable
+    class resources;
+
+    class exs3d_mesh : public resource
     {
     public:
         struct exs3d_vertex
@@ -58,8 +59,8 @@ namespace render
         static_mesh::ptr _mesh;
 
     protected:
-        static_mesh* _loadMeshFromFile (const std::string &fileName) const;
-        mesh_component_t* _loadMeshComponent (std::ifstream &infile) const;
+        static_mesh* _loadMeshFromFile (const std::string &fileName, resources &res) const;
+        mesh_component_t* _loadMeshComponent (std::ifstream &infile, resources &res) const;
         const string& _nextLineInFile (std::ifstream &infile) const;
         void _loadVertices (std::ifstream &infile, vector<exs3d_vertex> &vertices, unsigned totalCount) const;
         void _loadIndices (std::ifstream &infile, vector<unsigned short> &index, unsigned totalCount) const;
@@ -72,7 +73,7 @@ namespace render
 
     public:
         declare_ptr_alloc (exs3d_mesh)
-        exs3d_mesh (const std::string &fileName);
+        exs3d_mesh (const std::string &fileName, resources &renderResources);
         void draw (const camera &viewer) const;
     };
 }

@@ -51,8 +51,8 @@ using std::make_shared;
 
 
 #define prevent_copying(class_name)             \
-    protected: class_name (const class_name &); \
-    protected: class_name (const class_name &&);
+    protected: class_name (const class_name &)  = delete; \
+    protected: class_name (const class_name &&) = delete;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -158,11 +158,10 @@ namespace oo_extensions
 
     #define declare_ptr(object_t)          typedef shared_ptr<object_t> ptr;
 
-    #define declare_ptr_alloc(object_t)    declare_ptr (object_t)                                   \
-                                           template<typename... args_t>                             \
-                                           static typename object_t::ptr alloc (args_t... ctorArgs) \
-                                           { return make_shared<object_t> (ctorArgs...); }
-
+    #define declare_ptr_alloc(object_t)    declare_ptr (object_t)                                    \
+                                           template<typename... args_t>                              \
+                                           inline static typename object_t::ptr alloc (args_t&&... ctorArgs) \
+                                           { return make_shared<object_t> (std::forward<args_t> (ctorArgs)...); }           
 }
 
 //----------------------------------------------------------------------------------------------------------------------

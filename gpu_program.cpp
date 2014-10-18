@@ -1,5 +1,6 @@
 
 #include "gpu_program.hpp"
+#include "resource_manager.hpp"
 
 using oo_extensions::mkstr;
 
@@ -160,6 +161,8 @@ namespace render
 
     void gpu_program::attach (const shader& attachement)
     {
+        resource::_changedAfterLoading();
+
         if (!attachement.getCompiled())
         {
             debug::log::println_err (
@@ -176,6 +179,8 @@ namespace render
 
     void gpu_program::link()
     {
+        resource::_changedAfterLoading();
+
         if (_linked) return;
         _bindVertexAttributes();
 
@@ -320,5 +325,7 @@ namespace render
 
     gpu_program::gpu_program (const gpu_program::id &resourceId) :
         gpu_program (resourceId._vertexLayout, resourceId._vertShaderFileName, resourceId._fragShaderFileName)
-    { }
+    {
+        resource::_loaded();
+    }
 }
