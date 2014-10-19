@@ -148,6 +148,7 @@ namespace render
         auto shader = renderResources.getGpuProgramsManager().request (gpu_program::id (exs3d_vertex_layout::alloc(),
                                                                                         "/home/leonid/Dev/glGraphics/shader.vert", "/home/leonid/Dev/glGraphics/shader.frag"));
         //auto shader = gpu_program::alloc (exs3d_vertex_layout::alloc(), "shader.vert", "shader.frag");
+        if (componentTexture) componentTexture->filtering (texture::linear_MipmapLinear);
         auto mat = textured_material::alloc (shader, componentTexture);
 
         debug::log::println (mkstr ("'", componentName, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));

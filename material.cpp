@@ -23,7 +23,7 @@ namespace render
     /*virtual*/ void textured_material::use() const
     {
         material::use();
-        _texture->bind();
+        _texture->use();
     }
 
 

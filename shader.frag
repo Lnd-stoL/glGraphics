@@ -11,7 +11,7 @@ varying vec3 vVert2Eye;
 
 void main()
 {
-    gl_FragColor = vec4 (1, 1, 1, 1);
+    //gl_FragColor = vec4 (1, 1, 1, 1);
 
     vec3 normal     = normalize (vNormal);
     vec3 light2Vert = normalize (vLight2VertPos);
@@ -20,5 +20,6 @@ void main()
     vec3 r = reflect (-vert2Eye, normal);
 
     vec3 diff = texture2D (uTexture, vTexUV).xyz * max (0.1, dot (normal, light2Vert));
-    gl_FragColor *= vec4 (diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60), 1);
+    gl_FragData[0] = vec4 (diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60), 1);
+    //gl_FragColor = vec4 (diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60), 1);
 }

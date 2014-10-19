@@ -2,6 +2,8 @@
 #include "texture.hpp"
 #include "debug.hpp"
 
+#include <SFML/Graphics.hpp>
+
 using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -42,7 +44,7 @@ namespace render
     }
 
 
-    void texture::bind() const
+    void texture::use() const
     {
         if (!_testValid()) return;
         glBindTexture (GL_TEXTURE_2D, _textureId);
@@ -55,9 +57,65 @@ namespace render
         if (!_textureId || _textureId == GL_INVALID_INDEX)
         {
             debug::log::println_err (mkstr ("can't operate ", asString(), " ; it is in invalid state"));
+            debug::gl::test();
             return false;
         }
 
         return true;
+    }
+
+
+    void texture::filtering (texture::filtering_t shrinkFilter, texture::filtering_t expFilter)
+    {
+        use();
+
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, expFilter);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, shrinkFilter);
+        debug::gl::test();
+    }
+
+
+    texture::texture (unsigned width, unsigned height)
+    {
+        glGenTextures (1, &_textureId);
+        use();
+
+        glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        debug::gl::test();
+    }
+
+
+    void texture::saveToFile (const string &fileName)
+    {
+        debug::log::println (mkstr ("saving ", asString(), " to file '", fileName, "'"));
+
+        unsigned width = getWidth();
+        unsigned height = getHeight();
+
+        GLbyte *imageData = new GLbyte[width * height * 4];
+        glGetTexImage (GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+        debug::gl::test();
+
+        sf::Image image;
+        image.create (width, height, (const sf::Uint8 *) imageData);
+        image.saveToFile (fileName);
+    }
+
+
+    unsigned texture::getWidth() const
+    {
+        use();
+        int width = 0;
+        glGetTexLevelParameteriv (GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+        return (unsigned) width;
+    }
+
+
+    unsigned texture::getHeight() const
+    {
+        use();
+        int height = 0;
+        glGetTexLevelParameteriv (GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
+        return (unsigned) height;
     }
 }

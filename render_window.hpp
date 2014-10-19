@@ -41,6 +41,7 @@ public:
 
     render_window (unsigned width, unsigned height, const string &title);
     void runEventLoop();
+    void saveScreenshot (const string &fileToSave);
 
     double getAspectRatio() const;
 };

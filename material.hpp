@@ -88,6 +88,11 @@ namespace render
             _renderingProgram->setUniformSampler ("uTexture", 0);
         }
 
+        void changeTexture (texture::ptr texture)
+        {
+            _texture = texture;
+        }
+
         virtual void use() const;
         virtual void setupViewerTransform (const math3D::object2screen_transform_f &transform);
     };
