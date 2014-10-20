@@ -65,7 +65,7 @@ namespace render
         { }
 
         virtual void use() const;
-        virtual void setupViewerTransform (const math3D::object2screen_transform_f &transform);
+        virtual void setupViewerTransform (const math3D::object2screen_transform_d &transform);
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ namespace render
         }
 
         virtual void use() const;
-        virtual void setupViewerTransform (const math3D::object2screen_transform_f &transform);
+        virtual void setupViewerTransform (const math3D::object2screen_transform_d &transform);
     };
 }
 

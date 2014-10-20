@@ -46,6 +46,7 @@ namespace render
         glBindRenderbuffer(GL_RENDERBUFFER, depthrenderbuffer);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 1200, 900);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthrenderbuffer);
+        useDefault();
     }
 
 
@@ -59,5 +60,12 @@ namespace render
         //GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
         //glDrawBuffers (1, DrawBuffers);
         _testValid();
+        useDefault();
+    }
+
+
+    void frame_buffer::useDefault()
+    {
+        glBindFramebuffer (GL_FRAMEBUFFER, 0);
     }
 }

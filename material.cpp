@@ -12,11 +12,11 @@ namespace render
     }
 
 
-    /*virtual*/ void material::setupViewerTransform (const math3D::object2screen_transform_f &trans)
+    /*virtual*/ void material::setupViewerTransform (const math3D::object2screen_transform_d &trans)
     {
-        _renderingProgram->setUniform ("uMatWorldTransform", trans.getWorldTransform().asMatrix(), true);
-        _renderingProgram->setUniform ("uViewPos", trans.getCameraTransform().getTranslation(), true);
-        _renderingProgram->setUniform ("uMatTransform", trans.asMatrix());
+        _renderingProgram->setUniform ("uMatWorldTransform", trans.getWorldTransform().asMatrix().convertType<float>(), true);
+        _renderingProgram->setUniform ("uViewPos", trans.getCameraTransform().getTranslation().convertType<float>(), true);
+        _renderingProgram->setUniform ("uMatTransform", trans.asMatrix().convertType<float>());
     }
 
 
@@ -27,7 +27,7 @@ namespace render
     }
 
 
-    /*virtual*/ void textured_material::setupViewerTransform (const math3D::object2screen_transform_f &trans)
+    /*virtual*/ void textured_material::setupViewerTransform (const math3D::object2screen_transform_d &trans)
     {
         material::setupViewerTransform (trans);
         //_renderingProgram->setUniformSampler ("uTexture", 0);

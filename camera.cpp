@@ -38,9 +38,9 @@ namespace render
     }
 
 
-    void camera::changeProjection (const perspective_projection_d &projection)
+    void camera::changeProjection (unique_ptr<projection_d> &&proj)
     {
-        _projection = projection;
+        _projection = unique_ptr<projection_d> (std::move (proj));
         //_screenTransform = _screenTransform.withChangedProjection (projection);
     }
 
@@ -48,7 +48,12 @@ namespace render
     void camera::syncProjectionAspectRatio (event<unsigned, unsigned> &sizeChangeEvent)
     {
         sizeChangeEvent.handleWith ([this] (unsigned newWidth, unsigned newHeight) {
-            changeProjection (perspective_projection_d (_projection.getFov(), newWidth / newHeight, _projection.getViewInterval()));
+            _projection->changeAspect (newWidth / newHeight);
         });
+    }
+
+    projection_d *camera::getProjection() const
+    {
+        return _projection->copy();
     }
 }

@@ -33,6 +33,8 @@ namespace render
 
         void attachColorTexture (texture::ptr colorTexture);
         void use() const;
+
+        static void useDefault();
     };
 }
 

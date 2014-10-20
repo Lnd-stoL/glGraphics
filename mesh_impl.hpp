@@ -15,7 +15,7 @@ namespace render
         _indexBuffer->use();
 
         _material->use();
-        _material->setupViewerTransform (screenTransform.convertType<float>());
+        _material->setupViewerTransform (screenTransform);
 
         glDrawElements (GL_TRIANGLES, _indexBuffer->getSize(), GL_UNSIGNED_SHORT, nullptr);
     }

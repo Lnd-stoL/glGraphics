@@ -14,6 +14,9 @@ using std::shared_ptr;
 using std::vector;
 using std::string;
 using std::make_shared;
+using std::unique_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -64,6 +67,15 @@ namespace oo_extensions
 
     public:
         non_copyable() {  }
+    };
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    template<typename class_t>
+    class virtual_copyable
+    {
+    public:
+        virtual class_t* copy() const = 0;
     };
 
 //----------------------------------------------------------------------------------------------------------------------

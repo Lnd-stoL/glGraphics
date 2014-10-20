@@ -1,6 +1,4 @@
 
-#include <SFML/Graphics.hpp>
-
 #include "gpu_program.hpp"
 #include "mesh.hpp"
 #include "exs3d.hpp"
@@ -23,8 +21,8 @@ int main (int argc, char **argv)
     texture::ptr rt = texture::alloc (1200, 900);
     fb.attachColorTexture (rt);
 
-    perspective_projection_d projection (angle_d::pi / 4, window.getAspectRatio(), interval_d (0.3, 10000));
-    render::camera::ptr camera = render::camera::alloc (projection);
+    unique_ptr<perspective_projection_d> projection (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (0.3, 10000)));
+    render::camera::ptr camera = render::camera::alloc (std::move (projection));
     camera->syncProjectionAspectRatio (window.sizeChangedEvent());
     fps_camera_controller cameraController (window, camera);
 
@@ -52,11 +50,14 @@ int main (int argc, char **argv)
     //renderer.addSceneObject (ro3, 10);
 
     window.frameDrawEvent().handleWith ([&renderer, camera, mesh, &fb, rt, &cameraController] (const render_window&) {
-        fb.use();
+        //fb.use();
         glViewport (0, 0, 1200, 900);
 
-        render::camera lightCamera (camera->getTransform())
+        frame_buffer::useDefault();
+        //auto lightCamera = render::camera::alloc (camera->getProjection());
+        //lightCamera->addTransform (transform_d (vector3_d (-10, 50, 50), rotation_d()));
         renderer.draw (*camera);
+
         //rt->saveToFile ("test.jpg");
     });
 

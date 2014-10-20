@@ -46,6 +46,11 @@ namespace math3D
             }
         }
 
+        numeric_t getRad() const
+        {
+            return _angleRad;
+        }
+
         template<typename another_numeric_t>
         angle<another_numeric_t> convertType() const
         {
@@ -611,7 +616,8 @@ namespace math3D
 //----------------------------------------------------------------------------------------------------------------------
 
     template<typename numeric_t, int sideN>
-    class matrix : public oo_extensions::i_as_string
+    class matrix :
+        public oo_extensions::i_as_string
     {
     public:
         typedef matrix<numeric_t, sideN> this_t;
@@ -624,26 +630,26 @@ namespace math3D
 
 
     protected:
-        inline void _testBounds (int row, int col)
+        inline void _testBounds (int row, int col) const
         {
             if (row < 0 || col < 0 || row >= sideN || col >= sideN)
                 throw std::range_error (mkstr (" invalid matrix indexing: ", col, " ", row, " are out of 0 ", sideN));
         }
 
     public:
-        inline numeric_t get(int row, int col)
+        inline numeric_t get (int row, int col) const
         {
             _testBounds (row, col);
             return _matrix[row][col];
         }
 
-        inline void set(int row, int col, numeric_t value)
+        inline void set (int row, int col, numeric_t value)
         {
             _testBounds (row, col);
             _matrix[row, col] = value;
         }
 
-        inline numeric_t& at(int row, int col)
+        inline numeric_t& at (int row, int col)
         {
             _testBounds (row, col);
             return _matrix[row][col];
@@ -667,6 +673,15 @@ namespace math3D
         void multiply (const this_t &operand)
         {
             //TODO: Common multiply
+        }
+
+
+        template<typename element_t>
+        void copyFrom (const matrix<element_t, sideN> &source)
+        {
+            for (int i = 0; i < sideN; ++i)
+                for (int j = 0; j < sideN; ++j)
+                    _matrix[i][j] = source.get (i, j);
         }
 
 
@@ -800,6 +815,15 @@ namespace math3D
 
         #undef m
         #undef opm
+        }
+
+
+        template<typename another_numeric_t>
+        matrix_4x4<another_numeric_t> convertType() const
+        {
+            matrix_4x4<another_numeric_t> result;
+            result.copyFrom (*this);
+            return std::move (result);
         }
     };
 
@@ -1140,41 +1164,124 @@ namespace math3D
 //----------------------------------------------------------------------------------------------------------------------
 
     template<typename numeric_t>
-    class perspective_projection
+    class projection :
+        public oo_extensions::virtual_copyable<projection<numeric_t>>
     {
-        angle<numeric_t>    _fovy         = angle<numeric_t>();
+    protected:
         numeric_t           _aspect       = numeric_t();
         interval<numeric_t> _viewInterval = interval<numeric_t>();
 
     public:
-        property_get (Fov,          _fovy)
         property_get (Aspect,       _aspect)
         property_get (ViewInterval, _viewInterval)
 
 
     public:
+        typedef projection<numeric_t> this_t;
+        declare_ptr (this_t)
+        projection() { }
+
+        projection (numeric_t aspect, interval<numeric_t> viewInterval) :
+                _aspect       (aspect),
+                _viewInterval (viewInterval)
+        {  }
+
+        void changeAspect (numeric_t aspect)  { _aspect = aspect; }
+        virtual void _implicitlyLeftMultiply (matrix_4x4<numeric_t> &wcMatrix) const = 0;
+    };
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    template<typename numeric_t>
+    class perspective_projection : public projection<numeric_t>
+    {
+        angle<numeric_t> _fovy = angle<numeric_t>();
+
+    public:
+        property_get (Fov, _fovy)
+
+    public:
+        typedef projection<numeric_t> base_t;
+        typedef perspective_projection<numeric_t> this_t;
+        declare_ptr_alloc (this_t)
         perspective_projection() { }
 
         perspective_projection (angle<numeric_t> fovy, numeric_t aspect, interval<numeric_t> viewInterval) :
             _fovy         (fovy),
-            _aspect       (aspect),
-            _viewInterval (viewInterval)
+            projection<numeric_t> (aspect, viewInterval)
         {  }
 
 
-        matrix_4x4<numeric_t> asMatrix() const
+        virtual void _implicitlyLeftMultiply (matrix_4x4<numeric_t> &wcMatrix) const
         {
+            numeric_t f = 1.0 / std::tan (_fovy.getRad() / 2.0);
+            wcMatrix.scaleRow (0, f / base_t::_aspect);
+            wcMatrix.scaleRow (1, f);
 
-            matrix_4x4<numeric_t> projectionMatrix();
-            return projectionMatrix;
+            wcMatrix.copyRow (2, 3, -1);
+
+            numeric_t viewLength = base_t::_viewInterval.length();
+            wcMatrix.scaleRow (2, -base_t::_viewInterval.borderSumm() / viewLength);
+            wcMatrix.at (2, 3) -= (2 * base_t::_viewInterval.getFrom() * base_t::_viewInterval.getTo()) / viewLength;
         }
 
 
         template<typename another_numeric_t>
         perspective_projection<another_numeric_t> convertType() const
         {
-            return perspective_projection<another_numeric_t> (_fovy.convertType<another_numeric_t>(), (another_numeric_t) _aspect,
-                _viewInterval.convertType<another_numeric_t>());
+            return perspective_projection<another_numeric_t> (_fovy.convertType<another_numeric_t>(), (another_numeric_t) base_t::_aspect,
+                                                              base_t::_viewInterval.convertType<another_numeric_t>());
+        }
+
+
+        virtual projection<numeric_t>* copy() const
+        {
+            return new perspective_projection<numeric_t> (_fovy, base_t::_aspect, base_t::_viewInterval);
+        }
+    };
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    template<typename numeric_t>
+    class orthographic_projection : public projection<numeric_t>
+    {
+        numeric_t  _height = numeric_t();
+
+    public:
+        property_get (Height, _height)
+
+
+    public:
+        typedef projection<numeric_t> base_t;
+        typedef orthographic_projection<numeric_t> this_t;
+        declare_ptr_alloc (this_t)
+        orthographic_projection() { }
+
+        orthographic_projection (numeric_t height, numeric_t aspect, interval<numeric_t> viewInterval) :
+                _height               (height),
+                projection<numeric_t> (aspect, viewInterval)
+        {  }
+
+
+        virtual void _implicitlyLeftMultiply (matrix_4x4<numeric_t> &wcMatrix) const
+        {
+            numeric_t w = (base_t::_aspect * _height);
+            numeric_t ir = 2.0 / w;
+            numeric_t it = 2.0 * (base_t::_aspect / w);
+
+            wcMatrix.scaleRow (0, ir);
+            wcMatrix.scaleRow (1, it);
+
+            numeric_t viewLength = base_t::_viewInterval.length();
+            wcMatrix.scaleRow (2, -2.0 / viewLength);
+            wcMatrix.at (2, 3) -= base_t::_viewInterval.borderSumm() / viewLength;
+        }
+
+
+        virtual projection<numeric_t>* copy() const
+        {
+            return new orthographic_projection<numeric_t> (_height, base_t::_aspect, base_t::_viewInterval);
         }
     };
 
@@ -1343,9 +1450,9 @@ namespace math3D
     template<typename numeric_t>
     class object2screen_transform
     {
-        transform<numeric_t> _worldTransform  = transform<numeric_t>();
-        transform<numeric_t> _cameraTransform = transform<numeric_t>();
-        perspective_projection<numeric_t> _projection = perspective_projection<numeric_t>();
+        transform<numeric_t>   _worldTransform  = transform<numeric_t>();
+        transform<numeric_t>   _cameraTransform = transform<numeric_t>();
+        projection<numeric_t>  *_projection;                                 // not owned here
 
         matrix_4x4<numeric_t> _cachedWCMatrix;
         matrix_4x4<numeric_t> _cachedMatrix;
@@ -1354,26 +1461,10 @@ namespace math3D
     public:
         property_get_ref (WorldTransform,  _worldTransform)
         property_get_ref (CameraTransform, _cameraTransform)
-        property_get_ref (Projection,      _projection)
+        property_get     (Projection,      _projection)
         property_get_ref (WorldCamTransformMatrix, _cachedWCMatrix)
 
         const matrix_4x4<numeric_t> getWorldTransformMatrix() const  { return _worldTransform.asMatrix(); }
-
-
-    protected:
-        void _implicitlyLeftMultiplyByProjectionMatrix (matrix_4x4<numeric_t> &wcMatrix)
-        {
-            numeric_t f = 1.0 / std::tan (_projection.getFov() / 2);
-            wcMatrix.scaleRow (0, f / _projection.getAspect());
-            wcMatrix.scaleRow (1, f);
-
-            wcMatrix.copyRow (2, 3, -1);
-
-            numeric_t viewLength = _projection.getViewInterval().length();
-            wcMatrix.scaleRow (2, -_projection.getViewInterval().borderSumm() / viewLength);
-            wcMatrix.at (2, 3) -=
-                (2 * _projection.getViewInterval().getFrom() * _projection.getViewInterval().getTo()) / viewLength;
-        }
 
 
     public:
@@ -1381,15 +1472,15 @@ namespace math3D
 
         object2screen_transform (transform<numeric_t> worldTransform,
                                  transform<numeric_t> cameraTransform,
-                                 perspective_projection<numeric_t> projection) : _worldTransform  (worldTransform),
-                                                                                 _cameraTransform (cameraTransform),
-                                                                                 _projection      (projection)
+                                 projection<numeric_t> *projection) : _worldTransform  (worldTransform),
+                                                                      _cameraTransform (cameraTransform),
+                                                                      _projection      (projection)
         {
             _cachedWCMatrix = _cameraTransform.inversed().asMatrix();
             _cachedWCMatrix.fastTransformMultiply (getWorldTransformMatrix());
 
             _cachedMatrix = _cachedWCMatrix;
-            _implicitlyLeftMultiplyByProjectionMatrix (_cachedMatrix);
+            _projection->_implicitlyLeftMultiply (_cachedMatrix);
         }
 
 
@@ -1405,25 +1496,16 @@ namespace math3D
         }
 
 
-        object2screen_transform<numeric_t> withChangedProjection (const perspective_projection<numeric_t> &newProjection)
+        object2screen_transform<numeric_t> withChangedProjection (unique_ptr<projection<numeric_t>> &&projection)
         {
             object2screen_transform<numeric_t> result;
             result._cameraTransform = _cameraTransform;
-            result._projection = newProjection;
+            result._projection = projection;
 
             result._cachedMatrix = result._cachedWCMatrix = _cachedWCMatrix;
-            result._implicitlyLeftMultiplyByProjectionMatrix (result._cachedMatrix);
+            result._projection->_implicitlyLeftMultiply (result._cachedMatrix);
 
             return result;
-        }
-
-
-        template<typename another_numeric_t>
-        object2screen_transform<another_numeric_t> convertType() const
-        {
-            return object2screen_transform<another_numeric_t> (_worldTransform.convertType<another_numeric_t>(),
-                                                               _cameraTransform.convertType<another_numeric_t>(),
-                                                               _projection.convertType<another_numeric_t>());
         }
     };
 
@@ -1437,7 +1519,9 @@ namespace math3D
     typedef rotation<float>    rotation_f;
     typedef transform<float>   transform_f;
     typedef matrix_4x4<float>  matrix_4x4_f;
+    typedef projection<float>  projection_f;
     typedef perspective_projection<float> perspective_projection_f;
+    typedef orthographic_projection<float> orthographic_projection_f;
     typedef object2screen_transform<float> object2screen_transform_f;
 
     typedef angle<double>      angle_d;
@@ -1447,7 +1531,9 @@ namespace math3D
     typedef rotation<double>   rotation_d;
     typedef transform<double>  transform_d;
     typedef matrix_4x4<double> matrix_4x4_d;
+    typedef projection<double> projection_d;
     typedef perspective_projection<double>  perspective_projection_d;
+    typedef orthographic_projection<double> orthographic_projection_d;
     typedef object2screen_transform<double> object2screen_transform_d;
 }
 
