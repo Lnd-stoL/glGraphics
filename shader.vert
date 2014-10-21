@@ -8,11 +8,13 @@ attribute vec2 aTexUV;
 uniform mat4 uMatTransform;
 uniform mat4 uMatWorldTransform;
 uniform vec3 uViewPos;
+uniform mat4 uShadowmapTransform;
 
 varying vec3 vNormal;
 varying vec3 vLight2VertPos;
 varying vec2 vTexUV;
 varying vec3 vVert2Eye;
+varying vec4 vShadowmapVert;
 
 
 void main()
@@ -26,4 +28,6 @@ void main()
     vNormal = normalize (mat3 (uMatWorldTransform) * aNormal);
     vLight2VertPos = normalize (vec3 (-10, 50, 50) - spaceVertex);
     vVert2Eye = normalize (uViewPos - spaceVertex);
+
+    vShadowmapVert = uShadowmapTransform * vec4 (aCoords, 1);
 }

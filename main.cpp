@@ -10,6 +10,7 @@
 #include "frame_buffer.hpp"
 
 using oo_extensions::mkstr;
+using namespace math3D;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -17,10 +18,17 @@ int main (int argc, char **argv)
 {
     render_window window (1200, 900, "OpenGL Graphics");
 
-    unique_ptr<perspective_projection_d> projection (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (0.3, 10000)));
+    unique_ptr<perspective_projection_d> projection (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (1, 5000)));
     render::camera::ptr camera = render::camera::alloc (std::move (projection));
+    camera->addTransform (transform_d (vector3_d (0, 10, 0), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 2)));
     camera->syncProjectionAspectRatio (window.sizeChangedEvent());
     fps_camera_controller cameraController (window, camera);
+
+    //unique_ptr<orthographic_projection_d> lightProj (
+    //        new orthographic_projection_d (50, window.getAspectRatio(), interval_d (1, 5000)));
+    unique_ptr<perspective_projection_d> lightProj (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (1, 5000)));
+    auto lightCamera = render::camera::alloc (std::move (lightProj));
+    lightCamera->addTransform (transform_d (vector3_d (0, 50, 20), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 4)));
 
     render::resources renderRes;
     auto mesh = renderRes.getMeshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
@@ -63,7 +71,7 @@ int main (int argc, char **argv)
         glEnable (GL_CULL_FACE);
 
         glClearColor (1, 1, 1, 1);
-        glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear (GL_DEPTH_BUFFER_BIT);
 
         //shadowMapFrameBuffer.use();
 
@@ -72,12 +80,17 @@ int main (int argc, char **argv)
             debug::log::println ("shit");
         }
 
-        unique_ptr<orthographic_projection_d> lightProj (
-                new orthographic_projection_d (70, window.getAspectRatio(), interval_d (1, 10000)));
-        auto lightCamera = render::camera::alloc (std::move (lightProj));
-        lightCamera->addTransform (transform_d (vector3_d (-10, 50, 50), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 6.0)));
+        object2screen_transform_d shadowMapTranfrom (sceneObj2->getTransform(), lightCamera->getTransform(), camera->getProjection());
+        matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
+        matBias.setRow3 (3, 0.5f, 0.5f, 0.5f, 0.5f);
+        //debug::log::println (matBias.asString());
+        auto matShadow = shadowMapTranfrom.asMatrix().convertType<float>();
+        matBias.multiply (matShadow);
 
-        sceneRenderer.draw (*lightCamera);
+        //sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniform ("uShadowmapTransform", matBias);
+
+        sceneObj2->draw (*lightCamera);
+        //sceneRenderer.draw (*lightCamera);
 
         //rt->saveToFile ("test.jpg");
         //rt->saveToFile ("test-depth.jpg");
@@ -95,9 +108,26 @@ int main (int argc, char **argv)
         glClearColor (1, 1, 1, 1);
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        auto p = dynamic_pointer_cast<textured_material>(mesh->getMesh()->getComponents()[0]->getMaterial());
-        p->changeTexture (shadowMapDepthTexture);
-        sceneRenderer.draw (*camera);
+        //glActiveTexture (GL_TEXTURE0);
+
+
+        sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniform ("uShadowmapTransform", matShadow, true);
+        glActiveTexture (GL_TEXTURE0 + 4);
+        shadowMapDepthTexture->use();
+        glBindSampler (4, GL_NEAREST); //Special sampler for depth comparisons.
+
+        sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniformSampler ("uShadowMap", 4, true);
+
+        //auto p = dynamic_pointer_cast<textured_material>(mesh->getMesh()->getComponents()[0]->getMaterial());
+        //p->changeTexture (shadowMapDepthTexture);
+        //sceneRenderer.draw (*camera);
+        glActiveTexture (GL_TEXTURE0);
+        glBindSampler (0, GL_LINEAR);
+
+        glEnable (GL_DEPTH_TEST);
+        glEnable (GL_CULL_FACE);
+
+        sceneObj2->draw (*camera);
 
         //dt->saveToFile ("test-depth.jpg");
         //while (!sf::Keyboard::isKeyPressed (sf::Keyboard::Space));

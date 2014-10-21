@@ -735,6 +735,13 @@ namespace math3D
             base_t::_matrix[3][col] = x4;
         }
 
+        void setRow3 (int row, numeric_t x1, numeric_t x2, numeric_t x3, numeric_t x4)
+        {
+            base_t::_matrix[row][0] = x1;
+            base_t::_matrix[row][1] = x2;
+            base_t::_matrix[row][2] = x3;
+        }
+
 
         void setCol3 (int col, numeric_t x1, numeric_t x2, numeric_t x3)
         {
@@ -813,6 +820,26 @@ namespace math3D
                 m[row][3] = m0 * opm[0][3] + m1 * opm[1][3] + m2 * opm[2][3] + m3 /*opm[3][3]*/;
             }
 
+        #undef m
+        #undef opm
+        }
+
+
+        void multiply (const matrix_4x4<numeric_t> &op)
+        {
+        #define m   base_t::_matrix
+        #define opm op._matrix
+
+            numeric_t  m0, m1, m2, m3;
+            for (int row = 0; row <= 2; ++row)
+            {
+                m0 = m[row][0]; m1 = m[row][1]; m2 = m[row][2]; m3 = m[row][3];
+
+                m[row][0] = m0 * opm[0][0] + m1 * opm[1][0] + m2 * opm[2][0] + m3 * opm[3][0];
+                m[row][1] = m0 * opm[0][1] + m1 * opm[1][1] + m2 * opm[2][1] + m3 * opm[3][1];
+                m[row][2] = m0 * opm[0][2] + m1 * opm[1][2] + m2 * opm[2][2] + m3 * opm[3][2];
+                m[row][3] = m0 * opm[0][3] + m1 * opm[1][3] + m2 * opm[2][3] + m3 * opm[3][3];
+            }
         #undef m
         #undef opm
         }
