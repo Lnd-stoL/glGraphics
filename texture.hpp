@@ -6,15 +6,17 @@
 
 #include "oo_extensions.hpp"
 #include "resource.hpp"
+#include "gl_bindable.hpp"
 
 #include <GL/glew.h>
-#include <SOIL/SOIL.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace render
 {
-    class texture : public resource
+    class texture :
+        public resource,
+        public gl_bindable<texture>
     {
     public:
         enum filtering_t
@@ -27,6 +29,15 @@ namespace render
             anisotropic           = GL_TEXTURE_MAX_ANISOTROPY_EXT
         };
 
+
+        enum pixel_format_t
+        {
+            rgb      = GL_RGB,
+            rgba     = GL_RGBA,
+            oneFloat = GL_FLOAT
+        };
+
+
     private:
         GLuint _textureId = GL_INVALID_INDEX;
 
@@ -36,12 +47,16 @@ namespace render
 
     protected:
         bool _testValid() const;
+        void _initGLTexture();
+        texture();
 
     public:
         declare_ptr_alloc (texture)
         texture (const std::string &fileName);
-        texture (unsigned width, unsigned height);
         virtual ~texture();
+
+        static texture::ptr createEmptyRgb (unsigned width, unsigned height);
+        static texture::ptr createEmptyDepth (unsigned width, unsigned height);
 
         void use() const;
         void filtering (filtering_t shrinkFilter, filtering_t expFilter = filtering_t::linear);

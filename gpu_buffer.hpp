@@ -6,6 +6,7 @@
 
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
+#include "gl_bindable.hpp"
 
 #include <GL/glew.h>
 #include <string>
@@ -94,7 +95,8 @@ namespace render
     template<typename element_t>
     class gpu_buffer :
         public oo_extensions::i_as_string,
-        public oo_extensions::non_copyable
+        public oo_extensions::non_copyable,
+        public gl_bindable<gpu_buffer<element_t>>
     {
     protected:
         GLuint _bufferId = GL_INVALID_INDEX;

@@ -43,6 +43,9 @@ public:
     void runEventLoop();
     void saveScreenshot (const string &fileToSave);
 
+    unsigned getWidth()  const;
+    unsigned getHeight() const;
+
     double getAspectRatio() const;
 };
 

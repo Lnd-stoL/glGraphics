@@ -59,9 +59,8 @@ void render_window::runEventLoop()
 void render_window::_handleWindowResize (unsigned width, unsigned height)
 {
     //glFrustum(-1, 1, -1, 1, 1, 100000);
-    glViewport (0, 0, width, height);
-
     _sizeChangedEvent (width, height);
+    glViewport (0, 0, width, height);
 }
 
 
@@ -74,4 +73,16 @@ double render_window::getAspectRatio() const
 void render_window::saveScreenshot (const string &fileToSave)
 {
     _window.capture().saveToFile (fileToSave);
+}
+
+
+unsigned render_window::getWidth() const
+{
+    return _window.getSize().x;
+}
+
+
+unsigned render_window::getHeight() const
+{
+    return _window.getSize().y;
 }

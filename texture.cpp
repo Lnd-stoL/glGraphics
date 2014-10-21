@@ -3,6 +3,7 @@
 #include "debug.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <SOIL/SOIL.h>
 
 using oo_extensions::mkstr;
 
@@ -10,6 +11,9 @@ using oo_extensions::mkstr;
 
 namespace render
 {
+    gl_bindable_impl (texture)
+
+
     texture::texture (const std::string &fileName)
     {
         unsigned flags = SOIL_FLAG_MIPMAPS | SOIL_FLAG_COMPRESS_TO_DXT;
@@ -46,9 +50,12 @@ namespace render
 
     void texture::use() const
     {
+        if (gl_bindable::isBoundNow())  return;
+
         if (!_testValid()) return;
         glBindTexture (GL_TEXTURE_2D, _textureId);
-        debug::gl::test();
+
+        gl_bindable::_bindThis();
     }
 
 
@@ -75,13 +82,9 @@ namespace render
     }
 
 
-    texture::texture (unsigned width, unsigned height)
+    texture::texture()
     {
-        glGenTextures (1, &_textureId);
-        use();
-
-        glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-        debug::gl::test();
+        _initGLTexture();
     }
 
 
@@ -117,5 +120,48 @@ namespace render
         int height = 0;
         glGetTexLevelParameteriv (GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
         return (unsigned) height;
+    }
+
+
+    texture::ptr texture::createEmptyRgb (unsigned width, unsigned height)
+    {
+        auto txt = new texture();
+
+        txt->use();
+        glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        debug::gl::test();
+
+        txt->filtering (texture::nearest, texture::nearest);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        debug::gl::test();
+
+        return texture::ptr (txt);
+    }
+
+
+    void texture::_initGLTexture()
+    {
+        glGenTextures (1, &_textureId);
+    }
+
+
+    texture::ptr texture::createEmptyDepth (unsigned width, unsigned height)
+    {
+        auto txt = new texture();
+
+        txt->use();
+        glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+        debug::gl::test();
+
+        txt->filtering (texture::nearest, texture::nearest);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,       GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,       GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE,   GL_INTENSITY);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+        debug::gl::test();
+
+        return texture::ptr (txt);
     }
 }

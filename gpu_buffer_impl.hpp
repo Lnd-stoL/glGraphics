@@ -71,8 +71,12 @@ namespace render
     template<typename element_t>
     void gpu_buffer<element_t>::use() const
     {
+        if (gl_bindable<gpu_buffer>::isBoundNow())  return;
+
         glBindBuffer (_target, _bufferId);
         debug::gl::test();
+
+        gl_bindable<gpu_buffer>::_bindThis();
     }
 
 //----------------------------------------------------------------------------------------------------------------------

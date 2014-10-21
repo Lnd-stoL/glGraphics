@@ -8,6 +8,7 @@
 #include "math3D.hpp"
 #include "gpu_buffer.hpp"
 #include "resource.hpp"
+#include "gl_bindable.hpp"
 
 #include <GL/glew.h>
 #include <SFML/Graphics.hpp>
@@ -64,7 +65,9 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    class gpu_program : public resource
+    class gpu_program :
+        public resource,
+        public gl_bindable<gpu_program>
     {
     public:
         struct id : resource::id

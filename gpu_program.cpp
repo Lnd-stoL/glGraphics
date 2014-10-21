@@ -113,6 +113,9 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    gl_bindable_impl (gpu_program)
+
+
     gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout) : _vertexLayout (vertexLayout)
     {
         _initializeGLProgram();
@@ -231,6 +234,8 @@ namespace render
 
     void gpu_program::use() const
     {
+        if (gl_bindable<gpu_program>::isBoundNow())  return;
+
         if (!_testValid()) return;
         _bind();
 
@@ -240,6 +245,8 @@ namespace render
             glVertexAttribPointer (i, attributes[i].dimension, attributes[i].type, (GLboolean) attributes[i].normalized,
                                    (GLsizei) _vertexLayout->getStride(), (GLvoid *) attributes[i].offset);
         }
+
+        gl_bindable<gpu_program>::_bindThis();
     }
 
 
