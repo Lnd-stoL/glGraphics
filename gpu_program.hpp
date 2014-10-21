@@ -73,8 +73,8 @@ namespace render
         struct id : resource::id
         {
             i_vertex_layout::ptr _vertexLayout;
-            const string &_vertShaderFileName;
-            const string &_fragShaderFileName;
+            string _vertShaderFileName;
+            string _fragShaderFileName;
 
             id (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName) :
                 _vertexLayout (vertexLayout),

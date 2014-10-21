@@ -95,8 +95,7 @@ namespace render
     template<typename element_t>
     class gpu_buffer :
         public oo_extensions::i_as_string,
-        public oo_extensions::non_copyable,
-        public gl_bindable<gpu_buffer<element_t>>
+        public oo_extensions::non_copyable
     {
     protected:
         GLuint _bufferId = GL_INVALID_INDEX;
@@ -139,8 +138,14 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    class gl_vertex_buffer : public gl_bindable<gl_vertex_buffer>
+    {  };
+
+
     template<typename vertex_t>
-    class vertex_buffer : public gpu_buffer<vertex_t>
+    class vertex_buffer :
+        public gpu_buffer<vertex_t>,
+        public gl_vertex_buffer
     {
     protected:
         typedef gpu_buffer<vertex_t> base_t;
@@ -158,12 +163,20 @@ namespace render
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
                 base_t::gpu_buffer (GL_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
+
+        void use() const;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    class gl_index_buffer : public gl_bindable<gl_index_buffer>
+    {  };
+
+
     template<typename index_t>
-    class index_buffer : public gpu_buffer<index_t>
+    class index_buffer :
+        public gpu_buffer<index_t>,
+        public gl_index_buffer
     {
     protected:
         typedef gpu_buffer<index_t> base_t;
@@ -181,6 +194,8 @@ namespace render
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
                 base_t::gpu_buffer (GL_ELEMENT_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
+
+        void use() const;
     };
 }
 

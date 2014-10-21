@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(glGraphics)
 
-set(SOURCE_FILES main.cpp gpu_program.cpp debug.cpp static_mesh.cpp exs3d.cpp frame_buffer.cpp material.cpp camera.hpp camera.cpp texture.cpp resource_manager_impl.hpp resource.hpp resource_manager.hpp render_window.cpp mesh_renderable_object.cpp renderable.hpp fps_camera.cpp scene_renderer.cpp mesh_impl.hpp gpu_buffer_impl.hpp gpu_buffer.hpp math3D.hpp math_ex.hpp oo_extensions.hpp mesh.hpp)
+set(SOURCE_FILES main.cpp gpu_program.cpp debug.cpp static_mesh.cpp exs3d.cpp frame_buffer.cpp material.cpp gpu_buffer.cpp camera.hpp camera.cpp texture.cpp resource_manager_impl.hpp resource.hpp resource_manager.hpp render_window.cpp mesh_renderable_object.cpp renderable.hpp fps_camera.cpp scene_renderer.cpp mesh_impl.hpp gpu_buffer_impl.hpp gpu_buffer.hpp math3D.hpp math_ex.hpp oo_extensions.hpp mesh.hpp)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" CMAKE_MODULE_PATH)
 SET(CMAKE_CXX_FLAGS "-std=c++11")
 find_package(Boost 1.5.0 COMPONENTS filesystem system REQUIRED)

@@ -234,10 +234,7 @@ namespace render
 
     void gpu_program::use() const
     {
-        if (gl_bindable<gpu_program>::isBoundNow())  return;
-
         if (!_testValid()) return;
-        _bind();
 
         auto attributes = _vertexLayout->getAttributes();
         for (unsigned i = 0; i < attributes.size(); ++i)
@@ -246,6 +243,8 @@ namespace render
                                    (GLsizei) _vertexLayout->getStride(), (GLvoid *) attributes[i].offset);
         }
 
+        if (gl_bindable<gpu_program>::isBoundNow())  return;
+        _bind();
         gl_bindable<gpu_program>::_bindThis();
     }
 

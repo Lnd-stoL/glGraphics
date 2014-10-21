@@ -71,14 +71,26 @@ namespace render
     template<typename element_t>
     void gpu_buffer<element_t>::use() const
     {
-        if (gl_bindable<gpu_buffer>::isBoundNow())  return;
-
         glBindBuffer (_target, _bufferId);
         debug::gl::test();
-
-        gl_bindable<gpu_buffer>::_bindThis();
     }
 
 //----------------------------------------------------------------------------------------------------------------------
-}
 
+    template<typename vertex_t>
+    void vertex_buffer<vertex_t>::use() const
+    {
+        if (gl_vertex_buffer::isBoundNow())  return;
+        gpu_buffer<vertex_t>::use();
+        gl_vertex_buffer::_bindThis();
+    }
+
+
+    template<typename index_t>
+    void index_buffer<index_t>::use() const
+    {
+        if (gl_index_buffer::isBoundNow())  return;
+        gpu_buffer<index_t>::use();
+        gl_index_buffer::_bindThis();
+    }
+}

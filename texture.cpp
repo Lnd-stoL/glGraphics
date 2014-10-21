@@ -50,12 +50,12 @@ namespace render
 
     void texture::use() const
     {
-        if (gl_bindable::isBoundNow())  return;
+        if (gl_bindable<texture>::isBoundNow())  return;
 
         if (!_testValid()) return;
         glBindTexture (GL_TEXTURE_2D, _textureId);
 
-        gl_bindable::_bindThis();
+        gl_bindable<texture>::_bindThis();
     }
 
 

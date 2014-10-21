@@ -13,13 +13,13 @@ namespace render
 
     void frame_buffer::use() const
     {
-        if (gl_bindable::isBoundNow()) return;
+        if (gl_bindable<frame_buffer>::isBoundNow())  return;
 
         if (!_testValid())  return;
         glBindFramebuffer (GL_FRAMEBUFFER, _frameBufferId);
         debug::gl::test();
 
-        gl_bindable::_bindThis();
+        gl_bindable<frame_buffer>::_bindThis();
     }
 
 
@@ -74,6 +74,7 @@ namespace render
     void frame_buffer::useDefault()
     {
         glBindFramebuffer (GL_FRAMEBUFFER, 0);
+        gl_bindable<frame_buffer>::_bindDefault();
     }
 
 

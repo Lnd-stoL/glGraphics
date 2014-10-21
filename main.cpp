@@ -46,7 +46,7 @@ int main (int argc, char **argv)
 
     frame_buffer shadowMapFrameBuffer (window.getWidth(), window.getHeight());
     texture::ptr shadowMapDepthTexture = shadowMapFrameBuffer.attachDepthTexture();
-    texture::ptr rt = shadowMapFrameBuffer.attachColorTexture();
+    //texture::ptr rt = shadowMapFrameBuffer.attachColorTexture();
 
     auto shadowMapGenProgId = gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
                                                "/home/leonid/Dev/glGraphics/shadowmap_gen.vert", "/home/leonid/Dev/glGraphics/shadowmap_gen.frag");
@@ -63,7 +63,9 @@ int main (int argc, char **argv)
         glEnable (GL_CULL_FACE);
 
         glClearColor (1, 1, 1, 1);
-        glClear (GL_DEPTH_BUFFER_BIT);
+        glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        //shadowMapFrameBuffer.use();
 
         if (!shadowMapFrameBuffer.readyForRender())
         {

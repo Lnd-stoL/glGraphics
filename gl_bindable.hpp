@@ -23,6 +23,11 @@ namespace render
             _boundNowInGL = this;
         }
 
+        static void _bindDefault()
+        {
+            _boundNowInGL = nullptr;
+        }
+
 
     public:
         declare_ptr (gl_bindable)
@@ -34,7 +39,7 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    #define gl_bindable_impl(class_t)    const gl_bindable* gl_bindable<class_t>::_boundNowInGL = nullptr;
+    #define gl_bindable_impl(class_t)    template<> const gl_bindable<class_t>* gl_bindable<class_t>::_boundNowInGL = nullptr;
 }
 
 //----------------------------------------------------------------------------------------------------------------------
