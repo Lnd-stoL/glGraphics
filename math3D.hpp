@@ -840,6 +840,7 @@ namespace math3D
                 m[row][2] = m0 * opm[0][2] + m1 * opm[1][2] + m2 * opm[2][2] + m3 * opm[3][2];
                 m[row][3] = m0 * opm[0][3] + m1 * opm[1][3] + m2 * opm[2][3] + m3 * opm[3][3];
             }
+
         #undef m
         #undef opm
         }

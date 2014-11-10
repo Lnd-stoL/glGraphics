@@ -23,7 +23,9 @@ using math3D::vector2_f;
 
 namespace render
 {
+//----------------------------------------------------------------------------------------------------------------------
     class resources;
+//----------------------------------------------------------------------------------------------------------------------
 
     class exs3d_mesh : public resource
     {
@@ -32,7 +34,7 @@ namespace render
         {
             vector3_f coords;
             vector3_f normal;
-            vector2_f tex;
+            vector2_f texUV;
         };
 
 
@@ -43,7 +45,7 @@ namespace render
             {
                 _registerAttribute ("aCoords", attribute::tFloat, offsetof (exs3d_vertex, coords), 3);
                 _registerAttribute ("aNormal", attribute::tFloat, offsetof (exs3d_vertex, normal), 3, true);
-                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (exs3d_vertex, tex), 2);
+                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (exs3d_vertex, texUV), 2);
             }
 
         public:
@@ -67,48 +69,20 @@ namespace render
         void _loadIndices (std::ifstream &infile, vector<unsigned short> &index, unsigned totalCount) const;
         const string& _emptyLine() const;
 
-
     public:
-        property_get (Mesh, _mesh)
+        property_get (RenderableMesh, _mesh)
 
 
     public:
         declare_ptr_alloc (exs3d_mesh)
+
         exs3d_mesh (const std::string &fileName, resources &renderResources);
-        //void draw (const camera &viewer) const;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
 
     class exs3d_loader
     {
-    public:
-        struct exs3d_vertex
-        {
-            vector3_f coords;
-            vector3_f normal;
-            vector2_f tex;
-        };
-
-
-        struct exs3d_vertex_layout : vertex_layout<exs3d_vertex>
-        {
-        protected:
-            virtual void _registerAttributes()
-            {
-                _registerAttribute ("aCoords", attribute::tFloat, offsetof (exs3d_vertex, coords), 3);
-                _registerAttribute ("aNormal", attribute::tFloat, offsetof (exs3d_vertex, normal), 3, true);
-                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (exs3d_vertex, tex), 2);
-            }
-
-        public:
-            declare_ptr_alloc (exs3d_vertex_layout)
-            exs3d_vertex_layout()  { _registerAttributes(); }
-        };
-
-        typedef mesh_component<exs3d_vertex, unsigned short>  mesh_component_t;
-
-
     private:
         class loading_exception : public std::exception
         {
@@ -133,7 +107,10 @@ namespace render
         bool _checkBinary();
 
         mesh::ptr _loadBinary (resources& otherResources);
-        mesh_component_t::ptr _loadComponentBinary (resources &otherResources);
+        exs3d_mesh::mesh_component_t::ptr _loadComponentBinary (resources &otherResources);
+
+        mesh::ptr _loadText (resources& otherResources);
+        exs3d_mesh::mesh_component_t::ptr _loadComponentText (resources &otherResources);
 
 
     public:

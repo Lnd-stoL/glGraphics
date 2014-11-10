@@ -14,5 +14,7 @@ namespace render
         {
             debug::log::println_err (mkstr ("failed to load font from file '", fileName, "'"));
         }
+
+        resource::_loaded();
     }
 }

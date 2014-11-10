@@ -56,7 +56,7 @@ namespace render
             exs3d_vertex nextVertex;
             nextVertex.coords = vector3_f (cx, cy, cz);
             nextVertex.normal = vector3_f (nx, ny, nz);
-            nextVertex.tex    = vector2_f (u, v);
+            nextVertex.texUV = vector2_f (u, v);
             vertices.push_back (nextVertex);
 
             if (vertices.size() == totalCount) break;
@@ -279,4 +279,6 @@ namespace render
         debug::log::println (mkstr ("'", componentName, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));
         return mesh_component_t::alloc (mat, vertices, indices, componentName);
     }
+
+
 }
