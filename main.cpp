@@ -71,9 +71,9 @@ int main (int argc, char **argv)
     renderRes.fontsManager().addFileSearchLocation ("resources/fonts/");
 
     font::ptr textFont = renderRes.fontsManager().request ("default.ttf");
-    sf::Text text ("Test text text text", *((sf::Font*)textFont.get()), 50);
-    text.setColor (sf::Color (128, 128, 128));
-    text.setPosition (20.0f, 20.0f);
+    sf::Text text ("CPU frame time: 1ms", *((sf::Font*)textFont.get()), 15);
+    text.setColor (sf::Color (255, 0, 0));
+    text.setPosition (5.0f, 5.0f);
 
 
     window.frameDrawEvent().handleWith ([&] (const render_window& windoww) {
