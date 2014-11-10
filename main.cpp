@@ -68,6 +68,14 @@ int main (int argc, char **argv)
                                                "/home/leonid/Dev/glGraphics/shadowmap_gen.vert", "/home/leonid/Dev/glGraphics/shadowmap_gen.frag");
     auto shadowMapGenProg = renderRes.gpuProgramsManager().request (shadowMapGenProgId);
 
+
+    sf::Font font;
+    font.loadFromFile ("");
+    sf::Text text("SFML / OpenGL demo", font);
+    text.setColor(sf::Color(255, 255, 255, 170));
+    text.setPosition(250.f, 450.f);
+
+
     window.frameDrawEvent().handleWith ([&] (const render_window& window) {
         shadowMapFrameBuffer.use();
         //glViewport (0, 0, 1200, 900);
