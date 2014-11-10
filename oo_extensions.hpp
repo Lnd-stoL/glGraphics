@@ -35,7 +35,7 @@ using std::dynamic_pointer_cast;
 
 
 #define property_ref(public_name, private_name)          \
-    inline decltype(private_name)& get##public_name()    \
+    inline decltype(private_name)& public_name()         \
     {                                                    \
         return private_name;                             \
     }
@@ -45,6 +45,13 @@ using std::dynamic_pointer_cast;
     inline void set##public_name(decltype(private_name) value)  \
     {                                                           \
         private_name = value;                                   \
+    }
+
+
+#define property_set_ref(public_name, private_name)              \
+    inline void set##public_name(decltype(private_name) &value)  \
+    {                                                            \
+        private_name = value;                                    \
     }
 
 

@@ -26,7 +26,15 @@ void main()
     float shadow = 1;
     //diff = ;
     //diff = vec3 (texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5))).x) -  vec3 (vsv.z);
-    if (texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5))).x + 0.0001 < vsv.z * 0.5 + 0.5) shadow = 0.3;
+    float deltaPixel = 1 / 2000;
+    float shadowMapVal = texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5))).x +
+            texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5) + vec2 (deltaPixel, deltaPixel))).x +
+            texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5) + vec2 (-deltaPixel, -deltaPixel))).x +
+            texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5) + vec2 (-deltaPixel, deltaPixel))).x +
+            texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5) + vec2 (deltaPixel, -deltaPixel))).x;
+    shadowMapVal /= 5.0;
+
+    if (shadowMapVal + 0.000001 < (vsv.z * 0.5 + 0.5)) shadow = 0.52;
     gl_FragData[0] = vec4 ((diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60)) * shadow, 1);
     gl_FragData[0] = vec4 (diff * shadow, 1);
     //gl_FragColor = vec4 (diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60), 1);

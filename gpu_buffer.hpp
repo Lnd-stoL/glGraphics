@@ -48,13 +48,21 @@ namespace render
             }
         };
 
+
     protected:
-        virtual void _registerAttributes() = 0;
+        std::vector<attribute> _attributes;
+
+    protected:
+        void _registerAttribute (string name, attribute::type_t type, unsigned offset, unsigned dimension = 1, bool normalized = false)
+        {
+            _attributes.push_back (attribute (name, type, offset, dimension, normalized));
+        }
+
 
     public:
         declare_ptr (i_vertex_layout)
-        virtual const std::vector<attribute>& getAttributes() const = 0;
-        virtual size_t getStride() const = 0;
+        property_get_ref (Attributes, _attributes)
+        virtual size_t getStrideInBytes () const = 0;
 
         string hashString() const
         {
@@ -70,24 +78,31 @@ namespace render
     class vertex_layout :
         public i_vertex_layout
     {
-    protected:
-        std::vector<attribute> _attributes;
-
-    protected:
-        void _registerAttribute (string name, attribute::type_t type, unsigned offset, unsigned dimension = 1, bool normalized = false)
-        {
-            _attributes.push_back (attribute (name, type, offset, dimension, normalized));
-        }
-
-
     public:
-        declare_ptr_alloc (vertex_layout)
-        property_get_ref (Attributes, _attributes)
+        declare_ptr (vertex_layout)
 
-        virtual size_t getStride() const
+        virtual size_t getStrideInBytes() const
         {
             return sizeof (vertex_t);
         }
+    };
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    class dynamic_vertex_layout :
+        public i_vertex_layout
+    {
+    protected:
+        size_t _vertexSizeInBytes = 0;
+
+    public:
+        declare_ptr (dynamic_vertex_layout)
+
+        dynamic_vertex_layout (size_t vertexSizeInBytes) : _vertexSizeInBytes (vertexSizeInBytes)
+        { }
+
+        virtual size_t getStrideInBytes() const  { return _vertexSizeInBytes; };
     };
 
 //----------------------------------------------------------------------------------------------------------------------

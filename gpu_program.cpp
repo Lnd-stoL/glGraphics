@@ -240,7 +240,7 @@ namespace render
         for (unsigned i = 0; i < attributes.size(); ++i)
         {
             glVertexAttribPointer (i, attributes[i].dimension, attributes[i].type, (GLboolean) attributes[i].normalized,
-                                   (GLsizei) _vertexLayout->getStride(), (GLvoid *) attributes[i].offset);
+                                   (GLsizei) _vertexLayout->getStrideInBytes (), (GLvoid *) attributes[i].offset);
         }
 
         if (gl_bindable<gpu_program>::isBoundNow())  return;
@@ -258,7 +258,7 @@ namespace render
 
     GLuint gpu_program::_locateUniform (const string &name, bool ignoreIfNotExists) const
     {
-        GLint location = glGetUniformLocation (_programId, name.c_str());
+        GLint location = glGetUniformLocation (_programId, name.c_str());                        // TODO: Inifficient
         if (location < 0 && !ignoreIfNotExists)
         {
             debug::log::println_err (mkstr ("can't find uniform named '", name, "' in ", asString()));
@@ -277,6 +277,18 @@ namespace render
         if (location == GL_INVALID_INDEX) return;
 
         glUniformMatrix4fv (location, 1, GL_TRUE, value.raw());
+        debug::gl::test();
+    }
+
+
+    void gpu_program::setUniform (const std::string &name, float value, bool ignoreIfNotExists)
+    {
+        if (!_testValid()) return;
+        _bind();
+        GLuint location = _locateUniform (name, ignoreIfNotExists);
+        if (location == GL_INVALID_INDEX) return;
+
+        glUniform1f (location, value);
         debug::gl::test();
     }
 

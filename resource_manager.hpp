@@ -50,25 +50,4 @@ public:
 
 //----------------------------------------------------------------------------------------------------------------------
 
-#include "gpu_program.hpp"
-#include "exs3d.hpp"
-
-
-namespace render
-{
-    class resources
-    {
-        resource_manager<gpu_program> _gpuProgramsManager;
-        resource_manager<exs3d_mesh>  _meshesManager;
-        resource_manager<texture>     _texturesManager;
-
-    public:
-        property_ref (GpuProgramsManager, _gpuProgramsManager)
-        property_ref (MeshesManager,      _meshesManager)
-        property_ref (TexturesManager,    _texturesManager)
-    };
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-
 #endif

@@ -6,17 +6,20 @@
 
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
-#include "camera.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace render
 {
+    class graphics_renderer;
+
+//----------------------------------------------------------------------------------------------------------------------
+
     class renderable
     {
     public:
-        declare_ptr (renderable)
-        virtual void draw (const camera &viewer) const = 0;
+        declare_ptr (renderable);
+        virtual void draw (graphics_renderer &renderer) const = 0;
     };
 }
 

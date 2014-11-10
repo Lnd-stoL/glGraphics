@@ -1,35 +1,37 @@
 
 #include "material.hpp"
+#include "scene.hpp"
+
 using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace render
 {
-    /*virtual*/ void material::use() const
+    void technique::setup (graphics_renderer &renderer) const
     {
+        math3D::object2screen_transform_d trans = renderer.state().getObject2ScreenTransform();
+
         _renderingProgram->use();
-    }
 
-
-    /*virtual*/ void material::setupViewerTransform (const math3D::object2screen_transform_d &trans)
-    {
         _renderingProgram->setUniform ("uMatWorldTransform", trans.getWorldTransform().asMatrix().convertType<float>(), true);
         _renderingProgram->setUniform ("uViewPos", trans.getCameraTransform().getTranslation().convertType<float>(), true);
         _renderingProgram->setUniform ("uMatTransform", trans.asMatrix().convertType<float>());
     }
 
 
-    /*virtual*/ void textured_material::use() const
+    void material::setup (graphics_renderer &renderer) const
     {
-        material::use();
-        _texture->use();
-    }
+        _technique->setup (renderer);
+        for (auto param : _floatingPointParams)
+        {
+            _technique->getRenderingProgram()->setUniform (param.first, param.second, true);
+        }
 
-
-    /*virtual*/ void textured_material::setupViewerTransform (const math3D::object2screen_transform_d &trans)
-    {
-        material::setupViewerTransform (trans);
-        //_renderingProgram->setUniformSampler ("uTexture", 0);
+        for (auto texture_ : _textures)
+        {
+            texture_.second->use();
+            _technique->getRenderingProgram()->setUniformSampler (texture_.first, 0, true);
+        }
     }
 }

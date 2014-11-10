@@ -5,15 +5,11 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 #include "oo_extensions.hpp"
-#include "math3D.hpp"
 #include "gpu_program.hpp"
-#include "gpu_buffer.hpp"
-#include "camera.hpp"
 #include "texture.hpp"
 
 #include <GL/glew.h>
-#include <vector>
-#include <memory>
+#include <map>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -51,50 +47,49 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    class material
+    class graphics_renderer;
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    class technique
     {
     protected:
-        gpu_program::ptr _renderingProgram;
+        gpu_program::ptr  _renderingProgram;
 
     public:
         property_get (RenderingProgram, _renderingProgram)
 
+
     public:
-        declare_ptr_alloc (material)
-        material (gpu_program::ptr renderingProgram) : _renderingProgram (renderingProgram)
+        declare_ptr_alloc (technique)
+
+        technique (gpu_program::ptr renderingProgram) : _renderingProgram (renderingProgram)
         { }
 
-        virtual void use() const;
-        virtual void setupViewerTransform (const math3D::object2screen_transform_d &transform);
+        void setup (graphics_renderer &renderer) const;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    class textured_material : public material
+    class material
     {
     protected:
-        texture::ptr _texture;
+        technique::ptr  _technique;
+        std::map<string, texture::ptr>  _textures;
+        std::map<string, float>         _floatingPointParams;
 
     public:
-        property_get (Texture, _texture)
+        property_get (Technique, _technique)
+        property_ref (textures, _textures)
+        property_ref (floatingPointParams, _floatingPointParams)
+
 
     public:
-        declare_ptr_alloc (textured_material)
+        declare_ptr_alloc (material)
+        material (technique::ptr renderingTechnique) : _technique (renderingTechnique)
+        { }
 
-        textured_material (gpu_program::ptr renderingProgram, texture::ptr texture) :
-                material (renderingProgram),
-                _texture (texture)
-        {
-            _renderingProgram->setUniformSampler ("uTexture", 0);
-        }
-
-        void changeTexture (texture::ptr texture)
-        {
-            _texture = texture;
-        }
-
-        virtual void use() const;
-        virtual void setupViewerTransform (const math3D::object2screen_transform_d &transform);
+        void setup (graphics_renderer &renderer) const;
     };
 }
 

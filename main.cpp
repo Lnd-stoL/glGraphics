@@ -4,10 +4,11 @@
 #include "exs3d.hpp"
 #include "render_window.hpp"
 #include "fps_camera.hpp"
-#include "scene_renderer.hpp"
+#include "scene.hpp"
 #include "mesh_renderable_object.hpp"
 #include "resource_manager_impl.hpp"
 #include "frame_buffer.hpp"
+#include "render_resources.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3D;
@@ -18,51 +19,59 @@ int main (int argc, char **argv)
 {
     render_window window (1200, 900, "OpenGL Graphics");
 
-    unique_ptr<perspective_projection_d> projection (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (1, 5000)));
+    unique_ptr<perspective_projection_d> projection (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (1, 1000)));
     render::camera::ptr camera = render::camera::alloc (std::move (projection));
     camera->addTransform (transform_d (vector3_d (0, 10, 0), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 2)));
     camera->syncProjectionAspectRatio (window.sizeChangedEvent());
     fps_camera_controller cameraController (window, camera);
+    cameraController.setTranslationSpeed (cameraController.getTranslationSpeed() * 3);
 
     //unique_ptr<orthographic_projection_d> lightProj (
-    //        new orthographic_projection_d (50, window.getAspectRatio(), interval_d (1, 5000)));
-    unique_ptr<perspective_projection_d> lightProj (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (1, 5000)));
+    //        new orthographic_projection_d (10, window.getAspectRatio(), interval_d (1, 5000)));
+    unique_ptr<perspective_projection_d> lightProj (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (1, 500)));
     auto lightCamera = render::camera::alloc (std::move (lightProj));
-    lightCamera->addTransform (transform_d (vector3_d (0, 50, 20), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 4)));
+    lightCamera->addTransform (transform_d (vector3_d (0, 20, 20), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 5)));
 
     render::resources renderRes;
-    auto mesh = renderRes.getMeshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
-    auto mesh3 = renderRes.getMeshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
+    //exs3d_loader loader;
+    //auto binMesh = loader.loadMesh ("/home/leonid/Загрузки/3d1/gaz3d_bin.exs3d", renderRes);
+    //auto binMesh = renderRes.meshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes)->getMesh();
+    //auto mesh = renderRes.meshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
+    //auto mesh3 = renderRes.meshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
     //render::exs3d_mesh mesh ("/home/leonid/Загрузки/3d1/DefenderLingerie00.exs3d");
-    auto mesh2 = renderRes.getMeshesManager().request ("/home/leonid/Загрузки/Small Tropical Island/untitled.exs3d", renderRes);
-    mesh->getMesh()->removeComponent ("Cube");
+    auto mesh2 = renderRes.meshesManager().request ("/home/leonid/Загрузки/Small Tropical Island/untitled.exs3d", renderRes);
+    //mesh->getMesh()->removeComponent ("Cube");
     mesh2->getMesh()->removeComponent ("Cube");
+    //binMesh->removeComponent ("Cube");
 
     rotation_d f (vector3_d (1, 0, 0), angle_d::pi / 2);
-    mesh_renderable_object::ptr sceneObj1 = mesh_renderable_object::alloc (mesh->getMesh(), transform_d (vector3_d (0, 0, 0), f));
-
+    //mesh_renderable_object::ptr sceneObj1 = mesh_renderable_object::alloc (binMesh, transform_d (vector3_d (0, 0, 0), f));
+    //
     mesh_renderable_object::ptr sceneObj2 =
             mesh_renderable_object::alloc (mesh2->getMesh(), transform_d (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04)));
 
-    mesh_renderable_object::ptr sceneObj3 =
-            mesh_renderable_object::alloc (mesh3->getMesh(), transform_d (vector3_d (20, 0, 0), f));
+    //mesh_renderable_object::ptr sceneObj3 =
+    //        mesh_renderable_object::alloc (mesh3->getMesh(), transform_d (vector3_d (20, 0, 0), f));
 
-    render::scene_renderer sceneRenderer (window);
-    sceneRenderer.addSceneObject (sceneObj2, 0);
-    sceneRenderer.addSceneObject (sceneObj1, 1);
-    sceneRenderer.addSceneObject (sceneObj3, 1);
+    auto testScene = scene::alloc();
+    //testScene->addRenderableObject (sceneObj2, 0);
+    //testScene->addRenderableObject (sceneObj1, 1);
+    //testScene->addRenderableObject (sceneObj3, 1);
 
-    frame_buffer shadowMapFrameBuffer (window.getWidth(), window.getHeight());
+    graphics_renderer renderer;
+
+    frame_buffer shadowMapFrameBuffer (window.getWidth() * 4, window.getHeight() * 4);
     texture::ptr shadowMapDepthTexture = shadowMapFrameBuffer.attachDepthTexture();
     //texture::ptr rt = shadowMapFrameBuffer.attachColorTexture();
 
     auto shadowMapGenProgId = gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
                                                "/home/leonid/Dev/glGraphics/shadowmap_gen.vert", "/home/leonid/Dev/glGraphics/shadowmap_gen.frag");
-    auto shadowMapGenProg = renderRes.getGpuProgramsManager().request (shadowMapGenProgId);
+    auto shadowMapGenProg = renderRes.gpuProgramsManager().request (shadowMapGenProgId);
 
     window.frameDrawEvent().handleWith ([&] (const render_window& window) {
         shadowMapFrameBuffer.use();
         //glViewport (0, 0, 1200, 900);
+        glViewport (0, 0, 1200*4, 900*4);
 
         glDrawBuffer (GL_NONE);
         glReadBuffer (GL_NONE);
@@ -89,15 +98,14 @@ int main (int argc, char **argv)
 
         //sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniform ("uShadowmapTransform", matBias);
 
-        sceneObj2->draw (*lightCamera);
-        //sceneRenderer.draw (*lightCamera);
-
-        //rt->saveToFile ("test.jpg");
-        //rt->saveToFile ("test-depth.jpg");
+        renderer.state().changeCamera (lightCamera);
+        sceneObj2->draw (renderer);
+        //sceneObj1->draw (renderer);
 
         // ---------------------------------------------------------------------------------------------  Render pass
 
         frame_buffer::useDefault();
+        glViewport (0, 0, 1200, 900);
 
         glDrawBuffer (GL_BACK);
         glReadBuffer (GL_BACK);
@@ -111,12 +119,12 @@ int main (int argc, char **argv)
         //glActiveTexture (GL_TEXTURE0);
 
 
-        sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniform ("uShadowmapTransform", matShadow, true);
+        sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniform ("uShadowmapTransform", matShadow, true);
         glActiveTexture (GL_TEXTURE0 + 4);
         shadowMapDepthTexture->use();
-        glBindSampler (4, GL_NEAREST); //Special sampler for depth comparisons.
+        glBindSampler (4, GL_LINEAR);
 
-        sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniformSampler ("uShadowMap", 4, true);
+        sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniformSampler ("uShadowMap", 4, true);
 
         //auto p = dynamic_pointer_cast<textured_material>(mesh->getMesh()->getComponents()[0]->getMaterial());
         //p->changeTexture (shadowMapDepthTexture);
@@ -127,7 +135,9 @@ int main (int argc, char **argv)
         glEnable (GL_DEPTH_TEST);
         glEnable (GL_CULL_FACE);
 
-        sceneObj2->draw (*camera);
+        renderer.state().changeCamera (camera);
+        sceneObj2->draw (renderer);
+        //sceneObj1->draw (renderer);
 
         //dt->saveToFile ("test-depth.jpg");
         //while (!sf::Keyboard::isKeyPressed (sf::Keyboard::Space));

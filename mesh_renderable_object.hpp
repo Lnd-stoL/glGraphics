@@ -18,11 +18,10 @@ using math3D::perspective_projection_d;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-class mesh_renderable_object :
-        public renderable
+class mesh_renderable_object : public renderable
 {
-    static_mesh::ptr  _mesh;
-    transform_d       _transform;
+    mesh::ptr   _mesh;
+    transform_d _transform;
 
 public:
     property_get (Mesh, _mesh)
@@ -31,9 +30,9 @@ public:
 
 public:
     declare_ptr_alloc (mesh_renderable_object)
-    mesh_renderable_object (static_mesh::ptr mesh, const transform_d &transform = transform_d::ident());
+    mesh_renderable_object (mesh::ptr mesh, const transform_d &transform = transform_d::ident());
 
-    virtual void draw (const camera &viewer) const;
+    virtual void draw (graphics_renderer &renderer) const;
 };
 
 //----------------------------------------------------------------------------------------------------------------------

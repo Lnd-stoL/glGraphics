@@ -8,6 +8,7 @@
 #include "math3D.hpp"
 #include "mesh.hpp"
 #include "renderable.hpp"
+#include "binary_stream.hpp"
 #include "resource.hpp"
 
 #include <GL/glew.h>
@@ -56,10 +57,10 @@ namespace render
 
 
     protected:
-        static_mesh::ptr _mesh;
+        mesh::ptr _mesh;
 
     protected:
-        static_mesh* _loadMeshFromFile (const std::string &fileName, resources &res) const;
+        mesh* _loadMeshFromFile (const std::string &fileName, resources &res) const;
         mesh_component_t* _loadMeshComponent (std::ifstream &infile, resources &res) const;
         const string& _nextLineInFile (std::ifstream &infile) const;
         void _loadVertices (std::ifstream &infile, vector<exs3d_vertex> &vertices, unsigned totalCount) const;
@@ -74,7 +75,70 @@ namespace render
     public:
         declare_ptr_alloc (exs3d_mesh)
         exs3d_mesh (const std::string &fileName, resources &renderResources);
-        void draw (const camera &viewer) const;
+        //void draw (const camera &viewer) const;
+    };
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    class exs3d_loader
+    {
+    public:
+        struct exs3d_vertex
+        {
+            vector3_f coords;
+            vector3_f normal;
+            vector2_f tex;
+        };
+
+
+        struct exs3d_vertex_layout : vertex_layout<exs3d_vertex>
+        {
+        protected:
+            virtual void _registerAttributes()
+            {
+                _registerAttribute ("aCoords", attribute::tFloat, offsetof (exs3d_vertex, coords), 3);
+                _registerAttribute ("aNormal", attribute::tFloat, offsetof (exs3d_vertex, normal), 3, true);
+                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (exs3d_vertex, tex), 2);
+            }
+
+        public:
+            declare_ptr_alloc (exs3d_vertex_layout)
+            exs3d_vertex_layout()  { _registerAttributes(); }
+        };
+
+        typedef mesh_component<exs3d_vertex, unsigned short>  mesh_component_t;
+
+
+    private:
+        class loading_exception : public std::exception
+        {
+            string _reason;
+
+        public:
+            loading_exception (const string &reason) : _reason (reason)
+            { }
+
+            virtual const char* what() const noexcept  { return _reason.c_str(); }
+        };
+
+
+    private:
+        shared_ptr<std::ifstream>        _inputFile;
+        unique_ptr<utils::binary_reader> _inputFileReader;
+
+
+    private:
+        mesh::ptr _loadMesh (const string &fileName, resources& otherResources);
+        void _checkHeader();
+        bool _checkBinary();
+
+        mesh::ptr _loadBinary (resources& otherResources);
+        mesh_component_t::ptr _loadComponentBinary (resources &otherResources);
+
+
+    public:
+        mesh::ptr loadMesh (const string &fileName, resources& otherResources);
+
     };
 }
 

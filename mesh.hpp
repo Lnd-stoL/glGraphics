@@ -12,16 +12,14 @@
 
 #include <GL/glew.h>
 
-using math3D::object2screen_transform_d;
-
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace render
 {
-    class basic_mesh_component
+    class a_mesh_component : public renderable
     {
     protected:
-        string _name;
+        string        _name;
         material::ptr _material;
 
     public:
@@ -30,20 +28,20 @@ namespace render
 
 
     public:
-        declare_ptr_alloc (basic_mesh_component)
+        declare_ptr_alloc (a_mesh_component)
 
-        basic_mesh_component (material::ptr mat, const string &name) : _material (mat), _name (name)
+        a_mesh_component (material::ptr mat, const string &name = "<unnamed>") : _material (mat), _name (name)
         { }
 
-        virtual ~basic_mesh_component() { }
-        virtual void draw (const object2screen_transform_d &screenTransform) const = 0;
+        virtual ~a_mesh_component () { }
+        virtual void draw (graphics_renderer &renderer) const = 0;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
 
     template<typename vertex_t, typename index_t>
     class mesh_component :
-        public basic_mesh_component,
+        public a_mesh_component,
         public oo_extensions::non_copyable
     {
         typename vertex_buffer<vertex_t>::ptr _vertexBuffer;
@@ -56,7 +54,7 @@ namespace render
         mesh_component (material::ptr material,
                         typename vertex_buffer<vertex_t>::ptr vertexBuffer,
                         typename index_buffer<index_t>::ptr indexBuffer,
-                        string name = "") : basic_mesh_component (material, name),
+                        string name = "") : a_mesh_component (material, name),
                                             _vertexBuffer (vertexBuffer),
                                             _indexBuffer  (indexBuffer)
         { }
@@ -65,34 +63,62 @@ namespace render
         mesh_component (material::ptr material,
                         const vector<vertex_t> &vertices,
                         const vector<index_t>  &indices,
-                        string name = "") : basic_mesh_component (material, name),
-                                            _vertexBuffer (make_shared<vertex_buffer<vertex_t>> (vertices)),
-                                            _indexBuffer  (make_shared<index_buffer<index_t>> (indices))
+                        string name = "") : a_mesh_component (material, name),
+                                            _vertexBuffer (vertex_buffer<vertex_t>::alloc (vertices)),
+                                            _indexBuffer  (index_buffer<index_t>::alloc (indices))
         { }
 
-        void draw (const object2screen_transform_d &screenTransform) const;
+        virtual void draw (graphics_renderer &renderer) const;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    class static_mesh :
+    class mesh :
         public oo_extensions::non_copyable
     {
     protected:
-        vector<basic_mesh_component::ptr> _components;
+        vector<a_mesh_component::ptr> _components;
 
     public:
         property_get_ref (Components, _components)
 
 
     public:
-        declare_ptr_alloc (static_mesh)
-        static_mesh() { };
+        declare_ptr_alloc (mesh)
+        mesh() { };
 
-        void addComponent (basic_mesh_component::ptr component);
+        void addComponent (a_mesh_component::ptr component);
         void removeComponent (const string &name);
 
-        void draw (const object2screen_transform_d &screenTransform) const;
+        virtual void draw (graphics_renderer &renderer) const;
+    };
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    class elementary_shapes
+    {
+    public:
+        struct simple_vertex
+        {
+            math3D::vector3_f coords;
+        };
+
+        struct simple_vertex_layout : vertex_layout<simple_vertex>
+        {
+        protected:
+            virtual void _registerAttributes()
+            {
+                _registerAttribute ("aCoords", attribute::tFloat, offsetof (simple_vertex, coords), 3);
+            }
+
+        public:
+            declare_ptr_alloc (simple_vertex_layout)
+            simple_vertex_layout()  { _registerAttributes(); }
+        };
+
+
+    public:
+        static void quad (vector<simple_vertex> &vertices, vector<unsigned short> &indices);
     };
 }
 

@@ -11,7 +11,6 @@
 #include "gl_bindable.hpp"
 
 #include <GL/glew.h>
-#include <SFML/Graphics.hpp>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -119,6 +118,7 @@ namespace render
         void link();
         void use() const;
 
+        void setUniform (const string &name, float value, bool ignoreIfNotExists = false);
         void setUniform (const string &name, const math3D::matrix_4x4<float> &value, bool ignoreIfNotExists = false);
         void setUniform (const string &name, const math3D::vector3_f &value, bool ignoreIfNotExists = false);
         void setUniformSampler (const string &name, unsigned textureIndex, bool ignoreIfNotExists = false);

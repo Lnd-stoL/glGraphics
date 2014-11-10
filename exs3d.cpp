@@ -2,6 +2,10 @@
 #include "exs3d.hpp"
 #include "mesh_impl.hpp"
 #include "resource_manager_impl.hpp"
+#include "render_resources.hpp"
+#include "binary_stream_impl.hpp"
+
+#include "3rd-party/forsythtriangleorderoptimizer.h"
 
 using oo_extensions::mkstr;
 
@@ -112,7 +116,7 @@ namespace render
                 parser >> textureName >> textureName;
 
                 textureName = mkstr ("/home/leonid/Загрузки/3d1/", textureName);
-                componentTexture = renderResources.getTexturesManager().request (textureName);
+                componentTexture = renderResources.texturesManager().request (textureName);
 
                 continue;
             }
@@ -145,18 +149,22 @@ namespace render
             return nullptr;
         }
 
-        auto shader = renderResources.getGpuProgramsManager().request (gpu_program::id (exs3d_vertex_layout::alloc(),
+        //vector<unsigned short> indicesCopy (indices.size());
+        //Forsyth::OptimizeFaces (indices.data(), indices.size(), vertices.size(), indicesCopy.data(), 20);
+
+        auto shader = renderResources.gpuProgramsManager().request (gpu_program::id (exs3d_vertex_layout::alloc(),
                                                                                         "/home/leonid/Dev/glGraphics/shader.vert", "/home/leonid/Dev/glGraphics/shader.frag"));
         //auto shader = gpu_program::alloc (exs3d_vertex_layout::alloc(), "shader.vert", "shader.frag");
         if (componentTexture) componentTexture->filtering (texture::linear_MipmapLinear);
-        auto mat = textured_material::alloc (shader, componentTexture);
+        auto mat = material::alloc (technique::alloc (shader));
+        mat->textures()["uTexture"] = componentTexture;
 
         debug::log::println (mkstr ("'", componentName, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));
         return new mesh_component_t (mat, vertices, indices, componentName);
     }
 
 
-    static_mesh* exs3d_mesh::_loadMeshFromFile (const std::string& fileName, resources &renderResources) const
+    mesh * exs3d_mesh::_loadMeshFromFile (const std::string& fileName, resources &renderResources) const
     {
         debug::log::println (mkstr ("started loading exs3d from '", fileName, "'"));
 
@@ -174,21 +182,101 @@ namespace render
             return nullptr;
         }
 
-        static_mesh *mesh = new static_mesh();
+        mesh *mesh_ = new mesh;
         while (infile)
         {
             auto ptr = _loadMeshComponent (infile, renderResources);
             if (ptr == nullptr) break;
             auto nextComponent = shared_ptr<mesh_component_t> (ptr);
-            mesh->addComponent (nextComponent);
+            mesh_->addComponent (nextComponent);
         }
+
+        return mesh_;
+    }
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+    mesh::ptr exs3d_loader::loadMesh (const string &fileName, resources &otherResources)
+    {
+        try { return _loadMesh (fileName, otherResources); }
+        catch (const loading_exception &loadingException)
+        {
+            debug::log::println_err (mkstr ("error loading exs3d from '", fileName, "': ", loadingException.what()));
+        }
+
+        _inputFileReader = unique_ptr<utils::binary_reader>();
+        return mesh::ptr();
+    }
+
+
+    mesh::ptr exs3d_loader::_loadMesh (const string &fileName, resources &otherResources)
+    {
+        debug::log::println (mkstr ("starting loading exs3d mesh from '", fileName, "'"));
+        if (!boost::filesystem::exists (fileName))  throw loading_exception ("the file doesn't exist");
+
+        _inputFile = std::make_shared<std::ifstream> (fileName, std::ios_base::binary);
+        _inputFileReader = unique_ptr<utils::binary_reader> (new utils::binary_reader (_inputFile));
+
+        _checkHeader();
+        if (_checkBinary()) return _loadBinary (otherResources);
+
+        return mesh::ptr();  // TODO: parse text version also
+    }
+
+
+    void exs3d_loader::_checkHeader()
+    {
+        const size_t headerSize = 5;
+        string header = _inputFileReader->readString (headerSize);
+        if (header != "exs3d")  throw loading_exception ("invalid or corrupted file");
+    }
+
+
+    bool exs3d_loader::_checkBinary()
+    {
+        const size_t blockSize = 3;
+        string typeBlock = _inputFileReader->readString (blockSize);
+        return typeBlock == "bin";
+    }
+
+
+    mesh::ptr exs3d_loader::_loadBinary (resources &otherResources)
+    {
+        debug::log::println ("loading exs3d as binary");
+        auto mesh = mesh::alloc();
+
+        while (!_inputFile->eof())
+            mesh->addComponent (_loadComponentBinary (otherResources));
 
         return mesh;
     }
 
 
-    void exs3d_mesh::draw (const camera &viewer) const
+    exs3d_loader::mesh_component_t::ptr exs3d_loader::_loadComponentBinary (resources &otherResources)
     {
-        //_mesh->draw (viewer);
+        string componentName = _inputFileReader->readShortString();
+        debug::log::println (mkstr ("loading component '", componentName, "'"));
+        string textureName = _inputFileReader->readShortString();
+
+        texture::ptr componentTexture;
+        if (textureName.length())
+        {
+            textureName = mkstr ("/home/leonid/Загрузки/3d1/", textureName);
+            componentTexture = otherResources.texturesManager().acquireFromFile (textureName);
+        }
+
+        vector<exs3d_vertex> vertices = _inputFileReader->readArrayOf<exs3d_vertex>();
+        vector<unsigned short> indices = _inputFileReader->readArrayOf<unsigned short>();
+
+        auto shader = otherResources.gpuProgramsManager().request (gpu_program::id (exs3d_vertex_layout::alloc(),
+                                                                                        "/home/leonid/Dev/glGraphics/shader.vert", "/home/leonid/Dev/glGraphics/shader.frag"));
+        if (componentTexture)  componentTexture->filtering (texture::linear_MipmapLinear);
+        auto mat = material::alloc (technique::alloc (shader));
+        mat->textures()["uTexture"] = componentTexture;
+
+        debug::log::println (mkstr ("'", componentName, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));
+        return mesh_component_t::alloc (mat, vertices, indices, componentName);
     }
 }
