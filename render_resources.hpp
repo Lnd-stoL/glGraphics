@@ -21,9 +21,14 @@ namespace render
 
     public:
         property_ref (gpuProgramsManager, _gpuProgramsManager)
-        property_ref (meshesManager,      _meshesManager)
+        property_ref (exs3dMeshesManager, _meshesManager)
         property_ref (texturesManager,    _texturesManager)
         property_ref (fontsManager,       _fontsManager)
+
+
+    public:
+        template<typename resource_t>
+        typename resource_t::ptr requestFromFile (const string &fileName);
     };
 }
 

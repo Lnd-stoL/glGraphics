@@ -26,9 +26,11 @@ public:
 
 public:
     declare_ptr (resource)
+
     virtual ~resource()  { };
     virtual string asString() const  { return "<resource>"; }
 
+    virtual vector<string> supportedFileExtensions() const  { return vector<string>(); };
     bool isValidAsResource()  { return !_wasChangedAfterLoading; }
 };
 

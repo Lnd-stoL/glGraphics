@@ -30,7 +30,7 @@ namespace render
     class exs3d_mesh : public resource
     {
     public:
-        struct exs3d_vertex
+        struct vertex
         {
             vector3_f coords;
             vector3_f normal;
@@ -38,14 +38,14 @@ namespace render
         };
 
 
-        struct exs3d_vertex_layout : vertex_layout<exs3d_vertex>
+        struct exs3d_vertex_layout : vertex_layout<vertex>
         {
         protected:
             virtual void _registerAttributes()
             {
-                _registerAttribute ("aCoords", attribute::tFloat, offsetof (exs3d_vertex, coords), 3);
-                _registerAttribute ("aNormal", attribute::tFloat, offsetof (exs3d_vertex, normal), 3, true);
-                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (exs3d_vertex, texUV), 2);
+                _registerAttribute ("aCoords", attribute::tFloat, offsetof (vertex, coords), 3);
+                _registerAttribute ("aNormal", attribute::tFloat, offsetof (vertex, normal), 3, true);
+                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (vertex, texUV), 2);
             }
 
         public:
@@ -55,19 +55,11 @@ namespace render
 
 
     public:
-        typedef mesh_component<exs3d_vertex, unsigned short> mesh_component_t;
+        typedef mesh_component<vertex, unsigned short> mesh_component_t;
 
 
     protected:
         mesh::ptr _mesh;
-
-    protected:
-        mesh* _loadMeshFromFile (const std::string &fileName, resources &res) const;
-        mesh_component_t* _loadMeshComponent (std::ifstream &infile, resources &res) const;
-        const string& _nextLineInFile (std::ifstream &infile) const;
-        void _loadVertices (std::ifstream &infile, vector<exs3d_vertex> &vertices, unsigned totalCount) const;
-        void _loadIndices (std::ifstream &infile, vector<unsigned short> &index, unsigned totalCount) const;
-        const string& _emptyLine() const;
 
     public:
         property_get (RenderableMesh, _mesh)
@@ -97,6 +89,7 @@ namespace render
 
 
     private:
+        string                           _inputFileName   = "";
         shared_ptr<std::ifstream>        _inputFile;
         unique_ptr<utils::binary_reader> _inputFileReader;
 
@@ -112,10 +105,15 @@ namespace render
         mesh::ptr _loadText (resources& otherResources);
         exs3d_mesh::mesh_component_t::ptr _loadComponentText (resources &otherResources);
 
+        void _loadVertices_Text (vector<exs3d_mesh::vertex> &vertices, unsigned totalCount) const;
+        void _loadIndices_Text (vector<unsigned short> &index, unsigned totalCount) const;
+
+        const string& _nextLineInFile() const;
+        const string& _emptyLine() const;
+
 
     public:
         mesh::ptr loadMesh (const string &fileName, resources& otherResources);
-
     };
 }
 

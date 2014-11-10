@@ -9,6 +9,7 @@
 #include "resource_manager_impl.hpp"
 #include "frame_buffer.hpp"
 #include "render_resources.hpp"
+#include "render_resources_impl.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3D;
@@ -17,6 +18,7 @@ using namespace math3D;
 
 int main (int argc, char **argv)
 {
+    debug::log::println ("initializing OpenGL render window ...");
     render_window window (1200, 900, "OpenGL Graphics");
 
     unique_ptr<perspective_projection_d> projection (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (1, 1000)));
@@ -39,16 +41,17 @@ int main (int argc, char **argv)
     //auto mesh = renderRes.meshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
     //auto mesh3 = renderRes.meshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
     //render::exs3d_mesh mesh ("/home/leonid/Загрузки/3d1/DefenderLingerie00.exs3d");
-    auto mesh2 = renderRes.meshesManager().request ("/home/leonid/Загрузки/Small Tropical Island/untitled.exs3d", renderRes);
+    auto mesh2 = renderRes.requestFromFile<exs3d_mesh> ("/home/leonid/Загрузки/Small Tropical Island/untitled.exs3d");
     //mesh->getMesh()->removeComponent ("Cube");
-    mesh2->getMesh()->removeComponent ("Cube");
+
+    mesh2->getRenderableMesh()->removeComponent ("Cube");
     //binMesh->removeComponent ("Cube");
 
     rotation_d f (vector3_d (1, 0, 0), angle_d::pi / 2);
     //mesh_renderable_object::ptr sceneObj1 = mesh_renderable_object::alloc (binMesh, transform_d (vector3_d (0, 0, 0), f));
     //
     mesh_renderable_object::ptr sceneObj2 =
-            mesh_renderable_object::alloc (mesh2->getMesh(), transform_d (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04)));
+            mesh_renderable_object::alloc (mesh2->getRenderableMesh(), transform_d (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04)));
 
     //mesh_renderable_object::ptr sceneObj3 =
     //        mesh_renderable_object::alloc (mesh3->getMesh(), transform_d (vector3_d (20, 0, 0), f));
