@@ -56,11 +56,11 @@ rotation_d fps_camera_controller::_updateRotation()
 
         if (std::abs (mouseDeltaX) < 100 && std::abs (mouseDeltaY) < 100)
         {
-            deltaRot.combine (rotation_d (yvec, _rotationSpeed * mouseDeltaX));
-
             double deltaYaw = _rotationSpeed * mouseDeltaY;
             _yaw += deltaYaw;
-            if (abs (_yaw) < angle_d::pi / 2 - 0.001) deltaRot.combine (rotation_d (xvec, deltaYaw));
+            if (abs (_yaw) < angle_d::pi / 2 - 0.001)  deltaRot.combine (rotation_d (xvec, deltaYaw));
+
+            deltaRot.combine (rotation_d (yvec, _rotationSpeed * mouseDeltaX));
         }
     }
 

@@ -42,7 +42,9 @@ public:
     typename resource_t::ptr request (const typename resource_t::id &resourceId, args_t&&... ctorArgs);
 
     template<typename ...args_t>
-    typename resource_t::ptr request (const string &fileName, const vector<string> &additionalSearchLocations, args_t&&... ctorArgs);
+    typename resource_t::ptr requestWithAdditionalLoactions (const string &fileName,
+                                                             const vector<string> &additionalSearchLocations,
+                                                             args_t&&... ctorArgs);
 
     template<typename ...args_t>
     typename resource_t::ptr request (const string &fileName, args_t&&... ctorArgs);

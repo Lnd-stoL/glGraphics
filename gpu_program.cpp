@@ -1,6 +1,8 @@
 
 #include "gpu_program.hpp"
-#include "resource_manager.hpp"
+
+#include "render_resources.hpp"
+#include "resource_manager_impl.hpp"
 
 using oo_extensions::mkstr;
 
@@ -132,10 +134,11 @@ namespace render
 
     gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout,
                               const std::string &vertShaderFileName,
-                              const std::string &fragShaderFileName) : gpu_program (vertexLayout)
+                              const std::string &fragShaderFileName,
+                              resources &renderResources) : gpu_program (vertexLayout)
     {
-        vertex_shader   vshader (vertShaderFileName);
-        fragment_shader fshader (fragShaderFileName);
+        vertex_shader   vshader (renderResources.gpuProgramsManager().locateFile (vertShaderFileName));
+        fragment_shader fshader (renderResources.gpuProgramsManager().locateFile (fragShaderFileName));
 
         _attachAndLink (vshader, fshader);
     }
@@ -341,8 +344,8 @@ namespace render
     }
 
 
-    gpu_program::gpu_program (const gpu_program::id &resourceId) :
-        gpu_program (resourceId._vertexLayout, resourceId._vertShaderFileName, resourceId._fragShaderFileName)
+    gpu_program::gpu_program (const gpu_program::id &resourceId, resources &renderResources) :
+        gpu_program (resourceId._vertexLayout, resourceId._vertShaderFileName, resourceId._fragShaderFileName, renderResources)
     {
         resource::_loaded();
     }

@@ -1,4 +1,9 @@
 
+#ifndef __resource_manager_impl_included__
+#define __resource_manager_impl_included__
+
+//----------------------------------------------------------------------------------------------------------------------
+
 #include "resource_manager.hpp"
 
 #include <algorithm>
@@ -17,7 +22,7 @@ template<typename resource_t>
 string resource_manager<resource_t>::locateFile (string filename)
 {
     fs::path locatedFile;
-    _findFile (filename, locatedFile, vector<string>());
+    if (!_findFile (filename, locatedFile, vector<string>()))  return "";
     return locatedFile.string();
 }
 
@@ -29,7 +34,7 @@ _findFile (const string &fileName, fs::path& foundIn, const vector<string> &addi
     fs::path filePath (fileName);
     if (!filePath.is_absolute())
     {
-        for (auto nextFindLoc : boost::join (_fileLocations, additionalSearchLocations))
+        for (auto nextFindLoc : boost::join (additionalSearchLocations, _fileLocations))
         {
             fs::path supposedPath = fs::path (nextFindLoc) / fileName;
             supposedPath.normalize();
@@ -93,7 +98,7 @@ typename resource_t::ptr resource_manager<resource_t>::request (const typename r
 template<typename resource_t>
 template<typename ...args_t>
 typename resource_t::ptr resource_manager<resource_t>::
-request (const string &fileName, const vector<string> &additionalSearchLocations, args_t&&... ctorArgs)
+requestWithAdditionalLoactions (const string &fileName, const vector<string> &additionalSearchLocations, args_t&&... ctorArgs)
 {
     return _requestFromFile (fileName, additionalSearchLocations, std::forward<args_t> (ctorArgs)...);
 }
@@ -105,3 +110,7 @@ typename resource_t::ptr resource_manager<resource_t>::request (const string &fi
 {
     return _requestFromFile (fileName, vector<string>(), std::forward<args_t> (ctorArgs)...);
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+#endif

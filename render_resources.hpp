@@ -8,6 +8,7 @@
 #include "exs3d.hpp"
 #include "texture.hpp"
 #include "font_resource.hpp"
+#include "resource_manager.hpp"
 
 
 namespace render

@@ -35,13 +35,17 @@ int main (int argc, char **argv)
     lightCamera->addTransform (transform_d (vector3_d (0, 20, 20), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 5)));
 
     render::resources renderRes;
+    renderRes.exs3dMeshesManager().addFileSearchLocation ("resources/models");
+    renderRes.gpuProgramsManager().addFileSearchLocation ("resources/shaders");
+    renderRes.fontsManager().addFileSearchLocation ("resources/fonts");
     //exs3d_loader loader;
     //auto binMesh = loader.loadMesh ("/home/leonid/Загрузки/3d1/gaz3d_bin.exs3d", renderRes);
     //auto binMesh = renderRes.meshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes)->getMesh();
     //auto mesh = renderRes.meshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
     //auto mesh3 = renderRes.meshesManager().request ("/home/leonid/Загрузки/3d1/gaz3d.exs3d", renderRes);
     //render::exs3d_mesh mesh ("/home/leonid/Загрузки/3d1/DefenderLingerie00.exs3d");
-    auto mesh2 = renderRes.requestFromFile<exs3d_mesh> ("/home/leonid/Загрузки/Small Tropical Island/untitled.exs3d");
+    auto mesh2 = renderRes.requestFromFile<exs3d_mesh> ("tropical-island/tropical-island.exs3d");
+    //auto mesh2 = renderRes.requestFromFile<exs3d_mesh> ("wooden-house/wooden-house.exs3d");
     //mesh->getMesh()->removeComponent ("Cube");
 
     mesh2->getRenderableMesh()->removeComponent ("Cube");
@@ -67,15 +71,13 @@ int main (int argc, char **argv)
     texture::ptr shadowMapDepthTexture = shadowMapFrameBuffer.attachDepthTexture();
     //texture::ptr rt = shadowMapFrameBuffer.attachColorTexture();
 
-    auto shadowMapGenProgId = gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
-                                               "/home/leonid/Dev/glGraphics/shadowmap_gen.vert", "/home/leonid/Dev/glGraphics/shadowmap_gen.frag");
-    auto shadowMapGenProg = renderRes.gpuProgramsManager().request (shadowMapGenProgId);
+    //auto shadowMapGenProgId = gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
+    //                                           "/home/leonid/Dev/glGraphics/shadowmap_gen.vert", "/home/leonid/Dev/glGraphics/shadowmap_gen.frag");
+    //auto shadowMapGenProg = renderRes.gpuProgramsManager().request (shadowMapGenProgId);
 
-    renderRes.fontsManager().addFileSearchLocation ("resources/fonts/");
-
-    font::ptr textFont = renderRes.fontsManager().request ("default.ttf");
-    sf::Text text ("CPU frame time: 1ms", *((sf::Font*)textFont.get()), 15);
-    text.setColor (sf::Color (255, 0, 0));
+    font::ptr textFont = renderRes.requestFromFile<font> ("default-semibold.ttf");
+    sf::Text text ("CPU frame time: 1ms", *((sf::Font*)textFont.get()), 18);
+    text.setColor (sf::Color (220, 50, 50, 200));
     text.setPosition (5.0f, 5.0f);
 
 

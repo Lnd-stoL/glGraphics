@@ -5,9 +5,12 @@
 #include "render_resources.hpp"
 #include "binary_stream_impl.hpp"
 
+#include <boost/filesystem.hpp>
+
 #include "3rd-party/forsythtriangleorderoptimizer.h"
 
 using oo_extensions::mkstr;
+namespace fs = boost::filesystem;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -54,6 +57,7 @@ namespace render
         _inputFile = std::make_shared<std::ifstream> (fileName, std::ios_base::binary);
         _inputFileReader = unique_ptr<utils::binary_reader> (new utils::binary_reader (_inputFile));
 
+        _fillAdditionalSearchLocations();
         _checkHeader();
 
         mesh::ptr loadedMesh;
@@ -98,24 +102,10 @@ namespace render
         debug::log::println (mkstr ("loading component '", componentName, "'"));
         string textureName = _inputFileReader->readShortString();
 
-        texture::ptr componentTexture;
-        if (textureName.length())
-        {
-            textureName = mkstr ("/home/leonid/Загрузки/3d1/", textureName);
-            componentTexture = otherResources.texturesManager().request (textureName);
-        }
-
         vector<exs3d_mesh::vertex> vertices = _inputFileReader->readArrayOf<exs3d_mesh::vertex>();
         vector<unsigned short> indices = _inputFileReader->readArrayOf<unsigned short>();
 
-        auto shader = otherResources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
-                                                                                        "/home/leonid/Dev/glGraphics/shader.vert", "/home/leonid/Dev/glGraphics/shader.frag"));
-        if (componentTexture)  componentTexture->filtering (texture::linear_MipmapLinear);
-        auto mat = material::alloc (technique::alloc (shader));
-        mat->textures()["uTexture"] = componentTexture;
-
-        debug::log::println (mkstr ("'", componentName, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));
-        return exs3d_mesh::mesh_component_t::alloc (mat, vertices, indices, componentName);
+        return _constructComponent (otherResources, componentName, vertices, indices, textureName);
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -206,7 +196,7 @@ namespace render
     {
         vector<exs3d_mesh::vertex> vertices;
         vector<unsigned short> indices;
-        texture::ptr componentTexture;
+        string textureName;
         string componentName;
 
         auto nextLine = _nextLineInFile();
@@ -228,11 +218,7 @@ namespace render
             if (nextLine.find ("texture") == 0)
             {
                 std::istringstream parser (nextLine);
-                string textureName;
                 parser >> textureName >> textureName;
-
-                textureName = mkstr ("/home/leonid/Загрузки/3d1/", textureName);
-                componentTexture = otherResources.texturesManager().request (textureName);
 
                 continue;
             }
@@ -260,18 +246,42 @@ namespace render
             }
 
             throw loading_exception ("error loading exs3d; expecting vertices or faces");
-            return nullptr;
         }
 
-        auto shader = otherResources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
-                                                                                     "/home/leonid/Dev/glGraphics/shader.vert", "/home/leonid/Dev/glGraphics/shader.frag"));
+        return _constructComponent (otherResources, componentName, vertices, indices, textureName);
+    }
 
-        //auto shader = gpu_program::alloc (exs3d_vertex_layout::alloc(), "shader.vert", "shader.frag");
-        if (componentTexture) componentTexture->filtering (texture::linear_MipmapLinear);
+
+    exs3d_mesh::mesh_component_t::ptr
+    exs3d_loader::_constructComponent (resources &otherResources, string name, vector<exs3d_mesh::vertex> &vertices,
+                                        vector<unsigned short> &indices, string textureName)
+    {
+        auto vertexLayout = exs3d_mesh::exs3d_vertex_layout::alloc();
+        auto shaderResourceId = gpu_program::id (vertexLayout, "shader.vert", "shader.frag");
+        auto shader = otherResources.gpuProgramsManager().request (shaderResourceId, otherResources);
         auto mat = material::alloc (technique::alloc (shader));
-        mat->textures()["uTexture"] = componentTexture;
 
-        debug::log::println (mkstr ("component '", componentName, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));
-        return exs3d_mesh::mesh_component_t::alloc (mat, vertices, indices, componentName);
+        if (!textureName.empty())
+        {
+            auto txt = otherResources.texturesManager().requestWithAdditionalLoactions (textureName,
+                                                                                        _additionalSearchLocations);
+            txt->filtering (texture::linear_MipmapLinear);
+            mat->textures()["uTexture"] = txt;
+        }
+
+        debug::log::println (mkstr ("component '", name, "' loaded ", vertices.size(), " vertices;  ", indices.size() / 3, " faces"));
+        return exs3d_mesh::mesh_component_t::alloc (mat, vertices, indices, name);
+    }
+
+
+    void exs3d_loader::_fillAdditionalSearchLocations()
+    {
+        fs::path pathToInputFile (_inputFileName);
+        pathToInputFile.remove_filename();
+
+        _additionalSearchLocations.clear();
+        _additionalSearchLocations.resize (2);
+        _additionalSearchLocations[0] = pathToInputFile.string();
+        _additionalSearchLocations[1] = (pathToInputFile / "textures").string();
     }
 }
