@@ -60,7 +60,7 @@ int main (int argc, char **argv)
 
     graphics_renderer renderer;
 
-    frame_buffer shadowMapFrameBuffer (window.getWidth() * 4, window.getHeight() * 4);
+    frame_buffer shadowMapFrameBuffer (window.getWidth() * 2, window.getHeight() * 2);
     texture::ptr shadowMapDepthTexture = shadowMapFrameBuffer.attachDepthTexture();
     //texture::ptr rt = shadowMapFrameBuffer.attachColorTexture();
 
@@ -68,18 +68,18 @@ int main (int argc, char **argv)
                                                "/home/leonid/Dev/glGraphics/shadowmap_gen.vert", "/home/leonid/Dev/glGraphics/shadowmap_gen.frag");
     auto shadowMapGenProg = renderRes.gpuProgramsManager().request (shadowMapGenProgId);
 
+    renderRes.fontsManager().addFileSearchLocation ("resources/fonts/");
 
-    sf::Font font;
-    font.loadFromFile ("");
-    sf::Text text("SFML / OpenGL demo", font);
-    text.setColor(sf::Color(255, 255, 255, 170));
-    text.setPosition(250.f, 450.f);
+    font::ptr textFont = renderRes.fontsManager().request ("default.ttf");
+    sf::Text text ("Test text text text", *((sf::Font*)textFont.get()), 50);
+    text.setColor (sf::Color (128, 128, 128));
+    text.setPosition (20.0f, 20.0f);
 
 
-    window.frameDrawEvent().handleWith ([&] (const render_window& window) {
+    window.frameDrawEvent().handleWith ([&] (const render_window& windoww) {
         shadowMapFrameBuffer.use();
         //glViewport (0, 0, 1200, 900);
-        glViewport (0, 0, 1200*4, 900*4);
+        glViewport (0, 0, 1200*2, 900*2);
 
         glDrawBuffer (GL_NONE);
         glReadBuffer (GL_NONE);
@@ -149,6 +149,13 @@ int main (int argc, char **argv)
 
         //dt->saveToFile ("test-depth.jpg");
         //while (!sf::Keyboard::isKeyPressed (sf::Keyboard::Space));
+
+
+        glBindBuffer (GL_ARRAY_BUFFER, 0);
+        glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, 0);
+
+        window.sfmlWindow().resetGLStates();
+        window.sfmlWindow().draw (text);
     });
 
 

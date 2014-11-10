@@ -26,6 +26,7 @@ class render_window :
 
 
 public:
+    property_ref (sfmlWindow, _window)
     property_get_ref (SfmlWindow, _window)
 
     event_access (frameUpdate, _frameUpdateEvent)

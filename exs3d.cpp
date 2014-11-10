@@ -264,7 +264,7 @@ namespace render
         if (textureName.length())
         {
             textureName = mkstr ("/home/leonid/Загрузки/3d1/", textureName);
-            componentTexture = otherResources.texturesManager().acquireFromFile (textureName);
+            componentTexture = otherResources.texturesManager().request (textureName);
         }
 
         vector<exs3d_vertex> vertices = _inputFileReader->readArrayOf<exs3d_vertex>();

@@ -9,7 +9,7 @@ using oo_extensions::mkstr;
 fps_camera_controller::fps_camera_controller (render_window &window, render::camera::ptr controlledCamera) :
     _controlledCamera (controlledCamera),
     _window (window),
-    _lastMousePos (sf::Mouse::getPosition (window.getSfmlWindow()))
+    _lastMousePos (sf::Mouse::getPosition (window.sfmlWindow()))
 {
     window.frameUpdateEvent().handleWith ([this](const render_window&) { _handleFrameUpdate(); });
 }

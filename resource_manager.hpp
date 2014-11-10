@@ -36,7 +36,7 @@ protected:
 
 public:
     void addFileSearchLocation (const string &location);
-    typename resource_t::ptr acquireFromFile (const string &fileName, const vector<string> &additionalSearchLocations = vector<string>());
+    string locateFile (string filename);
 
     template<typename ...args_t>
     typename resource_t::ptr request (const typename resource_t::id &resourceId, args_t&&... ctorArgs);

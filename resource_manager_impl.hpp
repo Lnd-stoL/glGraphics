@@ -14,21 +14,11 @@ void resource_manager<resource_t>::addFileSearchLocation (const string &location
 
 
 template<typename resource_t>
-typename resource_t::ptr resource_manager<resource_t>::
-acquireFromFile (const string &fileName, const vector<string> &additionalSearchLocations)
+string resource_manager<resource_t>::locateFile (string filename)
 {
-    debug::log::println (mkstr ("resource manager: acquired '", fileName, "'"));
-
-    fs::path foundIn;
-    if (!_findFile (fileName, foundIn, additionalSearchLocations))  return typename resource_t::ptr();
-    foundIn = fs::absolute (foundIn);
-
-    auto foundInAlreadyLoaded = _loadedResources.find (foundIn.string());
-    if (foundInAlreadyLoaded != _loadedResources.end())  return foundInAlreadyLoaded->second;
-
-    auto loadedResource = resource_t::alloc (foundIn.string());
-    _loadedResources[foundIn.string()] = loadedResource;
-    return loadedResource;
+    fs::path locatedFile;
+    _findFile (filename, locatedFile, vector<string>());
+    return locatedFile.string();
 }
 
 
@@ -42,6 +32,7 @@ _findFile (const string &fileName, fs::path& foundIn, const vector<string> &addi
         for (auto nextFindLoc : boost::join (_fileLocations, additionalSearchLocations))
         {
             fs::path supposedPath = fs::path (nextFindLoc) / fileName;
+            supposedPath.normalize();
             if (fs::exists (supposedPath))
             {
                 foundIn = supposedPath;

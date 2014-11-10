@@ -24,9 +24,7 @@ void main()
     vec3 diff = texture2D (uTexture, vTexUV).xyz * max (0.1, dot (normal, light2Vert));
     vec3 vsv = vShadowmapVert.xyz / vShadowmapVert.w;
     float shadow = 1;
-    //diff = ;
-    //diff = vec3 (texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5))).x) -  vec3 (vsv.z);
-    float deltaPixel = 1 / 2000;
+    float deltaPixel = 1 / 1000;
     float shadowMapVal = texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5))).x +
             texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5) + vec2 (deltaPixel, deltaPixel))).x +
             texture2D (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5) + vec2 (-deltaPixel, -deltaPixel))).x +
