@@ -107,17 +107,14 @@ void demo_scene::_frameRender()
     glDrawBuffer (GL_NONE);
     glReadBuffer (GL_NONE);
 
-    glEnable (GL_DEPTH_TEST);
-    glEnable (GL_CULL_FACE);
-
     glClearColor (1, 1, 1, 1);
     glClear (GL_DEPTH_BUFFER_BIT);
 
     object2screen_transform_d shadowMapTranfrom (_islandObject->getTransform(), _lightTransform, _shadowmapCamera->getProjection());
-    matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
-    matBias.setRow3 (3, 0.5f, 0.5f, 0.5f, 0.5f);
+    //matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
+    //matBias.setRow3 (3, 0.5f, 0.5f, 0.5f, 0.5f);
     auto matShadow = shadowMapTranfrom.asMatrix().convertType<float>();
-    matBias.multiply (matShadow);
+    //matBias.multiply (matShadow);
 
     //sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniform ("uShadowmapTransform", matBias);
 
@@ -141,12 +138,7 @@ void demo_scene::_frameRender()
     glBindSampler (4, GL_LINEAR);
 
     _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniformSampler ("uShadowMap", 4, true);
-
     glActiveTexture (GL_TEXTURE0);
-    //glBindSampler (0, GL_LINEAR);
-
-    glEnable (GL_DEPTH_TEST);
-    glEnable (GL_CULL_FACE);
 
     _renderer.state().changeCamera (_viewerCamera);
     _islandObject->draw (_renderer);
