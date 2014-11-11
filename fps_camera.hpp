@@ -19,8 +19,8 @@ class fps_camera_controller
     render::camera::ptr  _controlledCamera;
     const render_window  &_window;
 
-    double _rotationSpeed    = 1.0 / 400.0;
-    double _translationSpeed = 1.0 / 15.0;
+    double _rotationSpeed    = 1.0 / 300.0;
+    double _translationSpeed = 1.0 / 3.0;
 
     sf::Vector2i _lastMousePos;
 
