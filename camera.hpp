@@ -38,6 +38,7 @@ namespace render
         void _updateBasis();
         void _updateCached();
 
+
     public:
         declare_ptr_alloc (camera)
 
@@ -46,8 +47,10 @@ namespace render
 
         void addTransform (const transform_d &deltaTransform);
         void translateRotate (const vector3_d &trans, const rotation_d &rot);
+        void translateChangeRotation (const vector3_d &trans, const rotation_d &rot);
         void changeProjection (unique_ptr<projection_d> &&proj);
         projection_d* getProjection() const;
+        void changeRotation (const rotation_d &rot);
 
         void syncProjectionAspectRatio (event<unsigned, unsigned> &sizeChangeEvent);
     };

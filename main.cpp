@@ -23,10 +23,10 @@ int main (int argc, char **argv)
 
     unique_ptr<perspective_projection_d> projection (new perspective_projection_d (angle_d::pi / 4, window.getAspectRatio(), interval_d (1, 1000)));
     render::camera::ptr camera = render::camera::alloc (std::move (projection));
-    camera->addTransform (transform_d (vector3_d (0, 10, 0), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 2)));
+    camera->addTransform (transform_d (vector3_d (0, 8, 0), rotation_d (vector3_d (1, 0, 0), 0)));
     camera->syncProjectionAspectRatio (window.sizeChangedEvent());
     fps_camera_controller cameraController (window, camera);
-    cameraController.setTranslationSpeed (cameraController.getTranslationSpeed() * 3);
+    cameraController.setTranslationSpeed (cameraController.getTranslationSpeed() * 5);
 
     //unique_ptr<orthographic_projection_d> lightProj (
     //        new orthographic_projection_d (10, window.getAspectRatio(), interval_d (1, 5000)));

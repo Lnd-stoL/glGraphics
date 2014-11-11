@@ -23,7 +23,11 @@ class fps_camera_controller
     double _translationSpeed = 1.0 / 15.0;
 
     sf::Vector2i _lastMousePos;
-    double _yaw = 0;
+
+    angle_d _yaw   = 0;
+    angle_d _pitch = 0;
+
+    angle_d _YawLimit = angle_d::pi / 2 - 0.5;
 
 
 public:
@@ -34,7 +38,7 @@ public:
 protected:
     void _handleFrameUpdate();
     vector3_d _updateTranslation();
-    rotation_d _updateRotation();
+    rotation_d _recalcRotation();
 
 public:
     declare_ptr_alloc (fps_camera_controller)

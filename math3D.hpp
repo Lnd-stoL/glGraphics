@@ -6,6 +6,7 @@
 
 #include <stdexcept>
 #include <iomanip>
+#include <limits>
 
 #include "oo_extensions.hpp"
 #include "math_ex.hpp"
@@ -26,14 +27,17 @@ namespace math3D
     public:
         static constexpr numeric_t pi = (numeric_t) 3.14159265358979323846;
 
+
     public:
         angle() {  }
-        angle(numeric_t angleNum) : _angleRad (angleNum) {  }
+        angle (numeric_t angleNum) : _angleRad (angleNum) {  }
+
 
         operator numeric_t()
         {
             return _angleRad;
         }
+
 
         void normalize()
         {
@@ -46,15 +50,23 @@ namespace math3D
             }
         }
 
+
         numeric_t getRad() const
         {
             return _angleRad;
         }
 
+
         template<typename another_numeric_t>
         angle<another_numeric_t> convertType() const
         {
             return angle<another_numeric_t> (_angleRad);
+        }
+
+
+        void operator += (const angle<numeric_t> rot)
+        {
+            _angleRad += rot._angleRad;
         }
     };
 
@@ -461,13 +473,20 @@ namespace math3D
 
         numeric_t length() const
         {
-            return math_ex::squareRoot (squaredLength());
+            auto sqLength = squaredLength();
+            if (abs (sqLength - 1) < std::numeric_limits<numeric_t>::epsilon() * 2)  return 1;
+
+            return math_ex::squareRoot (sqLength);
         }
 
 
         void normalize()
         {
             numeric_t len = length();
+
+            if (len < std::numeric_limits<numeric_t>::epsilon())  return;
+            if (len == 1)  return;
+
             divide (len);
         }
 
@@ -1462,6 +1481,13 @@ namespace math3D
         void rotate (const rotation<numeric_t> &deltaRot)
         {
             _rotation.combine (deltaRot);
+            _matrixCalculated = false;
+        }
+
+
+        void changeRotation (const rotation<numeric_t> &rot)
+        {
+            _rotation = rot;
             _matrixCalculated = false;
         }
 

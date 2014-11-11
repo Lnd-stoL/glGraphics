@@ -26,6 +26,16 @@ namespace render
     {
         _transform.translate (trans);
         _transform.rotate (rot);
+
+        _updateCached();
+    }
+
+
+    void camera::translateChangeRotation (const vector3_d &trans, const rotation_d &rot)
+    {
+        _transform.translate (trans);
+        _transform.changeRotation (rot);
+
         _updateCached();
     }
 
@@ -34,14 +44,12 @@ namespace render
     {
         _inversedTransform = _transform.inversed();
         _updateBasis();
-        //_screenTransform = _screenTransform.withChangedCameraTransform (_transform);
     }
 
 
     void camera::changeProjection (unique_ptr<projection_d> &&proj)
     {
         _projection = unique_ptr<projection_d> (std::move (proj));
-        //_screenTransform = _screenTransform.withChangedProjection (projection);
     }
 
 
@@ -52,8 +60,16 @@ namespace render
         });
     }
 
+
     projection_d *camera::getProjection() const
     {
         return _projection->copy();
+    }
+
+
+    void camera::changeRotation (const rotation_d &rot)
+    {
+        _transform.changeRotation (rot);
+        _updateCached();
     }
 }
