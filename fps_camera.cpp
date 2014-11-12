@@ -63,7 +63,7 @@ rotation_d fps_camera_controller::_recalcRotation()
         }
     }
 
-    if (std::abs (_yaw) > _YawLimit)  _yaw = _YawLimit * (_yaw / _yaw);
+    if (std::abs (_yaw) > _YawLimit)  _yaw = _YawLimit * (std::abs (_yaw) / _yaw);
 
     rotation_d newRotation (vector3_d (0, 1, 0), _pitch);
     newRotation.combine (rotation_d (vector3_d (1, 0, 0), _yaw));

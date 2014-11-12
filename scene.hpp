@@ -9,6 +9,7 @@
 #include "renderable.hpp"
 #include "camera.hpp"
 #include "render_window.hpp"
+#include "material.hpp"
 
 #include <GL/glew.h>
 #include <set>
@@ -72,15 +73,18 @@ namespace render
         class rendering_state
         {
             math3D::object2screen_transform_d  _object2ScreenTransform;
-            camera::ptr _camera;
+            camera::ptr  _camera;
+
+            material::ptr  _material;
+
 
         public:
             property_get_ref (Object2ScreenTransform, _object2ScreenTransform);
             property_get (Camera, _camera);
+            property_get (Material, _material);
 
         public:
-            void changeObject2ScreenTrsnaform (math3D::object2screen_transform_d &&trans);
-            void changeCamera (camera::ptr cam);
+            friend class graphics_renderer;
         };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -88,6 +92,8 @@ namespace render
     private:
         rendering_state _state;
         scene::ptr _scene;
+        bool  _forcedMaterial = false;
+
 
     public:
         property_ref (state, _state);
@@ -96,6 +102,15 @@ namespace render
 
     public:
         declare_ptr_alloc (graphics_renderer)
+
+        void use (math3D::object2screen_transform_d &&trans);
+        void use (camera::ptr cam);
+        void use (material::ptr mat);
+
+        void forceMaterial (material::ptr mat);
+        void stopForcingMaterial();
+
+        void draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer);
 
         void renderScene (scene::ptr sceneToRender);
     };

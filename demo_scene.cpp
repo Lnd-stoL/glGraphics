@@ -118,7 +118,7 @@ void demo_scene::_frameRender()
 
     //sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniform ("uShadowmapTransform", matBias);
 
-    _renderer.state().changeCamera (_shadowmapCamera);
+    _renderer.use (_shadowmapCamera);
     _islandObject->draw (_renderer);
 
     // ---------------------------------------------------------------------------------------------  Render pass
@@ -140,7 +140,7 @@ void demo_scene::_frameRender()
     _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniformSampler ("uShadowMap", 4, true);
     glActiveTexture (GL_TEXTURE0);
 
-    _renderer.state().changeCamera (_viewerCamera);
+    _renderer.use (_viewerCamera);
     _islandObject->draw (_renderer);
 
     glBindBuffer (GL_ARRAY_BUFFER, 0);

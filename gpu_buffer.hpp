@@ -107,14 +107,14 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    template<typename element_t>
     class gpu_buffer :
-        public oo_extensions::i_as_string,
-        public oo_extensions::non_copyable
+        public oo_extensions::non_copyable,
+        public oo_extensions::i_as_string
     {
     protected:
         GLuint _bufferId = GL_INVALID_INDEX;
         unsigned _size   = 0;
+        unsigned short _bytesPerElement = 0;
         GLenum _target   = GL_INVALID_ENUM;
 
     public:
@@ -135,20 +135,43 @@ namespace render
 
 
     public:
-        property_get (GlId,        _bufferId)
-        property_get (SizeInBytes, _size * sizeof (element_t))
-        property_get (Size,        _size)
+        property_get (GlId,  _bufferId)
+        property_get (Size,  _size)
+        property_get (SizeInBytes, _size * _bytesPerElement)
+
+
+    protected:
+        GLenum _bufferUsage (preferred_access_t preferredAccess, change_rate_t changeRate);
+        virtual void _fillData (void *data, GLenum target, preferred_access_t preferredAccess,
+                                change_rate_t changeRate) = 0;
 
     public:
-        declare_ptr_alloc (gpu_buffer)
+        declare_ptr (gpu_buffer)
+        gpu_buffer (GLenum target, unsigned size, unsigned short bytesPerElement);
 
-        gpu_buffer (GLenum target, const element_t *data, unsigned size, preferred_access_t preferredAccess, change_rate_t changeRate);
-        gpu_buffer (GLenum target, const std::vector<element_t> &data, preferred_access_t preferredAccess, change_rate_t changeRate);
+        virtual void use() const;
 
-        virtual std::string asString() const;
-        void use() const;
+        virtual string asString() const;
+        virtual ~gpu_buffer();
+    };
 
-        ~gpu_buffer();
+//----------------------------------------------------------------------------------------------------------------------
+
+    template<typename element_t>
+    class gpu_buffer_of : public gpu_buffer
+    {
+    protected:
+        virtual void _fillData (void *data, GLenum target, preferred_access_t preferredAccess,
+                                change_rate_t changeRate);
+
+    public:
+        declare_ptr (gpu_buffer_of)
+
+        gpu_buffer_of (GLenum target, const element_t *data, unsigned size, preferred_access_t preferredAccess,
+                       change_rate_t changeRate);
+
+        gpu_buffer_of (GLenum target, const std::vector<element_t> &data, preferred_access_t preferredAccess,
+                       change_rate_t changeRate);
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -159,11 +182,11 @@ namespace render
 
     template<typename vertex_t>
     class vertex_buffer :
-        public gpu_buffer<vertex_t>,
+        public gpu_buffer_of<vertex_t>,
         public gl_vertex_buffer
     {
     protected:
-        typedef gpu_buffer<vertex_t> base_t;
+        typedef gpu_buffer_of<vertex_t> base_t;
 
     public:
         typedef vertex_buffer<vertex_t> this_t;
@@ -172,14 +195,14 @@ namespace render
         vertex_buffer (vertex_t *vertices, unsigned vertexCount,
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
-                base_t::gpu_buffer (GL_ARRAY_BUFFER, vertices, vertexCount, preferredAccess, changeRate) { }
+                base_t::gpu_buffer_of (GL_ARRAY_BUFFER, vertices, vertexCount, preferredAccess, changeRate) { }
 
         vertex_buffer (const std::vector<vertex_t> &data,
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
-                base_t::gpu_buffer (GL_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
+                base_t::gpu_buffer_of (GL_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
 
-        void use() const;
+        virtual void use() const;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -190,11 +213,11 @@ namespace render
 
     template<typename index_t>
     class index_buffer :
-        public gpu_buffer<index_t>,
+        public gpu_buffer_of<index_t>,
         public gl_index_buffer
     {
     protected:
-        typedef gpu_buffer<index_t> base_t;
+        typedef gpu_buffer_of<index_t> base_t;
 
     public:
         typedef index_buffer<index_t> this_t;
@@ -203,14 +226,14 @@ namespace render
         index_buffer (index_t *indices, unsigned indexCount,
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
-                base_t::gpu_buffer (GL_ELEMENT_ARRAY_BUFFER, indices, indexCount, preferredAccess, changeRate) { }
+                base_t::gpu_buffer_of (GL_ELEMENT_ARRAY_BUFFER, indices, indexCount, preferredAccess, changeRate) { }
 
         index_buffer (const std::vector<index_t> &data,
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
-                base_t::gpu_buffer (GL_ELEMENT_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
+                base_t::gpu_buffer_of (GL_ELEMENT_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
 
-        void use() const;
+        virtual void use() const;
     };
 }
 

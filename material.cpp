@@ -31,6 +31,7 @@ namespace render
         for (auto texture_ : _textures)
         {
             texture_.second->use();
+
             _technique->getRenderingProgram()->setUniformSampler (texture_.first, 0, true);
         }
     }

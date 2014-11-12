@@ -45,20 +45,52 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    void graphics_renderer::rendering_state::changeObject2ScreenTrsnaform (math3D::object2screen_transform_d &&trans)
+    void graphics_renderer::use (math3D::object2screen_transform_d &&trans)
     {
-        _object2ScreenTransform = trans;
+        _state._object2ScreenTransform = trans;
     }
 
 
-    void graphics_renderer::rendering_state::changeCamera (camera::ptr cam)
+    void graphics_renderer::use (camera::ptr cam)
     {
-        _camera = cam;
+        _state._camera = cam;
+    }
+
+
+    void graphics_renderer::use (material::ptr mat)
+    {
+        if (_forcedMaterial)  return;
+        _state._material = mat;
     }
 
 
     void graphics_renderer::renderScene (scene::ptr scene)
     {
         _scene = scene;
+    }
+
+
+    void graphics_renderer::stopForcingMaterial()
+    {
+        _forcedMaterial = false;
+    }
+
+
+    void graphics_renderer::forceMaterial (material::ptr mat)
+    {
+        _state._material = mat;
+        _forcedMaterial = true;
+    }
+
+
+    void graphics_renderer::draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer)
+    {
+        vertexBuffer.use();
+        indexBuffer.use();
+
+        _state._material->setup (*this);
+
+        glDrawElements (GL_TRIANGLES, indexBuffer.getSize(), GL_UNSIGNED_SHORT, nullptr);
+        debug::gl::test();
     }
 }

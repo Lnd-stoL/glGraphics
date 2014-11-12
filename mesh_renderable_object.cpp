@@ -14,8 +14,7 @@ mesh_renderable_object::mesh_renderable_object (mesh::ptr mesh, const transform_
 /*virtual*/ void mesh_renderable_object::draw (graphics_renderer &renderer) const
 {
     auto usedCamera = renderer.state().getCamera();
-    renderer.state().changeObject2ScreenTrsnaform (
-            object2screen_transform_d (_transform, usedCamera->getTransform(), usedCamera->getProjection()));
+    renderer.use (object2screen_transform_d (_transform, usedCamera->getTransform(), usedCamera->getProjection()));
 
     _mesh->draw (renderer);
 }
