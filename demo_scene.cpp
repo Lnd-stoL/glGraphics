@@ -59,11 +59,16 @@ void demo_scene::_initShadowmaps()
     _shadowmapCamera = render::camera::alloc (std::move (lightProj));
     _shadowmapCamera->addTransform (_lightTransform);
 
-    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 3, _renderWindow.getHeight() * 3);
+    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 5, _renderWindow.getHeight() * 5);
     _shadowmapTexture = _shadowmapFrameBuffer->attachDepthTexture();
 
     if (!_shadowmapFrameBuffer->readyForRender())
         debug::log::println_err ("failed to initialize frame buffer for shadowmaps");
+
+    auto vertexLayout = shadowmapgen_vertex_layout::alloc();
+    auto shadowmapGenProgramId = gpu_program::id (vertexLayout, "shadowmap_gen.vert", "shadowmap_gen.frag");
+    auto shadowmapGenProgram = _resources.gpuProgramsManager().request (shadowmapGenProgramId, _resources);
+    _shadowmapGenMaterial = material::alloc (technique::alloc (shadowmapGenProgram));
 }
 
 
@@ -101,14 +106,8 @@ void demo_scene::_frameUpdate()
 
 void demo_scene::_frameRender()
 {
-    _shadowmapFrameBuffer->use();
-    glViewport (0, 0, _shadowmapTexture->getWidth(), _shadowmapTexture->getHeight());
-
-    glDrawBuffer (GL_NONE);
-    glReadBuffer (GL_NONE);
-
-    glClearColor (1, 1, 1, 1);
-    glClear (GL_DEPTH_BUFFER_BIT);
+    _renderer.renderTo (_shadowmapFrameBuffer);
+    _renderer.forceMaterial (_shadowmapGenMaterial);
 
     object2screen_transform_d shadowMapTranfrom (_islandObject->getTransform(), _lightTransform, _shadowmapCamera->getProjection());
     //matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
@@ -121,16 +120,11 @@ void demo_scene::_frameRender()
     _renderer.use (_shadowmapCamera);
     _islandObject->draw (_renderer);
 
+    _renderer.stopForcingMaterial();
+
     // ---------------------------------------------------------------------------------------------  Render pass
 
-    frame_buffer::useDefault();
-    glViewport (0, 0, _renderWindow.getWidth(), _renderWindow.getHeight());
-
-    glDrawBuffer (GL_BACK);
-    glReadBuffer (GL_BACK);
-
-    glClearColor (1, 1, 1, 1);
-    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    _renderer.renderTo (_renderWindow);
 
     _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniform ("uShadowmapTransform", matShadow, true);
     glActiveTexture (GL_TEXTURE0 + 4);
@@ -142,7 +136,4 @@ void demo_scene::_frameRender()
 
     _renderer.use (_viewerCamera);
     _islandObject->draw (_renderer);
-
-    glBindBuffer (GL_ARRAY_BUFFER, 0);
-    glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, 0);
 }

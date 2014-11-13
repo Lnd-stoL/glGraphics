@@ -13,13 +13,8 @@ namespace render
 
     void frame_buffer::use() const
     {
-        if (gl_bindable<frame_buffer>::isBoundNow())  return;
-
-        if (!_testValid())  return;
-        glBindFramebuffer (GL_FRAMEBUFFER, _frameBufferId);
-        debug::gl::test();
-
-        gl_bindable<frame_buffer>::_bindThis();
+        _bind();
+        _setStates();
     }
 
 
@@ -57,21 +52,27 @@ namespace render
         }
 
         auto colorTexture = texture::createEmptyRgb (_width, _height);
-        colorTexture->use();
-
-        use();
+        _bind();
         glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTexture->getGlId(), 0);
+        debug::gl::test();
 
         //GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
         //glDrawBuffers (1, DrawBuffers);
 
-        _testValid();
-        useDefault();
+        _bindDefault();
+        _hasColorBuffer = true;
         return colorTexture;
     }
 
 
     void frame_buffer::useDefault()
+    {
+        _bindDefault();
+        _setDefaultStates();
+    }
+
+
+    void frame_buffer::_bindDefault()
     {
         glBindFramebuffer (GL_FRAMEBUFFER, 0);
         gl_bindable<frame_buffer>::_bindDefault();
@@ -87,11 +88,11 @@ namespace render
         }
 
         auto depthTexture = texture::createEmptyDepth (_width, _height);
-        use();
+        _bind();
         glFramebufferTexture2D (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture->getGlId(), 0);
 
-        _testValid();
-        useDefault();
+        _bindDefault();
+        _hasDepthBuffer = true;
         return depthTexture;
     }
 
@@ -106,5 +107,45 @@ namespace render
     {
         use();
         return  glCheckFramebufferStatus (GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+    }
+
+
+    void frame_buffer::_setStates() const
+    {
+        if (!_hasColorBuffer)
+        {
+            glDrawBuffer (GL_NONE);
+            glReadBuffer (GL_NONE);
+        }
+    }
+
+
+    void frame_buffer::_setDefaultStates()
+    {
+        glDrawBuffer (GL_BACK);
+        glReadBuffer (GL_BACK);
+    }
+
+
+    void frame_buffer::_bind() const
+    {
+        if (gl_bindable<frame_buffer>::isBoundNow())  return;
+
+        glBindFramebuffer (GL_FRAMEBUFFER, _frameBufferId);
+        debug::gl::test();
+
+        gl_bindable<frame_buffer>::_bindThis();
+    }
+
+
+    void frame_buffer::clear()
+    {
+        glClearColor (0, 0, 0, 1);
+
+        unsigned flags = 0;
+        if (_hasColorBuffer)  flags |= GL_COLOR_BUFFER_BIT;
+        if (_hasDepthBuffer)  flags |= GL_DEPTH_BUFFER_BIT;
+
+        if (flags)  glClear (flags);
     }
 }

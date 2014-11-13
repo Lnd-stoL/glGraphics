@@ -93,4 +93,24 @@ namespace render
         glDrawElements (GL_TRIANGLES, indexBuffer.getSize(), GL_UNSIGNED_SHORT, nullptr);
         debug::gl::test();
     }
+
+
+    void graphics_renderer::renderTo (render_window &wnd)
+    {
+        _state._frameBuffer = nullptr;
+
+        frame_buffer::useDefault();
+        glViewport (0, 0, wnd.getWidth(), wnd.getHeight());
+        wnd.clear();
+    }
+
+
+    void graphics_renderer::renderTo (frame_buffer::ptr frameBuffer)
+    {
+        _state._frameBuffer = frameBuffer;
+
+        frameBuffer->use();
+        glViewport (0, 0, frameBuffer->getWidth(), frameBuffer->getHeight());
+        frameBuffer->clear();
+    }
 }

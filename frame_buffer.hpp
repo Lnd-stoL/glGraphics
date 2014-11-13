@@ -25,6 +25,10 @@ namespace render
         unsigned  _width  = 0;
         unsigned  _height = 0;
 
+        bool  _hasColorBuffer = false;
+        bool  _hasDepthBuffer = false;
+
+
     public:
         property_get (GlId,   _frameBufferId);
         property_get (Width,  _width);
@@ -33,6 +37,10 @@ namespace render
 
     protected:
         bool _testValid() const;
+        void _setStates() const;
+        static void _setDefaultStates();
+        void _bind() const;
+        static void _bindDefault();
 
     public:
         declare_ptr_alloc (frame_buffer)
@@ -42,6 +50,7 @@ namespace render
         texture::ptr attachDepthTexture();
 
         void use() const;
+        void clear();
         bool readyForRender() const;
 
         static void useDefault();

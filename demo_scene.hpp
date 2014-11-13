@@ -31,6 +31,7 @@ class demo_scene :
     transform_d       _lightTransform;
     frame_buffer::ptr _shadowmapFrameBuffer;
     texture::ptr      _shadowmapTexture;
+    material::ptr     _shadowmapGenMaterial;
 
     mesh_renderable_object::ptr _islandObject;
 
@@ -50,6 +51,21 @@ protected:
 
 public:
     demo_scene (graphics_renderer& renderer, render_window &renderWindow, resources &res);
+};
+
+//----------------------------------------------------------------------------------------------------------------------
+
+struct shadowmapgen_vertex_layout : vertex_layout<exs3d_mesh::vertex>
+{
+protected:
+    virtual void _registerAttributes()
+    {
+        _registerAttribute ("aCoords", attribute::tFloat, offsetof (exs3d_mesh::vertex, coords), 3);
+    }
+
+public:
+    declare_ptr_alloc (shadowmapgen_vertex_layout)
+    shadowmapgen_vertex_layout()  { _registerAttributes(); }
 };
 
 //----------------------------------------------------------------------------------------------------------------------

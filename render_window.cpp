@@ -45,12 +45,8 @@ void render_window::runEventLoop()
         glEnable (GL_DEPTH_TEST);
         glEnable (GL_CULL_FACE);
 
-        glClearColor (1, 1, 1, 1);
-        glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         _frameDrawEvent (*this);
 
-        glFlush();
         _window.display();
     }
 }
@@ -73,6 +69,13 @@ double render_window::getAspectRatio() const
 void render_window::saveScreenshot (const string &fileToSave)
 {
     _window.capture().saveToFile (fileToSave);
+}
+
+
+void render_window::clear()
+{
+    glClearColor (1, 1, 1, 1);
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 

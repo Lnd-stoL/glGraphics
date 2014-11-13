@@ -10,6 +10,7 @@
 #include "camera.hpp"
 #include "render_window.hpp"
 #include "material.hpp"
+#include "frame_buffer.hpp"
 
 #include <GL/glew.h>
 #include <set>
@@ -74,14 +75,15 @@ namespace render
         {
             math3D::object2screen_transform_d  _object2ScreenTransform;
             camera::ptr  _camera;
-
             material::ptr  _material;
+            frame_buffer::ptr  _frameBuffer;
 
 
         public:
             property_get_ref (Object2ScreenTransform, _object2ScreenTransform);
             property_get (Camera, _camera);
             property_get (Material, _material);
+            property_get (FrameBuffer, _frameBuffer);
 
         public:
             friend class graphics_renderer;
@@ -106,6 +108,9 @@ namespace render
         void use (math3D::object2screen_transform_d &&trans);
         void use (camera::ptr cam);
         void use (material::ptr mat);
+
+        void renderTo (frame_buffer::ptr frameBuffer);
+        void renderTo (render_window &wnd);
 
         void forceMaterial (material::ptr mat);
         void stopForcingMaterial();

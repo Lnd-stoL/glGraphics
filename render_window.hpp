@@ -44,6 +44,8 @@ public:
     void runEventLoop();
     void saveScreenshot (const string &fileToSave);
 
+    void clear();
+
     unsigned getWidth()  const;
     unsigned getHeight() const;
 
