@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 using std::shared_ptr;
 using std::vector;
@@ -139,12 +140,18 @@ namespace oo_extensions
         public non_copyable
     {
     public:
-        typedef std::function<void(handler_args_t...)> handler_t;
+        typedef std::function<void(handler_args_t...)>  handler_t;
+        typedef typename vector<handler_t>::const_iterator   handler_id;
 
     protected:
         vector<handler_t> _handlers;
 
     public:
+        event()
+        {
+            _handlers.reserve (2);
+        }
+
         inline void fire (const handler_args_t&... arguments)
         {
             for (auto nextHandler : _handlers)  nextHandler (arguments...);
@@ -155,14 +162,23 @@ namespace oo_extensions
             fire (arguments...);
         }
 
-        inline void handleWith (handler_t handler)
+        inline handler_id handleWith (handler_t handler)
         {
-            _handlers.push_back (handler);
+            _handlers.emplace_back (handler);
+
+            auto lastIt = _handlers.end();
+            std::advance (lastIt, -1);
+            return lastIt;
         }
 
-        inline void stopHandleWith (handler_t handler)
+        inline void stopHandlingWith (handler_id handler)
         {
-            _handlers.erase (_handlers.find (handler));
+            _handlers.erase (handler);
+        }
+
+        void disconnectAllHandlers()
+        {
+            _handlers.clear();
         }
     };
 

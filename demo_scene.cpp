@@ -48,19 +48,22 @@ void demo_scene::_initShadowmaps()
 {
     debug::log::println ("initializing shadowmap stuff ...");
 
-    _lightTransform = transform_d (vector3_d (0, 50, 50), rotation_d (vector3_d (1, 0, 0), angle_d::pi / 4));
+    rotation_d lightRot (vector3_d (0, 1, 0), angle_d::pi);
+    lightRot.combine (rotation_d (vector3_d (1, 0, 0), angle_d::pi / 3));
+    _lightTransform = transform_d (vector3_d (10, 70, -50), lightRot);
 
     //unique_ptr<orthographic_projection_d> lightProj (
     //        new orthographic_projection_d (10, renderWindow.getAspectRatio(), interval_d (1, 5000)));
 
     unique_ptr<perspective_projection_d> lightProj (
-            new perspective_projection_d (angle_d::pi / 4, _renderWindow.getAspectRatio(), interval_d (1, 200)));
+            new perspective_projection_d (angle_d::pi / 5, _renderWindow.getAspectRatio(), interval_d (1, 100)));
 
     _shadowmapCamera = render::camera::alloc (std::move (lightProj));
     _shadowmapCamera->addTransform (_lightTransform);
 
     _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 5, _renderWindow.getHeight() * 5);
     _shadowmapTexture = _shadowmapFrameBuffer->attachDepthTexture();
+    _shadowmapTexture->setupForShadowSampler();
 
     if (!_shadowmapFrameBuffer->readyForRender())
         debug::log::println_err ("failed to initialize frame buffer for shadowmaps");
@@ -106,16 +109,10 @@ void demo_scene::_frameUpdate()
 
 void demo_scene::_frameRender()
 {
+    glDisable (GL_CULL_FACE);   // TODO: So stupid model
+
     _renderer.renderTo (_shadowmapFrameBuffer);
     _renderer.forceMaterial (_shadowmapGenMaterial);
-
-    object2screen_transform_d shadowMapTranfrom (_islandObject->getTransform(), _lightTransform, _shadowmapCamera->getProjection());
-    //matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
-    //matBias.setRow3 (3, 0.5f, 0.5f, 0.5f, 0.5f);
-    auto matShadow = shadowMapTranfrom.asMatrix().convertType<float>();
-    //matBias.multiply (matShadow);
-
-    //sceneObj2->getMesh()->getComponents()[0]->getMaterial()->getRenderingProgram()->setUniform ("uShadowmapTransform", matBias);
 
     _renderer.use (_shadowmapCamera);
     _islandObject->draw (_renderer);
@@ -126,14 +123,33 @@ void demo_scene::_frameRender()
 
     _renderer.renderTo (_renderWindow);
 
-    _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniform ("uShadowmapTransform", matShadow, true);
+    auto beforeDrawLambda = [this] (graphics_renderer &renderer){
+        object2screen_transform_d shadowmapTranfrom (
+                renderer.state().getObject2ScreenTransform().getWorldTransform(),
+                _lightTransform, _shadowmapCamera->getProjection());
+        matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
+        matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
+        auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
+        //matShadowmapTransform.multiply (matBias);
+        matBias.multiply (matShadowmapTransform);
+        //matBias = matShadowmapTransform;
+
+        renderer.state().getRenderingProgram()->setUniform ("uShadowmapTransform", matBias);
+    };
+
+    auto handlerId = _renderer.beforeDrawCallEvent().handleWith (beforeDrawLambda);
+
     glActiveTexture (GL_TEXTURE0 + 4);
     _shadowmapTexture->use();
     glBindSampler (4, GL_LINEAR);
-
     _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniformSampler ("uShadowMap", 4, true);
+    _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniformSampler ("uShadowMapFlat", 4, true);
+    _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniform ("uLightPos", _lightTransform.getTranslation().convertType<float>());
+
     glActiveTexture (GL_TEXTURE0);
 
     _renderer.use (_viewerCamera);
     _islandObject->draw (_renderer);
+
+    _renderer.beforeDrawCallEvent().stopHandlingWith (handlerId);
 }

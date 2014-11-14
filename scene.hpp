@@ -83,6 +83,7 @@ namespace render
             property_get_ref (Object2ScreenTransform, _object2ScreenTransform);
             property_get (Camera, _camera);
             property_get (Material, _material);
+            property_get (RenderingProgram, _material->getTechnique()->getRenderingProgram());
             property_get (FrameBuffer, _frameBuffer);
 
         public:
@@ -96,10 +97,14 @@ namespace render
         scene::ptr _scene;
         bool  _forcedMaterial = false;
 
+        event<graphics_renderer&>  _beforeDrawCallEvent;
+
 
     public:
         property_ref (state, _state);
         property_get (Scene, _scene);
+
+        event_access (beforeDrawCall, _beforeDrawCallEvent);
 
 
     public:

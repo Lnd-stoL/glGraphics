@@ -90,6 +90,7 @@ namespace render
 
         _state._material->setup (*this);
 
+        _beforeDrawCallEvent (*this);
         glDrawElements (GL_TRIANGLES, indexBuffer.getSize(), GL_UNSIGNED_SHORT, nullptr);
         debug::gl::test();
     }

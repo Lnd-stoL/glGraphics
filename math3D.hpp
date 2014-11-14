@@ -754,7 +754,7 @@ namespace math3D
             base_t::_matrix[3][col] = x4;
         }
 
-        void setRow3 (int row, numeric_t x1, numeric_t x2, numeric_t x3, numeric_t x4)
+        void setRow3 (int row, numeric_t x1, numeric_t x2, numeric_t x3)
         {
             base_t::_matrix[row][0] = x1;
             base_t::_matrix[row][1] = x2;
@@ -850,7 +850,7 @@ namespace math3D
         #define opm op._matrix
 
             numeric_t  m0, m1, m2, m3;
-            for (int row = 0; row <= 2; ++row)
+            for (int row = 0; row <= 3; ++row)
             {
                 m0 = m[row][0]; m1 = m[row][1]; m2 = m[row][2]; m3 = m[row][3];
 

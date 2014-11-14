@@ -60,6 +60,7 @@ namespace render
 
         void use() const;
         void filtering (filtering_t shrinkFilter, filtering_t expFilter = filtering_t::linear);
+        void setupForShadowSampler();
         void saveToFile (const string &fileName);
 
         unsigned getHeight() const;
