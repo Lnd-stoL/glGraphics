@@ -1160,7 +1160,7 @@ namespace math3D
         }
 
 
-        this_t inversed()
+        this_t inversed() const
         {
             this_t tmp (*this);
             tmp.inverse();
@@ -1367,9 +1367,9 @@ namespace math3D
 
                 if (!_identScale)
                 {
-                    _cachedMatrix.scaleRow3 (0, _scale.getX());
-                    _cachedMatrix.scaleRow3 (1, _scale.getY());
-                    _cachedMatrix.scaleRow3 (2, _scale.getZ());
+                    _cachedMatrix.scaleCol3 (0, _scale.getX());
+                    _cachedMatrix.scaleCol3 (1, _scale.getY());
+                    _cachedMatrix.scaleCol3 (2, _scale.getZ());
                 }
             }
 
@@ -1382,11 +1382,12 @@ namespace math3D
                 _cachedMatrix.at (2, 3) = _cachedMatrix.rowVec3 (2) * _translation;
                 _cachedMatrix.at (3, 3) = 1;
 
-                if (!_identScale)
+                if (!_identScale) //TODO: Strange issue with ident scale
                 {
-                    _cachedMatrix.scaleRow3 (0, _scale.getX());
-                    _cachedMatrix.scaleRow3 (1, _scale.getY());
-                    _cachedMatrix.scaleRow3 (2, _scale.getZ());
+                    //debug::log::println (mkstr (_scale.getX(), " ", _scale.getY(), " ", _scale.getZ()));
+                    _cachedMatrix.scaleCol3 (0, _scale.getX());
+                    _cachedMatrix.scaleCol3 (1, _scale.getY());
+                    _cachedMatrix.scaleCol3 (2, _scale.getZ());
                 }
             }
 
@@ -1395,7 +1396,9 @@ namespace math3D
 
 
     public:
-        transform() {  }
+        transform()
+        {
+        }
 
 
         transform (vector3<numeric_t> translation, rotation<numeric_t> rot,
@@ -1425,8 +1428,9 @@ namespace math3D
 
             _translation.inverse();
             _rotation.inverse();
-            _scale.inverse();
+            _scale.inverseScale();
 
+            _identScale = _scale == vector3<numeric_t>::ident();
             _matrixCalculated = false;
         }
 
@@ -1494,7 +1498,11 @@ namespace math3D
 
         void scale (const vector3<numeric_t> &scaleVec)
         {
-            _scale *= scaleVec;
+            _scale.setX (_scale.getX() * scaleVec.getX());
+            _scale.setY (_scale.getY() * scaleVec.getY());
+            _scale.setZ (_scale.getZ() * scaleVec.getZ());
+
+            _identScale = false;
             _matrixCalculated = false;
         }
     };
@@ -1505,7 +1513,7 @@ namespace math3D
     class object2screen_transform
     {
         transform<numeric_t>   _worldTransform  = transform<numeric_t>();
-        transform<numeric_t>   _cameraTransform = transform<numeric_t>();
+        transform<numeric_t>   _cameraInverseTransform = transform<numeric_t>();
         projection<numeric_t>  *_projection;                                 // not owned here
 
         matrix_4x4<numeric_t> _cachedWCMatrix;
@@ -1514,7 +1522,7 @@ namespace math3D
 
     public:
         property_get_ref (WorldTransform,  _worldTransform)
-        property_get_ref (CameraTransform, _cameraTransform)
+        property_get_ref (CameraInverseTransform, _cameraInverseTransform)
         property_get     (Projection,      _projection)
         property_get_ref (WorldCamTransformMatrix, _cachedWCMatrix)
 
@@ -1525,12 +1533,12 @@ namespace math3D
         object2screen_transform()  { }
 
         object2screen_transform (transform<numeric_t> worldTransform,
-                                 transform<numeric_t> cameraTransform,
+                                 transform<numeric_t> cameraInverseTransform,
                                  projection<numeric_t> *projection) : _worldTransform  (worldTransform),
-                                                                      _cameraTransform (cameraTransform),
+                                                                      _cameraInverseTransform (cameraInverseTransform),
                                                                       _projection      (projection)
         {
-            _cachedWCMatrix = _cameraTransform.inversed().asMatrix();
+            _cachedWCMatrix = _cameraInverseTransform.asMatrix();
             _cachedWCMatrix.fastTransformMultiply (getWorldTransformMatrix());
 
             _cachedMatrix = _cachedWCMatrix;
@@ -1553,7 +1561,7 @@ namespace math3D
         object2screen_transform<numeric_t> withChangedProjection (unique_ptr<projection<numeric_t>> &&projection)
         {
             object2screen_transform<numeric_t> result;
-            result._cameraTransform = _cameraTransform;
+            result._cameraInverseTransform = _cameraInverseTransform;
             result._projection = projection;
 
             result._cachedMatrix = result._cachedWCMatrix = _cachedWCMatrix;

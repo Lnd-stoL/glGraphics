@@ -99,6 +99,8 @@ namespace render
     private:
         rendering_state _state;
         scene::ptr _scene;
+
+        float _frameCount = 0;
         bool  _forcedMaterial = false;
         bool  _materialSet = false;
 

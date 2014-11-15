@@ -18,12 +18,12 @@ varying vec4 proj_coords;
 void main()
 {
     gl_Position = uMatTransform * vec4 (aCoords, 1);
-    vTexUV = aTexUV * 100;
+    vTexUV = aTexUV * 200;
 
     vec4 spaceVertex4 = uMatWorldTransform  * vec4 (aCoords, 1);
     vec3 spaceVertex = spaceVertex4.xyz / spaceVertex4.w;
 
-    vLight2VertPos = uLightPos - spaceVertex;
+    vLight2VertPos = uLightPos ;
     vVert2Eye = uViewPos - spaceVertex;
     proj_coords = gl_Position;
 }

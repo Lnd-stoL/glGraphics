@@ -45,7 +45,7 @@ namespace render
         camera (unique_ptr<projection_d> &&proj) : _projection (std::move (proj))
         { }
 
-        void asInverseYOf (const camera &cam);
+        void asInverseYOf (const camera &cam, float y);
         void addTransform (const transform_d &deltaTransform);
         void translateRotate (const vector3_d &trans, const rotation_d &rot);
         void translateChangeRotation (const vector3_d &trans, const rotation_d &rot);
@@ -54,6 +54,7 @@ namespace render
         void changeRotation (const rotation_d &rot);
 
         void syncProjectionAspectRatio (event<unsigned, unsigned> &sizeChangeEvent);
+        object2screen_transform_d object2ScreenTransform (const transform_d &worldTransform) const;
     };
 }
 

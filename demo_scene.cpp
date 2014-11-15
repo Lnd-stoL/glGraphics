@@ -97,7 +97,7 @@ void demo_scene::_initObjects()
     _islandObject = mesh_renderable_object::alloc (islandMesh->getRenderableMesh(), islandTransform);
     _scene->addRenderableObject (_islandObject, 0);
 
-    _waterObject = water_plane::alloc (_resources, _renderWindow);
+    _waterObject = water_plane::alloc (_resources, _renderWindow, 1);
     _waterObject->useRefractionTextures (_sceneWithoutRefractive_Texture, _sceneWithoutRefractive_DepthTexture);
 }
 
@@ -177,7 +177,7 @@ void demo_scene::_frameRender()
     auto beforeDrawLambda = [this] (graphics_renderer &renderer){
         object2screen_transform_d shadowmapTranfrom (
                 renderer.state().getObject2ScreenTransform().getWorldTransform(),
-                _lightTransform, _shadowmapCamera->getProjection());
+                _lightTransform.inversed(), _shadowmapCamera->getProjection());
         matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
         matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
         auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
@@ -195,11 +195,10 @@ void demo_scene::_frameRender()
     _renderer.use (_viewerCamera);
     _renderer.renderScene (_scene);
 
-    _renderer.beforeDrawCallEvent().stopHandlingWith (handlerId);
-
     // ---------------------------------------------------------------------------------------------  Reflections
 
     _waterObject->drawReflections (_renderer, *_scene);
+    _renderer.beforeDrawCallEvent().stopHandlingWith (handlerId);
 
     // ---------------------------------------------------------------------------------------------  Draw water now
 
@@ -211,16 +210,17 @@ void demo_scene::_frameRender()
 
     glEnable (GL_DEPTH_TEST);
 
-    glEnable (GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable (GL_BLEND);
+    //glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    _renderer.use (_viewerCamera);
     _waterObject->draw (_renderer);
-    glDisable (GL_BLEND);
+    //glDisable (GL_BLEND);
 
     glDepthMask (GL_TRUE);
 
     // ---------------------------------------------------------------------------------------------  Finally draw to screen
 
-    _renderer.renderTo (_renderWindow, true);
+    _renderer.renderTo (_renderWindow);
     _renderer.forceMaterial (_postprocessMaterial);
     _screenQuad->draw (_renderer);
     _renderer.stopForcingMaterial();

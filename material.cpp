@@ -26,7 +26,8 @@ namespace render
             _renderingProgram->setUniform ("uMatTransform", trans.asMatrix().convertType<float>());
         }
 
-        _renderingProgram->setUniform ("uViewPos", trans.getCameraTransform().getTranslation().convertType<float>(), true);
+        _renderingProgram->setUniform ("uViewPos",
+                                       renderer.state().getCamera()->getTransform().getTranslation().convertType<float>(), true);
     }
 
 

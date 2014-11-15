@@ -1,5 +1,5 @@
 
-#version 120
+#version 130
 
 attribute vec3 aCoords;
 attribute vec3 aNormal;
@@ -23,8 +23,15 @@ void main()
     vTexUV = aTexUV;
 
     gl_Position = uMatTransform * vec4 (aCoords, 1);
+
+    //gl_ClipVertex = gl_Position / gl_Position.w;
+
+    //vec4 ClipVertex = vec4 (aCoords, 1);
+
     vec4 spaceVertex4 = uMatWorldTransform  * vec4 (aCoords, 1);
     vec3 spaceVertex = spaceVertex4.xyz / spaceVertex4.w;
+
+    gl_ClipDistance[0] = spaceVertex.y - 1.01;
 
     vNormal = mat3 (uMatWorldTransform) * aNormal;
     vLight2VertPos = uLightPos - spaceVertex;

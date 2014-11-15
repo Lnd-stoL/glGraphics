@@ -138,6 +138,7 @@ namespace render
         if (_scene)
         {
             _state.getRenderingProgram()->setUniform ("uLightPos", _scene->getSunPosition().convertType<float>(), true);
+            _state.getRenderingProgram()->setUniform ("uFrameCount", _frameCount, true);
         }
     }
 
@@ -145,5 +146,6 @@ namespace render
     void graphics_renderer::_newFrame()
     {
         _materialSet = false;
+        _frameCount += 0.001;
     }
 }

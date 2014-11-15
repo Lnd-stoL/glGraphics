@@ -35,7 +35,7 @@ void render_window::runEventLoop()
                 if (event.key.code == sf::Keyboard::F12)
                 {
                     auto tt = time (nullptr);
-                    saveScreenshot (mkstr ("screenshot-", tt, ".jpg"));
+                    saveScreenshot (mkstr ("screenshots/screenshot-", tt, ".jpg"));
                 }
             }
         }
