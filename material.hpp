@@ -55,6 +55,7 @@ namespace render
     {
     protected:
         gpu_program::ptr  _renderingProgram;
+        bool _withoutTransform = false;
 
     public:
         property_get (RenderingProgram, _renderingProgram)
@@ -67,6 +68,8 @@ namespace render
         { }
 
         void setup (graphics_renderer &renderer) const;
+
+        void transformNotNeeded();
     };
 
 //----------------------------------------------------------------------------------------------------------------------

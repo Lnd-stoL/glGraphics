@@ -43,7 +43,19 @@ namespace render
         }
     }
 
+
+    void scene::setSun (math3D::vector3_d position)
+    {
+        _sunPosition = position;
+    }
+
 //----------------------------------------------------------------------------------------------------------------------
+
+    graphics_renderer::graphics_renderer (render_window &renderWindow)
+    {
+        renderWindow.frameDrawEvent().handleWith ([this] (const render_window &) { _newFrame(); });
+    }
+
 
     void graphics_renderer::use (math3D::object2screen_transform_d &&trans)
     {
@@ -61,12 +73,14 @@ namespace render
     {
         if (_forcedMaterial)  return;
         _state._material = mat;
+        _materialSet = false;
     }
 
 
     void graphics_renderer::renderScene (scene::ptr scene)
     {
         _scene = scene;
+        scene->draw (*this);
     }
 
 
@@ -78,7 +92,8 @@ namespace render
 
     void graphics_renderer::forceMaterial (material::ptr mat)
     {
-        _state._material = mat;
+        _forcedMaterial = false;
+        use (mat);
         _forcedMaterial = true;
     }
 
@@ -90,28 +105,45 @@ namespace render
 
         _state._material->setup (*this);
 
+        _setupShaderBeforeDraw();
+
         _beforeDrawCallEvent (*this);
         glDrawElements (GL_TRIANGLES, indexBuffer.getSize(), GL_UNSIGNED_SHORT, nullptr);
         debug::gl::test();
     }
 
 
-    void graphics_renderer::renderTo (render_window &wnd)
+    void graphics_renderer::renderTo (render_window &wnd, bool autoClear)
     {
         _state._frameBuffer = nullptr;
 
         frame_buffer::useDefault();
         glViewport (0, 0, wnd.getWidth(), wnd.getHeight());
-        wnd.clear();
+        if (autoClear)  wnd.clear();
     }
 
 
-    void graphics_renderer::renderTo (frame_buffer::ptr frameBuffer)
+    void graphics_renderer::renderTo (frame_buffer::ptr frameBuffer, bool autoClear)
     {
         _state._frameBuffer = frameBuffer;
 
         frameBuffer->use();
         glViewport (0, 0, frameBuffer->getWidth(), frameBuffer->getHeight());
-        frameBuffer->clear();
+        if (autoClear)  frameBuffer->clear();
+    }
+
+
+    void graphics_renderer::_setupShaderBeforeDraw()
+    {
+        if (_scene)
+        {
+            _state.getRenderingProgram()->setUniform ("uLightPos", _scene->getSunPosition().convertType<float>(), true);
+        }
+    }
+
+
+    void graphics_renderer::_newFrame()
+    {
+        _materialSet = false;
     }
 }

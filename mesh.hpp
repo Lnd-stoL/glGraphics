@@ -101,6 +101,7 @@ namespace render
         struct simple_vertex
         {
             math3D::vector3_f coords;
+            math3D::vector2_f texUV;
         };
 
         struct simple_vertex_layout : vertex_layout<simple_vertex>
@@ -109,6 +110,7 @@ namespace render
             virtual void _registerAttributes()
             {
                 _registerAttribute ("aCoords", attribute::tFloat, offsetof (simple_vertex, coords), 3);
+                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (simple_vertex, texUV), 2);
             }
 
         public:
@@ -118,7 +120,8 @@ namespace render
 
 
     public:
-        static void quad (vector<simple_vertex> &vertices, vector<unsigned short> &indices);
+        static void quadXZ (vector<simple_vertex> &vertices, vector<unsigned short> &indices, float scale = 1, float y = 0);
+        static void quadXY (vector<simple_vertex> &vertices, vector<unsigned short> &indices, float scale = 1, float z = 0);
     };
 }
 

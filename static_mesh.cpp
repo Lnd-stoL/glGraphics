@@ -32,10 +32,29 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    void elementary_shapes::quad (vector<simple_vertex> &vertices, vector<unsigned short> &indices)
+    void elementary_shapes::quadXZ (vector<simple_vertex> &vertices, vector<unsigned short> &indices, float scale, float y)
     {
-        vector<simple_vertex> vertices_ { {{-1, 0, -1}}, {{1, 0, -1}}, {{-1, 0,  1}}, {{1, 0,  1}} };
-        vector<unsigned short> indices_ { 0, 1, 3, 3, 2, 0 };
+        static vector<simple_vertex> vertices_ { {{-scale, y, -scale}, {1, 1}},
+                                                 {{ scale, y, -scale}, {0, 1}},
+                                                 {{-scale, y,  scale}, {1, 0}},
+                                                 {{ scale, y,  scale}, {0, 0}}};
+
+        static vector<unsigned short> indices_ { 0, 1, 3, 3, 2, 0 };
+
+        vertices.swap (vertices_);
+        indices.swap (indices_);
+    }
+
+
+    void elementary_shapes::quadXY (vector<simple_vertex> &vertices, vector<unsigned short> &indices, float scale, float z)
+    {
+        static vector<simple_vertex> vertices_ {
+                {{-scale, -scale, z}, {0, 1}},
+                {{ scale, -scale, z}, {1, 1}},
+                {{-scale,  scale, z}, {0, 0}},
+                {{ scale,  scale, z}, {1, 0}}};
+
+        static vector<unsigned short> indices_ { 0, 1, 3, 3, 2, 0 };
 
         vertices.swap (vertices_);
         indices.swap (indices_);

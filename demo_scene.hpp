@@ -10,6 +10,7 @@
 #include "mesh_renderable_object.hpp"
 #include "frame_buffer.hpp"
 #include "render_resources.hpp"
+#include "water_plane.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3D;
@@ -27,13 +28,26 @@ class demo_scene :
     camera::ptr    _viewerCamera;
     fps_camera_controller::ptr _fpsCameraController;
 
+    mesh_component<elementary_shapes::simple_vertex, unsigned short>::ptr  _screenQuad;
+    material::ptr      _drawScreenMaterial;
+    frame_buffer::ptr  _sceneWithoutRefractive_FrameBuffer;
+    texture::ptr       _sceneWithoutRefractive_Texture;
+    texture::ptr       _sceneWithoutRefractive_DepthTexture;
+
+    material::ptr      _postprocessMaterial;
+    frame_buffer::ptr  _postprocess_FrameBuffer;
+    texture::ptr       _postprocess_Texture;
+    texture::ptr       _postprocess_DepthTexture;
+
     camera::ptr       _shadowmapCamera;
     transform_d       _lightTransform;
     frame_buffer::ptr _shadowmapFrameBuffer;
     texture::ptr      _shadowmapTexture;
     material::ptr     _shadowmapGenMaterial;
 
-    mesh_renderable_object::ptr _islandObject;
+    scene::ptr  _scene;
+    mesh_renderable_object::ptr  _islandObject;
+    water_plane::ptr  _waterObject;
 
 
 protected:
@@ -44,6 +58,7 @@ protected:
     void _initViewer();
     void _initShadowmaps();
     void _initObjects();
+    void _initPosteffects();
 
     void _frameUpdate();
     void _frameRender();
@@ -60,6 +75,7 @@ struct shadowmapgen_vertex_layout : vertex_layout<exs3d_mesh::vertex>
 protected:
     virtual void _registerAttributes()
     {
+        _attributes.clear();
         _registerAttribute ("aCoords", attribute::tFloat, offsetof (exs3d_mesh::vertex, coords), 3);
     }
 

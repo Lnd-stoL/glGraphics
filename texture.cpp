@@ -26,6 +26,10 @@ namespace render
             _textureId = GL_INVALID_INDEX;
         }
 
+        use();
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
         resource::_loaded();
         debug::log::println_mrk (mkstr (asString(), " successfully loaded and is ready for use"));
     }

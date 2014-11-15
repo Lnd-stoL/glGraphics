@@ -5,10 +5,10 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 #include "oo_extensions.hpp"
-#include "math3D.hpp"
 #include "mesh.hpp"
 #include "renderable.hpp"
-#include "resource_manager.hpp"
+#include "render_resources.hpp"
+#include "scene.hpp"
 
 using namespace render;
 
@@ -18,26 +18,16 @@ using math3D::object2screen_transform_d;
 using math3D::perspective_projection_d;
 
 //----------------------------------------------------------------------------------------------------------------------
-/*
-class water_material : public material
-{
-protected:
-    texture::ptr _texture;
-
-public:
-    declare_ptr_alloc (water_material)
-    water_material (resources &renderRes);
-
-    //virtual void use() const;
-    //virtual void setupViewerTransform (const math3D::object2screen_transform_d &transform);
-};
-*/
-//----------------------------------------------------------------------------------------------------------------------
 
 class water_plane : public renderable
 {
     mesh_component<elementary_shapes::simple_vertex, unsigned short>::ptr  _mesh;
-    transform_d _transform;
+    transform_d  _transform;
+    material::ptr  _material;
+
+    frame_buffer::ptr  _reflectionsFrameBuffer;
+    texture::ptr       _reflectionsTexture;
+    camera::ptr        _reflectionsCamera;
 
 public:
     property_get (Mesh, _mesh)
@@ -46,8 +36,10 @@ public:
 
 public:
     declare_ptr_alloc (water_plane)
-    water_plane (const transform_d &transform = transform_d::ident());
+    water_plane (resources& renderRes, render_window &renderWindow, const transform_d &transform = transform_d::ident());
 
+    void useRefractionTextures (texture::ptr refractTexture, texture::ptr depthTexture);
+    void drawReflections (graphics_renderer &renderer, scene &reflectibleScene);
     virtual void draw (graphics_renderer &renderer) const;
 };
 

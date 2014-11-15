@@ -50,8 +50,11 @@ namespace render
         std::set<scene_object::ptr,
                 std::function<bool (const scene_object::ptr&, const scene_object::ptr&)>> _sceneObjects;
 
+        math3D::vector3_d  _sunPosition;
+
     public:
         property_get_ref (Objects, _sceneObjects)
+        property_get_ref (SunPosition, _sunPosition)
 
 
     public:
@@ -62,6 +65,7 @@ namespace render
         scene_object::ptr addRenderableObject (renderable::ptr renderableObject, int renderQueue = 0);
         void addSceneObject (scene_object::ptr sceneObject);
         void removeSceneObject (scene_object::ptr sceneObject);
+        void setSun (math3D::vector3_d position);
 
         void draw (graphics_renderer &renderer) const;
     };
@@ -96,6 +100,7 @@ namespace render
         rendering_state _state;
         scene::ptr _scene;
         bool  _forcedMaterial = false;
+        bool  _materialSet = false;
 
         event<graphics_renderer&>  _beforeDrawCallEvent;
 
@@ -107,15 +112,21 @@ namespace render
         event_access (beforeDrawCall, _beforeDrawCallEvent);
 
 
+    protected:
+        void _setupShaderBeforeDraw();
+        inline void _newFrame();
+
     public:
         declare_ptr_alloc (graphics_renderer)
+
+        graphics_renderer (render_window &renderWindow);
 
         void use (math3D::object2screen_transform_d &&trans);
         void use (camera::ptr cam);
         void use (material::ptr mat);
 
-        void renderTo (frame_buffer::ptr frameBuffer);
-        void renderTo (render_window &wnd);
+        void renderTo (frame_buffer::ptr frameBuffer, bool autoClear = true);
+        void renderTo (render_window &wnd, bool autoClear = true);
 
         void forceMaterial (material::ptr mat);
         void stopForcingMaterial();

@@ -23,6 +23,9 @@ public:
         virtual string hashString() const = 0;
     };
 
+public:
+    static constexpr bool simplyConstructible()  { return true; }
+
 
 public:
     declare_ptr (resource)

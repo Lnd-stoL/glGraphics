@@ -8,6 +8,7 @@
 #include "resource.hpp"
 #include "texture.hpp"
 #include "gl_bindable.hpp"
+#include "material.hpp"
 
 #include <GL/glew.h>
 
@@ -27,6 +28,8 @@ namespace render
 
         bool  _hasColorBuffer = false;
         bool  _hasDepthBuffer = false;
+
+        color_rgb<float>  _clearColor;
 
 
     public:
@@ -48,8 +51,11 @@ namespace render
 
         texture::ptr attachColorTexture();
         texture::ptr attachDepthTexture();
+        void attachDepthTexture (texture::ptr txt);
 
         void use() const;
+
+        void clearColor (const color_rgb<float> &color);
         void clear();
         bool readyForRender() const;
 

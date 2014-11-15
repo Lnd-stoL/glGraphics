@@ -265,7 +265,7 @@ namespace render
         {
             auto txt = otherResources.texturesManager().requestWithAdditionalLoactions (textureName,
                                                                                         _additionalSearchLocations);
-            txt->filtering (texture::linear_MipmapLinear);
+            txt->filtering (texture::linear_MipmapLinear, texture::linear_MipmapLinear);
             mat->textures()["uTexture"] = txt;
         }
 

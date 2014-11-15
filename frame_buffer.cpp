@@ -81,19 +81,32 @@ namespace render
 
     texture::ptr frame_buffer::attachDepthTexture()
     {
+        auto depthTexture = texture::createEmptyDepth (_width, _height);
+        attachDepthTexture (depthTexture);
+
+        return depthTexture;
+    }
+
+
+    void frame_buffer::attachDepthTexture (texture::ptr depthTexture)
+    {
         if (!_testValid())
         {
             debug::log::println_err ("can't attach depth texture to invalid frame buffer");
-            return texture::ptr();
+            return;
         }
 
-        auto depthTexture = texture::createEmptyDepth (_width, _height);
+        if (_hasDepthBuffer)
+        {
+            debug::log::println_err ("can't attach two depth textures to a single frame buffer");
+            return;
+        }
+
         _bind();
         glFramebufferTexture2D (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture->getGlId(), 0);
 
         _bindDefault();
         _hasDepthBuffer = true;
-        return depthTexture;
     }
 
 
@@ -140,12 +153,18 @@ namespace render
 
     void frame_buffer::clear()
     {
-        glClearColor (0, 0, 0, 1);
+        glClearColor (_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), 1);
 
         unsigned flags = 0;
         if (_hasColorBuffer)  flags |= GL_COLOR_BUFFER_BIT;
         if (_hasDepthBuffer)  flags |= GL_DEPTH_BUFFER_BIT;
 
         if (flags)  glClear (flags);
+    }
+
+
+    void frame_buffer::clearColor (const color_rgb<float> &color)
+    {
+        _clearColor = color;
     }
 }

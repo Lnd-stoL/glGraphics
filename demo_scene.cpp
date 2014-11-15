@@ -21,9 +21,10 @@ void demo_scene::_loadAndInitialize()
     _initResourceManagers();
 
     _initViewer();
-    _initObjects();
-
     _initShadowmaps();
+    _initPosteffects();
+
+    _initObjects();
 }
 
 
@@ -61,7 +62,7 @@ void demo_scene::_initShadowmaps()
     _shadowmapCamera = render::camera::alloc (std::move (lightProj));
     _shadowmapCamera->addTransform (_lightTransform);
 
-    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 5, _renderWindow.getHeight() * 5);
+    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 3, _renderWindow.getHeight() * 3);
     _shadowmapTexture = _shadowmapFrameBuffer->attachDepthTexture();
     _shadowmapTexture->setupForShadowSampler();
 
@@ -80,17 +81,67 @@ void demo_scene::_initResourceManagers()
     _resources.exs3dMeshesManager().addFileSearchLocation ("resources/models");
     _resources.gpuProgramsManager().addFileSearchLocation ("resources/shaders");
     _resources.fontsManager().addFileSearchLocation ("resources/fonts");
+    _resources.texturesManager().addFileSearchLocation ("resources/textures");
 }
 
 
 void demo_scene::_initObjects()
 {
+    _scene = scene::alloc();
+    _scene->setSun (_lightTransform.getTranslation());
+
     debug::log::println ("loading scene objects ...");
 
     auto islandMesh = _resources.requestFromFile<exs3d_mesh> ("tropical-island/tropical-island.exs3d");
-
     transform_d islandTransform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04));
     _islandObject = mesh_renderable_object::alloc (islandMesh->getRenderableMesh(), islandTransform);
+    _scene->addRenderableObject (_islandObject, 0);
+
+    _waterObject = water_plane::alloc (_resources, _renderWindow);
+    _waterObject->useRefractionTextures (_sceneWithoutRefractive_Texture, _sceneWithoutRefractive_DepthTexture);
+}
+
+
+void demo_scene::_initPosteffects()
+{
+    _sceneWithoutRefractive_FrameBuffer = frame_buffer::alloc (_renderWindow.getWidth(), _renderWindow.getHeight());
+    _sceneWithoutRefractive_FrameBuffer->clearColor (color_rgb<float> (1, 1, 1));
+    _sceneWithoutRefractive_DepthTexture = _sceneWithoutRefractive_FrameBuffer->attachDepthTexture();
+    _sceneWithoutRefractive_Texture = _sceneWithoutRefractive_FrameBuffer->attachColorTexture();
+
+    if (!_sceneWithoutRefractive_FrameBuffer->readyForRender())
+        debug::log::println_err ("failed to initialize frame buffer for scene without refractive rendering");
+
+    auto screenQuadShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
+                                               "screen_quad.vert", "screen_quad.frag");
+    auto screenQuadShader = _resources.gpuProgramsManager().request (screenQuadShaderId, _resources);
+    auto screenQuadTechnique = technique::alloc (screenQuadShader);
+    screenQuadTechnique->transformNotNeeded();
+    _drawScreenMaterial = material::alloc (screenQuadTechnique);
+    _drawScreenMaterial->textures()["uScreen"] = _sceneWithoutRefractive_Texture;
+
+    vector<elementary_shapes::simple_vertex> vertices;
+    vector<unsigned short> indices;
+    elementary_shapes::quadXY (vertices, indices);
+    _screenQuad = mesh_component<elementary_shapes::simple_vertex, unsigned short>::alloc (_drawScreenMaterial,
+                                                                                           vertices, indices);
+
+
+    _postprocess_FrameBuffer = frame_buffer::alloc (_renderWindow.getWidth(), _renderWindow.getHeight());
+    _postprocess_FrameBuffer->attachDepthTexture (_sceneWithoutRefractive_DepthTexture);
+    //_postprocess_FrameBuffer->attachDepthTexture();
+    _postprocess_Texture = _postprocess_FrameBuffer->attachColorTexture();
+
+    if (!_postprocess_FrameBuffer->readyForRender())
+        debug::log::println_err ("failed to initialize frame buffer for postprocess");
+
+    auto postprocessShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
+                                               "screen_quad.vert", "screen_quad.frag");
+    auto postprocessShader = _resources.gpuProgramsManager().request (postprocessShaderId, _resources);
+    auto postprocessTechnique = technique::alloc (postprocessShader);
+    postprocessTechnique->transformNotNeeded();
+    _postprocessMaterial = material::alloc (postprocessTechnique);
+    _postprocessMaterial->textures()["uScreen"] = _postprocess_Texture;
 }
 
 
@@ -115,13 +166,13 @@ void demo_scene::_frameRender()
     _renderer.forceMaterial (_shadowmapGenMaterial);
 
     _renderer.use (_shadowmapCamera);
-    _islandObject->draw (_renderer);
+    _renderer.renderScene (_scene);
 
     _renderer.stopForcingMaterial();
 
     // ---------------------------------------------------------------------------------------------  Render pass
 
-    _renderer.renderTo (_renderWindow);
+    _renderer.renderTo (_sceneWithoutRefractive_FrameBuffer);
 
     auto beforeDrawLambda = [this] (graphics_renderer &renderer){
         object2screen_transform_d shadowmapTranfrom (
@@ -130,26 +181,47 @@ void demo_scene::_frameRender()
         matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
         matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
         auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
-        //matShadowmapTransform.multiply (matBias);
         matBias.multiply (matShadowmapTransform);
-        //matBias = matShadowmapTransform;
+
+        //renderer.state().getMaterial()->textures()["uShadowMapFlat"] = _shadowmapTexture;
+        renderer.state().getMaterial()->textures()["uShadowMap"] = _shadowmapTexture;
+        renderer.state().getMaterial()->setup (renderer);
 
         renderer.state().getRenderingProgram()->setUniform ("uShadowmapTransform", matBias);
     };
 
     auto handlerId = _renderer.beforeDrawCallEvent().handleWith (beforeDrawLambda);
 
-    glActiveTexture (GL_TEXTURE0 + 4);
-    _shadowmapTexture->use();
-    glBindSampler (4, GL_LINEAR);
-    _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniformSampler ("uShadowMap", 4, true);
-    _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniformSampler ("uShadowMapFlat", 4, true);
-    _islandObject->getMesh()->getComponents()[0]->getMaterial()->getTechnique()->getRenderingProgram()->setUniform ("uLightPos", _lightTransform.getTranslation().convertType<float>());
-
-    glActiveTexture (GL_TEXTURE0);
-
     _renderer.use (_viewerCamera);
-    _islandObject->draw (_renderer);
+    _renderer.renderScene (_scene);
 
     _renderer.beforeDrawCallEvent().stopHandlingWith (handlerId);
+
+    // ---------------------------------------------------------------------------------------------  Reflections
+
+    _waterObject->drawReflections (_renderer, *_scene);
+
+    // ---------------------------------------------------------------------------------------------  Draw water now
+
+    _renderer.renderTo (_postprocess_FrameBuffer, false);
+
+    glDisable (GL_DEPTH_TEST);
+    glDepthMask (GL_FALSE);
+    _screenQuad->draw (_renderer);
+
+    glEnable (GL_DEPTH_TEST);
+
+    glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    _waterObject->draw (_renderer);
+    glDisable (GL_BLEND);
+
+    glDepthMask (GL_TRUE);
+
+    // ---------------------------------------------------------------------------------------------  Finally draw to screen
+
+    _renderer.renderTo (_renderWindow, true);
+    _renderer.forceMaterial (_postprocessMaterial);
+    _screenQuad->draw (_renderer);
+    _renderer.stopForcingMaterial();
 }

@@ -72,4 +72,11 @@ namespace render
         _transform.changeRotation (rot);
         _updateCached();
     }
+
+
+    void camera::asInverseYOf (const camera &cam)
+    {
+        _transform = cam._transform;
+
+    }
 }

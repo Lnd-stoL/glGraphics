@@ -23,7 +23,6 @@ class resource_manager:
     std::unordered_set<string> _fileLocations;
     std::unordered_map<string, typename resource_t::ptr> _loadedResources;
 
-
 protected:
     bool _findFile (const string &fileName, fs::path& foundIn, const vector<string> &additionalSearchLocations);
 
