@@ -38,7 +38,7 @@ sky_box::sky_box (resources& renderRes)
     cubeMapFaces["-Z"] = renderRes.texturesManager().locateFile (mkstr (baseFilder, "back.jpg"));
     */
 
-    string fileName = "clouds/test.jpg";
+    string fileName = "clouds/test.png";
     cubeMapFaces["+X"] = renderRes.texturesManager().locateFile (fileName);
     cubeMapFaces["-X"] = renderRes.texturesManager().locateFile (fileName);
     cubeMapFaces["+Y"] = renderRes.texturesManager().locateFile (fileName);

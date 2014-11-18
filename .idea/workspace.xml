@@ -7,20 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c923bbd-ed3c-4228-9ec7-fab229b74bf7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/sky_box.frag" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/sky_box.vert" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo_scene.cpp" afterPath="$PROJECT_DIR$/demo_scene.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo_scene.hpp" afterPath="$PROJECT_DIR$/demo_scene.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mesh.hpp" afterPath="$PROJECT_DIR$/mesh.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/shader.frag" afterPath="$PROJECT_DIR$/resources/shaders/shader.frag" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sky_box.cpp" afterPath="$PROJECT_DIR$/sky_box.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sky_box.hpp" afterPath="$PROJECT_DIR$/sky_box.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static_mesh.cpp" afterPath="$PROJECT_DIR$/static_mesh.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/texture.cpp" afterPath="$PROJECT_DIR$/texture.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/texture.hpp" afterPath="$PROJECT_DIR$/texture.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/water_plane.frag" afterPath="$PROJECT_DIR$/resources/shaders/water_plane.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/water_plane.vert" afterPath="$PROJECT_DIR$/resources/shaders/water_plane.vert" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/sky_box.frag" afterPath="$PROJECT_DIR$/resources/shaders/sky_box.frag" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="glGraphics.iws" />
@@ -49,7 +37,7 @@
         <entry file="file://$PROJECT_DIR$/sky_box.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1975">
-              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+              <caret line="40" column="38" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -88,8 +76,8 @@
       <file leaf-file-name="sky_box.frag" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/shaders/sky_box.frag">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.34845132" vertical-offset="1848" max-vertical-offset="3844">
-              <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5586283" vertical-offset="2792" max-vertical-offset="4264">
+              <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -301,7 +289,13 @@
       <option name="project" value="LOCAL" />
       <updated>1416093877739</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="dynamic sky + some water improvements + clouds">
+      <created>1416312627683</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1416312627683</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -348,7 +342,8 @@
     <MESSAGE value="A lot of work on shadowmaps" />
     <MESSAGE value="water 1" />
     <MESSAGE value="water finally" />
-    <option name="LAST_COMMIT_MESSAGE" value="water finally" />
+    <MESSAGE value="dynamic sky + some water improvements + clouds" />
+    <option name="LAST_COMMIT_MESSAGE" value="dynamic sky + some water improvements + clouds" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -716,6 +711,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sky_box.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1975">
+          <caret line="40" column="38" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/water_plane.frag">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1323" max-vertical-offset="2899">
@@ -724,18 +727,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sky_box.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1975">
-          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/sky_box.frag">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34845132" vertical-offset="1848" max-vertical-offset="3844">
-          <caret line="103" column="0" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.5586283" vertical-offset="2792" max-vertical-offset="4264">
+          <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
           <folding />
         </state>
       </provider>

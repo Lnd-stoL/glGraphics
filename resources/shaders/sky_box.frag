@@ -19,22 +19,22 @@ varying vec3  vTexCube;
 
 vec3 lightdir = normalize (vec3 (0.2, 0.8, 0.2));
 
-vec3 Kr = vec3 (0.38867780436772762, 0.6978442963618773, 0.7616065586417131);
+vec3 Kr = vec3 (0.48867780436772762, 0.6978442963618773, 0.7616065586417131);
 
 const float rayleigh_brightness = 4.3;
 const float mie_brightness      = 0.09;
-const float spot_brightness     = 10;
-const float scatter_strength    = 0.038;
+const float spot_brightness     = 3;
+const float scatter_strength    = 0.048;
 const float rayleigh_strength   = 0.139; // 0.239
 const float mie_strength        = 0.0264;
 
 const float rayleigh_collection_power = 0.71;
-const float mie_collection_power      = 0.29;
+const float mie_collection_power      = 0.39;
 const float mie_distribution          = 0.63;
 
-const float surface_height = 0.994;
-const float intensity      = 2.1;
-const int step_count = 12;
+const float surface_height = 0.995;
+const float intensity      = 1.9;
+const int step_count = 8;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -86,24 +86,8 @@ vec3 absorb (float dist, vec3 color, float factor)
 }
 
 
-
-void main()
+vec3 calcSkyColor (vec3 eyedir)
 {
-    if (vTexCube.y * 500 < -100)
-    {
-        gl_FragData[0] = vec4 (1, 1, 1, 0);
-        return;
-    }
-
-    float frameTime = uFrameCount * 3;
-    lightdir = vec3 (cos (frameTime), sin (frameTime), 0);
-
-    vec3 sampleCoords = normalize (vec3 (cos (frameTime), sin (frameTime), 1) + vTexCube);
-
-    vec3 skyBox = texture (uClouds, vec2 (vTexCube.x / vTexCube.y / 25 + frameTime / 10, vTexCube.z / vTexCube.y / 20)).xyz;
-
-
-    vec3 eyedir = normalize (vTexCube);
     float alpha = dot (eyedir, lightdir);
 
     float rayleigh_factor = phase (alpha, -0.01) * rayleigh_brightness;
@@ -122,7 +106,7 @@ void main()
     {
         float sample_distance = step_length * float(i);
         vec3 position = eye_position + eyedir * sample_distance;
-        float extinction = horizon_extinction (position, lightdir, surface_height - 0.35);
+        float extinction = horizon_extinction (position, lightdir, surface_height - 0.25);   // 0.35
         float sample_depth = atmospheric_depth (position, lightdir);
         vec3 influx = absorb (sample_depth, vec3 (intensity), scatter_strength) * extinction;
 
@@ -133,9 +117,45 @@ void main()
     rayleigh_collected = (rayleigh_collected * eye_extinction * pow (eye_depth, rayleigh_collection_power)) / float (step_count);
     mie_collected = (mie_collected * eye_extinction * pow (eye_depth, mie_collection_power)) / float(step_count);
 
-    vec3 color = vec3 (spot*mie_collected + mie_factor*mie_collected + rayleigh_factor*rayleigh_collected);
+    return vec3 (spot*mie_collected + mie_factor*mie_collected + rayleigh_factor*rayleigh_collected);
+}
 
-    color = mix (color, vec3 (1, 1, 1), 0.2);
-    gl_FragData[0] = vec4 (mix (skyBox, color, 0.5 + (1 - length (skyBox) * 0.8) * 0.5), 1.0);
+
+void main()
+{
+    if (vTexCube.y * 500 < -100)
+    {
+        gl_FragData[0] = vec4 (1, 1, 1, 0);
+        return;
+    }
+
+    float frameTime = uFrameCount * 3;
+    lightdir = vec3 (0, sin (frameTime), cos (frameTime));
+
+    float sphereProjHeight = vTexCube.y + 0.25;
+    vec2 cloudsUV = vec2 (vTexCube.x / sphereProjHeight / 5 + frameTime / 10,
+                          vTexCube.z / sphereProjHeight / 7 + frameTime / 5);
+
+    vec3 sampleCoords = normalize (vec3 (cos (frameTime), 0, sin (frameTime)) + vTexCube);
+
+
+    vec4 cloudColor = texture (uClouds, cloudsUV);
+
+    float cloudTexturePixel = 2 / 1024;
+    float cloudNormalDX = length (texture (uClouds, cloudsUV + vec2 ( cloudTexturePixel, 0))) -
+                          length (texture (uClouds, cloudsUV + vec2 (-cloudTexturePixel, 0)));
+    float cloudNormalDZ = length (texture (uClouds, cloudsUV + vec2 (0,  cloudTexturePixel))) -
+                          length (texture (uClouds, cloudsUV + vec2 (0, -cloudTexturePixel)));
+    vec3 cloudNormal = normalize (vec3 (cloudNormalDX * 10, 1, cloudNormalDZ * 10));
+
+    float cloudLight = clamp (dot (cloudNormal, lightdir), 0, 1);
+
+    vec3 skyColor = calcSkyColor (normalize (vTexCube));
+
+    //color = mix (color, vec3 (1, 1, 1), 0.05);
+    //cloudColor *= cloudLight;
+    vec3 color = mix (skyColor, cloudColor.rgb, cloudColor.a * 0.95 * cloudLight);
+
+    gl_FragData[0] = vec4 (color, 1.0);
     //gl_FragData[0] = vec4 (vTexCube, 1);
 }
