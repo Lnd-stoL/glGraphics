@@ -9,6 +9,7 @@
 #include "gl_bindable.hpp"
 
 #include <GL/glew.h>
+#include <map>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -40,6 +41,7 @@ namespace render
 
     private:
         GLuint _textureId = GL_INVALID_INDEX;
+        GLenum _textureType = GL_TEXTURE_2D;
 
     public:
         property_get (GlId, _textureId);
@@ -52,7 +54,9 @@ namespace render
 
     public:
         declare_ptr_alloc (texture)
-        texture (const std::string &fileName);
+
+        texture (const string &fileName);
+        texture (std::map<string, string> cubeMapFaces);
         virtual ~texture();
 
         static texture::ptr createEmptyRgb (unsigned width, unsigned height);

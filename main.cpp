@@ -10,7 +10,7 @@ int main (int argc, char **argv)
 {
     debug::log::println ("initializing OpenGL rendering window ...");
 
-    render_window renderWindow (1200, 900, "OpenGL Graphics");
+    render_window renderWindow (1400, 1000, "OpenGL Graphics");
     graphics_renderer renderer (renderWindow);
     resources resourceManagers;
 

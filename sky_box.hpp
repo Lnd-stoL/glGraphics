@@ -16,7 +16,7 @@ using namespace render;
 
 class sky_box : public renderable
 {
-    mesh_component<elementary_shapes::simple_vertex, unsigned short>::ptr  _mesh;
+    mesh::ptr  _mesh;
     transform_d  _transform;
     material::ptr  _material;
 
@@ -26,7 +26,7 @@ public:
 
 
 public:
-    declare_ptr_alloc (water_plane)
+    declare_ptr_alloc (sky_box)
     sky_box (resources& renderRes);
 
     virtual void draw (graphics_renderer &renderer) const;

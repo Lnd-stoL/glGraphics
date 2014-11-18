@@ -11,6 +11,7 @@
 #include "frame_buffer.hpp"
 #include "render_resources.hpp"
 #include "water_plane.hpp"
+#include "sky_box.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3D;
@@ -48,6 +49,7 @@ class demo_scene :
     scene::ptr  _scene;
     mesh_renderable_object::ptr  _islandObject;
     water_plane::ptr  _waterObject;
+    sky_box::ptr  _skyBox;
 
 
 protected:

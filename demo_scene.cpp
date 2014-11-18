@@ -62,7 +62,7 @@ void demo_scene::_initShadowmaps()
     _shadowmapCamera = render::camera::alloc (std::move (lightProj));
     _shadowmapCamera->addTransform (_lightTransform);
 
-    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 3, _renderWindow.getHeight() * 3);
+    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 2, _renderWindow.getWidth() * 2);
     _shadowmapTexture = _shadowmapFrameBuffer->attachDepthTexture();
     _shadowmapTexture->setupForShadowSampler();
 
@@ -95,10 +95,13 @@ void demo_scene::_initObjects()
     auto islandMesh = _resources.requestFromFile<exs3d_mesh> ("tropical-island/tropical-island.exs3d");
     transform_d islandTransform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04));
     _islandObject = mesh_renderable_object::alloc (islandMesh->getRenderableMesh(), islandTransform);
-    _scene->addRenderableObject (_islandObject, 0);
+    _scene->addRenderableObject (_islandObject, 1);
 
     _waterObject = water_plane::alloc (_resources, _renderWindow, 1);
     _waterObject->useRefractionTextures (_sceneWithoutRefractive_Texture, _sceneWithoutRefractive_DepthTexture);
+
+    _skyBox = sky_box::alloc (_resources);
+    _scene->addRenderableObject (_skyBox, 0);
 }
 
 
@@ -187,7 +190,7 @@ void demo_scene::_frameRender()
         renderer.state().getMaterial()->textures()["uShadowMap"] = _shadowmapTexture;
         renderer.state().getMaterial()->setup (renderer);
 
-        renderer.state().getRenderingProgram()->setUniform ("uShadowmapTransform", matBias);
+        renderer.state().getRenderingProgram()->setUniform ("uShadowmapTransform", matBias, true);
     };
 
     auto handlerId = _renderer.beforeDrawCallEvent().handleWith (beforeDrawLambda);
@@ -210,11 +213,11 @@ void demo_scene::_frameRender()
 
     glEnable (GL_DEPTH_TEST);
 
-    //glEnable (GL_BLEND);
-    //glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable (GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     _renderer.use (_viewerCamera);
     _waterObject->draw (_renderer);
-    //glDisable (GL_BLEND);
+    glDisable (GL_BLEND);
 
     glDepthMask (GL_TRUE);
 

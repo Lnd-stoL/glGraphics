@@ -35,6 +35,8 @@ namespace render
 
         virtual ~a_mesh_component () { }
         virtual void draw (graphics_renderer &renderer) const = 0;
+
+        void changeMaterial (material::ptr newMaterial);
     };
 
 //----------------------------------------------------------------------------------------------------------------------

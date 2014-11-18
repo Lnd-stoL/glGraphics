@@ -59,4 +59,10 @@ namespace render
         vertices.swap (vertices_);
         indices.swap (indices_);
     }
+
+
+    void a_mesh_component::changeMaterial (material::ptr newMaterial)
+    {
+        _material = newMaterial;
+    }
 }
