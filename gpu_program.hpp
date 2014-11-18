@@ -128,6 +128,7 @@ namespace render
         void setUniform (const string &name, float value, bool ignoreIfNotExists = false);
         void setUniform (const string &name, const math3D::matrix_4x4<float> &value, bool ignoreIfNotExists = false);
         void setUniform (const string &name, const math3D::vector3_f &value, bool ignoreIfNotExists = false);
+        void setUniform (const string &name, const math3D::vector2_f &value, bool ignoreIfNotExists = false);
         void setUniformSampler (const string &name, unsigned textureIndex, bool ignoreIfNotExists = false);
 
         virtual string asString() const;

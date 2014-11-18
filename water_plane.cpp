@@ -17,7 +17,7 @@ void water_plane::draw (graphics_renderer &renderer) const
 
 water_plane::water_plane (resources& renderRes, render_window &renderWindow, float y)
         : _transform (transform_d::ident()),
-          _y (y)
+          _surfaceHeight (y)
 {
     auto waterplaneShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
                                                "water_plane.vert", "water_plane.frag");
@@ -57,15 +57,14 @@ void water_plane::useRefractionTextures (texture::ptr refractTexture, texture::p
 
 void water_plane::drawReflections (graphics_renderer &renderer, scene &reflectibleScene)
 {
-    _reflectionsCamera->asInverseYOf (*(renderer.state().getCamera()), _y);
-    //_reflectionsCamera->translateRotate (_reflectionsCamera->getInversedTransform().getTranslation());
+    _reflectionsCamera->asInverseYOf (*(renderer.state().getCamera()), _surfaceHeight);
 
     renderer.renderTo (_reflectionsFrameBuffer);
     renderer.use (_reflectionsCamera);
 
     glEnable (GL_CLIP_PLANE0);
 
-    const double clipplaneEq[4] = { 0.0, 1.0, 0.0, -1 };
+    const double clipplaneEq[4] = { 0.0, 1.0, 0.0, -_surfaceHeight - 0.1 };
     glClipPlane (GL_CLIP_PLANE0, clipplaneEq);
 
     reflectibleScene.draw (renderer);

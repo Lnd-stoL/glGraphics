@@ -1,19 +1,19 @@
 
 #version 130
 
-attribute vec3 aCoords;
-attribute vec2 aTexUV;
+in vec3 aCoords;
+in vec2 aTexUV;
 
 uniform mat4 uMatTransform;
 uniform mat4 uMatWorldTransform;
 uniform vec3 uLightPos;
 uniform vec3 uViewPos;
 
-varying vec3 vVert2Eye;
-varying vec3 vVertWorld;
-varying vec2 vTexUV;
-varying vec3 vLight2VertPos;
-varying vec4 proj_coords;
+out vec3 vVert2Eye;
+out vec3 vVertWorld;
+out vec2 vTexUV;
+out vec3 vLight2VertPos;
+out vec4 proj_coords;
 
 
 void main()

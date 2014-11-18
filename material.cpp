@@ -16,7 +16,7 @@ namespace render
 
     void technique::setup (graphics_renderer &renderer) const
     {
-        math3D::object2screen_transform_d trans = renderer.state().getObject2ScreenTransform();
+        const math3D::object2screen_transform_d &trans = renderer.state().getObject2ScreenTransform();
 
         _renderingProgram->use();
 
@@ -43,6 +43,7 @@ namespace render
         for (auto texture_ : _textures)
         {
             glActiveTexture (GL_TEXTURE0 + i);
+            //glBindSampler (i, GL_LINEAR);
             texture_.second->use();
 
             _technique->getRenderingProgram()->setUniformSampler (texture_.first, i, true);

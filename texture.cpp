@@ -162,10 +162,6 @@ namespace render
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,       GL_CLAMP_TO_EDGE);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,       GL_CLAMP_TO_EDGE);
 
-        glTexParameteri (GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE,   GL_INTENSITY);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-
         return texture::ptr (txt);
     }
 

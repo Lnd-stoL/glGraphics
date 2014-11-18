@@ -70,6 +70,7 @@ void demo_scene::_initShadowmaps()
         debug::log::println_err ("failed to initialize frame buffer for shadowmaps");
 
     auto vertexLayout = shadowmapgen_vertex_layout::alloc();
+    //auto vertexLayout = exs3d_mesh::exs3d_vertex_layout::alloc();
     auto shadowmapGenProgramId = gpu_program::id (vertexLayout, "shadowmap_gen.vert", "shadowmap_gen.frag");
     auto shadowmapGenProgram = _resources.gpuProgramsManager().request (shadowmapGenProgramId, _resources);
     _shadowmapGenMaterial = material::alloc (technique::alloc (shadowmapGenProgram));
@@ -227,4 +228,43 @@ void demo_scene::_frameRender()
     _renderer.forceMaterial (_postprocessMaterial);
     _screenQuad->draw (_renderer);
     _renderer.stopForcingMaterial();
+}
+
+
+void demo_scene::_justTestDraw()
+{
+    _renderer.renderTo (_shadowmapFrameBuffer);
+    _renderer.forceMaterial (_shadowmapGenMaterial);
+
+    _renderer.use (_shadowmapCamera);
+    _renderer.renderScene (_scene);
+
+    _renderer.stopForcingMaterial();
+
+    // ---------------------------------------------------------------------------------------------  Render pass
+
+    _renderer.renderTo (_renderWindow);
+
+    auto beforeDrawLambda = [this] (graphics_renderer &renderer){
+        object2screen_transform_d shadowmapTranfrom (
+                renderer.state().getObject2ScreenTransform().getWorldTransform(),
+                _lightTransform.inversed(), _shadowmapCamera->getProjection());
+        matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
+        matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
+        auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
+        matBias.multiply (matShadowmapTransform);
+
+        //renderer.state().getMaterial()->textures()["uShadowMapFlat"] = _shadowmapTexture;
+        renderer.state().getMaterial()->textures()["uShadowMap"] = _shadowmapTexture;
+        renderer.state().getMaterial()->setup (renderer);
+
+        renderer.state().getRenderingProgram()->setUniform ("uShadowmapTransform", matBias, true);
+    };
+
+    auto handlerId = _renderer.beforeDrawCallEvent().handleWith (beforeDrawLambda);
+
+    _renderer.use (_viewerCamera);
+    _renderer.renderScene (_scene);
+
+    _renderer.beforeDrawCallEvent().stopHandlingWith (handlerId);
 }

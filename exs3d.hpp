@@ -44,7 +44,7 @@ namespace render
             virtual void _registerAttributes()
             {
                 _registerAttribute ("aCoords", attribute::tFloat, offsetof (vertex, coords), 3);
-                _registerAttribute ("aNormal", attribute::tFloat, offsetof (vertex, normal), 3, true);
+                _registerAttribute ("aNormal", attribute::tFloat, offsetof (vertex, normal), 3);
                 _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (vertex, texUV), 2);
             }
 

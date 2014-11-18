@@ -65,6 +65,8 @@ protected:
     void _frameUpdate();
     void _frameRender();
 
+    void _justTestDraw();
+
 
 public:
     demo_scene (graphics_renderer& renderer, render_window &renderWindow, resources &res);

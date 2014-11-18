@@ -121,6 +121,16 @@ vec3 calcSkyColor (vec3 eyedir)
 }
 
 
+vec4 sampleCloudsPlane (float frameTime, vec2 offset)
+{
+    float sphereProjHeight = vTexCube.y + 0.25;
+    vec2 cloudsUV = vec2 ((vTexCube.x + offset.x) / sphereProjHeight / 5 + frameTime / 10,
+                          (vTexCube.z + offset.y) / sphereProjHeight / 7 + frameTime / 5);
+
+    return texture (uClouds, cloudsUV);
+}
+
+
 void main()
 {
     if (vTexCube.y * 500 < -100)
@@ -130,25 +140,18 @@ void main()
     }
 
     float frameTime = uFrameCount * 3;
-    lightdir = vec3 (0, sin (frameTime), cos (frameTime));
+    lightdir = normalize (vec3 (cos (frameTime), sin (frameTime), 0.2));
 
-    float sphereProjHeight = vTexCube.y + 0.25;
-    vec2 cloudsUV = vec2 (vTexCube.x / sphereProjHeight / 5 + frameTime / 10,
-                          vTexCube.z / sphereProjHeight / 7 + frameTime / 5);
+    vec4 cloudColor = sampleCloudsPlane (frameTime, vec2 (0, 0));
 
-    vec3 sampleCoords = normalize (vec3 (cos (frameTime), 0, sin (frameTime)) + vTexCube);
+    float cloudTexturePixel = 0.01;
+    float cloudNormalDX = length (sampleCloudsPlane (frameTime, vec2 (cloudTexturePixel, 0))) -
+                            length (sampleCloudsPlane (frameTime, vec2 (-cloudTexturePixel, 0)));
+    float cloudNormalDZ = length (sampleCloudsPlane (frameTime, vec2 (0, cloudTexturePixel))) -
+                          length (sampleCloudsPlane (frameTime, vec2 (0, -cloudTexturePixel)));
+    vec3 cloudNormal = normalize (vec3 (cloudNormalDX, 0.5, cloudNormalDZ));
 
-
-    vec4 cloudColor = texture (uClouds, cloudsUV);
-
-    float cloudTexturePixel = 2 / 1024;
-    float cloudNormalDX = length (texture (uClouds, cloudsUV + vec2 ( cloudTexturePixel, 0))) -
-                          length (texture (uClouds, cloudsUV + vec2 (-cloudTexturePixel, 0)));
-    float cloudNormalDZ = length (texture (uClouds, cloudsUV + vec2 (0,  cloudTexturePixel))) -
-                          length (texture (uClouds, cloudsUV + vec2 (0, -cloudTexturePixel)));
-    vec3 cloudNormal = normalize (vec3 (cloudNormalDX * 10, 1, cloudNormalDZ * 10));
-
-    float cloudLight = clamp (dot (cloudNormal, lightdir), 0, 1);
+    float cloudLight = clamp (dot (cloudNormal, lightdir /** 10000 - vec3 (cloudsUV.x * 500, 500, cloudsUV.y * 500)*/), 0, 1);
 
     vec3 skyColor = calcSkyColor (normalize (vTexCube));
 

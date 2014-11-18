@@ -62,7 +62,7 @@ namespace render
     public:
         declare_ptr (i_vertex_layout)
         property_get_ref (Attributes, _attributes)
-        virtual size_t getStrideInBytes () const = 0;
+        virtual size_t getStrideInBytes() const = 0;
 
         string hashString() const
         {

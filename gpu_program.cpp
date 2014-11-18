@@ -157,10 +157,10 @@ namespace render
         auto attributes = _vertexLayout->getAttributes();
         for (unsigned i = 0; i < attributes.size(); ++i)
         {
+            glEnableVertexAttribArray (i);
+
             glBindAttribLocation (_programId, i, attributes[i].name.c_str());
             if (!debug::gl::test()) return;
-
-            glEnableVertexAttribArray (i);
         }
     }
 
@@ -239,23 +239,30 @@ namespace render
     {
         if (!_testValid()) return;
 
+        if (!gl_bindable<gpu_program>::isBoundNow())
+        {
+            _bind();
+            gl_bindable<gpu_program>::_bindThis();
+        }
+
+        for (unsigned i = 0; i < 5; ++i)
+        {
+            glDisableVertexAttribArray (i);
+        }
+
         auto attributes = _vertexLayout->getAttributes();
         for (unsigned i = 0; i < attributes.size(); ++i)
         {
+            glEnableVertexAttribArray (i);
             glVertexAttribPointer (i, attributes[i].dimension, attributes[i].type, (GLboolean) attributes[i].normalized,
-                                   (GLsizei) _vertexLayout->getStrideInBytes (), (GLvoid *) attributes[i].offset);
+                                   (GLsizei) _vertexLayout->getStrideInBytes(), (GLvoid *) attributes[i].offset);
         }
-
-        if (gl_bindable<gpu_program>::isBoundNow())  return;
-        _bind();
-        gl_bindable<gpu_program>::_bindThis();
     }
 
 
     void gpu_program::_bind() const
     {
         glUseProgram (_programId);
-        if (!debug::gl::test()) return;
     }
 
 
@@ -280,7 +287,6 @@ namespace render
         if (location == GL_INVALID_INDEX) return;
 
         glUniformMatrix4fv (location, 1, GL_TRUE, value.raw());
-        debug::gl::test();
     }
 
 
@@ -292,7 +298,6 @@ namespace render
         if (location == GL_INVALID_INDEX) return;
 
         glUniform1f (location, value);
-        debug::gl::test();
     }
 
 
@@ -304,7 +309,17 @@ namespace render
         if (location == GL_INVALID_INDEX) return;
 
         glUniform3f (location, value.getX(), value.getY(), value.getZ());
-        debug::gl::test();
+    }
+
+
+    void gpu_program::setUniform (const std::string &name, const math3D::vector2_f &value, bool ignoreIfNotExists)
+    {
+        if (!_testValid()) return;
+        _bind();
+        GLuint location = _locateUniform (name, ignoreIfNotExists);
+        if (location == GL_INVALID_INDEX) return;
+
+        glUniform2f (location, value.getX(), value.getY());
     }
 
 
@@ -316,7 +331,6 @@ namespace render
         if (location == GL_INVALID_INDEX) return;
 
         glUniform1i (location, textureIndex);
-        debug::gl::test();
     }
 
 

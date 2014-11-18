@@ -23,7 +23,7 @@ class water_plane : public renderable
 {
     mesh_component<elementary_shapes::simple_vertex, unsigned short>::ptr  _mesh;
     transform_d  _transform;
-    float  _y;
+    float _surfaceHeight;
     material::ptr  _material;
 
     frame_buffer::ptr  _reflectionsFrameBuffer;

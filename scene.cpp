@@ -140,6 +140,10 @@ namespace render
             _state.getRenderingProgram()->setUniform ("uLightPos", _scene->getSunPosition().convertType<float>(), true);
             _state.getRenderingProgram()->setUniform ("uFrameCount", _frameCount, true);
         }
+
+        auto viewInt = _state.getCamera()->getProjection()->getViewInterval();
+        _state.getRenderingProgram()->setUniform ("uClipNearFar", math3D::vector2_f (viewInt.getFrom(), viewInt.getTo()), true);
+
     }
 
 

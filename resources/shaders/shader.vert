@@ -24,14 +24,11 @@ void main()
 
     gl_Position = uMatTransform * vec4 (aCoords, 1);
 
-    //gl_ClipVertex = gl_Position / gl_Position.w;
-
-    //vec4 ClipVertex = vec4 (aCoords, 1);
-
     vec4 spaceVertex4 = uMatWorldTransform  * vec4 (aCoords, 1);
     vec3 spaceVertex = spaceVertex4.xyz / spaceVertex4.w;
 
-    gl_ClipDistance[0] = spaceVertex.y - 1.01;
+    //gl_ClipDistance[0] = spaceVertex.y - 1.01;
+    gl_ClipVertex = spaceVertex4;
 
     vNormal = mat3 (uMatWorldTransform) * aNormal;
     vLight2VertPos = uLightPos - spaceVertex;
