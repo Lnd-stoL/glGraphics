@@ -7,6 +7,7 @@ attribute vec2 aTexUV;
 
 uniform mat4 uMatTransform;
 uniform mat4 uMatWorldTransform;
+uniform mat4 uMatWorldViewTransform;
 uniform vec3 uViewPos;
 uniform mat4 uShadowmapTransform;
 uniform vec3 uLightPos;
@@ -16,6 +17,8 @@ varying vec3 vLight2VertPos;
 varying vec2 vTexUV;
 varying vec3 vVert2Eye;
 varying vec4 vShadowmapVert;
+varying vec3 vViewSpaceNormal;
+varying vec3 vViewSpaceCoords;
 
 
 void main()
@@ -31,8 +34,10 @@ void main()
     gl_ClipVertex = spaceVertex4;
 
     vNormal = mat3 (uMatWorldTransform) * aNormal;
+    vViewSpaceNormal = mat3 (uMatWorldViewTransform) * aNormal;
     vLight2VertPos = uLightPos - spaceVertex;
     vVert2Eye = uViewPos - spaceVertex;
 
     vShadowmapVert = uShadowmapTransform * vec4 (aCoords, 1);
+    vViewSpaceCoords = (uMatWorldViewTransform * vec4 (aCoords, 1)).xyz;
 }

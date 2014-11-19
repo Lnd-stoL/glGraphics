@@ -99,7 +99,7 @@ void demo_scene::_initObjects()
     _scene->addRenderableObject (_islandObject, 1);
 
     _waterObject = water_plane::alloc (_resources, _renderWindow, 1);
-    _waterObject->useRefractionTextures (_sceneWithoutRefractive_Texture, _sceneWithoutRefractive_DepthTexture);
+    _waterObject->useRefractionTextures (_sceneWithoutWater_Texture, _sceneWithoutWater_DepthTexture);
 
     _skyBox = sky_box::alloc (_resources);
     _scene->addRenderableObject (_skyBox, 0);
@@ -108,21 +108,24 @@ void demo_scene::_initObjects()
 
 void demo_scene::_initPosteffects()
 {
-    _sceneWithoutRefractive_FrameBuffer = frame_buffer::alloc (_renderWindow.getWidth(), _renderWindow.getHeight());
-    _sceneWithoutRefractive_FrameBuffer->clearColor (color_rgb<float> (1, 1, 1));
-    _sceneWithoutRefractive_DepthTexture = _sceneWithoutRefractive_FrameBuffer->attachDepthTexture();
-    _sceneWithoutRefractive_Texture = _sceneWithoutRefractive_FrameBuffer->attachColorTexture();
+    _sceneWithoutWater_FrameBuffer = frame_buffer::alloc (_renderWindow.getWidth(), _renderWindow.getHeight());
+    _sceneWithoutWater_FrameBuffer->clearColor (color_rgb<float> (1, 1, 1));
+    _sceneWithoutWater_DepthTexture = _sceneWithoutWater_FrameBuffer->attachDepthTexture();
+    _sceneWithoutWater_Texture = _sceneWithoutWater_FrameBuffer->attachColorTexture();
+    _sceneWithoutWater_NormalMap = _sceneWithoutWater_FrameBuffer->attachColorTexture();
 
-    if (!_sceneWithoutRefractive_FrameBuffer->readyForRender())
+    if (!_sceneWithoutWater_FrameBuffer->readyForRender())
         debug::log::println_err ("failed to initialize frame buffer for scene without refractive rendering");
 
     auto screenQuadShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
-                                               "screen_quad.vert", "screen_quad.frag");
+                                               "ssao.vert", "ssao.frag");
     auto screenQuadShader = _resources.gpuProgramsManager().request (screenQuadShaderId, _resources);
     auto screenQuadTechnique = technique::alloc (screenQuadShader);
     screenQuadTechnique->transformNotNeeded();
     _drawScreenMaterial = material::alloc (screenQuadTechnique);
-    _drawScreenMaterial->textures()["uScreen"] = _sceneWithoutRefractive_Texture;
+    _drawScreenMaterial->textures()["uNormalMap"] = _sceneWithoutWater_NormalMap;
+    _drawScreenMaterial->textures()["uScreen"] = _sceneWithoutWater_Texture;
+    _drawScreenMaterial->textures()["uDepthMap"] = _sceneWithoutWater_DepthTexture;
 
     vector<elementary_shapes::simple_vertex> vertices;
     vector<unsigned short> indices;
@@ -130,9 +133,8 @@ void demo_scene::_initPosteffects()
     _screenQuad = mesh_component<elementary_shapes::simple_vertex, unsigned short>::alloc (_drawScreenMaterial,
                                                                                            vertices, indices);
 
-
     _postprocess_FrameBuffer = frame_buffer::alloc (_renderWindow.getWidth(), _renderWindow.getHeight());
-    _postprocess_FrameBuffer->attachDepthTexture (_sceneWithoutRefractive_DepthTexture);
+    _postprocess_FrameBuffer->attachDepthTexture (_sceneWithoutWater_DepthTexture);
     //_postprocess_FrameBuffer->attachDepthTexture();
     _postprocess_Texture = _postprocess_FrameBuffer->attachColorTexture();
 
@@ -176,7 +178,7 @@ void demo_scene::_frameRender()
 
     // ---------------------------------------------------------------------------------------------  Render pass
 
-    _renderer.renderTo (_sceneWithoutRefractive_FrameBuffer);
+    _renderer.renderTo (_sceneWithoutWater_FrameBuffer);
 
     auto beforeDrawLambda = [this] (graphics_renderer &renderer){
         object2screen_transform_d shadowmapTranfrom (
@@ -210,6 +212,10 @@ void demo_scene::_frameRender()
 
     glDisable (GL_DEPTH_TEST);
     glDepthMask (GL_FALSE);
+
+    auto invProjMat = _viewerCamera->getProjection()->asInverseMatrix();
+    _drawScreenMaterial->getTechnique()->getRenderingProgram()->setUniform ("uMatInvProjection",
+                                                                            invProjMat.convertType<float>());
     _screenQuad->draw (_renderer);
 
     glEnable (GL_DEPTH_TEST);

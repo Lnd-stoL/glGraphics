@@ -10,6 +10,11 @@ varying vec3 vLight2VertPos;
 varying vec2 vTexUV;
 varying vec3 vVert2Eye;
 varying vec4 vShadowmapVert;
+varying vec3 vViewSpaceNormal;
+varying vec3 vViewSpaceCoords;
+
+out vec3  out_Color;
+out vec3  out_Normal;
 
 
 float shadowmapShading (vec3 vsv, vec2 disp, float bias)
@@ -70,7 +75,9 @@ void main()
 
     shadow = 0.3 + shadow * 0.7;
 
-    gl_FragData[0] = vec4 (diff * shadow, 1);
+    out_Color = diff * shadow;
+    out_Normal = (normalize (vViewSpaceNormal) + 1) / 2;
+    //out_Normal = normalize (vViewSpaceNormal);
 
     vec3 r = reflect (-vert2Eye, normal);
     //gl_FragData[0] = vec4 ((diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60)) * shadow, 1);

@@ -34,7 +34,7 @@ water_plane::water_plane (resources& renderRes, render_window &renderWindow, flo
     normalMap->filtering (texture::linear_MipmapLinear, texture::linear_MipmapLinear);
     _material->textures()["uNormalMap"] = normalMap;
 
-    _reflectionsFrameBuffer = frame_buffer::alloc (renderWindow.getWidth(), renderWindow.getHeight());
+    _reflectionsFrameBuffer = frame_buffer::alloc (renderWindow.getWidth() / 2, renderWindow.getHeight() / 2);
     _reflectionsFrameBuffer->clearColor (color_rgb<float> (1, 1, 1));
     _reflectionsFrameBuffer->attachDepthTexture();
     _reflectionsTexture = _reflectionsFrameBuffer->attachColorTexture();

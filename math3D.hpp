@@ -1233,8 +1233,11 @@ namespace math3D
                 _viewInterval (viewInterval)
         {  }
 
-        void changeAspect (numeric_t aspect)  { _aspect = aspect; }
+        virtual void changeAspect (numeric_t aspect)  { _aspect = aspect; }
         virtual void _implicitlyLeftMultiply (matrix_4x4<numeric_t> &wcMatrix) const = 0;
+
+        virtual matrix_4x4<numeric_t> asMatrix() const = 0;
+        virtual matrix_4x4<numeric_t> asInverseMatrix() const = 0;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -1243,33 +1246,56 @@ namespace math3D
     class perspective_projection : public projection<numeric_t>
     {
         angle<numeric_t> _fovy = angle<numeric_t>();
+        numeric_t _a = 0, _b = 0, _c = 0, _d = 0, _e = 0;
 
     public:
         property_get (Fov, _fovy)
 
+    protected:
+        void _recalcCoefficients()
+        {
+            numeric_t f = 1.0 / std::tan (_fovy.getRad() / 2.0);
+            _a = f / base_t::_aspect;
+            _b = f;
+            _e = -1;
+
+            numeric_t viewLength = base_t::_viewInterval.length();
+            _c = -base_t::_viewInterval.borderSumm() / viewLength;
+            _d = - (2 * base_t::_viewInterval.getFrom() * base_t::_viewInterval.getTo()) / viewLength;
+        }
+
+
     public:
         typedef projection<numeric_t> base_t;
         typedef perspective_projection<numeric_t> this_t;
+
         declare_ptr_alloc (this_t)
         perspective_projection() { }
 
         perspective_projection (angle<numeric_t> fovy, numeric_t aspect, interval<numeric_t> viewInterval) :
             _fovy         (fovy),
             projection<numeric_t> (aspect, viewInterval)
-        {  }
+        {
+            _recalcCoefficients();
+        }
+
+
+        virtual void changeAspect (numeric_t aspect)
+        {
+            base_t::changeAspect (aspect);
+            _recalcCoefficients();
+        }
 
 
         virtual void _implicitlyLeftMultiply (matrix_4x4<numeric_t> &wcMatrix) const
         {
-            numeric_t f = 1.0 / std::tan (_fovy.getRad() / 2.0);
-            wcMatrix.scaleRow (0, f / base_t::_aspect);
-            wcMatrix.scaleRow (1, f);
+            wcMatrix.scaleRow (0, _a);
+            wcMatrix.scaleRow (1, _b);
 
-            wcMatrix.copyRow (2, 3, -1);
+            wcMatrix.copyRow (2, 3, _e);
 
-            numeric_t viewLength = base_t::_viewInterval.length();
-            wcMatrix.scaleRow (2, -base_t::_viewInterval.borderSumm() / viewLength);
-            wcMatrix.at (2, 3) -= (2 * base_t::_viewInterval.getFrom() * base_t::_viewInterval.getTo()) / viewLength;
+            wcMatrix.scaleRow (2, _c);
+            wcMatrix.at (2, 3) += _d;
         }
 
 
@@ -1284,6 +1310,27 @@ namespace math3D
         virtual projection<numeric_t>* copy() const
         {
             return new perspective_projection<numeric_t> (_fovy, base_t::_aspect, base_t::_viewInterval);
+        }
+
+
+        virtual matrix_4x4<numeric_t> asMatrix() const
+        {
+            matrix_4x4<numeric_t> mat (_a, _b, _c, 0);
+            mat.at (2, 3) = _d;
+            mat.at (3, 2) = _e;
+
+            return mat;
+        }
+
+
+        virtual matrix_4x4<numeric_t> asInverseMatrix() const
+        {
+            numeric_t f = -_c / (_d * _e);
+            matrix_4x4<numeric_t> mat (numeric_t (1) / _a, numeric_t (1) / _b, 0, f);
+            mat.at (2, 3) = numeric_t (1) / _e;
+            mat.at (3, 2) = numeric_t (1) / _d;
+
+            return mat;
         }
     };
 
@@ -1329,6 +1376,18 @@ namespace math3D
         virtual projection<numeric_t>* copy() const
         {
             return new orthographic_projection<numeric_t> (_height, base_t::_aspect, base_t::_viewInterval);
+        }
+
+
+        virtual matrix_4x4<numeric_t> asMatrix() const
+        {
+            return matrix_4x4<numeric_t>();
+        }
+
+
+        virtual matrix_4x4<numeric_t> asInverseMatrix() const
+        {
+            return matrix_4x4<numeric_t>();
         }
     };
 

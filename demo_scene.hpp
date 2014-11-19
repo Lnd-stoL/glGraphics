@@ -31,9 +31,10 @@ class demo_scene :
 
     mesh_component<elementary_shapes::simple_vertex, unsigned short>::ptr  _screenQuad;
     material::ptr      _drawScreenMaterial;
-    frame_buffer::ptr  _sceneWithoutRefractive_FrameBuffer;
-    texture::ptr       _sceneWithoutRefractive_Texture;
-    texture::ptr       _sceneWithoutRefractive_DepthTexture;
+    frame_buffer::ptr  _sceneWithoutWater_FrameBuffer;
+    texture::ptr       _sceneWithoutWater_Texture;
+    texture::ptr       _sceneWithoutWater_DepthTexture;
+    texture::ptr       _sceneWithoutWater_NormalMap;
 
     material::ptr      _postprocessMaterial;
     frame_buffer::ptr  _postprocess_FrameBuffer;

@@ -21,12 +21,15 @@ namespace render
         public gl_bindable<frame_buffer>
     {
     private:
+        static const unsigned maxPossibleColorAttachements = 16;
+        static GLenum drawBuffersSequential[maxPossibleColorAttachements];
+
         GLuint _frameBufferId = GL_INVALID_INDEX;
 
         unsigned  _width  = 0;
         unsigned  _height = 0;
 
-        bool  _hasColorBuffer = false;
+        unsigned _numColorBuffers = 0;
         bool  _hasDepthBuffer = false;
 
         color_rgb<float>  _clearColor;
@@ -50,6 +53,7 @@ namespace render
         frame_buffer (unsigned width, unsigned height);
 
         texture::ptr attachColorTexture();
+        void attachColorTexture (texture::ptr txt);
         texture::ptr attachDepthTexture();
         void attachDepthTexture (texture::ptr txt);
 

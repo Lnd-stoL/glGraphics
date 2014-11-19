@@ -22,8 +22,9 @@ namespace render
 
         if (!_withoutTransform)
         {
-            _renderingProgram->setUniform ("uMatWorldTransform", trans.getWorldTransform().asMatrix().convertType<float>(), true);
+            _renderingProgram->setUniform ("uMatWorldTransform", trans.getWorldTransformMatrix().convertType<float>(), true);
             _renderingProgram->setUniform ("uMatTransform", trans.asMatrix().convertType<float>());
+            _renderingProgram->setUniform ("uMatWorldViewTransform", trans.getWorldCamTransformMatrix().convertType<float>(), true);
         }
 
         _renderingProgram->setUniform ("uViewPos",

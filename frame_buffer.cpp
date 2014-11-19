@@ -10,6 +10,27 @@ namespace render
 {
     gl_bindable_impl (frame_buffer)
 
+    GLenum frame_buffer::drawBuffersSequential[] =
+    {
+        GL_COLOR_ATTACHMENT0,
+        GL_COLOR_ATTACHMENT1,
+        GL_COLOR_ATTACHMENT2,
+        GL_COLOR_ATTACHMENT3,
+        GL_COLOR_ATTACHMENT4,
+        GL_COLOR_ATTACHMENT5,
+        GL_COLOR_ATTACHMENT6,
+        GL_COLOR_ATTACHMENT7,
+        GL_COLOR_ATTACHMENT8,
+        GL_COLOR_ATTACHMENT9,
+        GL_COLOR_ATTACHMENT10,
+        GL_COLOR_ATTACHMENT11,
+        GL_COLOR_ATTACHMENT12,
+        GL_COLOR_ATTACHMENT13,
+        GL_COLOR_ATTACHMENT14,
+        GL_COLOR_ATTACHMENT15
+    };
+
+//----------------------------------------------------------------------------------------------------------------------
 
     void frame_buffer::use() const
     {
@@ -45,22 +66,8 @@ namespace render
 
     texture::ptr frame_buffer::attachColorTexture()
     {
-        if (!_testValid())
-        {
-            debug::log::println_err ("can't attach color texture to invalid frame buffer");
-            return texture::ptr();
-        }
-
         auto colorTexture = texture::createEmptyRgb (_width, _height);
-        _bind();
-        glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTexture->getGlId(), 0);
-        debug::gl::test();
-
-        //GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-        //glDrawBuffers (1, DrawBuffers);
-
-        _bindDefault();
-        _hasColorBuffer = true;
+        attachColorTexture (colorTexture);
         return colorTexture;
     }
 
@@ -118,17 +125,22 @@ namespace render
 
     bool frame_buffer::readyForRender() const
     {
-        use();
+        _bind();
         return  glCheckFramebufferStatus (GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
     }
 
 
     void frame_buffer::_setStates() const
     {
-        if (!_hasColorBuffer)
+        if (!_numColorBuffers)
         {
             glDrawBuffer (GL_NONE);
             glReadBuffer (GL_NONE);
+        }
+
+        else
+        {
+            glDrawBuffers (_numColorBuffers, drawBuffersSequential);
         }
     }
 
@@ -137,6 +149,8 @@ namespace render
     {
         glDrawBuffer (GL_BACK);
         glReadBuffer (GL_BACK);
+
+        glDrawBuffers (1, drawBuffersSequential);
     }
 
 
@@ -156,8 +170,8 @@ namespace render
         glClearColor (_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), 1);
 
         unsigned flags = 0;
-        if (_hasColorBuffer)  flags |= GL_COLOR_BUFFER_BIT;
-        if (_hasDepthBuffer)  flags |= GL_DEPTH_BUFFER_BIT;
+        if (_numColorBuffers)  flags |= GL_COLOR_BUFFER_BIT;
+        if (_hasDepthBuffer)   flags |= GL_DEPTH_BUFFER_BIT;
 
         if (flags)  glClear (flags);
     }
@@ -166,5 +180,30 @@ namespace render
     void frame_buffer::clearColor (const color_rgb<float> &color)
     {
         _clearColor = color;
+    }
+
+
+    void frame_buffer::attachColorTexture (texture::ptr txt)
+    {
+        if (!_testValid())
+        {
+            debug::log::println_err ("can't attach color texture to invalid frame buffer");
+            return;
+        }
+
+        GLint maxColorAttachements = 0;
+        glGetIntegerv (GL_MAX_COLOR_ATTACHMENTS, &maxColorAttachements);
+        if (_numColorBuffers >= maxColorAttachements || _numColorBuffers >= maxPossibleColorAttachements)
+        {
+            debug::log::println_err (mkstr ("frame_buffer: too many color attachements; maximum supported is ", maxColorAttachements));
+            return;
+        }
+
+        _bind();
+        glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + _numColorBuffers, GL_TEXTURE_2D, txt->getGlId(), 0);
+        debug::gl::test();
+        ++_numColorBuffers;
+
+        _bindDefault();
     }
 }
