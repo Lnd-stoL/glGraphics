@@ -50,3 +50,9 @@ sky_box::sky_box (resources& renderRes)
     _material->textures()["uSkyBox_CubeMap"] = cubeMap;
     _material->textures()["uClouds"] = renderRes.requestFromFile<texture> (fileName);
 }
+
+
+void sky_box::update (math3D::vector3_f sunPosition)
+{
+    _material->vec3Params()["lightdir"] = sunPosition;
+}

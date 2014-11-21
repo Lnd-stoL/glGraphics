@@ -9,10 +9,10 @@ uniform mat4 uMatInvProjection;
 varying vec2 vTexUV;
 
 
-float g_sample_rad = 0.1;
-float g_intensity = 2.5;
-float g_scale = 10;
-float g_bias = 0.1;
+float g_sample_rad = 0.01;
+float g_intensity = 1;
+float g_scale = 0.5;
+float g_bias = 0.01;
 
 
 const int sample_count = 16;
@@ -34,6 +34,13 @@ const vec2 poisson16[] = vec2[](    // These are the Poisson Disk Samples
         vec2(  0.19984126,   0.78641367 ),
         vec2(  0.14383161,  -0.14100790 )
 );
+
+
+float rand (vec4 seed4)
+{
+    float dot_product = dot (seed4, vec4 (12.9898,78.233,45.164,94.673));
+    return fract (sin (dot_product) * 43758.5453);
+}
 
 
 vec3 calculatePosition (in vec2 coord, in float depth)
@@ -62,6 +69,10 @@ void main()
     vec3 screenOriginalColor = texture (uScreen, vTexUV).rgb;
 
     vec3 normal = normalize (texture (uNormalMap, vTexUV.xy).rgb * 2.0 - 1.0);
+    vec3 normal1 = normalize (texture (uNormalMap, vTexUV.xy + vec2 (1/1400, 1/900) * 2).rgb * 2.0 - 1.0);
+    vec3 normal2 = normalize (texture (uNormalMap, vTexUV.xy - vec2 (1/1400, 1/900) * 2).rgb * 2.0 - 1.0);
+    normal = normalize (normal + normal1 + normal2);
+
     float depth = texture (uDepthMap, vTexUV).r;
     vec3 viewPos = calculatePosition (vTexUV, depth * 2 - 1);
 
@@ -73,10 +84,10 @@ void main()
 
     const vec2 vec[4] = vec2[]( vec2 (1, 0), vec2 (-1, 0), vec2 (0, 1), vec2 (0, -1) );
 
-    vec2 rand = poisson16[int (length (normal) * 16)];
+    vec2 rand = normalize (vec2 (rand (vec4 (vTexUV, vTexUV)) + 1, rand (vec4 (vTexUV, vTexUV)) + 1));
 
     float ao = 0.0f;
-    float rad = g_sample_rad / viewPos.z;
+    float rad = g_sample_rad / (viewPos.z);
 
 //**SSAO Calculation**//
     int iterations = 4;
@@ -93,6 +104,6 @@ void main()
     }
     ao /= float (iterations)*4.0;
 
-    gl_FragData[0] = vec4 (screenOriginalColor * (1 - ao), 1);
+    gl_FragData[0] = vec4 (screenOriginalColor * (1 - ao * ao), 1);
     //gl_FragData[0] = vec4 (vec3 (1 - ao), 1);
 }

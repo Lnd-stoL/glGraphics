@@ -51,10 +51,12 @@ namespace render
                 std::function<bool (const scene_object::ptr&, const scene_object::ptr&)>> _sceneObjects;
 
         math3D::vector3_d  _sunPosition;
+        color_rgb<float>  _sunColor;
 
     public:
         property_get_ref (Objects, _sceneObjects)
         property_get_ref (SunPosition, _sunPosition)
+        property_get_ref (SunColor,  _sunColor);
 
 
     public:
@@ -65,7 +67,7 @@ namespace render
         scene_object::ptr addRenderableObject (renderable::ptr renderableObject, int renderQueue = 0);
         void addSceneObject (scene_object::ptr sceneObject);
         void removeSceneObject (scene_object::ptr sceneObject);
-        void setSun (math3D::vector3_d position);
+        void setSun (math3D::vector3_d position, color_rgb<float> color);
 
         void draw (graphics_renderer &renderer) const;
     };

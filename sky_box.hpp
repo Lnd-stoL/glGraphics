@@ -29,6 +29,7 @@ public:
     declare_ptr_alloc (sky_box)
     sky_box (resources& renderRes);
 
+    void update (math3D::vector3_f sunPosition);
     virtual void draw (graphics_renderer &renderer) const;
 };
 

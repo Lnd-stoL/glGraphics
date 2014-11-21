@@ -44,9 +44,10 @@ namespace render
     }
 
 
-    void scene::setSun (math3D::vector3_d position)
+    void scene::setSun (math3D::vector3_d position, color_rgb<float> color)
     {
         _sunPosition = position;
+        _sunColor = color;
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -138,6 +139,7 @@ namespace render
         if (_scene)
         {
             _state.getRenderingProgram()->setUniform ("uLightPos", _scene->getSunPosition().convertType<float>(), true);
+            _state.getRenderingProgram()->setUniform ("uLightColor", _scene->getSunColor().asVector(), true);
             _state.getRenderingProgram()->setUniform ("uFrameCount", _frameCount, true);
         }
 

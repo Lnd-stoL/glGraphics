@@ -45,7 +45,7 @@ namespace render
 
     public:
         property_get (GlId, _textureId);
-
+        property_get (GlTarget, _textureType);
 
     protected:
         bool _testValid() const;
@@ -60,6 +60,7 @@ namespace render
         virtual ~texture();
 
         static texture::ptr createEmptyRgb (unsigned width, unsigned height);
+        static texture::ptr createEmptyRgbMultisampled (unsigned width, unsigned height, unsigned samples);
         static texture::ptr createEmptyDepth (unsigned width, unsigned height);
 
         void use() const;
@@ -69,6 +70,10 @@ namespace render
 
         unsigned getHeight() const;
         unsigned getWidth() const;
+
+        bool isMultisample() const;
+        bool isCubemap() const;
+        bool isRegular() const;
 
         virtual string asString() const;
     };

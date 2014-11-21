@@ -7,8 +7,9 @@
 #include "oo_extensions.hpp"
 #include "gpu_program.hpp"
 #include "texture.hpp"
+#include "SFML/Graphics.hpp"
 
-#include <GL/glew.h>
+#include <glbinding/gl/gl.h>
 #include <map>
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -35,6 +36,11 @@ namespace render
         color_rgb()
         { }
 
+        color_rgb (const sf::Color &sfColor) : _r (component_t (sfColor.r) / 255),
+                                               _g (component_t (sfColor.g) / 255),
+                                               _b (component_t (sfColor.b) / 255)
+        { }
+
         color_rgb (component_t grayscale) : _r (grayscale), _g (grayscale), _b (grayscale)
         { }
 
@@ -43,6 +49,10 @@ namespace render
                                                                  _b (colorAsVector.getZ())
         { }
 
+        math3D::vector3<component_t> asVector() const
+        {
+            return *((math3D::vector3<component_t>*) (this));
+        }
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -79,12 +89,14 @@ namespace render
     protected:
         technique::ptr  _technique;
         std::map<string, texture::ptr>  _textures;
-        std::map<string, float>         _floatingPointParams;
+        std::map<string, float> _scalarParams;
+        std::map<string, math3D::vector3_f>  _vec3Params;
 
     public:
         property_get (Technique, _technique)
         property_ref (textures, _textures)
-        property_ref (floatingPointParams, _floatingPointParams)
+        property_ref (scalarParams, _scalarParams)
+        property_ref (vec3Params, _vec3Params)
 
 
     public:

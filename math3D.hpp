@@ -630,6 +630,12 @@ namespace math3D
         {
             return !(this->operator== (operand));
         }
+
+
+        string asString() const
+        {
+            return mkstr ("( ", _x, " ", _y, " ", _z, " )");
+        }
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -1094,8 +1100,7 @@ namespace math3D
             numeric_t half_angle = angle / 2;
             numeric_t sin_a = (numeric_t) std::sin (half_angle);
 
-            _quaternion = quaternion_t (axis.getX() * sin_a, axis.getY() * sin_a, axis.getZ() * sin_a,
-                                        (numeric_t) std::cos (half_angle));
+            _quaternion = quaternion_t (axis * sin_a, (numeric_t) std::cos (half_angle));
         }
 
 
@@ -1103,6 +1108,27 @@ namespace math3D
         {
 
         }*/
+
+
+        rotation (vector3<numeric_t> u, vector3<numeric_t> v)
+        {
+            numeric_t dot_uv = (u * v);
+            numeric_t norm_u_norm_v = sqrt (u.squaredLength() * v.squaredLength());
+            numeric_t real_part = norm_u_norm_v + dot_uv;
+
+            vector3<numeric_t> w;
+            if (real_part < 1.e-6f * norm_u_norm_v)
+            {
+                real_part = 0;
+                w = std::abs (u.getX()) > std::abs (u.getZ()) ?
+                        vector3<numeric_t> (-u.getY(), u.getX(), 0) :
+                        vector3<numeric_t> (0, -u.getZ(), u.getY());
+            }
+            else w = u.crossProduct (v);
+
+            _quaternion = quaternion_t (w, real_part);
+            _quaternion.normalize();
+        }
 
 
         rotation (quaternion_t quaternion_) : _quaternion (quaternion_), _ident (false)
@@ -1551,6 +1577,13 @@ namespace math3D
         void changeRotation (const rotation<numeric_t> &rot)
         {
             _rotation = rot;
+            _matrixCalculated = false;
+        }
+
+
+        void changeTranslation (const vector3<numeric_t> &pos)
+        {
+            _translation = pos;
             _matrixCalculated = false;
         }
 

@@ -5,10 +5,6 @@
 #include "render_resources.hpp"
 #include "binary_stream_impl.hpp"
 
-#include <boost/filesystem.hpp>
-
-#include "3rd-party/forsythtriangleorderoptimizer.h"
-
 using oo_extensions::mkstr;
 namespace fs = boost::filesystem;
 
@@ -280,8 +276,10 @@ namespace render
         pathToInputFile.remove_filename();
 
         _additionalSearchLocations.clear();
-        _additionalSearchLocations.resize (2);
+        _additionalSearchLocations.resize (4);
         _additionalSearchLocations[0] = pathToInputFile.string();
         _additionalSearchLocations[1] = (pathToInputFile / "textures").string();
+        _additionalSearchLocations[2] = (pathToInputFile / "texture").string();
+        _additionalSearchLocations[3] = (pathToInputFile / "maps").string();
     }
 }

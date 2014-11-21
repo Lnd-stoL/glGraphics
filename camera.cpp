@@ -92,4 +92,13 @@ namespace render
     {
         return object2screen_transform_d (worldTransform, _inversedTransform, getProjection());
     }
+
+
+    void camera::changeTransform (const vector3_d &trans, const rotation_d &rot)
+    {
+        _transform.changeTranslation (trans);
+        _transform.changeRotation (rot);
+
+        _updateCached();
+    }
 }

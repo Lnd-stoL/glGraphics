@@ -53,6 +53,7 @@ namespace render
         frame_buffer (unsigned width, unsigned height);
 
         texture::ptr attachColorTexture();
+        texture::ptr attachColorMultisampleTexture (unsigned samples);
         void attachColorTexture (texture::ptr txt);
         texture::ptr attachDepthTexture();
         void attachDepthTexture (texture::ptr txt);

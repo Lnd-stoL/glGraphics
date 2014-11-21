@@ -10,7 +10,7 @@ using oo_extensions::mkstr;
 
 namespace render
 {
-    shader::shader (GLint shaderType)
+    shader::shader (GLenum shaderType)
     {
         _initializeGLShader (shaderType);
     }
@@ -331,6 +331,7 @@ namespace render
         if (location == GL_INVALID_INDEX) return;
 
         glUniform1i (location, textureIndex);
+        debug::gl::test();
     }
 
 

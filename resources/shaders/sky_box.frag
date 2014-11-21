@@ -8,6 +8,9 @@ uniform samplerCube  uSkyBox_Cubemap;
 uniform sampler2D  uClouds;
 uniform float  uFrameCount;
 
+uniform vec3 lightdir;
+uniform vec3 uLightColor;
+
 //----------------------------------------------------------------------------------------------------------------------
 // input
 
@@ -16,8 +19,6 @@ varying vec3  vTexCube;
 
 //----------------------------------------------------------------------------------------------------------------------
 // global parameters
-
-vec3 lightdir = normalize (vec3 (0.2, 0.8, 0.2));
 
 vec3 Kr = vec3 (0.48867780436772762, 0.6978442963618773, 0.7616065586417131);
 
@@ -96,7 +97,7 @@ vec3 calcSkyColor (vec3 eyedir)
 
     vec3 eye_position = vec3 (0.0, surface_height, 0.0);
     float eye_depth = atmospheric_depth (eye_position, eyedir);
-    float step_length = eye_depth / float(step_count);
+    float step_length = eye_depth / float (step_count);
     float eye_extinction = horizon_extinction (eye_position, eyedir, surface_height - 0.15);
 
     vec3 rayleigh_collected = vec3 (0.0, 0.0, 0.0);
@@ -140,7 +141,7 @@ void main()
     }
 
     float frameTime = uFrameCount * 3;
-    lightdir = normalize (vec3 (cos (frameTime), sin (frameTime), 0.2));
+    //lightdir = normalize (vec3 (cos (frameTime), sin (frameTime), 0.2));
 
     vec4 cloudColor = sampleCloudsPlane (frameTime, vec2 (0, 0));
 
@@ -157,7 +158,7 @@ void main()
 
     //color = mix (color, vec3 (1, 1, 1), 0.05);
     //cloudColor *= cloudLight;
-    vec3 color = mix (skyColor, cloudColor.rgb, cloudColor.a * 0.95 * cloudLight);
+    vec3 color = mix (skyColor, cloudColor.rgb * uLightColor + vec3 (0.2, 0.2, 0.2), cloudColor.a * 0.96 * cloudLight);
 
     gl_FragData[0] = vec4 (color, 1.0);
     //gl_FragData[0] = vec4 (vTexCube, 1);

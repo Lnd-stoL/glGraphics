@@ -49,20 +49,20 @@ void demo_scene::_initShadowmaps()
 {
     debug::log::println ("initializing shadowmap stuff ...");
 
-    rotation_d lightRot (vector3_d (0, 1, 0), angle_d::pi);
-    lightRot.combine (rotation_d (vector3_d (1, 0, 0), angle_d::pi / 3));
-    _lightTransform = transform_d (vector3_d (10, 70, -50), lightRot);
+    rotation_d lightRot (vector3_d (0, 1, 0), (angle_d::pi, 0));
+    lightRot.combine (rotation_d (vector3_d (1, 0, 0), (angle_d::pi / 3, 0)));
+    _lightTransform = transform_d (vector3_d (0, 30, 80), lightRot);
 
     //unique_ptr<orthographic_projection_d> lightProj (
     //        new orthographic_projection_d (10, renderWindow.getAspectRatio(), interval_d (1, 5000)));
 
     unique_ptr<perspective_projection_d> lightProj (
-            new perspective_projection_d (angle_d::pi / 5, _renderWindow.getAspectRatio(), interval_d (1, 100)));
+            new perspective_projection_d (angle_d::pi / 3, _renderWindow.getAspectRatio(), interval_d (1, 100)));
 
     _shadowmapCamera = render::camera::alloc (std::move (lightProj));
-    _shadowmapCamera->addTransform (_lightTransform);
+    //_shadowmapCamera->addTransform (_lightTransform);
 
-    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 2, _renderWindow.getWidth() * 2);
+    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 3, _renderWindow.getWidth() * 3);
     _shadowmapTexture = _shadowmapFrameBuffer->attachDepthTexture();
     _shadowmapTexture->setupForShadowSampler();
 
@@ -89,20 +89,28 @@ void demo_scene::_initResourceManagers()
 void demo_scene::_initObjects()
 {
     _scene = scene::alloc();
-    _scene->setSun (_lightTransform.getTranslation());
+    _scene->setSun (_lightTransform.getTranslation(), color_rgb<float> (1, 1, 1));
 
     debug::log::println ("loading scene objects ...");
 
     auto islandMesh = _resources.requestFromFile<exs3d_mesh> ("tropical-island/tropical-island.exs3d");
+    //auto islandMesh = _resources.requestFromFile<exs3d_mesh> ("island-001/island.exs3d");
     transform_d islandTransform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04));
     _islandObject = mesh_renderable_object::alloc (islandMesh->getRenderableMesh(), islandTransform);
     _scene->addRenderableObject (_islandObject, 1);
+
+    //auto island2Mesh = _resources.requestFromFile<exs3d_mesh> ("island-001/island.exs3d");
+    //transform_d island2Transform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04));
+    //auto island2Object = mesh_renderable_object::alloc (island2Mesh->getRenderableMesh(), island2Transform);
+    //_scene->addRenderableObject (island2Object, 1);
 
     _waterObject = water_plane::alloc (_resources, _renderWindow, 1);
     _waterObject->useRefractionTextures (_sceneWithoutWater_Texture, _sceneWithoutWater_DepthTexture);
 
     _skyBox = sky_box::alloc (_resources);
     _scene->addRenderableObject (_skyBox, 0);
+
+    _horizonColorMap.loadFromFile (_resources.texturesManager().locateFile ("skybox/horizon.png"));
 }
 
 
@@ -112,13 +120,14 @@ void demo_scene::_initPosteffects()
     _sceneWithoutWater_FrameBuffer->clearColor (color_rgb<float> (1, 1, 1));
     _sceneWithoutWater_DepthTexture = _sceneWithoutWater_FrameBuffer->attachDepthTexture();
     _sceneWithoutWater_Texture = _sceneWithoutWater_FrameBuffer->attachColorTexture();
-    _sceneWithoutWater_NormalMap = _sceneWithoutWater_FrameBuffer->attachColorTexture();
+    _sceneWithoutWater_NormalMap = texture::createEmptyRgb (_renderWindow.getWidth(), _renderWindow.getHeight());
+    _sceneWithoutWater_FrameBuffer->attachColorTexture (_sceneWithoutWater_NormalMap);
 
     if (!_sceneWithoutWater_FrameBuffer->readyForRender())
         debug::log::println_err ("failed to initialize frame buffer for scene without refractive rendering");
 
     auto screenQuadShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
-                                               "ssao.vert", "ssao.frag");
+                                               "ssao.vert", "ssao-1.frag");
     auto screenQuadShader = _resources.gpuProgramsManager().request (screenQuadShaderId, _resources);
     auto screenQuadTechnique = technique::alloc (screenQuadShader);
     screenQuadTechnique->transformNotNeeded();
@@ -142,7 +151,7 @@ void demo_scene::_initPosteffects()
         debug::log::println_err ("failed to initialize frame buffer for postprocess");
 
     auto postprocessShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
-                                               "screen_quad.vert", "screen_quad.frag");
+                                               "screen_quad.vert", "fxaa.frag");
     auto postprocessShader = _resources.gpuProgramsManager().request (postprocessShaderId, _resources);
     auto postprocessTechnique = technique::alloc (postprocessShader);
     postprocessTechnique->transformNotNeeded();
@@ -160,12 +169,31 @@ void demo_scene::_setEventHandlers()
 
 void demo_scene::_frameUpdate()
 {
+    _time += 0.002;
 
+    _sunPosition = math3D::vector3_f (0, std::sin (_time), std::cos (_time)).normalized();
+
+    double sunColorMapSampleX = (2.0 * _time / angle_d::pi);
+    if (sunColorMapSampleX >= 1.0)  sunColorMapSampleX = 2.01 - sunColorMapSampleX;
+    unsigned sunColorMapCoordX = (unsigned) (sunColorMapSampleX  * _horizonColorMap.getSize().x);
+    if (sunColorMapCoordX >= _horizonColorMap.getSize().x)  sunColorMapCoordX = _horizonColorMap.getSize().x - 1;
+
+    auto sunColor = color_rgb<float> (_horizonColorMap.getPixel (sunColorMapCoordX, 0));
+
+    _skyBox->update (_sunPosition);
+    _scene->setSun (_sunPosition.convertType<double>() * 450, sunColor);
+
+    rotation_d lightRot (vector3_d (0, 0, 1), _sunPosition.convertType<double>());
+    //rotation_d lightRot (vector3_d (1, 0, 0), _time);
+    auto shadowmapCameraPos = _scene->getSunPosition() / 6;
+    _shadowmapCamera->changeTransform (shadowmapCameraPos, lightRot);
 }
 
 
 void demo_scene::_frameRender()
 {
+    //glEnable (GL_FRAMEBUFFER_SRGB);
+
     glDisable (GL_CULL_FACE);   // TODO: So stupid model
 
     _renderer.renderTo (_shadowmapFrameBuffer);
@@ -183,7 +211,7 @@ void demo_scene::_frameRender()
     auto beforeDrawLambda = [this] (graphics_renderer &renderer){
         object2screen_transform_d shadowmapTranfrom (
                 renderer.state().getObject2ScreenTransform().getWorldTransform(),
-                _lightTransform.inversed(), _shadowmapCamera->getProjection());
+                _shadowmapCamera->getInversedTransform(), _shadowmapCamera->getProjection());
         matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
         matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
         auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
@@ -232,7 +260,11 @@ void demo_scene::_frameRender()
 
     _renderer.renderTo (_renderWindow);
     _renderer.forceMaterial (_postprocessMaterial);
+    glDisable (GL_DEPTH_TEST);
+    glDepthMask (GL_FALSE);
     _screenQuad->draw (_renderer);
+    glEnable (GL_DEPTH_TEST);
+    glDepthMask (GL_TRUE);
     _renderer.stopForcingMaterial();
 }
 
@@ -254,7 +286,7 @@ void demo_scene::_justTestDraw()
     auto beforeDrawLambda = [this] (graphics_renderer &renderer){
         object2screen_transform_d shadowmapTranfrom (
                 renderer.state().getObject2ScreenTransform().getWorldTransform(),
-                _lightTransform.inversed(), _shadowmapCamera->getProjection());
+                _shadowmapCamera->getInversedTransform(), _shadowmapCamera->getProjection());
         matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
         matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
         auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();

@@ -51,6 +51,9 @@ class demo_scene :
     mesh_renderable_object::ptr  _islandObject;
     water_plane::ptr  _waterObject;
     sky_box::ptr  _skyBox;
+    float _time = 0;
+    math3D::vector3_f _sunPosition;
+    sf::Image  _horizonColorMap;
 
 
 protected:

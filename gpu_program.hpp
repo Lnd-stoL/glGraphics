@@ -32,7 +32,7 @@ namespace render
 
     protected:
         void _initializeGLShader (GLenum shaderType);
-        explicit shader (GLint shaderType);
+        explicit shader (GLenum shaderType);
         shader (const string &fileName, GLint shaderType);
 
     public:

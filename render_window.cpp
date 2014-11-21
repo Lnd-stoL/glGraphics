@@ -1,17 +1,26 @@
 
 #include "render_window.hpp"
 
+#include <glbinding/gl/gl.h>
+#include <glbinding/Binding.h>
+
 using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
 
 render_window::render_window (unsigned width, unsigned height, const string &title)
-    : _window (sf::VideoMode (width, height), title, sf::Style::Default, sf::ContextSettings (24, 0, 4))
+    : _window (sf::VideoMode (width, height), title, sf::Style::Default, sf::ContextSettings (0, 0, 0, 3, 0))
 {
     _window.setFramerateLimit (60);
 
-    //glewExperimental = GL_TRUE;
-    glewInit();
+    debug::log::println ("initializing OpenGL binding ...");
+    glbinding::Binding::initialize();
+    debug::log::println ("succesfully loaded");
+    glDisable (GL_MULTISAMPLE);
+
+    auto contextSettings = _window.getSettings();
+    debug::log::println (mkstr ("created rendering window & context: OpenGL ",
+                                contextSettings.majorVersion, ".", contextSettings.minorVersion));
 }
 
 

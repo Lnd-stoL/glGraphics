@@ -159,6 +159,7 @@ namespace render
         if (gl_bindable<frame_buffer>::isBoundNow())  return;
 
         glBindFramebuffer (GL_FRAMEBUFFER, _frameBufferId);
+        glBindFramebuffer (GL_DRAW_FRAMEBUFFER, _frameBufferId);
         debug::gl::test();
 
         gl_bindable<frame_buffer>::_bindThis();
@@ -200,10 +201,18 @@ namespace render
         }
 
         _bind();
-        glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + _numColorBuffers, GL_TEXTURE_2D, txt->getGlId(), 0);
+        glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + _numColorBuffers, txt->getGlTarget(), txt->getGlId(), 0);
         debug::gl::test();
         ++_numColorBuffers;
 
         _bindDefault();
+    }
+
+
+    texture::ptr frame_buffer::attachColorMultisampleTexture (unsigned samples)
+    {
+        auto txt = texture::createEmptyRgbMultisampled (_width, _height, samples);
+        attachColorTexture (txt);
+        return txt;
     }
 }

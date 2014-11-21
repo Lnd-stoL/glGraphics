@@ -155,7 +155,7 @@ namespace render
         auto txt = new texture();
 
         txt->use();
-        glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+        glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
         debug::gl::test();
 
         txt->filtering (texture::linear, texture::linear);
@@ -206,5 +206,41 @@ namespace render
         glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
         debug::log::println_mrk (mkstr (asString(), " successfully loaded and is ready for use (cubemap; 6 faces)"));
+    }
+
+
+    texture::ptr texture::createEmptyRgbMultisampled (unsigned width, unsigned height, unsigned samples)
+    {
+        auto txt = new texture();
+        txt->_textureType = GL_TEXTURE_2D_MULTISAMPLE;
+
+        txt->use();
+        glTexImage2DMultisample (GL_TEXTURE_2D_MULTISAMPLE, samples, GL_RGB8, width, height, GL_FALSE);
+        debug::gl::test();
+
+        txt->filtering (texture::linear, texture::linear);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        debug::gl::test();
+
+        return texture::ptr (txt);
+    }
+
+
+    bool texture::isMultisample() const
+    {
+        return _textureType == GL_TEXTURE_2D_MULTISAMPLE;
+    }
+
+
+    bool texture::isCubemap() const
+    {
+        return _textureType == GL_TEXTURE_CUBE_MAP;
+    }
+
+
+    bool texture::isRegular() const
+    {
+        return _textureType == GL_TEXTURE_2D;
     }
 }

@@ -35,10 +35,11 @@ namespace render
     void material::setup (graphics_renderer &renderer) const
     {
         _technique->setup (renderer);
-        for (auto param : _floatingPointParams)
-        {
+        for (auto param : _scalarParams)
             _technique->getRenderingProgram()->setUniform (param.first, param.second, true);
-        }
+
+        for (auto param : _vec3Params)
+            _technique->getRenderingProgram()->setUniform (param.first, param.second, true);
 
         unsigned i = 0;
         for (auto texture_ : _textures)

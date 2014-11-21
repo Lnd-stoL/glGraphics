@@ -45,12 +45,14 @@ vec3 calculatePosition (in vec2 coord, in float depth)
 void main()
 {
     vec3 screenOriginalColor = texture (uScreen, vTexUV).rgb;
+    //gl_FragData[0] = vec4 (screenOriginalColor, 1);
+    //return;
 
     vec3 normal = normalize (texture (uNormalMap, vTexUV.xy).rgb * 2.0 - 1.0);
     float depth = texture (uDepthMap, vTexUV).r;
     vec3 viewPos = calculatePosition (vTexUV, depth * 2 - 1);
 
-    if (viewPos.z < -100)
+    if (viewPos.z < -200)
     {
         gl_FragData[0] = vec4 (screenOriginalColor, 1);
         return;
@@ -58,8 +60,8 @@ void main()
 
     else
     {
-        float distanceThreshold = 0.3;
-        vec2 filterRadius = vec2 (0.003, 0.003);
+        float distanceThreshold = 0.05;
+        vec2 filterRadius = vec2 (0.008, 0.006);
 
         float ambientOcclusion = 0;
         // perform AO
@@ -77,17 +79,20 @@ void main()
             float VPdistSP = distance (viewPos, samplePos);
 
             // a = distance function
-            float a = 1.0 - smoothstep (distanceThreshold, distanceThreshold * 2, VPdistSP);
+            float a = 1.0 - smoothstep (distanceThreshold, distanceThreshold * 10, VPdistSP);
             // b = dot-Product
             float b = NdotS;
 
             ambientOcclusion += (a * b);
         }
 
-        float occlusionFactor = 1.0 - (ambientOcclusion / sample_count);
+        ambientOcclusion /= sample_count;
+        //ambientOcclusion *= ambientOcclusion - 0.1;
+        ambientOcclusion = clamp (ambientOcclusion, 0, 0.9);
+        float occlusionFactor = 1.0 - (ambientOcclusion);
 
         gl_FragData[0] = vec4 (screenOriginalColor * occlusionFactor, 1);
-        gl_FragData[0] = vec4 (vec3 (occlusionFactor), 1);
+        //gl_FragData[0] = vec4 (vec3 (occlusionFactor), 1);
         //gl_FragData[0] = vec4 (texture (uScreen, vTexUV).rgb, 1);
     }
 }

@@ -8,6 +8,8 @@ uniform sampler2D  uReflection;
 
 uniform vec2  uClipNearFar;
 uniform float  uFrameCount;
+uniform vec3 uLightColor;
+
 
 in vec2  vTexUV;
 in vec3  vLight2VertPos;
@@ -19,15 +21,15 @@ out vec4  out_Color;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-const vec3 waterColor = vec3 (0.5, 0.8, 0.8);
-const vec3 waterSpecular = vec3 (0.9, 0.9, 1);
+vec3 waterColor = vec3 (0.5, 0.8, 0.8);
+//const vec3 waterSpecular = vec3 (0.9, 0.9, 1);
 
 const float diffuseLightenFactor = 0.2;
-const float density = 0.8;
+const float density = 0.7;
 const float coastDensity = 0.97;
 const float refractionDistort = 0.23;
 const float reflectionDistort = 0.055;
-const float specularity = 800;
+const float specularity = 950;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -42,7 +44,7 @@ float calculateLinearDepth (float zScreen)
 
 vec3 calculatePixelNormal()
 {
-    vec2 texUV = vTexUV + vec2 (uFrameCount / 2);
+    vec2 texUV = vTexUV + vec2 (uFrameCount);
 
     vec3 normalPixel =       texture (uNormalMap, vTexUV).xzy +
                              texture (uNormalMap, -texUV / 3).xzy +
@@ -59,6 +61,9 @@ void main()
     vec3 vert2Eye   = normalize (vVert2Eye);
     vec3 light2Vert = normalize (vLight2VertPos);
     vec3 pixelNormal = calculatePixelNormal();
+
+    vec3 waterSpecular = uLightColor * 2.1;
+    waterColor *= uLightColor;
 
     float diffuseLight = clamp (dot (pixelNormal, light2Vert), 0, 1);
     diffuseLight = diffuseLight * (1 - diffuseLightenFactor) + diffuseLightenFactor;
@@ -100,7 +105,7 @@ void main()
     resultColor += specular;
 
     float fogFactor = sqrt (dot (vVertWorld, vVertWorld) * length (vVertWorld)) / 10000;
-    resultColor = mix (resultColor, vec3 (1, 1, 1), fogFactor);
+    resultColor = mix (resultColor, (vec3 (0.1, 0.1, 0.1) + uLightColor), fogFactor);
 
     out_Color = vec4 (resultColor, 1.0 - fogFactor*fogFactor * 4);
 }
