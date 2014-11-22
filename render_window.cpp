@@ -2,60 +2,66 @@
 #include "render_window.hpp"
 
 #include <glbinding/Binding.h>
+#include <glbinding/Meta.h>
+#include <glbinding/ContextInfo.h>
+#include <glbinding/Version.h>
+#include <SOIL/SOIL.h>
 
 using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
 
+weak_ptr<render_window>  render_window::_singleton;
+
+//----------------------------------------------------------------------------------------------------------------------
+
 render_window::render_window (unsigned width, unsigned height, const string &title) : _width (width), _height (height)
 {
-    if (!glfwInit())
-        return;
+    _initWindow (title);
 
-    glfwDefaultWindowHints();
-    glfwWindowHint (GLFW_SAMPLES, 0);
-    glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 3);
-    //glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, false);
-    glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    debug::log::println ("initializing OpenGL lazy binding ...");
+    glbinding::Binding::initialize (false);
 
-    _window = glfwCreateWindow (width, height, title.c_str(), nullptr, nullptr);
-    if (!_window)
-    {
-        glfwTerminate();
-        return;
-    }
+    debug::log::println_mrk (mkstr ("succesfully initialized ", glbinding::ContextInfo::version(), " context"));
+    debug::log::println (mkstr ("rendering device: ", glbinding::ContextInfo::vendor(),
+                                " ", glbinding::ContextInfo::renderer()));
 
-    //glfwSetKeyCallback (window, key_callback);
-    //glfwSetFramebufferSizeCallback (window, framebuffer_size_callback);
-    glfwMakeContextCurrent (_window);
+    glfwSetKeyCallback (_window, _keyboardCallback);
+    glfwSetFramebufferSizeCallback (_window, _windowSizeCallback);
 
-    //_window.setFramerateLimit (60);
-
-    debug::log::println ("initializing OpenGL binding ...");
-
-    glbinding::Binding::initialize();
-
-    /*auto contextSettings = _window.getSettings();
-    debug::log::println (mkstr ("created rendering window & context: OpenGL ",
-                                contextSettings.majorVersion, ".", contextSettings.minorVersion));
-                                */
-
-    //glEnable (GL_DEPTH_TEST);
-    //glEnable (GL_CULL_FACE);
-    //glDisable (GL_MULTISAMPLE);
-
-    //glActiveTexture (GL_TEXTURE0);
-    //glEnable (GL_TEXTURE_2D);
-    //glActiveTexture (GL_TEXTURE1);
-    //glEnable (GL_TEXTURE_2D);
-    //glActiveTexture (GL_TEXTURE2);
-    //glEnable (GL_TEXTURE_2D);
-
+    GLuint rootVAO = 0;
+    glGenVertexArrays (1, &rootVAO);
+    glBindVertexArray (rootVAO);
 }
 
 
-void render_window::runEventLoop()
+render_window::ptr render_window::create (unsigned width, unsigned height, const string &title)
+{
+    if (_singleton.lock())
+    {
+        debug::log::println_err ("multiply render windows are not supported");
+        return _singleton.lock();
+    }
+
+    auto newRenderWindow = shared_ptr<render_window> (new render_window (width, height, title));
+    _singleton = newRenderWindow;
+    return newRenderWindow;
+}
+
+
+void render_window::_windowSizeCallback (GLFWwindow* window, int width, int height)
+{
+    if (_singleton.lock())  _singleton.lock()->_handleWindowResize ((unsigned )width, (unsigned) height);
+}
+
+
+void render_window::_keyboardCallback (GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (_singleton.lock())  _singleton.lock()->_handleKeyEvent (key, scancode, action, mods);
+}
+
+
+void render_window::runLoop()
 {
     while (!glfwWindowShouldClose (_window))
     {
@@ -67,48 +73,17 @@ void render_window::runEventLoop()
         glfwSwapBuffers (_window);
     }
 
-    /*
-    while (_window.isOpen())
-    {
-        sf::Event event;
-        while (_window.pollEvent (event))
-        {
-            if (event.type == sf::Event::Closed)  _window.close();
-
-            else if (event.type == sf::Event::Resized)
-            {
-                _handleWindowResize (event.size.width, event.size.height);
-            }
-
-            else if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Escape) _window.close();
-                if (event.key.code == sf::Keyboard::F12)
-                {
-                    auto tt = time (nullptr);
-                    saveScreenshot (mkstr ("screenshots/screenshot-", tt, ".jpg"));
-                }
-            }
-        }
-
-        _frameUpdateEvent (*this);
-
-        glEnable (gl::GL_DEPTH_TEST);
-        glEnable (gl::GL_CULL_FACE);
-
-        _frameDrawEvent (*this);
-
-        _window.display();
-    }
-    */
+    debug::log::println ("destroying the rendering window");
+    glfwTerminate();
 }
 
 
 void render_window::_handleWindowResize (unsigned width, unsigned height)
 {
-    //glFrustum(-1, 1, -1, 1, 1, 100000);
+    _width = width;
+    _height = height;
+
     _sizeChangedEvent (width, height);
-    glViewport (0, 0, width, height);
 }
 
 
@@ -120,7 +95,7 @@ double render_window::getAspectRatio() const
 
 void render_window::saveScreenshot (const string &fileToSave)
 {
-    //_window.capture().saveToFile (fileToSave);
+    SOIL_save_screenshot (fileToSave.c_str(), SOIL_SAVE_TYPE_TGA, 0, 0, _width, _height);
 }
 
 
@@ -140,4 +115,54 @@ unsigned render_window::getWidth() const
 unsigned render_window::getHeight() const
 {
     return _height;
+}
+
+
+void render_window::_initWindow (const string &title)
+{
+    if (!glfwInit())
+    {
+        debug::log::println_err ("failed to initialize GLFW; can't create render window");
+        return;
+    }
+
+    debug::log::println ("creating rendering window with OpenGL 3.3 core context ...");
+    glfwDefaultWindowHints();
+
+    glfwWindowHint (GLFW_SAMPLES, 0);
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, true);
+    glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    _window = glfwCreateWindow (_width, _height, title.c_str(), nullptr, nullptr);
+    if (!_window)
+    {
+        debug::log::println_err ("failed to create rendering window");
+        glfwTerminate();
+        return;
+    }
+
+    glfwMakeContextCurrent (_window);
+}
+
+
+void render_window::_handleKeyEvent (int key, int scancode, int action, int mods)
+{
+    if (action == GLFW_PRESS)  _handleKeyPressed (key);
+}
+
+
+void render_window::_handleKeyPressed (int key)
+{
+    if (key == GLFW_KEY_F12)
+    {
+        auto tt = time (nullptr);
+        saveScreenshot (mkstr ("screenshots/screenshot-", tt, ".tga"));
+    }
+
+    if (key == GLFW_KEY_ESCAPE)
+    {
+        glfwSetWindowShouldClose (_window, 1);
+    }
 }

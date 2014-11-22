@@ -19,6 +19,9 @@ using oo_extensions::event;
 class render_window :
     public oo_extensions::non_copyable
 {
+private:
+    static weak_ptr<render_window>  _singleton;
+
     GLFWwindow *_window = nullptr;
     unsigned _width, _height;
 
@@ -28,22 +31,27 @@ class render_window :
 
 
 public:
-    //property_ref (sfmlWindow, _window)
-    //property_get_ref (SfmlWindow, _window)
-
     event_access (frameUpdate, _frameUpdateEvent)
     event_access (frameDraw,   _frameDrawEvent)
     event_access (sizeChanged, _sizeChangedEvent)
 
 
 private:
+    render_window (unsigned width, unsigned height, const string &title);
+
     void _handleWindowResize (unsigned width, unsigned height);
+    void _handleKeyEvent (int key, int scancode, int action, int mods);
+    void _handleKeyPressed (int key);
+    void _initWindow (const string &title);
+
+    static void _windowSizeCallback (GLFWwindow* window, int width, int height);
+    static void _keyboardCallback (GLFWwindow* window, int key, int scancode, int action, int mods);
 
 public:
-    declare_ptr_alloc (render_window)
+    declare_ptr (render_window)
+    static render_window::ptr create (unsigned width, unsigned height, const string &title);
 
-    render_window (unsigned width, unsigned height, const string &title);
-    void runEventLoop();
+    void runLoop();
     void saveScreenshot (const string &fileToSave);
 
     void clear();

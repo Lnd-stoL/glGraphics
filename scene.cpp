@@ -52,9 +52,9 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    graphics_renderer::graphics_renderer (render_window &renderWindow)
+    graphics_renderer::graphics_renderer (render_window::ptr renderWindow)
     {
-        renderWindow.frameDrawEvent().handleWith ([this] (const render_window &) { _newFrame(); });
+        renderWindow->frameDrawEvent().handleWith ([this] (const render_window &) { _newFrame(); });
     }
 
 

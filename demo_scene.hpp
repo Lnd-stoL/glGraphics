@@ -70,11 +70,6 @@ protected:
     void _frameRender();
 
     void _justTestDraw();
-    void _justTestInit();
-
-    GLuint VertexArrayID;
-    gpu_program::ptr programID;
-    GLuint vertexbuffer;
 
 
 public:

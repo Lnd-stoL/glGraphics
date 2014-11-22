@@ -120,7 +120,7 @@ namespace render
     public:
         declare_ptr_alloc (graphics_renderer)
 
-        graphics_renderer (render_window &renderWindow);
+        graphics_renderer (render_window::ptr renderWindow);
 
         void use (math3d::object2screen_transform_d &&trans);
         void use (camera::ptr cam);

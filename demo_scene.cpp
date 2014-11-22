@@ -25,8 +25,6 @@ void demo_scene::_loadAndInitialize()
     _initPosteffects();
 
     _initObjects();
-
-    _justTestInit();
 }
 
 
@@ -196,7 +194,6 @@ void demo_scene::_frameRender()
 {
     //_justTestDraw();
     //return;
-    //glEnable (GL_FRAMEBUFFER_SRGB);
 
     glDisable (GL_CULL_FACE);   // TODO: So stupid model
 
@@ -273,31 +270,6 @@ void demo_scene::_frameRender()
 }
 
 
-void demo_scene::_justTestInit()
-{
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
-
-    // Create and compile our GLSL program from the shaders
-    programID = gpu_program::alloc (elementary_shapes::simple_vertex_layout::alloc(),
-                                    //"SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader",
-                                    "screen_quad.vert", "screen_quad.frag",
-    _resources);
-
-
-    static const GLfloat g_vertex_buffer_data[] = {
-            -1.0f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f,
-            0.0f,  1.0f, 0.0f,
-    };
-
-
-    //glGenBuffers(1, &vertexbuffer);
-    //glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-}
-
-
 void demo_scene::_justTestDraw()
 {
     //glDisable (GL_CULL_FACE);
@@ -307,8 +279,6 @@ void demo_scene::_justTestDraw()
 
     // Use our shader
     //glUseProgram (programID->getGlId());
-
-    programID->use();
 
     // 1rst attribute buffer : vertices
     //glEnableVertexAttribArray(0);
