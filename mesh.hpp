@@ -4,13 +4,9 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-#include "oo_extensions.hpp"
-#include "math3D.hpp"
 #include "gpu_buffer.hpp"
 #include "material.hpp"
 #include "renderable.hpp"
-
-#include <GL/glew.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -102,8 +98,8 @@ namespace render
     public:
         struct simple_vertex
         {
-            math3D::vector3_f coords;
-            math3D::vector2_f texUV;
+            math3d::vector3_f coords;
+            math3d::vector2_f texUV;
         };
 
         struct simple_vertex_layout : vertex_layout<simple_vertex>

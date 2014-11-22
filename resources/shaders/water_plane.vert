@@ -1,5 +1,5 @@
 
-#version 130
+#version 330 core
 
 in vec3 aCoords;
 in vec2 aTexUV;

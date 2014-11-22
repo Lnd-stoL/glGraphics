@@ -1,12 +1,13 @@
 
-#version 130
+#version 330 core
 
 uniform sampler2D  uScreen;
 
-varying vec2 vTexUV;
+in vec2 vTexUV;
+out vec3 out_Color;
 
 
 void main()
 {
-    gl_FragData[0] = texture (uScreen, vTexUV);
+    out_Color = vec3 (1, 0, 0);
 }

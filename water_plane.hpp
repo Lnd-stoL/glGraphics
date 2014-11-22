@@ -12,10 +12,10 @@
 
 using namespace render;
 
-using math3D::transform_d;
-using math3D::vector3_d;
-using math3D::object2screen_transform_d;
-using math3D::perspective_projection_d;
+using math3d::transform_d;
+using math3d::vector3_d;
+using math3d::object2screen_transform_d;
+using math3d::perspective_projection_d;
 
 //----------------------------------------------------------------------------------------------------------------------
 

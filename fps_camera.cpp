@@ -8,7 +8,7 @@ using oo_extensions::mkstr;
 fps_camera_controller::fps_camera_controller (render_window &window, render::camera::ptr controlledCamera) :
     _controlledCamera (controlledCamera),
     _window (window),
-    _lastMousePos (sf::Mouse::getPosition (window.sfmlWindow()))
+    _lastMousePos (sf::Mouse::getPosition())
 {
     window.frameUpdateEvent().handleWith ([this](const render_window&) { _handleFrameUpdate(); });
 
@@ -44,7 +44,7 @@ rotation_d fps_camera_controller::_recalcRotation()
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::Up))     _yaw   += -keyDeltaAngle;
     if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::Down))   _yaw   +=  keyDeltaAngle;
 
-    auto curMousePos = sf::Mouse::getPosition (_window.getSfmlWindow());
+    auto curMousePos = sf::Mouse::getPosition();
 
     double mouseDeltaX = curMousePos.x - _lastMousePos.x;
     double mouseDeltaY = curMousePos.y - _lastMousePos.y;

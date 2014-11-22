@@ -62,12 +62,12 @@ void water_plane::drawReflections (graphics_renderer &renderer, scene &reflectib
     renderer.renderTo (_reflectionsFrameBuffer);
     renderer.use (_reflectionsCamera);
 
-    glEnable (GL_CLIP_PLANE0);
+    glEnable (GL_CLIP_DISTANCE0);
 
-    const double clipplaneEq[4] = { 0.0, 1.0, 0.0, -_surfaceHeight - 0.1 };
-    glClipPlane (GL_CLIP_PLANE0, clipplaneEq);
+    //const double clipplaneEq[4] = { 0.0, 1.0, 0.0, -_surfaceHeight - 0.1 };
+    //glClipPlane (GL_CLIP_PLANE0, clipplaneEq);
 
     reflectibleScene.draw (renderer);
 
-    glDisable (GL_CLIP_PLANE0);
+    glDisable (GL_CLIP_DISTANCE0);
 }

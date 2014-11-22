@@ -1,5 +1,5 @@
 
-#version 130
+#version 330 core
 
 uniform sampler2D uTexture;
 uniform sampler2DShadow uShadowMap;
@@ -7,13 +7,13 @@ uniform sampler2D uShadowMapFlat;
 
 uniform vec3 uLightColor;
 
-varying vec3 vNormal;
-varying vec3 vLight2VertPos;
-varying vec2 vTexUV;
-varying vec3 vVert2Eye;
-varying vec4 vShadowmapVert;
-varying vec3 vViewSpaceNormal;
-varying vec3 vViewSpaceCoords;
+in vec3 vNormal;
+in vec3 vLight2VertPos;
+in vec2 vTexUV;
+in vec3 vVert2Eye;
+in vec4 vShadowmapVert;
+in vec3 vViewSpaceNormal;
+in vec3 vViewSpaceCoords;
 
 out vec3  out_Color;
 out vec3  out_Normal;

@@ -14,7 +14,7 @@
 #include "sky_box.hpp"
 
 using oo_extensions::mkstr;
-using namespace math3D;
+using namespace math3d;
 using namespace render;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ class demo_scene :
     water_plane::ptr  _waterObject;
     sky_box::ptr  _skyBox;
     float _time = 0;
-    math3D::vector3_f _sunPosition;
+    math3d::vector3_f _sunPosition;
     sf::Image  _horizonColorMap;
 
 
@@ -70,6 +70,11 @@ protected:
     void _frameRender();
 
     void _justTestDraw();
+    void _justTestInit();
+
+    GLuint VertexArrayID;
+    gpu_program::ptr programID;
+    GLuint vertexbuffer;
 
 
 public:

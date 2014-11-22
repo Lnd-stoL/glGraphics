@@ -4,12 +4,10 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-#include "oo_extensions.hpp"
 #include "gpu_program.hpp"
 #include "texture.hpp"
-#include "SFML/Graphics.hpp"
 
-#include <glbinding/gl/gl.h>
+#include <SFML/Graphics/Color.hpp>
 #include <map>
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -44,14 +42,14 @@ namespace render
         color_rgb (component_t grayscale) : _r (grayscale), _g (grayscale), _b (grayscale)
         { }
 
-        color_rgb (math3D::vector3<component_t> colorAsVector) : _r (colorAsVector.getX()),
+        color_rgb (math3d::vector3<component_t> colorAsVector) : _r (colorAsVector.getX()),
                                                                  _g (colorAsVector.getY()),
                                                                  _b (colorAsVector.getZ())
         { }
 
-        math3D::vector3<component_t> asVector() const
+        math3d::vector3<component_t> asVector() const
         {
-            return *((math3D::vector3<component_t>*) (this));
+            return *((math3d::vector3<component_t>*) (this));
         }
     };
 
@@ -90,7 +88,7 @@ namespace render
         technique::ptr  _technique;
         std::map<string, texture::ptr>  _textures;
         std::map<string, float> _scalarParams;
-        std::map<string, math3D::vector3_f>  _vec3Params;
+        std::map<string, math3d::vector3_f>  _vec3Params;
 
     public:
         property_get (Technique, _technique)

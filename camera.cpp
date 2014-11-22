@@ -76,9 +76,6 @@ namespace render
 
     void camera::asInverseYOf (const camera &cam, float y)
     {
-        //_transform = transform_d (cam._transform);
-        //_transform.scale (vector3_d (1, -1, 1));
-
         auto trans = cam._transform.getTranslation();
         trans.setY (-2*y + trans.getY());
 

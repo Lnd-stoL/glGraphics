@@ -25,6 +25,8 @@ void demo_scene::_loadAndInitialize()
     _initPosteffects();
 
     _initObjects();
+
+    _justTestInit();
 }
 
 
@@ -171,7 +173,7 @@ void demo_scene::_frameUpdate()
 {
     _time += 0.002;
 
-    _sunPosition = math3D::vector3_f (0, std::sin (_time), std::cos (_time)).normalized();
+    _sunPosition = math3d::vector3_f (0, std::sin (_time), std::cos (_time)).normalized();
 
     double sunColorMapSampleX = (2.0 * _time / angle_d::pi);
     if (sunColorMapSampleX >= 1.0)  sunColorMapSampleX = 2.01 - sunColorMapSampleX;
@@ -192,6 +194,8 @@ void demo_scene::_frameUpdate()
 
 void demo_scene::_frameRender()
 {
+    //_justTestDraw();
+    //return;
     //glEnable (GL_FRAMEBUFFER_SRGB);
 
     glDisable (GL_CULL_FACE);   // TODO: So stupid model
@@ -269,40 +273,73 @@ void demo_scene::_frameRender()
 }
 
 
-void demo_scene::_justTestDraw()
+void demo_scene::_justTestInit()
 {
-    _renderer.renderTo (_shadowmapFrameBuffer);
-    _renderer.forceMaterial (_shadowmapGenMaterial);
+    glGenVertexArrays(1, &VertexArrayID);
+    glBindVertexArray(VertexArrayID);
 
-    _renderer.use (_shadowmapCamera);
-    _renderer.renderScene (_scene);
+    // Create and compile our GLSL program from the shaders
+    programID = gpu_program::alloc (elementary_shapes::simple_vertex_layout::alloc(),
+                                    //"SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader",
+                                    "screen_quad.vert", "screen_quad.frag",
+    _resources);
 
-    _renderer.stopForcingMaterial();
 
-    // ---------------------------------------------------------------------------------------------  Render pass
-
-    _renderer.renderTo (_renderWindow);
-
-    auto beforeDrawLambda = [this] (graphics_renderer &renderer){
-        object2screen_transform_d shadowmapTranfrom (
-                renderer.state().getObject2ScreenTransform().getWorldTransform(),
-                _shadowmapCamera->getInversedTransform(), _shadowmapCamera->getProjection());
-        matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
-        matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
-        auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
-        matBias.multiply (matShadowmapTransform);
-
-        //renderer.state().getMaterial()->textures()["uShadowMapFlat"] = _shadowmapTexture;
-        renderer.state().getMaterial()->textures()["uShadowMap"] = _shadowmapTexture;
-        renderer.state().getMaterial()->setup (renderer);
-
-        renderer.state().getRenderingProgram()->setUniform ("uShadowmapTransform", matBias, true);
+    static const GLfloat g_vertex_buffer_data[] = {
+            -1.0f, -1.0f, 0.0f,
+            1.0f, -1.0f, 0.0f,
+            0.0f,  1.0f, 0.0f,
     };
 
-    auto handlerId = _renderer.beforeDrawCallEvent().handleWith (beforeDrawLambda);
 
-    _renderer.use (_viewerCamera);
-    _renderer.renderScene (_scene);
+    //glGenBuffers(1, &vertexbuffer);
+    //glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+}
 
-    _renderer.beforeDrawCallEvent().stopHandlingWith (handlerId);
+
+void demo_scene::_justTestDraw()
+{
+    //glDisable (GL_CULL_FACE);
+
+    _renderer.renderTo (_renderWindow);
+    //glClear( GL_COLOR_BUFFER_BIT );
+
+    // Use our shader
+    //glUseProgram (programID->getGlId());
+
+    programID->use();
+
+    // 1rst attribute buffer : vertices
+    //glEnableVertexAttribArray(0);
+    //glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    /*glVertexAttribPointer(
+            0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+            3,                  // size
+            GL_FLOAT,           // type
+            GL_FALSE,           // normalized?
+            0,                  // stride
+            (void*)0            // array buffer offset
+    );*/
+
+    // Draw the triangle !
+    //glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
+
+    //_renderer.use (_viewerCamera);
+    _screenQuad->draw (_renderer);
+
+    //glDisableVertexAttribArray(0);
+
+    //_renderer.renderTo (_renderWindow);
+    //_renderer.use (_viewerCamera);
+
+    //_renderer.forceMaterial (_postprocessMaterial);
+    //glDisable (GL_DEPTH_TEST);
+    //glDepthMask (GL_FALSE);
+
+    //_screenQuad->draw (_renderer);
+
+    //glEnable (GL_DEPTH_TEST);
+    //glDepthMask (GL_TRUE);
+    //_renderer.stopForcingMaterial();
 }

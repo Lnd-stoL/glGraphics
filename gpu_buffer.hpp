@@ -7,10 +7,7 @@
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
 #include "gl_bindable.hpp"
-
-#include <GL/glew.h>
-#include <string>
-#include <vector>
+#include "gl_binding.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -23,9 +20,9 @@ namespace render
         {
             enum type_t
             {
-                tFloat  = GL_FLOAT,
-                tInt    = GL_INT,
-                tDouble = GL_DOUBLE
+                tFloat  = (unsigned) GL_FLOAT,
+                tInt    = (unsigned) GL_INT,
+                tDouble = (unsigned) GL_DOUBLE
             };
 
             string   name;
@@ -129,9 +126,9 @@ namespace render
         static constexpr change_rate_t      staticData    = 12;
 
         typedef int mapping_access_t;
-        static constexpr mapping_access_t   accessReadOnly  = GL_READ_ONLY;
-        static constexpr mapping_access_t   accessWriteOnly = GL_WRITE_ONLY;
-        static constexpr mapping_access_t   accessReadWrite = GL_READ_WRITE;
+        static constexpr mapping_access_t   accessReadOnly  = (mapping_access_t) GL_READ_ONLY;
+        static constexpr mapping_access_t   accessWriteOnly = (mapping_access_t) GL_WRITE_ONLY;
+        static constexpr mapping_access_t   accessReadWrite = (mapping_access_t) GL_READ_WRITE;
 
 
     public:

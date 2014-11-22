@@ -1,13 +1,13 @@
 
-#version 130
+#version 330 core
 
-attribute vec3 aCoords;
-attribute vec2 aTexUV;
-attribute vec3 aNormal;
+in vec3 aCoords;
+in vec2 aTexUV;
+in vec3 aNormal;
 
 uniform mat4 uMatTransform;
 
-varying vec3 vTexCube;
+out vec3 vTexCube;
 
 
 void main()

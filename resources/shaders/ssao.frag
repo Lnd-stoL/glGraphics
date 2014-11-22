@@ -1,13 +1,13 @@
 
-#version 130
+#version 330 core
 
 uniform sampler2D  uScreen;
 uniform sampler2D  uNormalMap;
 uniform sampler2D  uDepthMap;
 uniform mat4 uMatInvProjection;
 
-varying vec2 vTexUV;
-
+in vec2 vTexUV;
+out vec3 out_Color;
 
 float g_sample_rad = 0.01;
 float g_intensity = 1;
@@ -104,6 +104,6 @@ void main()
     }
     ao /= float (iterations)*4.0;
 
-    gl_FragData[0] = vec4 (screenOriginalColor * (1 - ao * ao), 1);
+    out_Color = vec4 (screenOriginalColor * (1 - ao * ao), 1);
     //gl_FragData[0] = vec4 (vec3 (1 - ao), 1);
 }

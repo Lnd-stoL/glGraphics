@@ -4,15 +4,12 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-#include "oo_extensions.hpp"
-#include "math3D.hpp"
 #include "renderable.hpp"
 #include "camera.hpp"
 #include "render_window.hpp"
 #include "material.hpp"
 #include "frame_buffer.hpp"
 
-#include <GL/glew.h>
 #include <set>
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -50,7 +47,7 @@ namespace render
         std::set<scene_object::ptr,
                 std::function<bool (const scene_object::ptr&, const scene_object::ptr&)>> _sceneObjects;
 
-        math3D::vector3_d  _sunPosition;
+        math3d::vector3_d  _sunPosition;
         color_rgb<float>  _sunColor;
 
     public:
@@ -67,7 +64,7 @@ namespace render
         scene_object::ptr addRenderableObject (renderable::ptr renderableObject, int renderQueue = 0);
         void addSceneObject (scene_object::ptr sceneObject);
         void removeSceneObject (scene_object::ptr sceneObject);
-        void setSun (math3D::vector3_d position, color_rgb<float> color);
+        void setSun (math3d::vector3_d position, color_rgb<float> color);
 
         void draw (graphics_renderer &renderer) const;
     };
@@ -79,7 +76,7 @@ namespace render
     public:
         class rendering_state
         {
-            math3D::object2screen_transform_d  _object2ScreenTransform;
+            math3d::object2screen_transform_d  _object2ScreenTransform;
             camera::ptr  _camera;
             material::ptr  _material;
             frame_buffer::ptr  _frameBuffer;
@@ -125,7 +122,7 @@ namespace render
 
         graphics_renderer (render_window &renderWindow);
 
-        void use (math3D::object2screen_transform_d &&trans);
+        void use (math3d::object2screen_transform_d &&trans);
         void use (camera::ptr cam);
         void use (material::ptr mat);
 

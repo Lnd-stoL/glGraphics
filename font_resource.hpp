@@ -7,7 +7,6 @@
 #include "oo_extensions.hpp"
 #include "resource.hpp"
 
-#include <GL/glew.h>
 #include <SFML/Graphics.hpp>
 
 //----------------------------------------------------------------------------------------------------------------------

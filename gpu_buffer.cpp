@@ -24,13 +24,13 @@ namespace render
 
     gpu_buffer::~gpu_buffer()
     {
-        if (_bufferId && _bufferId != GL_INVALID_VALUE)
+        if (_bufferId)
         {
             glDeleteBuffers (1, &_bufferId);
             debug::log::println_gl (mkstr (asString(), " released"));
         }
 
-        _bufferId = GL_INVALID_VALUE;
+        _bufferId = 0;
     }
 
 

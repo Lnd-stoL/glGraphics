@@ -119,7 +119,7 @@ namespace render
 
     bool frame_buffer::supported()
     {
-        return  GLEW_ARB_framebuffer_object;
+        return  true; // TODO: fix it
     }
 
 
@@ -170,11 +170,15 @@ namespace render
     {
         glClearColor (_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), 1);
 
-        unsigned flags = 0;
-        if (_numColorBuffers)  flags |= GL_COLOR_BUFFER_BIT;
-        if (_hasDepthBuffer)   flags |= GL_DEPTH_BUFFER_BIT;
+        glbinding::SharedBitfield<AttribMask, ClearBufferMask> flags = 0;
+        if (_numColorBuffers)  flags = flags | GL_COLOR_BUFFER_BIT;
+        if (_hasDepthBuffer)   flags = flags | GL_DEPTH_BUFFER_BIT;
 
-        if (flags)  glClear (flags);
+        //unsigned flags = 0;
+        //if (_numColorBuffers)  flags = flags | GL_COLOR_BUFFER_BIT;
+        //if (_hasDepthBuffer)   flags = flags | GL_DEPTH_BUFFER_BIT;
+
+        glClear (flags);
     }
 
 

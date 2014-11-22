@@ -16,7 +16,7 @@ using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-namespace math3D
+namespace math3d
 {
 
     template<typename numeric_t>

@@ -9,8 +9,8 @@
 #include <string>
 #include <chrono>
 #include <exception>
-#include <GL/glew.h>
 
+#include "gl_binding.hpp"
 #include "oo_extensions.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------

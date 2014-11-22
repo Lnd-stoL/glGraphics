@@ -1,7 +1,7 @@
 
-#version 130
+#version 330 core
 
-attribute vec3 aCoords;
+in vec3 aCoords;
 
 uniform mat4 uMatTransform;
 

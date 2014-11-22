@@ -4,11 +4,10 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-#include "oo_extensions.hpp"
 #include "resource.hpp"
 #include "gl_bindable.hpp"
+#include "gl_binding.hpp"
 
-#include <GL/glew.h>
 #include <map>
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -22,25 +21,25 @@ namespace render
     public:
         enum filtering_t
         {
-            nearest               = GL_NEAREST,
-            linear                = GL_LINEAR,
-            nearest_MipmapNearest = GL_NEAREST_MIPMAP_LINEAR,
-            linear_MipmapNearest  = GL_LINEAR_MIPMAP_NEAREST,
-            linear_MipmapLinear   = GL_LINEAR_MIPMAP_LINEAR,
-            anisotropic           = GL_TEXTURE_MAX_ANISOTROPY_EXT
+            nearest               =  (unsigned)  GL_NEAREST,
+            linear                =  (unsigned)  GL_LINEAR,
+            nearest_MipmapNearest =  (unsigned)  GL_NEAREST_MIPMAP_LINEAR,
+            linear_MipmapNearest  =  (unsigned)  GL_LINEAR_MIPMAP_NEAREST,
+            linear_MipmapLinear   =  (unsigned)  GL_LINEAR_MIPMAP_LINEAR,
+            //anisotropic           =  (unsigned)  GL_TEXTURE_MAX_ANISOTROPY_EXT
         };
 
 
         enum pixel_format_t
         {
-            rgb      = GL_RGB,
-            rgba     = GL_RGBA,
-            oneFloat = GL_FLOAT
+            rgb      =  (unsigned)  GL_RGB,
+            rgba     =  (unsigned)  GL_RGBA,
+            oneFloat =  (unsigned)  GL_FLOAT
         };
 
 
     private:
-        GLuint _textureId = GL_INVALID_INDEX;
+        GLuint _textureId = 0;
         GLenum _textureType = GL_TEXTURE_2D;
 
     public:

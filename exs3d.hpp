@@ -4,20 +4,12 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-#include "oo_extensions.hpp"
-#include "math3D.hpp"
 #include "mesh.hpp"
-#include "renderable.hpp"
 #include "binary_stream.hpp"
 #include "resource.hpp"
 
-#include <GL/glew.h>
-#include <string>
-#include <vector>
-#include <memory>
-
-using math3D::vector3_f;
-using math3D::vector2_f;
+using math3d::vector3_f;
+using math3d::vector2_f;
 
 //----------------------------------------------------------------------------------------------------------------------
 

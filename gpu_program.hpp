@@ -4,12 +4,8 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
-#include "oo_extensions.hpp"
-#include "math3D.hpp"
 #include "gpu_buffer.hpp"
 #include "resource.hpp"
-
-#include <GL/glew.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -33,7 +29,7 @@ namespace render
     protected:
         void _initializeGLShader (GLenum shaderType);
         explicit shader (GLenum shaderType);
-        shader (const string &fileName, GLint shaderType);
+        shader (const string &fileName, GLenum shaderType);
 
     public:
         declare_ptr_alloc (shader)
@@ -91,7 +87,7 @@ namespace render
 
 
     protected:
-        GLuint _programId = GL_INVALID_INDEX;
+        GLuint _programId = 0;
         bool   _linked    = false;
 
         i_vertex_layout::ptr _vertexLayout;
@@ -126,9 +122,9 @@ namespace render
         void use() const;
 
         void setUniform (const string &name, float value, bool ignoreIfNotExists = false);
-        void setUniform (const string &name, const math3D::matrix_4x4<float> &value, bool ignoreIfNotExists = false);
-        void setUniform (const string &name, const math3D::vector3_f &value, bool ignoreIfNotExists = false);
-        void setUniform (const string &name, const math3D::vector2_f &value, bool ignoreIfNotExists = false);
+        void setUniform (const string &name, const math3d::matrix_4x4<float> &value, bool ignoreIfNotExists = false);
+        void setUniform (const string &name, const math3d::vector3_f &value, bool ignoreIfNotExists = false);
+        void setUniform (const string &name, const math3d::vector2_f &value, bool ignoreIfNotExists = false);
         void setUniformSampler (const string &name, unsigned textureIndex, bool ignoreIfNotExists = false);
 
         virtual string asString() const;

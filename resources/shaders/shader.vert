@@ -1,9 +1,9 @@
 
-#version 130
+#version 330 core
 
-attribute vec3 aCoords;
-attribute vec3 aNormal;
-attribute vec2 aTexUV;
+in vec3 aCoords;
+in vec3 aNormal;
+in vec2 aTexUV;
 
 uniform mat4 uMatTransform;
 uniform mat4 uMatWorldTransform;
@@ -12,13 +12,13 @@ uniform vec3 uViewPos;
 uniform mat4 uShadowmapTransform;
 uniform vec3 uLightPos;
 
-varying vec3 vNormal;
-varying vec3 vLight2VertPos;
-varying vec2 vTexUV;
-varying vec3 vVert2Eye;
-varying vec4 vShadowmapVert;
-varying vec3 vViewSpaceNormal;
-varying vec3 vViewSpaceCoords;
+out vec3 vNormal;
+out vec3 vLight2VertPos;
+out vec2 vTexUV;
+out vec3 vVert2Eye;
+out vec4 vShadowmapVert;
+out vec3 vViewSpaceNormal;
+out vec3 vViewSpaceCoords;
 
 
 void main()
@@ -30,8 +30,8 @@ void main()
     vec4 spaceVertex4 = uMatWorldTransform  * vec4 (aCoords, 1);
     vec3 spaceVertex = spaceVertex4.xyz / spaceVertex4.w;
 
-    //gl_ClipDistance[0] = spaceVertex.y - 1.01;
-    gl_ClipVertex = spaceVertex4;
+    gl_ClipDistance[0] = spaceVertex.y - 1.01;
+    //gl_ClipVertex = spaceVertex4;
 
     vNormal = mat3 (uMatWorldTransform) * aNormal;
     vViewSpaceNormal = mat3 (uMatWorldViewTransform) * aNormal;

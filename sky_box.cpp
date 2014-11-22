@@ -46,13 +46,13 @@ sky_box::sky_box (resources& renderRes)
     cubeMapFaces["+Z"] = renderRes.texturesManager().locateFile (fileName);
     cubeMapFaces["-Z"] = renderRes.texturesManager().locateFile (fileName);
 
-    auto cubeMap = texture::alloc (cubeMapFaces);
-    _material->textures()["uSkyBox_CubeMap"] = cubeMap;
+    //auto cubeMap = texture::alloc (cubeMapFaces);
+    //_material->textures()["uSkyBox_CubeMap"] = cubeMap;
     _material->textures()["uClouds"] = renderRes.requestFromFile<texture> (fileName);
 }
 
 
-void sky_box::update (math3D::vector3_f sunPosition)
+void sky_box::update (math3d::vector3_f sunPosition)
 {
     _material->vec3Params()["lightdir"] = sunPosition;
 }

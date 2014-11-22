@@ -44,7 +44,7 @@ namespace render
     }
 
 
-    void scene::setSun (math3D::vector3_d position, color_rgb<float> color)
+    void scene::setSun (math3d::vector3_d position, color_rgb<float> color)
     {
         _sunPosition = position;
         _sunColor = color;
@@ -58,7 +58,7 @@ namespace render
     }
 
 
-    void graphics_renderer::use (math3D::object2screen_transform_d &&trans)
+    void graphics_renderer::use (math3d::object2screen_transform_d &&trans)
     {
         _state._object2ScreenTransform = trans;
     }
@@ -101,8 +101,8 @@ namespace render
 
     void graphics_renderer::draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer)
     {
-        vertexBuffer.use();
         indexBuffer.use();
+        vertexBuffer.use();
 
         _state._material->setup (*this);
 
@@ -144,7 +144,7 @@ namespace render
         }
 
         auto viewInt = _state.getCamera()->getProjection()->getViewInterval();
-        _state.getRenderingProgram()->setUniform ("uClipNearFar", math3D::vector2_f (viewInt.getFrom(), viewInt.getTo()), true);
+        _state.getRenderingProgram()->setUniform ("uClipNearFar", math3d::vector2_f (viewInt.getFrom(), viewInt.getTo()), true);
 
     }
 

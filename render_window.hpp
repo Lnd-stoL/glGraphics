@@ -7,7 +7,9 @@
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
 
-#include <SFML/Graphics.hpp>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
 #include <functional>
 
 using oo_extensions::event;
@@ -17,7 +19,8 @@ using oo_extensions::event;
 class render_window :
     public oo_extensions::non_copyable
 {
-    sf::RenderWindow _window;
+    GLFWwindow *_window = nullptr;
+    unsigned _width, _height;
 
     event<const render_window&> _frameUpdateEvent;
     event<const render_window&> _frameDrawEvent;
@@ -25,8 +28,8 @@ class render_window :
 
 
 public:
-    property_ref (sfmlWindow, _window)
-    property_get_ref (SfmlWindow, _window)
+    //property_ref (sfmlWindow, _window)
+    //property_get_ref (SfmlWindow, _window)
 
     event_access (frameUpdate, _frameUpdateEvent)
     event_access (frameDraw,   _frameDrawEvent)

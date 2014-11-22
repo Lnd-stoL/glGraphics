@@ -17,7 +17,11 @@ namespace render
     texture::texture (const std::string &fileName)
     {
         unsigned flags = SOIL_FLAG_MIPMAPS | SOIL_FLAG_COMPRESS_TO_DXT;
+        //unsigned flags = 0;
         _textureId = SOIL_load_OGL_texture (fileName.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, flags);
+
+        //sf::Texture txt;
+        //txt.loadFromFile (fileName);
 
         if (_textureId == 0)
         {
@@ -27,8 +31,8 @@ namespace render
         }
 
         use();
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint) GL_REPEAT);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint) GL_REPEAT);
 
         resource::_loaded();
         debug::log::println_mrk (mkstr (asString(), " successfully loaded and is ready for use"));
@@ -80,8 +84,8 @@ namespace render
     {
         use();
 
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, expFilter);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, shrinkFilter);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (GLint) expFilter);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLint) shrinkFilter);
         debug::gl::test();
     }
 
@@ -132,12 +136,12 @@ namespace render
         auto txt = new texture();
 
         txt->use();
-        glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        glTexImage2D (GL_TEXTURE_2D, 0, (GLint) GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
         debug::gl::test();
 
         txt->filtering (texture::linear, texture::linear);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint) GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint) GL_CLAMP_TO_EDGE);
         debug::gl::test();
 
         return texture::ptr (txt);
@@ -155,12 +159,12 @@ namespace render
         auto txt = new texture();
 
         txt->use();
-        glTexImage2D (GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+        glTexImage2D (GL_TEXTURE_2D, 0, (GLint) GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
         debug::gl::test();
 
         txt->filtering (texture::linear, texture::linear);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint) GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint) GL_CLAMP_TO_EDGE);
 
         return texture::ptr (txt);
     }
@@ -170,9 +174,8 @@ namespace render
     {
         this->use();
 
-        glTexParameteri (GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE,   GL_INTENSITY);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, (GLint) GL_COMPARE_REF_TO_TEXTURE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, (GLint) GL_LEQUAL);
     }
 
 
@@ -199,11 +202,11 @@ namespace render
         _textureType = GL_TEXTURE_CUBE_MAP;
 
         use();
-        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, (GLint) GL_LINEAR);
+        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, (GLint) GL_LINEAR);
+        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, (GLint) GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, (GLint) GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, (GLint) GL_CLAMP_TO_EDGE);
 
         debug::log::println_mrk (mkstr (asString(), " successfully loaded and is ready for use (cubemap; 6 faces)"));
     }
@@ -219,8 +222,8 @@ namespace render
         debug::gl::test();
 
         txt->filtering (texture::linear, texture::linear);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint) GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint) GL_CLAMP_TO_EDGE);
         debug::gl::test();
 
         return texture::ptr (txt);

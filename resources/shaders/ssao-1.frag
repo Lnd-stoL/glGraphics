@@ -1,13 +1,13 @@
 
-#version 130
+#version 330 core
 
 uniform sampler2D  uScreen;
 uniform sampler2D  uNormalMap;
 uniform sampler2D  uDepthMap;
 uniform mat4 uMatInvProjection;
 
-varying vec2 vTexUV;
-
+in vec2 vTexUV;
+out vec3 out_Color;
 
 const int sample_count = 16;
 const vec2 poisson16[] = vec2[](    // These are the Poisson Disk Samples
@@ -44,6 +44,9 @@ vec3 calculatePosition (in vec2 coord, in float depth)
 
 void main()
 {
+    //out_Color = vec4 (1, 0, 0, 1);
+    //return;
+
     vec3 screenOriginalColor = texture (uScreen, vTexUV).rgb;
     //gl_FragData[0] = vec4 (screenOriginalColor, 1);
     //return;
@@ -54,7 +57,7 @@ void main()
 
     if (viewPos.z < -200)
     {
-        gl_FragData[0] = vec4 (screenOriginalColor, 1);
+        out_Color = screenOriginalColor;
         return;
     }
 
@@ -91,8 +94,9 @@ void main()
         ambientOcclusion = clamp (ambientOcclusion, 0, 0.9);
         float occlusionFactor = 1.0 - (ambientOcclusion);
 
-        gl_FragData[0] = vec4 (screenOriginalColor * occlusionFactor, 1);
+        out_Color = screenOriginalColor * occlusionFactor;
         //gl_FragData[0] = vec4 (vec3 (occlusionFactor), 1);
         //gl_FragData[0] = vec4 (texture (uScreen, vTexUV).rgb, 1);
     }
+
 }

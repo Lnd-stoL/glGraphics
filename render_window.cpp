@@ -1,31 +1,73 @@
 
 #include "render_window.hpp"
 
-#include <glbinding/gl/gl.h>
 #include <glbinding/Binding.h>
 
 using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-render_window::render_window (unsigned width, unsigned height, const string &title)
-    : _window (sf::VideoMode (width, height), title, sf::Style::Default, sf::ContextSettings (0, 0, 0, 3, 0))
+render_window::render_window (unsigned width, unsigned height, const string &title) : _width (width), _height (height)
 {
-    _window.setFramerateLimit (60);
+    if (!glfwInit())
+        return;
+
+    glfwDefaultWindowHints();
+    glfwWindowHint (GLFW_SAMPLES, 0);
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 3);
+    //glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, false);
+    glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    _window = glfwCreateWindow (width, height, title.c_str(), nullptr, nullptr);
+    if (!_window)
+    {
+        glfwTerminate();
+        return;
+    }
+
+    //glfwSetKeyCallback (window, key_callback);
+    //glfwSetFramebufferSizeCallback (window, framebuffer_size_callback);
+    glfwMakeContextCurrent (_window);
+
+    //_window.setFramerateLimit (60);
 
     debug::log::println ("initializing OpenGL binding ...");
-    glbinding::Binding::initialize();
-    debug::log::println ("succesfully loaded");
-    glDisable (GL_MULTISAMPLE);
 
-    auto contextSettings = _window.getSettings();
+    glbinding::Binding::initialize();
+
+    /*auto contextSettings = _window.getSettings();
     debug::log::println (mkstr ("created rendering window & context: OpenGL ",
                                 contextSettings.majorVersion, ".", contextSettings.minorVersion));
+                                */
+
+    //glEnable (GL_DEPTH_TEST);
+    //glEnable (GL_CULL_FACE);
+    //glDisable (GL_MULTISAMPLE);
+
+    //glActiveTexture (GL_TEXTURE0);
+    //glEnable (GL_TEXTURE_2D);
+    //glActiveTexture (GL_TEXTURE1);
+    //glEnable (GL_TEXTURE_2D);
+    //glActiveTexture (GL_TEXTURE2);
+    //glEnable (GL_TEXTURE_2D);
+
 }
 
 
 void render_window::runEventLoop()
 {
+    while (!glfwWindowShouldClose (_window))
+    {
+        glfwPollEvents();
+
+        _frameUpdateEvent (*this);
+        _frameDrawEvent (*this);
+
+        glfwSwapBuffers (_window);
+    }
+
+    /*
     while (_window.isOpen())
     {
         sf::Event event;
@@ -51,13 +93,14 @@ void render_window::runEventLoop()
 
         _frameUpdateEvent (*this);
 
-        glEnable (GL_DEPTH_TEST);
-        glEnable (GL_CULL_FACE);
+        glEnable (gl::GL_DEPTH_TEST);
+        glEnable (gl::GL_CULL_FACE);
 
         _frameDrawEvent (*this);
 
         _window.display();
     }
+    */
 }
 
 
@@ -71,30 +114,30 @@ void render_window::_handleWindowResize (unsigned width, unsigned height)
 
 double render_window::getAspectRatio() const
 {
-    return _window.getSize().x / _window.getSize().y;
+    return _width / _height;
 }
 
 
 void render_window::saveScreenshot (const string &fileToSave)
 {
-    _window.capture().saveToFile (fileToSave);
+    //_window.capture().saveToFile (fileToSave);
 }
 
 
 void render_window::clear()
 {
-    glClearColor (1, 1, 1, 1);
+    glClearColor (0, 0, 0, 1);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 
 unsigned render_window::getWidth() const
 {
-    return _window.getSize().x;
+    return _width;
 }
 
 
 unsigned render_window::getHeight() const
 {
-    return _window.getSize().y;
+    return _height;
 }

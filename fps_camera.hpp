@@ -9,7 +9,7 @@
 #include "render_window.hpp"
 #include "camera.hpp"
 
-#include <GL/glew.h>
+#include <SFML/Graphics.hpp>
 #include <functional>
 
 //----------------------------------------------------------------------------------------------------------------------

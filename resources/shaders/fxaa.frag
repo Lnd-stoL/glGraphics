@@ -1,10 +1,12 @@
 
-#version 130
+#version 330 core
 
 uniform sampler2D  uScreen;
 
+in vec2  vTexUV;
+out vec3  out_Color;
+
 vec2 texcoordOffset = vec2 (1.0 / 1400.0, 1.0 / 900.0);
-varying vec2  vTexUV;
 
 
 void main()
@@ -55,14 +57,14 @@ void main()
 
     if ((lumaB < lumaMin) || (lumaB > lumaMax))
     {
-        gl_FragColor.xyz = rgbA;
+        out_Color = rgbA;
     }
     else
     {
-        gl_FragColor.xyz = rgbB;
+        out_Color = rgbB;
     }
 
-    //gl_FragColor *= 1;
+    //out_Color = vec4 (1, 0, 0, 1);
     //gl_FragColor.a = 0.5;
     //gl_FragColor *= vertColor;
 }

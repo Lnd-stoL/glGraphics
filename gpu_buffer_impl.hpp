@@ -7,7 +7,6 @@
 #include "gpu_buffer.hpp"
 #include "debug.hpp"
 
-#include <GL/glew.h>
 #include <fstream>
 #include <exception>
 #include <stdexcept>

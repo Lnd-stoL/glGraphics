@@ -7,7 +7,7 @@
 #include "oo_extensions.hpp"
 #include "math3D.hpp"
 
-using namespace math3D;
+using namespace math3d;
 using oo_extensions::event;
 
 //----------------------------------------------------------------------------------------------------------------------

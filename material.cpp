@@ -16,7 +16,7 @@ namespace render
 
     void technique::setup (graphics_renderer &renderer) const
     {
-        const math3D::object2screen_transform_d &trans = renderer.state().getObject2ScreenTransform();
+        const math3d::object2screen_transform_d &trans = renderer.state().getObject2ScreenTransform();
 
         _renderingProgram->use();
 

@@ -16,7 +16,7 @@ namespace render
     }
 
 
-    shader::shader (const std::string &fileName, GLint shaderType) : shader (shaderType)
+    shader::shader (const std::string &fileName, GLenum shaderType) : shader (shaderType)
     {
         compileFromFile (fileName);
     }
@@ -55,19 +55,19 @@ namespace render
         glShaderSource (_shaderId, 1, &strPtr, nullptr);
         glCompileShader (_shaderId);
 
-        GLint result = GL_FALSE;
+        GLint result = 0;
         int infoLogLength = int();
         glGetShaderiv (_shaderId, GL_COMPILE_STATUS,  &result);
 
-        if (result != GL_TRUE)
+        glGetShaderiv (_shaderId, GL_INFO_LOG_LENGTH, &infoLogLength);
+        char *glInfoLog = new char[infoLogLength + 1];
+        glGetShaderInfoLog (_shaderId, infoLogLength, nullptr, glInfoLog);
+
+        debug::log::println_gl (glInfoLog);
+        delete[] glInfoLog;
+
+        if (result != 1)
         {
-            glGetShaderiv (_shaderId, GL_INFO_LOG_LENGTH, &infoLogLength);
-            char *glInfoLog = new char[infoLogLength + 1];
-            glGetShaderInfoLog (_shaderId, infoLogLength, nullptr, glInfoLog);
-
-            debug::log::println_gl (glInfoLog);
-            delete[] glInfoLog;
-
             debug::log::println_err ("compilation failed");
             return;
         }
@@ -191,19 +191,19 @@ namespace render
         _bindVertexAttributes();
 
         glLinkProgram (_programId);
-        GLint result = GL_FALSE;
+        GLint result = 0;
         glGetProgramiv (_programId, GL_LINK_STATUS, &result);
 
-        if (result != GL_TRUE)
+        int infoLogLength = int();
+        glGetProgramiv (_programId, GL_INFO_LOG_LENGTH, &infoLogLength);
+        char *glInfoLog = new char[infoLogLength + 1];
+        glGetProgramInfoLog (_programId, infoLogLength, nullptr, glInfoLog);
+
+        debug::log::println_gl (glInfoLog);
+        delete[] glInfoLog;
+
+        if (result != 1)
         {
-            int infoLogLength = int();
-            glGetProgramiv (_programId, GL_INFO_LOG_LENGTH, &infoLogLength);
-            char *glInfoLog = new char[infoLogLength + 1];
-            glGetProgramInfoLog (_programId, infoLogLength, nullptr, glInfoLog);
-
-            debug::log::println_gl (glInfoLog);
-            delete[] glInfoLog;
-
             debug::log::println_err ("compilation failed");
             return;
         }
@@ -239,13 +239,13 @@ namespace render
     {
         if (!_testValid()) return;
 
-        if (!gl_bindable<gpu_program>::isBoundNow())
+        //if (!gl_bindable<gpu_program>::isBoundNow())
         {
             _bind();
             gl_bindable<gpu_program>::_bindThis();
         }
 
-        for (unsigned i = 0; i < 5; ++i)
+        for (unsigned i = 0; i < 10; ++i)
         {
             glDisableVertexAttribArray (i);
         }
@@ -254,8 +254,11 @@ namespace render
         for (unsigned i = 0; i < attributes.size(); ++i)
         {
             glEnableVertexAttribArray (i);
-            glVertexAttribPointer (i, attributes[i].dimension, attributes[i].type, (GLboolean) attributes[i].normalized,
-                                   (GLsizei) _vertexLayout->getStrideInBytes(), (GLvoid *) attributes[i].offset);
+            glVertexAttribPointer (i, attributes[i].dimension,
+                                           (GLenum) attributes[i].type,
+                                           (GLboolean) attributes[i].normalized,
+                                           (GLsizei) _vertexLayout->getStrideInBytes(),
+                                           (GLvoid *) attributes[i].offset);
         }
     }
 
@@ -279,7 +282,7 @@ namespace render
     }
 
 
-    void gpu_program::setUniform (const std::string &name, const math3D::matrix_4x4<float> &value, bool ignoreIfNotExists)
+    void gpu_program::setUniform (const std::string &name, const math3d::matrix_4x4<float> &value, bool ignoreIfNotExists)
     {
         if (!_testValid()) return;
         _bind();
@@ -301,7 +304,7 @@ namespace render
     }
 
 
-    void gpu_program::setUniform (const std::string &name, const math3D::vector3_f &value, bool ignoreIfNotExists)
+    void gpu_program::setUniform (const std::string &name, const math3d::vector3_f &value, bool ignoreIfNotExists)
     {
         if (!_testValid()) return;
         _bind();
@@ -312,7 +315,7 @@ namespace render
     }
 
 
-    void gpu_program::setUniform (const std::string &name, const math3D::vector2_f &value, bool ignoreIfNotExists)
+    void gpu_program::setUniform (const std::string &name, const math3d::vector2_f &value, bool ignoreIfNotExists)
     {
         if (!_testValid()) return;
         _bind();
@@ -337,13 +340,13 @@ namespace render
 
     gpu_program::~gpu_program()
     {
-        if (_programId && _programId != GL_INVALID_VALUE)
+        if (_programId)
         {
             glDeleteProgram (_programId);
             debug::log::println_gl (mkstr (asString(), " released"));
         }
 
-        _programId = GL_INVALID_VALUE;
+        _programId = 0;
     }
 
 
