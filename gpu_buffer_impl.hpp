@@ -46,6 +46,23 @@ namespace render
         debug::gl::test();
     }
 
+
+    template<typename element_t>
+    element_t* gpu_buffer_of<element_t>::lock (mapping_access_t access)
+    {
+        use();
+        return (element_t *) glMapBuffer (_target, (GLenum) access);
+    }
+
+
+    template<typename element_t>
+    void gpu_buffer_of<element_t>::unlock()
+    {
+        use();
+        glUnmapBuffer (_target);
+        debug::gl::test();
+    }
+
 //----------------------------------------------------------------------------------------------------------------------
 
     template<typename vertex_t>
@@ -63,6 +80,13 @@ namespace render
         if (gl_index_buffer::isBoundNow())  return;
         gpu_buffer::use();
         gl_index_buffer::_bindThis();
+    }
+
+
+    template<typename index_t>
+    /*virtual*/ uint8_t index_buffer<index_t>::bytesPerIndex() const
+    {
+        return (uint8_t)  sizeof (index_t);
     }
 }
 

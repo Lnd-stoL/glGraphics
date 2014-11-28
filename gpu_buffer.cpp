@@ -7,6 +7,16 @@ using oo_extensions::mkstr;
 
 namespace render
 {
+    const gpu_buffer::preferred_access_t gpu_buffer::fastGPU_Draw  = 1;
+    const gpu_buffer::preferred_access_t gpu_buffer::fastCPU_Read  = 2;
+    const gpu_buffer::preferred_access_t gpu_buffer::compromiss    = 3;
+
+    const gpu_buffer::change_rate_t      gpu_buffer::everyFrame    = 10;
+    const gpu_buffer::change_rate_t      gpu_buffer::dynamicChange = 11;
+    const gpu_buffer::change_rate_t      gpu_buffer::staticData    = 12;
+
+//----------------------------------------------------------------------------------------------------------------------
+
     gl_bindable_impl (gl_vertex_buffer)
     gl_bindable_impl (gl_index_buffer )
 

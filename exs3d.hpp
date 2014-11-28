@@ -86,6 +86,7 @@ namespace render
         unique_ptr<utils::binary_reader> _inputFileReader;
 
         vector<string> _additionalSearchLocations;
+        technique::ptr _defaultTechnique;
 
 
     private:
@@ -94,16 +95,17 @@ namespace render
         bool _checkBinary();
 
         void _fillAdditionalSearchLocations();
-
-        exs3d_mesh::mesh_component_t::ptr _constructComponent (resources &otherResources, string name,
-                                                               vector<exs3d_mesh::vertex> &vertices,
-                                                               vector<unsigned short> &index, string textureName);
+        void _initDefaults (resources &otherResources);
+        void _connectTextureToMaterial (material::ptr mat, const string& textureName, resources &otherResources);
+        void _reportComponentLoaded (const a_mesh_component &meshComponent);
 
         mesh::ptr _loadBinary (resources& otherResources);
-        exs3d_mesh::mesh_component_t::ptr _loadComponentBinary (resources &otherResources);
+        material::ptr _loadMaterialBinary (resources& otherResources);
+        a_mesh_component::ptr _loadComponentBinary (resources &otherResources);
 
         mesh::ptr _loadText (resources& otherResources);
-        exs3d_mesh::mesh_component_t::ptr _loadComponentText (resources &otherResources);
+        a_mesh_component::ptr _loadComponentText (resources &otherResources);
+        material::ptr _loadMaterialText (resources& otherResources);
 
         void _loadVertices_Text (vector<exs3d_mesh::vertex> &vertices, unsigned totalCount) const;
         void _loadIndices_Text (vector<unsigned short> &index, unsigned totalCount) const;

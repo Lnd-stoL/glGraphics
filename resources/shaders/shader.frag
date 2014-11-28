@@ -6,6 +6,7 @@ uniform sampler2DShadow uShadowMap;
 uniform sampler2D uShadowMapFlat;
 
 uniform vec3 uLightColor;
+uniform vec3 uLightPos;
 
 in vec3 vNormal;
 in vec3 vLight2VertPos;
@@ -14,6 +15,7 @@ in vec3 vVert2Eye;
 in vec4 vShadowmapVert;
 in vec3 vViewSpaceNormal;
 in vec3 vViewSpaceCoords;
+in vec3 vWorldSpaceCoords;
 
 out vec3  out_Color;
 out vec3  out_Normal;
@@ -59,24 +61,29 @@ float random (vec4 seed4)
 }
 
 
+vec2 normal_encode (vec3 n)
+{
+    vec2 enc = normalize (n.xy) * (sqrt (-n.z * 0.5 + 0.5));
+    enc = enc*0.5 + 0.5;
+    return enc;
+}
+
+
 void main()
 {
     vec3 normal     = normalize (vNormal);
-    vec3 light2Vert = normalize (vLight2VertPos);
+    vec3 light2Vert = normalize (uLightPos - vWorldSpaceCoords);
     vec3 vert2Eye   = normalize (vVert2Eye);
-
-    float diffLight = max (0, dot (normal, light2Vert) + 0.2) / 1.2;
     vec3 diffColor = texture2D (uTexture, vTexUV).xyz;
 
-
-    float bias = 0.00001 * tan (acos (dot (normal, light2Vert)));
+    float bias = 0.003 * tan (acos (dot (normal, light2Vert)));
     //bias = clamp (bias, 0.000001, 0.0001);
 
     vec3 vsv = vShadowmapVert.xyz / vShadowmapVert.w;
 
     float depthDiff = abs (texture (uShadowMapFlat, vsv.xy).x - vsv.z);
     float blurBase = 5000 - (depthDiff * 800) * 3000;
-    //blurBase = 3500;
+    blurBase = 2000 + smoothstep (0, 100, -vShadowmapVert.z) * 5000;
 
     float shadow = 0;
     for (int i = 0; i < 4; i++) {
@@ -86,15 +93,15 @@ void main()
 
     if (shadow < 0.999)
     {
-        shadow = 0;
+        //shadow = 0;
         for (int j = 1; j <= 2; j++)
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 4; i++)
             {
-                //int index = int (16.0 * random (vec4 (gl_FragCoord.xyy, i))) % 16;
-                shadow += shadowmapShading (vsv, poisson16[i + j*4] / (blurBase / (j)), bias);
+                int index = int (16.0 * random (vec4 (gl_FragCoord.xyy, i))) % 16;
+                shadow += shadowmapShading (vsv, poisson16[index] / (blurBase / (j)), bias);
             }
 
-        shadow /= 16;
+        shadow /= 9;
     }
 
     //shadow = 1 - pow ((1-shadow), 0.5);
@@ -102,15 +109,19 @@ void main()
     //float depthDiff = abs (texture (uShadowMapFlat, vsv.xy).x - vsv.z);
     //float addShadow = depthDiff * 180;
     //shadow += addShadow;
-    shadow = clamp (shadow, 0, 1);
+    shadow = clamp (shadow, 0, 1) * min (dot (normal, normalize (uLightPos / 10 - vWorldSpaceCoords)), 1);
+    //shadow = 1;
 
     float shadowLightenFactor = 0.3;
     shadow = shadowLightenFactor + shadow * (1 - shadowLightenFactor);
 
+    //float c = CalculateCaustic (vWorldSpaceCoords, uLightPos);
+    float diffLight = max (0, dot (normal, light2Vert));
     out_Color = ((diffLight*0.7 + 0.3) * shadow) * uLightColor * diffColor;
     //out_Color = vec3 (depthDiff * 300);
+    //out_Color = vec3 (diffLight);
     //out_Color = uLightColor;
-    out_Normal = (normalize (vViewSpaceNormal) + 1) / 2;
+    out_Normal = vec3 (normal_encode (vViewSpaceNormal), 0);
     //out_Normal = normalize (-vViewSpaceNormal);
 
     //vec3 r = reflect (-vert2Eye, normal);

@@ -12,6 +12,7 @@
 #include "render_resources.hpp"
 #include "water_plane.hpp"
 #include "sky_box.hpp"
+#include "statistics.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3d;
@@ -42,8 +43,8 @@ class demo_scene :
     texture::ptr       _postprocess_DepthTexture;
 
     camera::ptr       _shadowmapCamera;
-    transform_d       _lightTransform;
     frame_buffer::ptr _shadowmapFrameBuffer;
+    transform_d       _lightTransform;
     texture::ptr      _shadowmapTexture;
     material::ptr     _shadowmapGenMaterial;
 
@@ -55,6 +56,10 @@ class demo_scene :
     math3d::vector3_f _sunPosition;
     sf::Image  _horizonColorMap;
 
+    screen_overlay_layer::ptr  _screenOverlay;
+    statistics::ptr  _statisticsOverlay;
+    text_label::ptr  _viewPosLabel;
+
 
 protected:
     void _loadAndInitialize();
@@ -65,6 +70,7 @@ protected:
     void _initShadowmaps();
     void _initObjects();
     void _initPosteffects();
+    void _initOverlays();
 
     void _frameUpdate();
     void _frameRender();

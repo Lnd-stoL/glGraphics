@@ -12,17 +12,11 @@
 
 using namespace render;
 
-using math3d::transform_d;
-using math3d::vector3_d;
-using math3d::object2screen_transform_d;
-using math3d::perspective_projection_d;
-
 //----------------------------------------------------------------------------------------------------------------------
 
 class water_plane : public renderable
 {
     mesh_component<elementary_shapes::simple_vertex, unsigned short>::ptr  _mesh;
-    transform_d  _transform;
     float _surfaceHeight;
     material::ptr  _material;
 
@@ -32,7 +26,6 @@ class water_plane : public renderable
 
 public:
     property_get (Mesh, _mesh)
-    property_get_ref (Transform, _transform)
 
 
 public:

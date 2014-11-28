@@ -25,15 +25,22 @@ private:
     GLFWwindow *_window = nullptr;
     unsigned _width, _height;
 
-    event<const render_window&> _frameUpdateEvent;
-    event<const render_window&> _frameDrawEvent;
-    event<unsigned, unsigned>   _sizeChangedEvent;
+    double  _frameTime        = 0;
+    double  _avgFrameTime     = 0;
+    double  _frameTimeSamples = 0;
+
+    event<const render_window&>  _frameUpdateEvent;
+    event<const render_window&>  _frameDrawEvent;
+    event<unsigned, unsigned>    _sizeChangedEvent;
 
 
 public:
     event_access (frameUpdate, _frameUpdateEvent)
     event_access (frameDraw,   _frameDrawEvent)
     event_access (sizeChanged, _sizeChangedEvent)
+
+    property_get (FrameTime,        _frameTime)
+    property_get (AverageFrameTime, _avgFrameTime / _frameTimeSamples)
 
 
 private:
@@ -46,6 +53,7 @@ private:
 
     static void _windowSizeCallback (GLFWwindow* window, int width, int height);
     static void _keyboardCallback (GLFWwindow* window, int key, int scancode, int action, int mods);
+
 
 public:
     declare_ptr (render_window)

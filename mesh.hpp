@@ -15,7 +15,7 @@ namespace render
     class a_mesh_component : public renderable
     {
     protected:
-        string        _name;
+        string _name;
         material::ptr _material;
 
     public:
@@ -26,13 +26,16 @@ namespace render
     public:
         declare_ptr_alloc (a_mesh_component)
 
-        a_mesh_component (material::ptr mat, const string &name = "<unnamed>") : _material (mat), _name (name)
-        { }
+        a_mesh_component (material::ptr mat, const string &name = "<unnamed>") : _material (mat), _name (name) { }
 
         virtual ~a_mesh_component () { }
+
         virtual void draw (graphics_renderer &renderer) const = 0;
 
         void changeMaterial (material::ptr newMaterial);
+
+        virtual  const gpu_buffer&  getVertexBuffer() const = 0;
+        virtual  const gpu_buffer&  getIndexBuffer()  const = 0;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -44,6 +47,11 @@ namespace render
     {
         typename vertex_buffer<vertex_t>::ptr _vertexBuffer;
         typename index_buffer<index_t>::ptr   _indexBuffer;
+
+    public:
+        virtual  const gpu_buffer&  getVertexBuffer() const  { return *_vertexBuffer; }
+        virtual  const gpu_buffer&  getIndexBuffer()  const  { return *_indexBuffer;  }
+
 
     public:
         typedef mesh_component<vertex_t, index_t> this_t;

@@ -13,6 +13,6 @@ namespace render
     void mesh_component<vertex_t, index_t>::draw (graphics_renderer &renderer) const
     {
         renderer.use (_material);
-        renderer.draw (*_vertexBuffer, *_indexBuffer);
+        renderer.draw (*_vertexBuffer, *_indexBuffer, _indexBuffer->bytesPerIndex());
     }
 }

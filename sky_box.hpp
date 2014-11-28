@@ -15,12 +15,10 @@ using namespace render;
 class sky_box : public renderable
 {
     mesh::ptr  _mesh;
-    transform_d  _transform;
     material::ptr  _material;
 
 public:
     property_get (Mesh, _mesh)
-    property_get_ref (Transform, _transform)
 
 
 public:

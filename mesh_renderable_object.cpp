@@ -6,15 +6,15 @@ using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-mesh_renderable_object::mesh_renderable_object (mesh::ptr mesh, const transform_d &transform) : _mesh (mesh),
-                                                                                                _transform (transform)
-{ }
+mesh_renderable_object::mesh_renderable_object (mesh::ptr mesh, const transform_d &transform) :
+    transformable_renderable_object (transform),
+    _mesh (mesh)
+{
+}
 
 
 /*virtual*/ void mesh_renderable_object::draw (graphics_renderer &renderer) const
 {
-    auto usedCamera = renderer.state().getCamera();
-    renderer.use (object2screen_transform_d (_transform, usedCamera->getInversedTransform(), usedCamera->getProjection()));
-
+    transformable_renderable_object::_setupObject2ScreenTransform (renderer);
     _mesh->draw (renderer);
 }

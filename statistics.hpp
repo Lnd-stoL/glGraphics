@@ -6,7 +6,7 @@
 
 #include "render_window.hpp"
 #include "render_resources.hpp"
-#include "scene.hpp"
+#include "screen_overlay.hpp"
 
 using oo_extensions::mkstr;
 using namespace render;
@@ -14,18 +14,27 @@ using namespace render;
 //----------------------------------------------------------------------------------------------------------------------
 
 class statistics :
-        public oo_extensions::non_copyable
+    public oo_extensions::non_copyable
 {
-    graphics_renderer &_renderer;
-    render_window     &_renderWindow;
-    resources         &_resources;
+    render_window  &_renderWindow;
+    resources      &_resources;
 
+    font::ptr  _defaultFont;
+    screen_overlay_layer::ptr  _overlayLayer;
 
-protected:
+    text_label::ptr  _frameTimeLabel;
+    text_label::ptr  _avgFrameTimeLabel;
+    text_label::ptr  _renderLabel;
+
+public:
+    property_get (DefaultFont, _defaultFont)
 
 
 public:
-    statistics (graphics_renderer& renderer, render_window &renderWindow, resources &res);
+    declare_ptr_alloc (statistics)
+    statistics (render_window &renderWindow, resources &res, screen_overlay_layer::ptr overlayLayer);
+
+    void draw (graphics_renderer &renderer);
 };
 
 //----------------------------------------------------------------------------------------------------------------------

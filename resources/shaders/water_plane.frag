@@ -24,10 +24,10 @@ out vec4  out_Color;
 vec3 waterColor = vec3 (0.5, 0.8, 0.8);
 //const vec3 waterSpecular = vec3 (0.9, 0.9, 1);
 
-const float diffuseLightenFactor = 0.2;
-const float density = 0.7;
+const float diffuseLightenFactor = 0.1;
+const float density = 0.45;
 const float coastDensity = 0.97;
-const float refractionDistort = 0.23;
+const float refractionDistort = 0.33;
 const float reflectionDistort = 0.055;
 const float specularity = 950;
 
@@ -107,5 +107,6 @@ void main()
     float fogFactor = sqrt (dot (vVertWorld, vVertWorld) * length (vVertWorld)) / 10000;
     resultColor = mix (resultColor, (vec3 (0.1, 0.1, 0.1) + uLightColor), fogFactor);
 
+    //resultColor /= 2;
     out_Color = vec4 (resultColor, 1.0 - fogFactor*fogFactor * 4);
 }

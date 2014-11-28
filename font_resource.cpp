@@ -1,6 +1,8 @@
 
 #include "font_resource.hpp"
+
 #include "debug.hpp"
+#include "render_resources.hpp"
 
 using oo_extensions::mkstr;
 
@@ -8,13 +10,9 @@ using oo_extensions::mkstr;
 
 namespace render
 {
-    font::font (string fileName)
+    font::font (string fileName, resources &renderRes)
     {
-        if (!this->loadFromFile (fileName))
-        {
-            debug::log::println_err (mkstr ("failed to load font from file '", fileName, "'"));
-        }
-
+        _fontBitmap = renderRes.requestFromFile<texture> (fileName);
         resource::_loaded();
     }
 }

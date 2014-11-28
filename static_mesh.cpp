@@ -39,7 +39,7 @@ namespace render
                                                  {{-scale, y,  scale}, {1, 0}},
                                                  {{ scale, y,  scale}, {0, 0}}};
 
-        static vector<unsigned short> indices_ { 0, 1, 3, 3, 2, 0 };
+        static vector<unsigned short> indices_ { 0, 3, 1, 2, 3, 0 };
 
         vertices.swap (vertices_);
         indices.swap (indices_);

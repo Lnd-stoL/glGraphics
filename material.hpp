@@ -89,12 +89,14 @@ namespace render
         std::map<string, texture::ptr>  _textures;
         std::map<string, float> _scalarParams;
         std::map<string, math3d::vector3_f>  _vec3Params;
+        std::map<string, math3d::vector2_f>  _vec2Params;
 
     public:
         property_get (Technique, _technique)
         property_ref (textures, _textures)
         property_ref (scalarParams, _scalarParams)
         property_ref (vec3Params, _vec3Params)
+        property_ref (vec2Params, _vec2Params)
 
 
     public:

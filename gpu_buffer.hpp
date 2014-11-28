@@ -115,20 +115,20 @@ namespace render
         GLenum _target   = GL_INVALID_ENUM;
 
     public:
-        typedef int preferred_access_t;
-        static constexpr preferred_access_t fastGPU_Draw  = 1;
-        static constexpr preferred_access_t fastCPU_Read  = 2;
-        static constexpr preferred_access_t compromiss    = 3;
+        typedef uint8_t preferred_access_t;
+        static const preferred_access_t fastGPU_Draw;
+        static const preferred_access_t fastCPU_Read;
+        static const preferred_access_t compromiss;
 
-        typedef int change_rate_t;
-        static constexpr change_rate_t      everyFrame    = 10;
-        static constexpr change_rate_t      dynamicChange = 11;
-        static constexpr change_rate_t      staticData    = 12;
+        typedef uint8_t change_rate_t;
+        static const change_rate_t      everyFrame;
+        static const change_rate_t      dynamicChange;
+        static const change_rate_t      staticData;
 
         typedef int mapping_access_t;
-        static constexpr mapping_access_t   accessReadOnly  = (mapping_access_t) GL_READ_ONLY;
-        static constexpr mapping_access_t   accessWriteOnly = (mapping_access_t) GL_WRITE_ONLY;
-        static constexpr mapping_access_t   accessReadWrite = (mapping_access_t) GL_READ_WRITE;
+        static const mapping_access_t   accessReadOnly  = (mapping_access_t) GL_READ_ONLY;
+        static const mapping_access_t   accessWriteOnly = (mapping_access_t) GL_WRITE_ONLY;
+        static const mapping_access_t   accessReadWrite = (mapping_access_t) GL_READ_WRITE;
 
 
     public:
@@ -169,6 +169,9 @@ namespace render
 
         gpu_buffer_of (GLenum target, const std::vector<element_t> &data, preferred_access_t preferredAccess,
                        change_rate_t changeRate);
+
+        element_t* lock (mapping_access_t access);
+        void unlock();
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -231,6 +234,7 @@ namespace render
                 base_t::gpu_buffer_of (GL_ELEMENT_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
 
         virtual void use() const;
+        uint8_t bytesPerIndex() const;
     };
 }
 

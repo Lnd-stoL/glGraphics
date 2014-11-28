@@ -1,4 +1,4 @@
-
+#include <glbinding/ContextInfo.h>
 #include "demo_scene.hpp"
 
 #include "resource_manager_impl.hpp"
@@ -23,6 +23,7 @@ void demo_scene::_loadAndInitialize()
     _initViewer();
     _initShadowmaps();
     _initPosteffects();
+    _initOverlays();
 
     _initObjects();
 }
@@ -53,11 +54,11 @@ void demo_scene::_initShadowmaps()
     lightRot.combine (rotation_d (vector3_d (1, 0, 0), (angle_d::pi / 3, 0)));
     _lightTransform = transform_d (vector3_d (0, 30, 80), lightRot);
 
-    //unique_ptr<orthographic_projection_d> lightProj (
-    //        new orthographic_projection_d (10, renderWindow.getAspectRatio(), interval_d (1, 5000)));
+    unique_ptr<orthographic_projection_d> lightProj (
+            new orthographic_projection_d (100, _renderWindow.getAspectRatio(), interval_d (10, 200)));
 
-    unique_ptr<perspective_projection_d> lightProj (
-            new perspective_projection_d (angle_d::pi / 3, _renderWindow.getAspectRatio(), interval_d (1, 100)));
+    //unique_ptr<perspective_projection_d> lightProj (
+    //        new perspective_projection_d (angle_d::pi / 3, _renderWindow.getAspectRatio(), interval_d (1, 100)));
 
     _shadowmapCamera = render::camera::alloc (std::move (lightProj));
     //_shadowmapCamera->addTransform (_lightTransform);
@@ -83,6 +84,11 @@ void demo_scene::_initResourceManagers()
     _resources.gpuProgramsManager().addFileSearchLocation ("resources/shaders");
     _resources.fontsManager().addFileSearchLocation ("resources/fonts");
     _resources.texturesManager().addFileSearchLocation ("resources/textures");
+
+    _resources.exs3dMeshesManager().addFileSearchLocation ("resources");
+    _resources.gpuProgramsManager().addFileSearchLocation ("resources");
+    _resources.fontsManager().addFileSearchLocation ("resources");
+    _resources.texturesManager().addFileSearchLocation ("resources");
 }
 
 
@@ -94,10 +100,40 @@ void demo_scene::_initObjects()
     debug::log::println ("loading scene objects ...");
 
     auto islandMesh = _resources.requestFromFile<exs3d_mesh> ("tropical-island/tropical-island.exs3d");
-    //auto islandMesh = _resources.requestFromFile<exs3d_mesh> ("island-001/island.exs3d");
-    transform_d islandTransform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04));
+    //auto islandMesh = _resources.requestFromFile<exs3d_mesh> ("some-terrain/terrain.exs3d");
+    //transform_d islandTransform (vector3_d (0, 23, 0), rotation_d (vector3_d (1, 0, 0), 3.14 + 0.8).combine (rotation_d (vector3_d (0, 0, -1), 0.2)), vector3_d (3, 3, 3));
+    transform_d islandTransform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.05));
     _islandObject = mesh_renderable_object::alloc (islandMesh->getRenderableMesh(), islandTransform);
     _scene->addRenderableObject (_islandObject, 1);
+
+
+    auto rocksMesh = _resources.requestFromFile<exs3d_mesh> ("some-terrain/terrain.exs3d");
+    transform_d rocksTransform (vector3_d (45, 15, 0), rotation_d (vector3_d (1, 0, 0), 3.14 + 0.9).combine (rotation_d (vector3_d (0, 0, -1), 0.3)), vector3_d (2, 3.5, 2));
+    _scene->addRenderableObject (mesh_renderable_object::alloc (rocksMesh->getRenderableMesh(), rocksTransform), 1);
+
+    auto stoneMesh = _resources.requestFromFile<exs3d_mesh> ("some-stone/mesh.exs3d");
+    auto bumpMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
+                                                                                       "shader.vert", "bumpmapping.frag"),
+                                                                                       _resources);
+    auto stoneBumpMappedMaterial = material::alloc (technique::alloc (bumpMappingShader));
+    stoneBumpMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("models/some-stone/Stone_5_DiffuseMap.jpg");
+    stoneBumpMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("models/some-stone/Stone_5_LOD1NormalsMap.jpg");
+    stoneBumpMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("models/some-stone/heightmap.jpg");
+    stoneMesh->getRenderableMesh()->getComponents()[0]->changeMaterial (stoneBumpMappedMaterial);
+    transform_d stoneTransform (vector3_d (14, 2, 0), rotation_d(), vector3_d (0.05));
+    _scene->addRenderableObject (mesh_renderable_object::alloc (stoneMesh->getRenderableMesh(), stoneTransform), 1);
+
+    auto cubeMesh = _resources.requestFromFile<exs3d_mesh> ("cube-textured.exs3d");
+    auto parallaxMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
+                                                                                       "shader.vert", "bumpmapping.frag"),
+                                                                      _resources);
+    auto parallaxMappedMaterial = material::alloc (technique::alloc (parallaxMappingShader));
+    parallaxMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("rockwall/relief_wood.jpg");
+    parallaxMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("rockwall/relief_bump.png");
+    parallaxMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("rockwall/relief_height.dds");
+    cubeMesh->getRenderableMesh()->getComponents()[0]->changeMaterial (parallaxMappedMaterial);
+    transform_d cubeTransform (vector3_d (-14, 2, 0), rotation_d(), vector3_d (1));
+    _scene->addRenderableObject (mesh_renderable_object::alloc (cubeMesh->getRenderableMesh(), cubeTransform), 1);
 
     //auto island2Mesh = _resources.requestFromFile<exs3d_mesh> ("island-001/island.exs3d");
     //transform_d island2Transform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04));
@@ -185,8 +221,12 @@ void demo_scene::_frameUpdate()
 
     rotation_d lightRot (vector3_d (0, 0, 1), _sunPosition.convertType<double>());
     //rotation_d lightRot (vector3_d (1, 0, 0), _time);
-    auto shadowmapCameraPos = _scene->getSunPosition() / 6;
+    auto shadowmapCameraPos = _scene->getSunPosition() / 4;
     _shadowmapCamera->changeTransform (shadowmapCameraPos, lightRot);
+
+    auto viewPos = _viewerCamera->getTransform().getTranslation();
+    string viewPosText = mkstr (std::setprecision (4), viewPos.getX(), " ", viewPos.getY(), " ", viewPos.getZ());
+    _viewPosLabel->changeText (viewPosText);
 }
 
 
@@ -195,7 +235,7 @@ void demo_scene::_frameRender()
     //_justTestDraw();
     //return;
 
-    glDisable (GL_CULL_FACE);   // TODO: So stupid model
+    //glEnable (GL_CULL_FACE);   // TODO: So stupid model
 
     _renderer.renderTo (_shadowmapFrameBuffer);
     _renderer.forceMaterial (_shadowmapGenMaterial);
@@ -263,10 +303,14 @@ void demo_scene::_frameRender()
     _renderer.forceMaterial (_postprocessMaterial);
     glDisable (GL_DEPTH_TEST);
     glDepthMask (GL_FALSE);
+    //glEnable (GL_FRAMEBUFFER_SRGB);
     _screenQuad->draw (_renderer);
+    //glDisable (GL_FRAMEBUFFER_SRGB);
     glEnable (GL_DEPTH_TEST);
     glDepthMask (GL_TRUE);
     _renderer.stopForcingMaterial();
+
+    _statisticsOverlay->draw (_renderer);
 }
 
 
@@ -312,4 +356,18 @@ void demo_scene::_justTestDraw()
     //glEnable (GL_DEPTH_TEST);
     //glDepthMask (GL_TRUE);
     //_renderer.stopForcingMaterial();
+}
+
+
+void demo_scene::_initOverlays()
+{
+    _screenOverlay = screen_overlay_layer::alloc (_resources);
+    _statisticsOverlay = statistics::alloc (_renderWindow, _resources, _screenOverlay);
+
+    _viewPosLabel = text_label::alloc (_statisticsOverlay->getDefaultFont(),
+                                      math3d::vector2_f (0.34, 0.02),
+                                      math3d::vector2_f (0.06, 0.06));
+
+    _viewPosLabel->setColor (color_rgb<float> (0.4, 0.9, 0.5));
+    _screenOverlay->addOverlay (_viewPosLabel);
 }

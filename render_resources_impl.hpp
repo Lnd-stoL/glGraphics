@@ -1,4 +1,9 @@
 
+#ifndef __render_resources_impl__included__
+#define __render_resources_impl__included__
+
+//----------------------------------------------------------------------------------------------------------------------
+
 #include "render_resources.hpp"
 #include "resource_manager_impl.hpp"
 
@@ -20,9 +25,13 @@ namespace render
     }
 
 
-    template<>
+    /*template<>
     font::ptr resources::requestFromFile<font> (const string &fileName)
     {
         return _fontsManager.request (fileName);
-    }
+    }*/
 }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+#endif

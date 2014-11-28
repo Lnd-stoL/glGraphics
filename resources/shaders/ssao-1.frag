@@ -33,25 +33,34 @@ const vec2 poisson16[] = vec2[](    // These are the Poisson Disk Samples
 vec3 calculatePosition (in vec2 coord, in float depth)
 {
     vec2 screenCoords = coord * 2 - 1;
-    //screenCoords.y = -screenCoords.y;
     vec3 coords = vec3 (screenCoords, depth);
     vec4 viewCoords = uMatInvProjection * vec4 (coords, 1);
     viewCoords.xyz /= viewCoords.w;
+    //viewCoords.z = -viewCoords.z;
 
     return viewCoords.xyz;
 }
 
 
+vec3 normal_decode (vec2 enc)
+{
+    vec2 fenc = enc * 4 - 2;
+    float f = dot (fenc,fenc);
+    float g = sqrt (1 - f/4);
+    vec3 n;
+    n.xy = fenc*g;
+    n.z = 1 - f/2;
+    return n;
+}
+
+
 void main()
 {
-    //out_Color = vec4 (1, 0, 0, 1);
-    //return;
-
     vec3 screenOriginalColor = texture (uScreen, vTexUV).rgb;
-    //gl_FragData[0] = vec4 (screenOriginalColor, 1);
+    //out_Color = screenOriginalColor;
     //return;
 
-    vec3 normal = normalize (texture (uNormalMap, vTexUV.xy).rgb * 2.0 - 1.0);
+    vec3 normal = normalize (normal_decode (texture (uNormalMap, vTexUV.xy).xy));
     float depth = texture (uDepthMap, vTexUV).r;
     vec3 viewPos = calculatePosition (vTexUV, depth * 2 - 1);
 
@@ -64,37 +73,51 @@ void main()
     else
     {
         float distanceThreshold = 0.05;
-        vec2 filterRadius = vec2 (0.008, 0.006);
+        vec2 filterRadius = vec2 (0.06, 0.06);
 
         float ambientOcclusion = 0;
-        // perform AO
-        for (int i = 0; i < sample_count; ++i)
+        float normSumm = 0;
+        vec3 avgSamleDir = vec3 (0, 0, 0);
+        for (int i = 0; i < 16; ++i)
         {
-            // sample at an offset specified by the current Poisson-Disk sample and scale it by a radius (has to be in Texture-Space)
-            vec2 sampleTexCoord = vTexUV + (poisson16[i] * (filterRadius));
+            vec2 disp = (filterRadius / viewPos.z);
+            vec2 sampleTexCoord = vTexUV + (poisson16[i] * disp);
             float sampleDepth = texture (uDepthMap, sampleTexCoord).r;
             vec3 samplePos = calculatePosition (sampleTexCoord, sampleDepth * 2 - 1);
             vec3 sampleDir = normalize (samplePos - viewPos);
 
-            // angle between SURFACE-NORMAL and SAMPLE-DIRECTION (vector from SURFACE-POSITION to SAMPLE-POSITION)
-            float NdotS = max (dot (normal, sampleDir), 0);
-            // distance between SURFACE-POSITION and SAMPLE-POSITION
+            float NdotS = max (dot (normal, sampleDir), -1);
             float VPdistSP = distance (viewPos, samplePos);
 
-            // a = distance function
-            float a = 1.0 - smoothstep (distanceThreshold, distanceThreshold * 10, VPdistSP);
-            // b = dot-Product
+            float a = 1.0 - smoothstep (0.1, 0.2, VPdistSP);
             float b = NdotS;
 
-            ambientOcclusion += (a * b);
+            float d = 0.000001;
+            float c = smoothstep (d, 10000*d, VPdistSP);
+            //if (VPdistSP >= 0.02)  c = 0;
+            if (VPdistSP > 0.5) VPdistSP = 0;
+            float norm = length (disp);
+            if (NdotS > 0)
+            {
+                ambientOcclusion += 1 - (VPdistSP) /*(NdotS)*/;
+                normSumm += (1);
+            }
+
+            avgSamleDir += sampleDir;
         }
 
-        ambientOcclusion /= sample_count;
-        //ambientOcclusion *= ambientOcclusion - 0.1;
-        ambientOcclusion = clamp (ambientOcclusion, 0, 0.9);
+        ambientOcclusion = max (ambientOcclusion, 0.01);
+
+        avgSamleDir /= normSumm;
+        ambientOcclusion /= normSumm;
+        //ambientOcclusion = clamp (ambientOcclusion, 0, 0.9);
         float occlusionFactor = 1.0 - (ambientOcclusion);
 
-        out_Color = screenOriginalColor * occlusionFactor;
+        ambientOcclusion = min (ambientOcclusion, 1);
+        out_Color = screenOriginalColor * ambientOcclusion * ambientOcclusion * ambientOcclusion;
+        //out_Color = vec3 (viewPos.xy, -viewPos.z);
+        //out_Color = vec3 (ambientOcclusion);
+        //out_Color = avgSamleDir;
         //gl_FragData[0] = vec4 (vec3 (occlusionFactor), 1);
         //gl_FragData[0] = vec4 (texture (uScreen, vTexUV).rgb, 1);
     }

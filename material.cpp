@@ -41,6 +41,9 @@ namespace render
         for (auto param : _vec3Params)
             _technique->getRenderingProgram()->setUniform (param.first, param.second, true);
 
+        for (auto param : _vec2Params)
+            _technique->getRenderingProgram()->setUniform (param.first, param.second, true);
+
         unsigned i = 0;
         for (auto texture_ : _textures)
         {

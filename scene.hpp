@@ -34,9 +34,13 @@ namespace render
                                                                                _renderableObject (renderableObject)
         { }
 
+
         bool operator< (const scene_object& theOtherSceneObject)
         {
-            return _renderQueue < theOtherSceneObject._renderQueue;
+            if (_renderQueue != theOtherSceneObject._renderQueue)
+                return _renderQueue < theOtherSceneObject._renderQueue;
+
+            return ((const renderable*) _renderableObject.get()) < ((const renderable*) theOtherSceneObject._renderableObject.get());
         }
     };
 
@@ -83,11 +87,24 @@ namespace render
 
 
         public:
-            property_get_ref (Object2ScreenTransform, _object2ScreenTransform);
-            property_get (Camera, _camera);
-            property_get (Material, _material);
-            property_get (RenderingProgram, _material->getTechnique()->getRenderingProgram());
-            property_get (FrameBuffer, _frameBuffer);
+            property_get_ref (Object2ScreenTransform, _object2ScreenTransform)
+            property_get (Camera, _camera)
+            property_get (Material, _material)
+            property_get (RenderingProgram, _material->getTechnique()->getRenderingProgram())
+            property_get (FrameBuffer, _frameBuffer)
+
+        public:
+            friend class graphics_renderer;
+        };
+
+//----------------------------------------------------------------------------------------------------------------------
+
+        class frame_statistics
+        {
+            unsigned  _drawCalls = 0;
+
+        public:
+            property_get (DrawCalls, _drawCalls)
 
         public:
             friend class graphics_renderer;
@@ -96,10 +113,14 @@ namespace render
 //----------------------------------------------------------------------------------------------------------------------
 
     private:
-        rendering_state _state;
+        rendering_state  _state;
+        frame_statistics  _lastFrameStatistics;
+        frame_statistics  _frameStatistics;
         scene::ptr _scene;
 
+        static constexpr double _frameCountScale = 0.001;
         float _frameCount = 0;
+
         bool  _forcedMaterial = false;
         bool  _materialSet = false;
 
@@ -107,10 +128,13 @@ namespace render
 
 
     public:
-        property_ref (state, _state);
-        property_get (Scene, _scene);
+        property_ref (state, _state)
+        property_get_ref (FrameStatistics, _frameStatistics)
+        property_get_ref (LastFrameStatistics, _lastFrameStatistics)
+        property_get (Scene, _scene)
+        property_get (FrameCount, _frameCount / _frameCountScale)
 
-        event_access (beforeDrawCall, _beforeDrawCallEvent);
+        event_access (beforeDrawCall, _beforeDrawCallEvent)
 
 
     protected:
@@ -132,7 +156,7 @@ namespace render
         void forceMaterial (material::ptr mat);
         void stopForcingMaterial();
 
-        void draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer);
+        void draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer, uint8_t bytesPerIndex = 2, unsigned indicesCount = 0);
 
         void renderScene (scene::ptr sceneToRender);
     };

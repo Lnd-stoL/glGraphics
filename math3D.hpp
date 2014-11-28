@@ -220,6 +220,15 @@ namespace math3d
         }
 
 
+        this_t& scale (this_t operand)
+        {
+            _x *= operand._x;
+            _y *= operand._y;
+
+            return *this;
+        }
+
+
         void divide (numeric_t operand)
         {
             _x /= operand;
@@ -1157,18 +1166,20 @@ namespace math3d
         }
 
 
-        void combine (const rotation &rot)
+        this_t& combine (const rotation &rot)
         {
             if (_ident)
             {
-                if (rot._ident) return;
+                if (rot._ident) return *this;
                 _quaternion = rot._quaternion;
                 _ident = false;
-                return;
+                return *this;
             }
 
             _quaternion = rot._quaternion.product (_quaternion);
             _ident = false;
+
+            return *this;
         }
 
 

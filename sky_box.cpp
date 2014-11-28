@@ -11,13 +11,14 @@ using oo_extensions::mkstr;
 
 void sky_box::draw (graphics_renderer &renderer) const
 {
-    renderer.use (renderer.state().getCamera()->object2ScreenTransform (_transform));
+    glFrontFace (GL_CW);
+    renderer.use (renderer.state().getCamera()->object2ScreenTransform (transform_d()));
     _mesh->draw (renderer);
+    glFrontFace (GL_CCW);
 }
 
 
 sky_box::sky_box (resources& renderRes)
-        : _transform (transform_d::ident())
 {
     auto skyboxShaderId = gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(), "sky_box.vert", "sky_box.frag");
     auto skyboxShader = renderRes.gpuProgramsManager().request (skyboxShaderId, renderRes);

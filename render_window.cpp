@@ -26,6 +26,12 @@ render_window::render_window (unsigned width, unsigned height, const string &tit
     debug::log::println (mkstr ("rendering device: ", glbinding::ContextInfo::vendor(),
                                 " ", glbinding::ContextInfo::renderer()));
 
+    if (glbinding::ContextInfo::version() < glbinding::Version (3, 3))
+    {
+        debug::log::println_err ("warning: your supported OpenGL version is older than 3.3 core; "
+                                 "some feaures or event the whole demo may not work properly");
+    }
+
     glfwSetKeyCallback (_window, _keyboardCallback);
     glfwSetFramebufferSizeCallback (_window, _windowSizeCallback);
 
@@ -66,11 +72,21 @@ void render_window::runLoop()
     while (!glfwWindowShouldClose (_window))
     {
         glfwPollEvents();
+        double startTime = glfwGetTime();
 
         _frameUpdateEvent (*this);
         _frameDrawEvent (*this);
 
         glfwSwapBuffers (_window);
+
+        _frameTime = (glfwGetTime() - startTime) * 1000.0;
+        _frameTimeSamples++;
+        if (_frameTimeSamples >= 10000)
+        {
+            _frameTimeSamples = 0;
+            _avgFrameTime = 0;
+        }
+        _avgFrameTime += _frameTime;
     }
 
     debug::log::println ("destroying the rendering window");

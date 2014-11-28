@@ -99,8 +99,10 @@ namespace render
     }
 
 
-    void graphics_renderer::draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer)
+    void graphics_renderer::draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer, uint8_t bytesPerIndex, unsigned indicesCount)
     {
+        if (indicesCount == 0)  indicesCount = indexBuffer.getSize();
+
         indexBuffer.use();
         vertexBuffer.use();
 
@@ -109,8 +111,10 @@ namespace render
         _setupShaderBeforeDraw();
 
         _beforeDrawCallEvent (*this);
-        glDrawElements (GL_TRIANGLES, indexBuffer.getSize(), GL_UNSIGNED_SHORT, nullptr);
-        debug::gl::test();
+        GLenum indexType = bytesPerIndex == sizeof (uint32_t) ? GL_UNSIGNED_INT : GL_UNSIGNED_SHORT;
+        glDrawElements (GL_TRIANGLES, indicesCount, indexType, nullptr);
+
+        _frameStatistics._drawCalls++;
     }
 
 
@@ -144,7 +148,8 @@ namespace render
         }
 
         auto viewInt = _state.getCamera()->getProjection()->getViewInterval();
-        _state.getRenderingProgram()->setUniform ("uClipNearFar", math3d::vector2_f (viewInt.getFrom(), viewInt.getTo()), true);
+        _state.getRenderingProgram()->setUniform ("uClipNearFar",
+                                                  math3d::vector2_f ((float) viewInt.getFrom(), (float) viewInt.getTo()), true);
 
     }
 
@@ -152,6 +157,9 @@ namespace render
     void graphics_renderer::_newFrame()
     {
         _materialSet = false;
-        _frameCount += 0.001;
+        _frameCount += _frameCountScale;
+
+        _lastFrameStatistics = _frameStatistics;
+        _frameStatistics = frame_statistics();
     }
 }

@@ -10,14 +10,15 @@ using oo_extensions::mkstr;
 
 void water_plane::draw (graphics_renderer &renderer) const
 {
-    renderer.use (renderer.state().getCamera()->object2ScreenTransform (_transform));
+    glDisable (GL_CULL_FACE);
+    renderer.use (renderer.state().getCamera()->object2ScreenTransform (transform_d()));
     _mesh->draw (renderer);
+    glEnable (GL_CULL_FACE);
 }
 
 
-water_plane::water_plane (resources& renderRes, render_window &renderWindow, float y)
-        : _transform (transform_d::ident()),
-          _surfaceHeight (y)
+water_plane::water_plane (resources& renderRes, render_window &renderWindow, float y) :
+      _surfaceHeight (y)
 {
     auto waterplaneShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
                                                "water_plane.vert", "water_plane.frag");

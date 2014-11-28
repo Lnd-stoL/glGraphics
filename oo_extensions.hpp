@@ -61,6 +61,11 @@ using std::dynamic_pointer_cast;
     property_get(public_name, private_name)
 
 
+#define property_rw_ref(public_name, private_name)  \
+    property_set_ref(public_name, private_name)     \
+    property_get_ref(public_name, private_name)
+
+
 #define prevent_copying(class_name)             \
     protected: class_name (const class_name &)  = delete; \
     protected: class_name (const class_name &&) = delete;

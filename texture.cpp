@@ -16,7 +16,7 @@ namespace render
 
     texture::texture (const std::string &fileName)
     {
-        unsigned flags = SOIL_FLAG_MIPMAPS | SOIL_FLAG_COMPRESS_TO_DXT;
+        unsigned flags = /*SOIL_FLAG_COMPRESS_TO_DXT |*/ SOIL_FLAG_DDS_LOAD_DIRECT;
         //unsigned flags = 0;
         _textureId = SOIL_load_OGL_texture (fileName.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, flags);
 
@@ -31,6 +31,8 @@ namespace render
         }
 
         use();
+        debug::log::println ("generating mipmaps for the texture ...");
+        glGenerateMipmap (_textureType);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint) GL_REPEAT);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint) GL_REPEAT);
 
@@ -159,7 +161,7 @@ namespace render
         auto txt = new texture();
 
         txt->use();
-        glTexImage2D (GL_TEXTURE_2D, 0, (GLint) GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+        glTexImage2D (GL_TEXTURE_2D, 0, (GLint) GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
         debug::gl::test();
 
         txt->filtering (texture::linear, texture::linear);

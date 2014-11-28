@@ -15,7 +15,7 @@ uniform vec3 uLightColor;
 // input
 
 in vec3  vTexCube;
-
+out vec3  out_Color;
 
 //----------------------------------------------------------------------------------------------------------------------
 // global parameters
@@ -24,7 +24,7 @@ vec3 Kr = vec3 (0.48867780436772762, 0.6978442963618773, 0.7616065586417131);
 
 const float rayleigh_brightness = 4.3;
 const float mie_brightness      = 0.09;
-const float spot_brightness     = 3;
+const float spot_brightness     = 5;
 const float scatter_strength    = 0.048;
 const float rayleigh_strength   = 0.139; // 0.239
 const float mie_strength        = 0.0264;
@@ -136,7 +136,7 @@ void main()
 {
     if (vTexCube.y * 500 < -100)
     {
-        gl_FragData[0] = vec4 (1, 1, 1, 0);
+        out_Color = vec3 (1, 1, 1);
         return;
     }
 
@@ -158,8 +158,5 @@ void main()
 
     //color = mix (color, vec3 (1, 1, 1), 0.05);
     //cloudColor *= cloudLight;
-    vec3 color = mix (skyColor, cloudColor.rgb * uLightColor + vec3 (0.2, 0.2, 0.2), cloudColor.a * 0.96 * cloudLight);
-
-    gl_FragData[0] = vec4 (color, 1.0);
-    //gl_FragData[0] = vec4 (vTexCube, 1);
+    out_Color = mix (skyColor, cloudColor.rgb * uLightColor + vec3 (0.2, 0.2, 0.2), cloudColor.a * 0.96 * cloudLight);
 }
