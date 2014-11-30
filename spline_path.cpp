@@ -7,6 +7,12 @@
 
 spline_path::spline_path (vector<spline_path::spline_node> &&nodes)
 {
+	if (nodes.size() < 2)
+	{
+		debug::log::println_err ("can't constuct spline path from nodes; at least 2 nodes required");
+		return;
+	}
+
 	_path.swap (nodes);
 }
 
@@ -46,12 +52,12 @@ spline_path::spline_path (const string &fileName)
 
 		else
 		{
-			double px = 0, py = 0, pz = 0, rx = 0, ry = 0, t = 0;
-			parser >> px >> py >> pz >> rx >> ry >> t;
+			double px = 0, py = 0, pz = 0, rx = 0, ry = 0, rz = 0, rw = 0, t = 0;
+			parser >> px >> py >> pz >> rx >> ry >> rz >> rw >> t;
 
 			spline_node nextNode;
 			nextNode.position = vector3_d (px, py, pz);
-			nextNode.angles   = vector2_d (rx, ry);
+			nextNode.rotation = quaternion_d (rx, ry, rz, rw);
 			nextNode.duration = t;
 			_wholeDuration += t;
 
@@ -79,7 +85,8 @@ void spline_path::save (const string &fileName)
 	for (auto& nextNode : _path)
 	{
 		file << nextNode.position.getX() << " " << nextNode.position.getY() << " " << nextNode.position.getZ() << " ";
-		file << nextNode.angles.getX() << " " << nextNode.angles.getY() << " ";
+		file << nextNode.rotation.getX() << " " << nextNode.rotation.getY() << " " << nextNode.rotation.getZ() << " " <<
+				nextNode.rotation.getW() << " ";
 	    file << nextNode.duration << "\n";
 	}
 
@@ -115,6 +122,18 @@ vector2_d spline_path::_catmullRom (const vector2_d &yn1, const vector2_d &y0, c
 	return vector2_d (
 			_catmullRom (yn1.getX(), y0.getX(), y1.getX(), y2.getX(), dx, t),
 			_catmullRom (yn1.getY(), y0.getY(), y1.getY(), y2.getY(), dx, t)
+	);
+}
+
+
+quaternion_d spline_path::_catmullRom (const quaternion_d &yn1, const quaternion_d &y0, const quaternion_d &y1,
+									   const quaternion_d &y2, double dx, double t)
+{
+	return quaternion_d (
+			_catmullRom (yn1.getX(), y0.getX(), y1.getX(), y2.getX(), dx, t),
+			_catmullRom (yn1.getY(), y0.getY(), y1.getY(), y2.getY(), dx, t),
+			_catmullRom (yn1.getZ(), y0.getZ(), y1.getZ(), y2.getZ(), dx, t),
+			_catmullRom (yn1.getW(), y0.getW(), y1.getW(), y2.getW(), dx, t)
 	);
 }
 
@@ -176,7 +195,7 @@ void spline_path::_onUpdatePlay()
 	_timeSinceLastNode += curTime - _lastUpdateTime;
 	_lastUpdateTime = curTime;
 
-	if (_timeSinceLastNode >= _currentNode().duration)
+	if (_timeSinceLastNode >= _currentNode().duration * _playSpeed)
 	{
 		++_currentNodeIndex;
 		if (isPlayingFinished())
@@ -188,7 +207,7 @@ void spline_path::_onUpdatePlay()
 		_timeSinceLastNode = 0;
 	}
 
-	const float dx = 1.0f;
+	const double dx = 1.0;
 	double t = _timeSinceLastNode / _currentNode().duration;
 
 	int yn1Index = _currentNodeIndex - 1;
@@ -201,18 +220,30 @@ void spline_path::_onUpdatePlay()
 	const spline_node &y1  = _path[_currentNodeIndex + 1];
 	const spline_node &y2  = _path[y2Index];
 
-	vector3_d nextPosition = _catmullRom (yn1.position, y0.position, y1.position, y2.position, dx, t);
-	vector2_d nextAngles   = _catmullRom (yn1.angles, y0.angles, y1.angles, y2.angles, dx, t);
+	vector3_d nextPosition    = _catmullRom (yn1.position, y0.position, y1.position, y2.position, dx, t);
+	quaternion_d nextRotation = _catmullRom (yn1.rotation, y0.rotation, y1.rotation, y2.rotation, dx, t);
 
-	_camera->changeTransform (nextPosition, rotation_d (nextAngles.getX(), nextAngles.getY(), 0));
+	_camera->changeTransform (nextPosition, rotation_d (nextRotation));
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void spline_path_recorder::recordFromCamera (render::camera::ptr cam, event<const render_window&> &updateEvent)
+void spline_path_recorder::recordFromCamera (render::camera::ptr cam,
+											 event<const render_window&> &updateEvent,
+								             double samplingRate)
 {
+	if (_camera)
+	{
+		debug::log::println_err ("can't start recording a path while another path is being recorded");
+		return;
+	}
+
+	_samplingRate = samplingRate;
 	_camera = cam;
 	_updateEvent = &updateEvent;
+
+	_lastUpdateTime = -1;
+	_timeSinceLastNode = 0;
 
 	_updateHandler = updateEvent.handleWith ([this] (const render_window &) {
 		this->_onUpdatePlay();
@@ -222,8 +253,27 @@ void spline_path_recorder::recordFromCamera (render::camera::ptr cam, event<cons
 
 spline_path::ptr spline_path_recorder::stopRecording()
 {
-	auto spline =  spline_path::alloc (_path);
+	if (_updateEvent)  _updateEvent->stopHandlingWith (_updateHandler);
+
+	_updateEvent = nullptr;
+	_updateHandler = event<const render_window&>::handler_id();
+
+	if (_path.size() == 0)
+	{
+		debug::log::println_err ("can't stop recording properly; the path cotains no points");
+		return spline_path::ptr();
+	}
+
+	if (_path.size() == 1)
+	{
+		_path.push_back (_path[0]);
+	}
+
+	auto spline =  spline_path::alloc (std::move (_path));
 	_path.clear();
+	_lastUpdateTime = -1;
+	_timeSinceLastNode = 0;
+	_camera = nullptr;
 
 	return spline;
 }
@@ -236,33 +286,16 @@ void spline_path_recorder::_onUpdatePlay()
 	_timeSinceLastNode += curTime - _lastUpdateTime;
 	_lastUpdateTime = curTime;
 
-	if (_timeSinceLastNode >= _currentNode().duration)
+	if (_timeSinceLastNode >= _samplingRate || _lastUpdateTime < 0)
 	{
-		++_currentNodeIndex;
-		if (isPlayingFinished())
-		{
-			stopPlaying();
-			return;
-		}
+		const transform_d &camTransform = _camera->getTransform();
 
+		spline_path::spline_node nextNode;
+		nextNode.position = camTransform.getTranslation();
+		nextNode.rotation = camTransform.getRotation().asQuaternion();
+		nextNode.duration = _timeSinceLastNode;
+
+		_path.emplace_back (std::move (nextNode));
 		_timeSinceLastNode = 0;
 	}
-
-	const float dx = 1.0f;
-	double t = _timeSinceLastNode / _currentNode().duration;
-
-	int yn1Index = _currentNodeIndex - 1;
-	int y2Index =  _currentNodeIndex + 2;
-	if (yn1Index < 0)  yn1Index = 0;
-	if (y2Index == _path.size())  y2Index = (int) _path.size() - 1;
-
-	const spline_node &yn1 = _path[yn1Index];
-	const spline_node &y0  = _path[_currentNodeIndex + 0];
-	const spline_node &y1  = _path[_currentNodeIndex + 1];
-	const spline_node &y2  = _path[y2Index];
-
-	vector3_d nextPosition = _catmullRom (yn1.position, y0.position, y1.position, y2.position, dx, t);
-	vector2_d nextAngles   = _catmullRom (yn1.angles, y0.angles, y1.angles, y2.angles, dx, t);
-
-	_camera->changeTransform (nextPosition, rotation_d (nextAngles.getX(), nextAngles.getY(), 0));
 }

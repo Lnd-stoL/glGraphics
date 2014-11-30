@@ -1168,13 +1168,13 @@ namespace math3d
         }
 
 
-        rotation (quaternion_t quaternion_) : _quaternion (quaternion_), _ident (false)
+        explicit rotation (const quaternion_t &quaternion_) : _quaternion (quaternion_), _ident (false)
         { }
 
 
-        axis_angle asAxisAngle()
+        axis_angle asAxisAngle() const
         {
-            if (_quaternion.getRe() > 1) _quaternion.normalize();
+            if (_quaternion.getRe() > 1)  _quaternion.normalize();
             numeric_t angle = 2 * std::acos (_quaternion.getRe());
             numeric_t s = math_ex::squareRoot (1 - math_ex::square (_quaternion.getRe()));
 
@@ -1194,7 +1194,13 @@ namespace math3d
         }
 
 
-        euler_angles asEulerAngles()
+        quaternion_t asQuaternion() const
+        {
+            return _quaternion;
+        }
+
+
+        euler_angles asEulerAngles() const
         {
             euler_angles angles;
 
@@ -1747,6 +1753,7 @@ namespace math3d
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    typedef quaternion<float>  quaternion_f;
     typedef angle<float>       angle_f;
     typedef interval<float>    interval_f;
     typedef vector3<float>     vector3_f;
@@ -1759,6 +1766,7 @@ namespace math3d
     typedef orthographic_projection<float> orthographic_projection_f;
     typedef object2screen_transform<float> object2screen_transform_f;
 
+    typedef quaternion<double> quaternion_d;
     typedef angle<double>      angle_d;
     typedef interval<double>   interval_d;
     typedef vector3<double>    vector3_d;

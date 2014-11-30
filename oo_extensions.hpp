@@ -103,39 +103,43 @@ namespace oo_extensions
 
     template<typename T1>
     inline string mkstr (T1 x1)
-        { return ((std::stringstream &)(std::stringstream() << x1)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1)).str(); }
 
     template<typename T1, typename T2>
     inline string mkstr (T1 x1, T2 x2)
-        { return ((std::stringstream &)(std::stringstream() << x1 << x2)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2)).str(); }
 
     template<typename T1, typename T2, typename T3>
     inline string mkstr (T1 x1, T2 x2, T3 x3)
-        { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3)).str(); }
 
     template<typename T1, typename T2, typename T3, typename T4>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4)
-        { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4)).str(); }
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5)
-        { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4 << x5)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5)).str(); }
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6)
-        { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4 << x5 << x6)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6)).str(); }
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7)
-        { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7)).str(); }
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8)
-    { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8)).str(); }
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8, T9 x9)
-    { return ((std::stringstream &)(std::stringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8 << x9)).str(); }
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8 << x9)).str(); }
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10>
+    inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8, T9 x9, T10 x10)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8 << x9 << x10)).str(); }
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -157,15 +161,18 @@ namespace oo_extensions
             _handlers.reserve (2);
         }
 
+
         inline void fire (const handler_args_t&... arguments)
         {
             for (auto nextHandler : _handlers)  nextHandler (arguments...);
         }
 
+
         inline void operator() (const handler_args_t&... arguments)
         {
             fire (arguments...);
         }
+
 
         inline handler_id handleWith (handler_t handler)
         {
@@ -176,10 +183,12 @@ namespace oo_extensions
             return lastIt;
         }
 
+
         inline void stopHandlingWith (handler_id handler)
         {
             _handlers.erase (handler);
         }
+
 
         void disconnectAllHandlers()
         {

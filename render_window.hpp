@@ -25,6 +25,7 @@ private:
     GLFWwindow *_window = nullptr;
     unsigned _width, _height;
 
+    static constexpr unsigned _avgMaxSamplesCount = 100000;
     double  _frameTime        = 0;
     double  _avgFrameTime     = 0;
     double  _frameTimeSamples = 0;
@@ -32,12 +33,14 @@ private:
     event<const render_window&>  _frameUpdateEvent;
     event<const render_window&>  _frameDrawEvent;
     event<unsigned, unsigned>    _sizeChangedEvent;
+    event<int>                   _keyPressedEvent;
 
 
 public:
     event_access (frameUpdate, _frameUpdateEvent)
     event_access (frameDraw,   _frameDrawEvent)
     event_access (sizeChanged, _sizeChangedEvent)
+    event_access (keyPressed,  _keyPressedEvent)
 
     property_get (FrameTime,        _frameTime)
     property_get (AverageFrameTime, _avgFrameTime / _frameTimeSamples)

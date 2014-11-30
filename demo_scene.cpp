@@ -151,8 +151,9 @@ void demo_scene::_initObjects()
     _fogObject->useDepthTexture (_sceneWithoutWater_DepthTexture);
     _fogObject->useColorTexture (_sceneWithoutWater_Texture);
 
-    _testPath = spline_path::alloc ("resources/test.path");
+    _testPath = spline_path::alloc ("resources/recorded-path.path");
     _testPath->playOnCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
+    //_testPathRecorder.recordFromCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
 
     _horizonColorMap.loadFromFile (_resources.texturesManager().locateFile ("skybox/horizon.png"));
 }
@@ -208,6 +209,7 @@ void demo_scene::_setEventHandlers()
 {
     _renderWindow.frameUpdateEvent().handleWith ([this](const render_window&) { _frameUpdate(); });
     _renderWindow.frameDrawEvent().handleWith   ([this](const render_window&) { _frameRender(); });
+    _renderWindow.keyPressedEvent().handleWith  ([this](int key) { _keyPressed (key); });
 }
 
 
@@ -378,4 +380,14 @@ void demo_scene::_initOverlays()
 
     _viewPosLabel->setColor (color_rgb<float> (0.4, 0.9, 0.5));
     _screenOverlay->addOverlay (_viewPosLabel);
+}
+
+
+void demo_scene::_keyPressed (int key)
+{
+    if (key == GLFW_KEY_F2)
+    {
+        spline_path::ptr sp = _testPathRecorder.stopRecording();
+        sp->save ("resources/recorded-path.path");
+    }
 }

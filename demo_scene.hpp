@@ -63,6 +63,7 @@ class demo_scene :
     statistics::ptr  _statisticsOverlay;
     text_label::ptr  _viewPosLabel;
     spline_path::ptr _testPath;
+    spline_path_recorder _testPathRecorder;
 
 
 protected:
@@ -78,6 +79,7 @@ protected:
 
     void _frameUpdate();
     void _frameRender();
+    void _keyPressed (int key);
 
     void _justTestDraw();
 

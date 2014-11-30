@@ -19,9 +19,9 @@ class spline_path :
 public:
 	struct spline_node
 	{
-		vector3_d  position;
-		vector2_d  angles;
-		double     duration;
+		vector3_d     position;
+		quaternion_d  rotation;
+		double        duration;
 	};
 
 
@@ -29,6 +29,7 @@ private:
 	vector<spline_node>  _path;
 	double _wholeDuration = 0;
 
+	double _playSpeed = 1;
 	unsigned _currentNodeIndex = 0;
 	double _timeSinceLastNode = 0;
 	double _lastUpdateTime = -1;
@@ -40,6 +41,7 @@ private:
 public:
 	property_get (Duration, _wholeDuration)
 	property_get (ControlledCamera, _camera)
+	property_rw  (PlaySpeed, _playSpeed)
 
 
 private:
@@ -50,11 +52,16 @@ private:
 
 	inline  spline_node&  _currentNode()    { return _path[_currentNodeIndex]; }
 
-	double    _catmullRom (double yn1, double y0, double y1, double y2, double dx, double t);
-	vector3_d _catmullRom (const vector3_d &yn1, const vector3_d &y0, const vector3_d &y1,
-						   const vector3_d &y2, double dx, double t);
-	vector2_d _catmullRom (const vector2_d &yn1, const vector2_d &y0, const vector2_d &y1,
-			const vector2_d &y2, double dx, double t);
+	double       _catmullRom (double yn1, double y0, double y1, double y2, double dx, double t);
+
+	vector3_d    _catmullRom (const vector3_d &yn1, const vector3_d &y0, const vector3_d &y1,
+						      const vector3_d &y2, double dx, double t);
+
+	vector2_d    _catmullRom (const vector2_d &yn1, const vector2_d &y0, const vector2_d &y1,
+						      const vector2_d &y2, double dx, double t);
+
+	quaternion_d _catmullRom (const quaternion_d &yn1, const quaternion_d &y0, const quaternion_d &y1,
+						      const quaternion_d &y2, double dx, double t);
 
 	void _onUpdatePlay();
 
@@ -88,6 +95,7 @@ private:
 	event<const render_window&>::handler_id  _updateHandler;
 	event<const render_window&>  *_updateEvent = nullptr;
 
+	double _samplingRate = 1;
 	double _timeSinceLastNode = 0;
 	double _lastUpdateTime = -1;
 
@@ -98,7 +106,7 @@ private:
 public:
 	declare_ptr_alloc (spline_path_recorder)
 
-	void recordFromCamera (render::camera::ptr cam, event<const render_window&> &updateEvent);
+	void recordFromCamera (render::camera::ptr cam, event<const render_window&> &updateEvent, double samplingRate = 0.7);
 	spline_path::ptr stopRecording();
 };
 

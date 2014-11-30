@@ -81,7 +81,7 @@ void render_window::runLoop()
 
         _frameTime = (glfwGetTime() - startTime) * 1000.0;
         _frameTimeSamples++;
-        if (_frameTimeSamples >= 10000)
+        if (_frameTimeSamples >= _avgMaxSamplesCount)
         {
             _frameTimeSamples = 0;
             _avgFrameTime = 0;
@@ -181,4 +181,6 @@ void render_window::_handleKeyPressed (int key)
     {
         glfwSetWindowShouldClose (_window, 1);
     }
+
+    _keyPressedEvent (key);
 }
