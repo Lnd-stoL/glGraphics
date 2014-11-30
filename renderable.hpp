@@ -17,14 +17,22 @@ namespace render
 
     class renderable
     {
+    protected:
+        bool _visible = true;
+
+    public:
+        property_get (Visible, _visible)
+
     public:
         declare_ptr (renderable);
-        virtual void draw (graphics_renderer &renderer) const = 0;
+
+        virtual  void hide()           { _visible = false; }
+        virtual  void makeVisible()    { _visible = true;  }
+
+        virtual  void draw (graphics_renderer &renderer) const = 0;
     };
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 
 #endif
-
-

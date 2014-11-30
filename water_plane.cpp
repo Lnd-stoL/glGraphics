@@ -10,10 +10,10 @@ using oo_extensions::mkstr;
 
 void water_plane::draw (graphics_renderer &renderer) const
 {
-    glDisable (GL_CULL_FACE);
+    //glDisable (GL_CULL_FACE);
     renderer.use (renderer.state().getCamera()->object2ScreenTransform (transform_d()));
     _mesh->draw (renderer);
-    glEnable (GL_CULL_FACE);
+    //glEnable (GL_CULL_FACE);
 }
 
 
@@ -52,7 +52,7 @@ water_plane::water_plane (resources& renderRes, render_window &renderWindow, flo
 void water_plane::useRefractionTextures (texture::ptr refractTexture, texture::ptr depthTexture)
 {
     _material->textures()["uRefractionDepth"] = depthTexture;
-    _material->textures()["uRefraction"] = refractTexture;
+    _material->textures()["uRefraction"]      = refractTexture;
 }
 
 

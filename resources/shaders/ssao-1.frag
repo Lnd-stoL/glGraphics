@@ -57,8 +57,8 @@ vec3 normal_decode (vec2 enc)
 void main()
 {
     vec3 screenOriginalColor = texture (uScreen, vTexUV).rgb;
-    //out_Color = screenOriginalColor;
-    //return;
+    out_Color = screenOriginalColor;
+    return;
 
     vec3 normal = normalize (normal_decode (texture (uNormalMap, vTexUV.xy).xy));
     float depth = texture (uDepthMap, vTexUV).r;

@@ -48,7 +48,8 @@ namespace render
         for (auto texture_ : _textures)
         {
             glActiveTexture (GL_TEXTURE0 + i);
-            //glBindSampler (i, GL_LINEAR);
+            //glBindSampler (i, (GLuint) GL_LINEAR);
+            texture::invalidateBinding();
             texture_.second->use();
 
             _technique->getRenderingProgram()->setUniformSampler (texture_.first, i, true);

@@ -27,6 +27,8 @@ namespace render
 
     /*virtual*/ void text_label::draw (const screen_overlay_layer &overlayLayer, graphics_renderer& renderer)
     {
+        if (!_visible)  return;
+
         auto textRenderer = overlayLayer.getTextRenderer();
         if (!_material)         _loadMaterial (textRenderer);
         if (_meshUpdateNeeded)  _updateTextMesh (textRenderer);
@@ -121,6 +123,8 @@ namespace render
 
     void screen_overlay_layer::draw (graphics_renderer &renderer) const
     {
+        if (!_visible)  return;
+
         glDisable (GL_CULL_FACE);
         glDisable (GL_DEPTH_TEST);
         glDepthMask (GL_FALSE);
@@ -128,7 +132,12 @@ namespace render
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         for (auto nextOverlay : _overlays)
-            nextOverlay->draw (*this, renderer);
+        {
+            if (nextOverlay->getVisible())
+            {
+                nextOverlay->draw (*this, renderer);
+            }
+        }
 
         glDisable (GL_BLEND);
         glDepthMask (GL_TRUE);
@@ -161,10 +170,10 @@ namespace render
             const float xNarrowing = 0.6;
             float iNarrowed = xNarrowing * i;
 
-            _vertices.emplace_back (text_vertex {{iNarrowed,               0}, {0, 0}});
-            _vertices.emplace_back (text_vertex {{iNarrowed,              -1}, {0, 1}});
-            _vertices.emplace_back (text_vertex {{iNarrowed + xNarrowing,  0}, {1, 0}});
-            _vertices.emplace_back (text_vertex {{iNarrowed + xNarrowing, -1}, {1, 1}});
+            _vertices.emplace_back (text_vertex { {iNarrowed,               0}, {0, 0} });
+            _vertices.emplace_back (text_vertex { {iNarrowed,              -1}, {0, 1} });
+            _vertices.emplace_back (text_vertex { {iNarrowed + xNarrowing,  0}, {1, 0} });
+            _vertices.emplace_back (text_vertex { {iNarrowed + xNarrowing, -1}, {1, 1} });
         }
     }
 

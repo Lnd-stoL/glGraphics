@@ -13,6 +13,8 @@
 #include "water_plane.hpp"
 #include "sky_box.hpp"
 #include "statistics.hpp"
+#include "volumetric_fog.hpp"
+#include "spline_path.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3d;
@@ -55,10 +57,12 @@ class demo_scene :
     float _time = 0;
     math3d::vector3_f _sunPosition;
     sf::Image  _horizonColorMap;
+    volumetric_fog::ptr  _fogObject;
 
     screen_overlay_layer::ptr  _screenOverlay;
     statistics::ptr  _statisticsOverlay;
     text_label::ptr  _viewPosLabel;
+    spline_path::ptr _testPath;
 
 
 protected:

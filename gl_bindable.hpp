@@ -32,8 +32,10 @@ namespace render
         declare_ptr (gl_bindable)
 
         bool isBoundNow() const               { return _boundNowInGL == this; }
+
         static const gl_bindable* boundNow()  { return _boundNowInGL; }
         static bool isDefault()               { return _boundNowInGL = nullptr; }
+        static void invalidateBinding()       { _boundNowInGL = (gl_bindable *)1; }
     };
 
 //----------------------------------------------------------------------------------------------------------------------

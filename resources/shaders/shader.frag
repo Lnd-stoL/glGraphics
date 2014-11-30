@@ -23,14 +23,7 @@ out vec3  out_Normal;
 
 float shadowmapShading (vec3 vsv, vec2 disp, float bias)
 {
-    //float shadow = 1;
-    //float shadowMapVal = texture (uShadowMap, (vsv.xy / 2 + vec2 (0.5, 0.5) + disp)).x;
-    //if (shadowMapVal + 0.00003 < (vsv.z * 0.5 + 0.5))  shadow = 0;
-
     return texture (uShadowMap, vec3 (vsv.xy + disp, vsv.z - bias));
-    //return texture (uShadowMap, vec3 (vsv.xy / 2 + vec2 (0.5, 0.5) + disp, vsv.z * 0.5 + 0.5 - 0.0001));
-
-    //return shadow;
 }
 
 
@@ -83,7 +76,7 @@ void main()
 
     float depthDiff = abs (texture (uShadowMapFlat, vsv.xy).x - vsv.z);
     float blurBase = 5000 - (depthDiff * 800) * 3000;
-    blurBase = 2000 + smoothstep (0, 100, -vShadowmapVert.z) * 5000;
+    blurBase = 3000 + smoothstep (0, 100, -vShadowmapVert.z) * 5000;
 
     float shadow = 0;
     for (int i = 0; i < 4; i++) {
@@ -112,19 +105,35 @@ void main()
     shadow = clamp (shadow, 0, 1) * min (dot (normal, normalize (uLightPos / 10 - vWorldSpaceCoords)), 1);
     //shadow = 1;
 
-    float shadowLightenFactor = 0.3;
+    float shadowLightenFactor = 0.2;
     shadow = shadowLightenFactor + shadow * (1 - shadowLightenFactor);
+
+
+    float fogFactor = 0;
+    float fogY0 = 0;
+    float fogY1 = 2.5;
+
+    float t1 = (fogY1 - vWorldSpaceCoords.y) / vert2Eye.y;
+    vec3 intersect1 = vWorldSpaceCoords + t1 * vert2Eye;
+    float t0 = (fogY0 - vWorldSpaceCoords.y) / vert2Eye.y;
+    vec3 intersect0 = vWorldSpaceCoords + t0 * vert2Eye;
+
+    vec3 fogIn  = intersect0;
+    vec3 fogOut = intersect1;
+
+    if (vWorldSpaceCoords.y < fogY1 && vWorldSpaceCoords.y > fogY0)
+    {
+        if (t1 > 0)  fogIn  = vWorldSpaceCoords;
+        else         fogOut = vWorldSpaceCoords;
+
+
+        float fogLen = length (fogIn - fogOut);
+        fogFactor = fogLen / 10;
+    }
 
     //float c = CalculateCaustic (vWorldSpaceCoords, uLightPos);
     float diffLight = max (0, dot (normal, light2Vert));
     out_Color = ((diffLight*0.7 + 0.3) * shadow) * uLightColor * diffColor;
-    //out_Color = vec3 (depthDiff * 300);
-    //out_Color = vec3 (diffLight);
-    //out_Color = uLightColor;
+    out_Color = mix (out_Color, (vec3 (1, 1, 1) + 2 * uLightColor) / 3, fogFactor);
     out_Normal = vec3 (normal_encode (vViewSpaceNormal), 0);
-    //out_Normal = normalize (-vViewSpaceNormal);
-
-    //vec3 r = reflect (-vert2Eye, normal);
-    //gl_FragData[0] = vec4 ((diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60)) * shadow, 1);
-    //gl_FragColor = vec4 (diff + vec3 (1, 1, 1) * pow (max (dot (light2Vert, r), 0.0), 60), 1);
 }

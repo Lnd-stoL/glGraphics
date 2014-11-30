@@ -65,4 +65,18 @@ namespace render
     {
         _material = newMaterial;
     }
+
+
+    void elementary_shapes::cube (vector<elementary_shapes::simple_vertex> &vertices, vector<unsigned short> &indices)
+    {
+    }
+
+
+    a_mesh_component::ptr mesh::getComponent (const string &name)
+    {
+        for (auto i = _components.begin(); i != _components.end(); ++i)
+        {
+            if ((*i)->getName() == name)  return *i;
+        }
+    }
 }

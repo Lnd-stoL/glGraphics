@@ -27,7 +27,10 @@ public:
     declare_ptr_alloc (volumetric_fog)
     volumetric_fog (resources& renderRes, a_mesh_component::ptr mesh, const transform_d &trans);
 
+    static volumetric_fog::ptr createLayer (resources& renderRes, interval_d heightInterval, vector2_d size);
+
     void useDepthTexture (texture::ptr depthTexture);
+    void useColorTexture (texture::ptr colorTexture);
     virtual void draw (graphics_renderer &renderer) const;
 };
 

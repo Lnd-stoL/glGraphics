@@ -27,19 +27,24 @@ namespace render
         public oo_extensions::non_copyable
     {
     protected:
+        bool       _visible = true;
         vector2_f  _position;
         vector2_f  _size;
 
     public:
-        property_rw (ScreenPosition, _position);
-        property_rw (ScreenSize, _size);
+        property_rw  (ScreenPosition, _position)
+        property_rw  (ScreenSize, _size)
+        property_get (Visible, _visible)
 
 
     public:
         declare_ptr (screen_overlay)
         screen_overlay (vector2_f position, vector2_f size);
 
-        virtual void draw (const screen_overlay_layer& overlayLayer, graphics_renderer& renderer) = 0;
+        virtual  void hide()           { _visible = false; }
+        virtual  void makeVisible()    { _visible = true;  }
+
+        virtual  void draw (const screen_overlay_layer& overlayLayer, graphics_renderer& renderer) = 0;
     };
 
 //----------------------------------------------------------------------------------------------------------------------

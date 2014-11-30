@@ -1082,9 +1082,18 @@ namespace math3d
     public:
         struct axis_angle
         {
-            vector3<numeric_t> axis;
-            numeric_t          angle;
+            vector3<numeric_t>  axis;
+            numeric_t           angle;
         };
+
+
+        struct euler_angles
+        {
+            numeric_t  yaw;
+            numeric_t  pitch;
+            numeric_t  roll;
+        };
+
 
     public:
         typedef rotation<numeric_t, quaternion_t> this_t;
@@ -1113,27 +1122,46 @@ namespace math3d
         }
 
 
-        /*rotation (angle<numeric_t>, angle<numeric_t>, angle<numeric_t>) : _ident (false)
+        rotation (angle<numeric_t> yaw, angle<numeric_t> pitch, angle<numeric_t> roll) : _ident (false)
         {
+            numeric_t half_yaw   = yaw / 2;
+            numeric_t half_pitch = pitch / 2;
+            numeric_t half_roll  = roll / 2;
 
-        }*/
+            numeric_t c1 = std::cos (half_yaw);
+            numeric_t s1 = std::sin (half_yaw);
+            numeric_t c2 = std::cos (half_pitch);
+            numeric_t s2 = std::sin (half_pitch);
+            numeric_t c3 = std::cos (half_roll);
+            numeric_t s3 = std::sin (half_roll);
+
+            numeric_t c1c2 = c1 * c2;
+            numeric_t s1s2 = s1 * s2;
+
+            numeric_t w = c1c2 * c3  - s1s2 * s3;
+            numeric_t x = c1c2 * s3  + s1s2 * c3;
+            numeric_t y = s1 * c2*c3 + c1 * s2 * s3;
+            numeric_t z = c1 * s2*c3 - s1 * c2 * s3;
+
+            _quaternion = quaternion_t (x, y, z, w);
+        }
 
 
-        rotation (vector3<numeric_t> u, vector3<numeric_t> v)
+        rotation (vector3<numeric_t> from, vector3<numeric_t> to)
         {
-            numeric_t dot_uv = (u * v);
-            numeric_t norm_u_norm_v = sqrt (u.squaredLength() * v.squaredLength());
+            numeric_t dot_uv = (from * to);
+            numeric_t norm_u_norm_v = sqrt (from.squaredLength() * to.squaredLength());
             numeric_t real_part = norm_u_norm_v + dot_uv;
 
             vector3<numeric_t> w;
             if (real_part < 1.e-6f * norm_u_norm_v)
             {
                 real_part = 0;
-                w = std::abs (u.getX()) > std::abs (u.getZ()) ?
-                        vector3<numeric_t> (-u.getY(), u.getX(), 0) :
-                        vector3<numeric_t> (0, -u.getZ(), u.getY());
+                w = std::abs (from.getX()) > std::abs (from.getZ()) ?
+                        vector3<numeric_t> (-from.getY(), from.getX(), 0) :
+                        vector3<numeric_t> (0, -from.getZ(), from.getY());
             }
-            else w = u.crossProduct (v);
+            else w = from.crossProduct (to);
 
             _quaternion = quaternion_t (w, real_part);
             _quaternion.normalize();
@@ -1163,6 +1191,48 @@ namespace math3d
             aa.axis = axis;
 
             return aa;
+        }
+
+
+        euler_angles asEulerAngles()
+        {
+            euler_angles angles;
+
+            numeric_t sqw = _quaternion.getIm() * _quaternion.getIm();
+            numeric_t sqx = _quaternion.getX() * _quaternion.getX();
+            numeric_t sqy = _quaternion.getY() * _quaternion.getY();
+            numeric_t sqz = _quaternion.getZ() * _quaternion.getZ();
+
+            numeric_t unit = sqx + sqy + sqz + sqw;
+            numeric_t test = _quaternion.getX() * _quaternion.getY() + _quaternion.getZ() * _quaternion.getW();
+
+            if (test > 0.49999 * unit)
+            {
+                angles.yaw = 2 * std::atan2 (_quaternion.getX(), _quaternion.getW());
+                angles.pitch = angle<numeric_t>::pi / 2;
+                angles.roll = 0;
+
+                return angles;
+            }
+
+            if (test < -0.49999 * unit)
+            {
+                angles.yaw = -2 * std::atan2 (_quaternion.getX(), _quaternion.getW());
+                angles.pitch = - angle<numeric_t>::pi / 2;
+                angles.roll = 0;
+
+                return angles;
+            }
+
+            angles.yaw   = std::atan2 (2 * (_quaternion.getY() * _quaternion.getW() - _quaternion.getX() * _quaternion.getZ()),
+                                       sqx - sqy - sqz + sqw);
+
+            angles.pitch = std::asin (2 * test / unit);
+
+            angles.roll  = std::atan2 (2 * (_quaternion.getX() * _quaternion.getW() - _quaternion.getY() * _quaternion.getZ()),
+                                       -sqx + sqy - sqz + sqw);
+
+            return angles;
         }
 
 

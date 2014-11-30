@@ -96,6 +96,8 @@ namespace render
         void addComponent (a_mesh_component::ptr component);
         void removeComponent (const string &name);
 
+        a_mesh_component::ptr getComponent (const string &name);
+
         virtual void draw (graphics_renderer &renderer) const;
     };
 
@@ -128,6 +130,8 @@ namespace render
     public:
         static void quadXZ (vector<simple_vertex> &vertices, vector<unsigned short> &indices, float scale = 1, float y = 0);
         static void quadXY (vector<simple_vertex> &vertices, vector<unsigned short> &indices, float scale = 1, float z = 0);
+
+        static void cube (vector<simple_vertex> &vertices, vector<uint16_t> &indices);
     };
 }
 

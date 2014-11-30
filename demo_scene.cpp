@@ -1,6 +1,7 @@
-#include <glbinding/ContextInfo.h>
+
 #include "demo_scene.hpp"
 
+#include "volumetric_fog.hpp"
 #include "resource_manager_impl.hpp"
 #include "render_resources_impl.hpp"
 
@@ -146,6 +147,13 @@ void demo_scene::_initObjects()
     _skyBox = sky_box::alloc (_resources);
     _scene->addRenderableObject (_skyBox, 0);
 
+    _fogObject = volumetric_fog::createLayer (_resources, interval_d (0, 2.9), vector2_d (10, 10));
+    _fogObject->useDepthTexture (_sceneWithoutWater_DepthTexture);
+    _fogObject->useColorTexture (_sceneWithoutWater_Texture);
+
+    _testPath = spline_path::alloc ("resources/test.path");
+    _testPath->playOnCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
+
     _horizonColorMap.loadFromFile (_resources.texturesManager().locateFile ("skybox/horizon.png"));
 }
 
@@ -235,7 +243,7 @@ void demo_scene::_frameRender()
     //_justTestDraw();
     //return;
 
-    //glEnable (GL_CULL_FACE);   // TODO: So stupid model
+    glDisable (GL_CULL_FACE);   // TODO: So stupid model
 
     _renderer.renderTo (_shadowmapFrameBuffer);
     _renderer.forceMaterial (_shadowmapGenMaterial);
@@ -287,11 +295,11 @@ void demo_scene::_frameRender()
                                                                             invProjMat.convertType<float>());
     _screenQuad->draw (_renderer);
 
-    glEnable (GL_DEPTH_TEST);
-
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     _renderer.use (_viewerCamera);
+    //_fogObject->draw (_renderer);
+    glEnable (GL_DEPTH_TEST);
     _waterObject->draw (_renderer);
     glDisable (GL_BLEND);
 
@@ -364,9 +372,9 @@ void demo_scene::_initOverlays()
     _screenOverlay = screen_overlay_layer::alloc (_resources);
     _statisticsOverlay = statistics::alloc (_renderWindow, _resources, _screenOverlay);
 
-    _viewPosLabel = text_label::alloc (_statisticsOverlay->getDefaultFont(),
-                                      math3d::vector2_f (0.34, 0.02),
-                                      math3d::vector2_f (0.06, 0.06));
+    _viewPosLabel = text_label::alloc (_statisticsOverlay->getDefaultFont (),
+                                       math3d::vector2_f (0.34, 0.02),
+                                       math3d::vector2_f (0.06, 0.06));
 
     _viewPosLabel->setColor (color_rgb<float> (0.4, 0.9, 0.5));
     _screenOverlay->addOverlay (_viewPosLabel);

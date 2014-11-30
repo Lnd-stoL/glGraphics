@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(glGraphics)
 set(INCLUDE_DIRECTORIES "/usr/local/include")
-set(SOURCE_FILES main.cpp gpu_program.cpp debug.cpp static_mesh.cpp transformable_object.cpp volumetric_fog.cpp exs3d.cpp screen_overlay.cpp sky_box.cpp statistics.cpp demo_scene.cpp font_resource.cpp render_resources_impl.hpp render_resources.hpp frame_buffer.cpp binary_stream.cpp material.cpp water_plane.cpp gpu_buffer.cpp camera.hpp camera.cpp texture.cpp resource_manager_impl.hpp resource.hpp resource_manager.hpp render_window.cpp mesh_renderable_object.cpp renderable.hpp fps_camera.cpp scene.cpp mesh_impl.hpp binary_stream_impl.hpp gpu_buffer_impl.hpp gpu_buffer.hpp math3D.hpp math_ex.hpp oo_extensions.hpp mesh.hpp)
+set(SOURCE_FILES main.cpp gpu_program.cpp debug.cpp static_mesh.cpp transformable_object.cpp spline_path.cpp volumetric_fog.cpp exs3d.cpp screen_overlay.cpp sky_box.cpp statistics.cpp demo_scene.cpp font_resource.cpp render_resources_impl.hpp render_resources.hpp frame_buffer.cpp binary_stream.cpp material.cpp water_plane.cpp gpu_buffer.cpp camera.hpp camera.cpp texture.cpp resource_manager_impl.hpp resource.hpp resource_manager.hpp render_window.cpp mesh_renderable_object.cpp renderable.hpp fps_camera.cpp scene.cpp mesh_impl.hpp binary_stream_impl.hpp gpu_buffer_impl.hpp gpu_buffer.hpp math3D.hpp math_ex.hpp oo_extensions.hpp mesh.hpp)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" CMAKE_MODULE_PATH)
 set(CMAKE_CXX_FLAGS "-std=c++11")
 find_package(OpenGL REQUIRED)
