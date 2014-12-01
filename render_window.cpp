@@ -5,6 +5,7 @@
 #include <glbinding/Meta.h>
 #include <glbinding/ContextInfo.h>
 #include <glbinding/Version.h>
+
 #include <SOIL/SOIL.h>
 
 using oo_extensions::mkstr;
@@ -81,12 +82,13 @@ void render_window::runLoop()
 
         _frameTime = (glfwGetTime() - startTime) * 1000.0;
         _frameTimeSamples++;
+        _avgFrameTime += _frameTime;
+
         if (_frameTimeSamples >= _avgMaxSamplesCount)
         {
             _frameTimeSamples = 0;
             _avgFrameTime = 0;
         }
-        _avgFrameTime += _frameTime;
     }
 
     debug::log::println ("destroying the rendering window");

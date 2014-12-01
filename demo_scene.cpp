@@ -4,6 +4,7 @@
 #include "volumetric_fog.hpp"
 #include "resource_manager_impl.hpp"
 #include "render_resources_impl.hpp"
+#include "mesh_impl.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -27,6 +28,7 @@ void demo_scene::_loadAndInitialize()
     _initOverlays();
 
     _initObjects();
+    _resources.releaseUnused();
 }
 
 
@@ -83,13 +85,13 @@ void demo_scene::_initResourceManagers()
 {
     _resources.exs3dMeshesManager().addFileSearchLocation ("resources/models");
     _resources.gpuProgramsManager().addFileSearchLocation ("resources/shaders");
+    _resources.vertexShadersManager().addFileSearchLocation ("resources/shaders");
+    _resources.fragmentShadersManager().addFileSearchLocation ("resources/shaders");
+    _resources.geometryShadersManager().addFileSearchLocation ("resources/shaders");
     _resources.fontsManager().addFileSearchLocation ("resources/fonts");
     _resources.texturesManager().addFileSearchLocation ("resources/textures");
 
-    _resources.exs3dMeshesManager().addFileSearchLocation ("resources");
-    _resources.gpuProgramsManager().addFileSearchLocation ("resources");
-    _resources.fontsManager().addFileSearchLocation ("resources");
-    _resources.texturesManager().addFileSearchLocation ("resources");
+    _resources.addFilesSearchLocation ("resources");
 }
 
 
@@ -114,7 +116,7 @@ void demo_scene::_initObjects()
 
     auto stoneMesh = _resources.requestFromFile<exs3d_mesh> ("some-stone/mesh.exs3d");
     auto bumpMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
-                                                                                       "shader.vert", "bumpmapping.frag"),
+                                                                                       "shader.vert", "tangent_frame.geom", "bumpmapping.frag"),
                                                                                        _resources);
     auto stoneBumpMappedMaterial = material::alloc (technique::alloc (bumpMappingShader));
     stoneBumpMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("models/some-stone/Stone_5_DiffuseMap.jpg");
@@ -126,12 +128,17 @@ void demo_scene::_initObjects()
 
     auto cubeMesh = _resources.requestFromFile<exs3d_mesh> ("cube-textured.exs3d");
     auto parallaxMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
-                                                                                       "shader.vert", "bumpmapping.frag"),
+                                                                                       "shader.vert", "tangent_frame.geom", "bumpmapping.frag"),
                                                                       _resources);
     auto parallaxMappedMaterial = material::alloc (technique::alloc (parallaxMappingShader));
-    parallaxMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("rockwall/relief_wood.jpg");
-    parallaxMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("rockwall/relief_bump.png");
-    parallaxMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("rockwall/relief_height.dds");
+    //parallaxMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("rockwall/relief_wood.jpg");
+    //parallaxMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("rockwall/relief_bump.png");
+    //parallaxMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("rockwall/relief_height.dds");
+
+    parallaxMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("rockwall/rockwall.tga");
+    parallaxMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("rockwall/rockwall_normal.tga");
+    parallaxMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("rockwall/rockwall_height.dds");
+
     cubeMesh->getRenderableMesh()->getComponents()[0]->changeMaterial (parallaxMappedMaterial);
     transform_d cubeTransform (vector3_d (-14, 2, 0), rotation_d(), vector3_d (1));
     _scene->addRenderableObject (mesh_renderable_object::alloc (cubeMesh->getRenderableMesh(), cubeTransform), 1);
@@ -152,7 +159,7 @@ void demo_scene::_initObjects()
     _fogObject->useColorTexture (_sceneWithoutWater_Texture);
 
     _testPath = spline_path::alloc ("resources/recorded-path.path");
-    _testPath->playOnCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
+    //_testPath->playOnCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
     //_testPathRecorder.recordFromCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
 
     _horizonColorMap.loadFromFile (_resources.texturesManager().locateFile ("skybox/horizon.png"));
@@ -189,7 +196,6 @@ void demo_scene::_initPosteffects()
 
     _postprocess_FrameBuffer = frame_buffer::alloc (_renderWindow.getWidth(), _renderWindow.getHeight());
     _postprocess_FrameBuffer->attachDepthTexture (_sceneWithoutWater_DepthTexture);
-    //_postprocess_FrameBuffer->attachDepthTexture();
     _postprocess_Texture = _postprocess_FrameBuffer->attachColorTexture();
 
     if (!_postprocess_FrameBuffer->readyForRender())
@@ -234,9 +240,12 @@ void demo_scene::_frameUpdate()
     auto shadowmapCameraPos = _scene->getSunPosition() / 4;
     _shadowmapCamera->changeTransform (shadowmapCameraPos, lightRot);
 
-    auto viewPos = _viewerCamera->getTransform().getTranslation();
-    string viewPosText = mkstr (std::setprecision (4), viewPos.getX(), " ", viewPos.getY(), " ", viewPos.getZ());
-    _viewPosLabel->changeText (viewPosText);
+    if (_viewPosLabel->getVisible())
+    {
+        auto viewPos = _viewerCamera->getTransform().getTranslation();
+        string viewPosText = mkstr (std::setprecision (4), viewPos.getX(), " ", viewPos.getY(), " ", viewPos.getZ());
+        _viewPosLabel->changeText (viewPosText);
+    }
 }
 
 
@@ -374,11 +383,12 @@ void demo_scene::_initOverlays()
     _screenOverlay = screen_overlay_layer::alloc (_resources);
     _statisticsOverlay = statistics::alloc (_renderWindow, _resources, _screenOverlay);
 
-    _viewPosLabel = text_label::alloc (_statisticsOverlay->getDefaultFont (),
+    _viewPosLabel = text_label::alloc (_statisticsOverlay->getDefaultFont(),
                                        math3d::vector2_f (0.34, 0.02),
                                        math3d::vector2_f (0.06, 0.06));
 
     _viewPosLabel->setColor (color_rgb<float> (0.4, 0.9, 0.5));
+    _viewPosLabel->hide();
     _screenOverlay->addOverlay (_viewPosLabel);
 }
 
@@ -389,5 +399,11 @@ void demo_scene::_keyPressed (int key)
     {
         spline_path::ptr sp = _testPathRecorder.stopRecording();
         sp->save ("resources/recorded-path.path");
+    }
+
+    if (key == GLFW_KEY_P)
+    {
+        if (_viewPosLabel->getVisible())  _viewPosLabel->hide();
+        else                              _viewPosLabel->makeVisible();
     }
 }

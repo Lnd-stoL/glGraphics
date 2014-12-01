@@ -54,6 +54,7 @@ namespace render
         auto strPtr = codeString.c_str();
         glShaderSource (_shaderId, 1, &strPtr, nullptr);
         glCompileShader (_shaderId);
+        debug::gl::test();
 
         GLint result = 0;
         int infoLogLength = int();
@@ -63,7 +64,7 @@ namespace render
         char *glInfoLog = new char[infoLogLength + 1];
         glGetShaderInfoLog (_shaderId, infoLogLength, nullptr, glInfoLog);
 
-        debug::log::println_gl (glInfoLog);
+        if (infoLogLength > 1)  debug::log::println_gl (glInfoLog);
         delete[] glInfoLog;
 
         if (result != 1)
@@ -97,58 +98,96 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    vertex_shader::vertex_shader() : shader (GL_VERTEX_SHADER)
-    {  }
+    vertex_shader::vertex_shader()
+        : shader (GL_VERTEX_SHADER)
+    {
+    }
 
 
-    vertex_shader::vertex_shader (const std::string &fileName) : shader (fileName, GL_VERTEX_SHADER)
-    {  }
+    vertex_shader::vertex_shader (const std::string &fileName)
+        : shader (fileName, GL_VERTEX_SHADER)
+    {
+        resource::_loaded();
+    }
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    fragment_shader::fragment_shader() : shader (GL_FRAGMENT_SHADER)
-    {  }
+    fragment_shader::fragment_shader()
+        : shader (GL_FRAGMENT_SHADER)
+    {
+    }
 
 
-    fragment_shader::fragment_shader (const std::string &fileName) : shader (fileName, GL_FRAGMENT_SHADER)
-    {  }
+    fragment_shader::fragment_shader (const std::string &fileName)
+        : shader (fileName, GL_FRAGMENT_SHADER)
+    {
+        resource::_loaded();
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    geometry_shader::geometry_shader()
+        : shader (GL_GEOMETRY_SHADER)
+    {
+    }
+
+
+    geometry_shader::geometry_shader (const std::string &fileName)
+        : shader (fileName, GL_GEOMETRY_SHADER)
+    {
+        resource::_loaded();
+    }
 
 //----------------------------------------------------------------------------------------------------------------------
 
     gl_bindable_impl (gpu_program)
 
+//----------------------------------------------------------------------------------------------------------------------
+
+    /*virtual*/ string gpu_program::id::hashString() const
+    {
+        unsigned totalLength = 20;  // average length of vertex layout id
+        for (auto& nextStr : _shaderFileNames)  totalLength += nextStr.size() + 1;
+
+        string hashStr;
+        hashStr.reserve (totalLength);
+        for (auto& nextShaderFileName : _shaderFileNames)
+        {
+            hashStr.append (nextShaderFileName);
+            hashStr.append ("*");
+        }
+
+        hashStr.append (_vertexLayout->hashString());
+        return hashStr;
+    }
+
+
+    gpu_program::id::id (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName)
+        : gpu_program::id::id (vertexLayout, { vertShaderFileName, fragShaderFileName })
+    {
+
+    }
+
+
+    gpu_program::id::id (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &geomShaderFileName,
+                         const string &fragShaderFileName)
+        : gpu_program::id::id (vertexLayout, { vertShaderFileName, geomShaderFileName, fragShaderFileName })
+    {
+
+    }
+
+
+    gpu_program::id::id (i_vertex_layout::ptr vertexLayout, vector<string> &&shaderFileNames)
+        : _vertexLayout (vertexLayout)
+    {
+        _shaderFileNames.swap (shaderFileNames);
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
 
     gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout) : _vertexLayout (vertexLayout)
     {
         _initializeGLProgram();
-    }
-
-
-    gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout,
-                              const vertex_shader &vshader,
-                              const fragment_shader &fshader) : gpu_program (vertexLayout)
-    {
-        _attachAndLink (vshader, fshader);
-    }
-
-
-    gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout,
-                              const std::string &vertShaderFileName,
-                              const std::string &fragShaderFileName,
-                              resources &renderResources) : gpu_program (vertexLayout)
-    {
-        vertex_shader   vshader (renderResources.gpuProgramsManager().locateFile (vertShaderFileName));
-        fragment_shader fshader (renderResources.gpuProgramsManager().locateFile (fragShaderFileName));
-
-        _attachAndLink (vshader, fshader);
-    }
-
-
-    void gpu_program::_attachAndLink (const vertex_shader &vshader, const fragment_shader &fshader)
-    {
-        attach (vshader);
-        attach (fshader);
-        link();
     }
 
 
@@ -165,32 +204,32 @@ namespace render
     }
 
 
-    void gpu_program::attach (const shader& attachement)
+    void gpu_program::attach (shader::ptr attachement)
     {
         resource::_changedAfterLoading();
 
-        if (!attachement.getCompiled())
+        if (!attachement->getCompiled())
         {
             debug::log::println_err (
-                mkstr ("can't attach ", attachement.asString(), " to ", asString(), " until it is compiled."));
+                mkstr ("can't attach ", attachement->asString(), " to ", asString(), " until it is compiled."));
 
             return;
         }
 
-        glAttachShader (_programId, attachement.getGlId());
+        glAttachShader (_programId, attachement->getGlId());
         if (!debug::gl::test()) return;
-        debug::log::println (mkstr (attachement.asString(), " successfully attached to ", asString()));
+        debug::log::println (mkstr (attachement->asString(), " successfully attached to ", asString()));
     }
 
 
     void gpu_program::link()
     {
-        resource::_changedAfterLoading();
-
         if (_linked) return;
         _bindVertexAttributes();
 
         glLinkProgram (_programId);
+        debug::gl::test();
+
         GLint result = 0;
         glGetProgramiv (_programId, GL_LINK_STATUS, &result);
 
@@ -199,7 +238,7 @@ namespace render
         char *glInfoLog = new char[infoLogLength + 1];
         glGetProgramInfoLog (_programId, infoLogLength, nullptr, glInfoLog);
 
-        debug::log::println_gl (glInfoLog);
+        if (infoLogLength > 1)  debug::log::println_gl (glInfoLog);
         delete[] glInfoLog;
 
         if (result != 1)
@@ -239,7 +278,7 @@ namespace render
     {
         if (!_testValid()) return;
 
-        //if (!gl_bindable<gpu_program>::isBoundNow())
+        if (!gl_bindable<gpu_program>::isBoundNow())
         {
             _bind();
             gl_bindable<gpu_program>::_bindThis();
@@ -356,15 +395,38 @@ namespace render
     }
 
 
-    /*virtual*/ string gpu_program::id::hashString() const
+    gpu_program::gpu_program (const gpu_program::id &resourceId, resources &renderResources) :
+        gpu_program (resourceId._vertexLayout, resourceId._shaderFileNames, renderResources)
     {
-        return mkstr (_vertShaderFileName, '*', _fragShaderFileName, '*', _vertexLayout->hashString());
+        resource::_loaded();
     }
 
 
-    gpu_program::gpu_program (const gpu_program::id &resourceId, resources &renderResources) :
-        gpu_program (resourceId._vertexLayout, resourceId._vertShaderFileName, resourceId._fragShaderFileName, renderResources)
+    gpu_program::gpu_program (i_vertex_layout::ptr vertexLayout, const vector<string> &shaderFileNames,
+                              resources &renderResources)
+        : gpu_program (vertexLayout)
     {
-        resource::_loaded();
+        for (auto& nextShaderFileName : shaderFileNames)
+        {
+            bool supposedFragment = nextShaderFileName.rfind (".frag") != string::npos;              // TODO: A bit inifficient
+            bool supposedVertex   = nextShaderFileName.rfind (".vert") != string::npos;
+            bool supposedGeometry = nextShaderFileName.rfind (".geom") != string::npos;
+
+            if ((int) supposedFragment + (int) supposedVertex + (int) supposedGeometry != 1)
+            {
+                debug::log::println_err (mkstr ("failed to classify shader from filename '", nextShaderFileName, "'"));
+                continue;
+            }
+
+            shader::ptr loadedShader;
+
+            if (supposedFragment)  loadedShader = renderResources.requestFromFile<fragment_shader> (nextShaderFileName);
+            if (supposedVertex)    loadedShader = renderResources.requestFromFile<vertex_shader> (nextShaderFileName);
+            if (supposedGeometry)  loadedShader = renderResources.requestFromFile<geometry_shader> (nextShaderFileName);
+
+            attach (loadedShader);
+        }
+
+        link();
     }
 }

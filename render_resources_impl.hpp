@@ -25,6 +25,27 @@ namespace render
     }
 
 
+    template<>
+    vertex_shader::ptr resources::requestFromFile<vertex_shader> (const string &fileName)
+    {
+        return _vertexShadersManager.request (fileName);
+    }
+
+
+    template<>
+    fragment_shader::ptr resources::requestFromFile<fragment_shader> (const string &fileName)
+    {
+        return _fragmentShadersManager.request (fileName);
+    }
+
+
+    template<>
+    geometry_shader::ptr resources::requestFromFile<geometry_shader> (const string &fileName)
+    {
+        return _geometryShadersManager.request (fileName);
+    }
+
+
     /*template<>
     font::ptr resources::requestFromFile<font> (const string &fileName)
     {

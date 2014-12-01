@@ -4,6 +4,7 @@
 #include "debug.hpp"
 #include "scene.hpp"
 #include "gpu_buffer_impl.hpp"
+#include "resource_manager_impl.hpp"
 
 using oo_extensions::mkstr;
 

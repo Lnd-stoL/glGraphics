@@ -19,6 +19,17 @@ void resource_manager<resource_t>::addFileSearchLocation (const string &location
 
 
 template<typename resource_t>
+void resource_manager<resource_t>::releaseUnused()
+{
+    for (auto it = _loadedResources.begin(); it != _loadedResources.end();)
+    {
+        if (it->second.unique())  it = _loadedResources.erase (it);
+        else  ++it;
+    }
+}
+
+
+template<typename resource_t>
 string resource_manager<resource_t>::locateFile (string filename)
 {
     fs::path locatedFile;

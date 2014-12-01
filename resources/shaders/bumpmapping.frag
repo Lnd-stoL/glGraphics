@@ -10,17 +10,19 @@ uniform sampler2D uShadowMapFlat;
 uniform vec3 uLightColor;
 uniform vec3 uLightPos;
 
-in vec3 vNormal;
-in vec3 vLight2VertPos;
-in vec2 vTexUV;
-in vec3 vVert2Eye;
-in vec4 vShadowmapVert;
-in vec3 vViewSpaceNormal;
-in vec3 vViewSpaceCoords;
-in vec3 vWorldSpaceCoords;
+in vec3 gNormal;
+in vec3 gLight2VertPos;
+in vec2 gTexUV;
+in vec3 gVert2Eye;
+in vec4 gShadowmapVert;
+in vec3 gViewSpaceNormal;
+in vec3 gViewSpaceCoords;
+in vec3 gWorldSpaceCoords;
 
-flat in vec3 vFlatNormal;
-flat in vec3 vFlatVert2Eye;
+in vec3 gTangent;
+in vec3 gBitangent;
+in vec3 gFaceNormal;
+in vec3 gVert2EyeTBN;
 
 out vec3  out_Color;
 out vec3  out_Normal;
@@ -54,35 +56,36 @@ mat3 cotangent_frame (vec3 N, vec3 p, vec2 uv)
 }
 
 
-vec3 perturb_normal (vec3 N, vec3 V, vec2 texcoord)
+vec3 perturb_normal (vec3 N, mat3 TBN, vec2 texcoord)
 {
     vec3 map = texture (uNormalmap, texcoord).rgb * 2 - 1;
-    mat3 TBN = cotangent_frame (N, -V, texcoord);
     return normalize (TBN * map);
 }
 
 
 void main()
 {
-    vec3 normal     = normalize (vNormal);
-    vec3 light2Vert = normalize (uLightPos - vWorldSpaceCoords);
-    vec3 vert2Eye   = normalize (vVert2Eye);
-    normal = vec3 (0, 1, 0);
-    normal = -normalize (cross (dFdy (vWorldSpaceCoords), dFdx (vWorldSpaceCoords)));
+    vec3 smoothNormal     = normalize (gNormal);
+    vec3 light2Vert = normalize (uLightPos - gWorldSpaceCoords);
+    vec3 vert2Eye   = normalize (gVert2Eye);
 
-    mat3 TBN = cotangent_frame (normal, vert2Eye, vTexUV);
-    vec3 vert2EyeCtg = normalize (transpose (TBN) * vert2Eye);
+    //normal = -normalize (cross (dFdy (gWorldSpaceCoords), dFdx (gWorldSpaceCoords)));
+    vec3 normal = normalize (gFaceNormal);
+    mat3 TBN = mat3 (normalize (gTangent), normalize (gBitangent), normalize (normal));
+    //mat3 TBN = cotangent_frame (smoothNormal, vert2Eye, gTexUV);
+    vec3 vert2EyeCtg = normalize (gVert2EyeTBN);
+    //vec3 vert2EyeCtg = normalize (transpose (TBN) * vert2Eye);
 
-    vec2 tex = vTexUV - ((texture (uHeightmap, vTexUV).r) * 0.022 + 0.002) * vert2EyeCtg.xy;
+    vec2 tex = gTexUV - ((texture (uHeightmap, gTexUV).r) * 0.022 + 0.002) * vert2EyeCtg.xy;
     //tex = vTexUV;
 
     vec3 et = vert2EyeCtg;
     float scale = 0.09;
-    int numSteps = 15;
+    int numSteps = 20;
     float   step   = 1.0 / numSteps;                      // distance between checked layers
     vec2    dtex   = et.xy * scale / (numSteps * et.z); // adjustment for one layer
     float   height = 1;                                 // height of the layer
-            tex    = vTexUV;                  // our initial guess
+            tex    = gTexUV;                  // our initial guess
     float   h      = texture ( uHeightmap, tex ).r;      // get height
 
     while ( h < height )                               // check every layer
@@ -100,16 +103,18 @@ void main()
 
     tex = weight * prev + (1.0 - weight) * tex;         // interpolate to get tex coords
 
-    vec3 diffColor  = texture2D (uTexture, tex).xyz;
-    normal = perturb_normal (normal, vert2Eye, tex);
+    vec2 texUV = tex;
+    vec3 diffColor  = texture2D (uTexture, texUV).xyz;
+    normal = perturb_normal (smoothNormal, TBN, texUV);
     float shadow = 1.0;
     float diffLight = max (0, dot (normal, light2Vert));
-    vec3 spec = vec3 (1) * pow ( max ( dot (light2Vert, reflect (-vert2Eye, normal)), 0), 30);
+    vec3 spec = vec3 (1) * pow ( max ( dot (light2Vert, reflect (-vert2Eye, normal)), 0), 40);
     out_Color = ((diffLight*0.7 + 0.3) * shadow) * uLightColor * diffColor + spec;
 
     //out_Color = diffColor;
     //out_Color = texture (uHeightmap, vTexUV).rgb;
-    //out_Color = vec3 (TBN[0]);
+    //out_Color = vec3 (dot (TBN2[0], TBN2[1]), dot (TBN2[0], TBN2[2]), dot (TBN2[2], TBN2[1]));
+    //out_Color = abs (vert2EyeCtg - normalize (transpose (TBN) * vert2Eye));
 
-    out_Normal = vec3 (normal_encode (vViewSpaceNormal), 0);
+    out_Normal = vec3 (normal_encode (gViewSpaceNormal), 0);
 }

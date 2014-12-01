@@ -3,6 +3,8 @@
 
 #include "gpu_buffer_impl.hpp"
 #include "mesh_impl.hpp"
+#include "render_resources.hpp"
+#include "resource_manager_impl.hpp"
 
 using oo_extensions::mkstr;
 

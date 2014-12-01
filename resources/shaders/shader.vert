@@ -21,9 +21,6 @@ out vec3 vViewSpaceCoords;
 out vec3 vWorldSpaceCoords;
 out vec3 vVert2Eye;
 
-flat out vec3 vFlatNormal;
-flat out vec3 vFlatVert2Eye;
-
 
 void main()
 {
@@ -34,17 +31,14 @@ void main()
     vec4 spaceVertex4 = uMatWorldTransform  * vec4 (aCoords, 1);
     vec3 spaceVertex = spaceVertex4.xyz;
 
-    gl_ClipDistance[0] = spaceVertex.y - 1.01;
+    gl_ClipDistance[0] = spaceVertex.y - 0.2;
     //gl_ClipVertex = spaceVertex4;
 
     vNormal = normalize (mat3 (uMatWorldTransform) * aNormal);
-    vFlatNormal = vNormal;
 
     vViewSpaceNormal = mat3 (uMatWorldViewTransform) * aNormal;
     vLight2VertPos = uLightPos - spaceVertex;
     vVert2Eye = uViewPos - spaceVertex;
-
-    vFlatVert2Eye = vVert2Eye;
 
     vShadowmapVert = uShadowmapTransform * vec4 (aCoords, 1);
     vViewSpaceCoords = (uMatWorldViewTransform * vec4 (aCoords, 1)).xyz;

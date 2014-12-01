@@ -16,8 +16,7 @@ namespace render
 //----------------------------------------------------------------------------------------------------------------------
 
     class shader :
-        public oo_extensions::non_copyable,
-        public oo_extensions::i_as_string
+        public resource
     {
         GLuint _shaderId  = GL_INVALID_INDEX;
         bool   _compiled  = false;
@@ -32,7 +31,7 @@ namespace render
         shader (const string &fileName, GLenum shaderType);
 
     public:
-        declare_ptr_alloc (shader)
+        declare_ptr (shader)
         ~shader();
 
         void compileFromFile (const string &fileName);
@@ -65,6 +64,17 @@ namespace render
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    class geometry_shader : public shader
+    {
+    public:
+        declare_ptr_alloc (geometry_shader)
+
+        geometry_shader();
+        explicit geometry_shader (const string &fileName);
+    };
+
+//----------------------------------------------------------------------------------------------------------------------
+
     class gpu_program :
         public resource,
         public gl_bindable<gpu_program>
@@ -73,14 +83,12 @@ namespace render
         struct id : resource::id
         {
             i_vertex_layout::ptr _vertexLayout;
-            string _vertShaderFileName;
-            string _fragShaderFileName;
+            vector<string> _shaderFileNames;
 
-            id (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName) :
-                _vertexLayout (vertexLayout),
-                _vertShaderFileName (vertShaderFileName),
-                _fragShaderFileName (fragShaderFileName)
-            { }
+            id (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &fragShaderFileName);
+            id (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName, const string &geomShaderFileName,
+                const string &fragShaderFileName);
+            id (i_vertex_layout::ptr vertexLayout, vector<string> &&shaderFileNames);
 
             virtual string hashString() const;
         };
@@ -100,7 +108,6 @@ namespace render
 
     protected:
         void _initializeGLProgram();
-        void _attachAndLink (const vertex_shader &vshader, const fragment_shader &fshader);
         void _bindVertexAttributes();
         bool _testValid() const;
         void _bind() const;
@@ -112,12 +119,10 @@ namespace render
         explicit gpu_program (i_vertex_layout::ptr vertexLayout);
 
         gpu_program (const gpu_program::id &resourceId, resources &renderResources);
-        gpu_program (i_vertex_layout::ptr vertexLayout, const vertex_shader &vshader, const fragment_shader &fshader);
-        gpu_program (i_vertex_layout::ptr vertexLayout, const string &vertShaderFileName,
-                     const string &fragShaderFileName, resources &renderResources);
+        gpu_program (i_vertex_layout::ptr vertexLayout, const vector<string> &shaderFileNames, resources &renderResources);
         ~gpu_program();
 
-        void attach (const shader& attachement);
+        void attach (shader::ptr attachement);
         void link();
         void use() const;
 

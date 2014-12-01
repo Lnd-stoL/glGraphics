@@ -25,7 +25,7 @@ private:
     GLFWwindow *_window = nullptr;
     unsigned _width, _height;
 
-    static constexpr unsigned _avgMaxSamplesCount = 100000;
+    static constexpr unsigned _avgMaxSamplesCount = 10000;
     double  _frameTime        = 0;
     double  _avgFrameTime     = 0;
     double  _frameTimeSamples = 0;

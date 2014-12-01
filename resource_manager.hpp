@@ -47,6 +47,8 @@ public:
 
     template<typename ...args_t>
     typename resource_t::ptr request (const string &fileName, args_t&&... ctorArgs);
+
+    void releaseUnused();
 };
 
 //----------------------------------------------------------------------------------------------------------------------
