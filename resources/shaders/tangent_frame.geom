@@ -39,14 +39,13 @@ mat3 calculate_tangentspace()
 
     float f = 1 / (dSTdU.s * dSTdV.t - dSTdU.t * dSTdV.s);
     vec3 tangent = normalize (-f * (dSTdV.y * dXYZdU - dSTdU.y * dXYZdV));
+
+    float area = determinant (mat2 (dSTdV, dSTdU));
+    tangent = area >= 0 ? tangent : -tangent;
     tangent = normalize (tangent - dot (tangent, normal) * normal);
+
     vec3 bitangent = normalize (cross (tangent, normal));
-
-    //vec3 bitangent = normalize (+f * (dSTdV.x * dXYZdU - dSTdU.x * dXYZdV));
-
-    //float area = determinant (mat2 (dSTdV, dSTdU));
-    //Tangent = area >= 0 ? -Tangent : Tangent;
-    //Bitangent = area >= 0 ? Bitangent : -Bitangent;
+    //vec3 bitangent = normalize (f * (dSTdV.x * dXYZdU - dSTdU.x * dXYZdV));
 
     return mat3 (tangent, bitangent, normal);
 }

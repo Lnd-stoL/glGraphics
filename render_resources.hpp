@@ -9,6 +9,7 @@
 #include "texture.hpp"
 #include "font_resource.hpp"
 #include "resource_manager.hpp"
+#include "config_file.hpp"
 
 
 namespace render
@@ -22,6 +23,7 @@ namespace render
         resource_manager<vertex_shader>    _vertexShadersManager;
         resource_manager<fragment_shader>  _fragmentShadersManager;
         resource_manager<geometry_shader>  _geometryShadersManager;
+        resource_manager<config_set>       _configFilesManager;
 
 
     public:
@@ -32,6 +34,7 @@ namespace render
         property_ref (fragmentShadersManager,  _fragmentShadersManager)
         property_ref (vertexShadersManager,    _vertexShadersManager)
         property_ref (geometryShadersManager,  _geometryShadersManager)
+        property_ref (configFilesManager,      _configFilesManager)
 
 
     public:

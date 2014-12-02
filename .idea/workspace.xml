@@ -10,149 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c923bbd-ed3c-4228-9ec7-fab229b74bf7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build-release.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/render_resources.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/tangent_frame.geom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/accuracy" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/accuracy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/examples/boing" afterPath="$PROJECT_DIR$/dependencies/glfw/build/examples/boing" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/clipboard" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/clipboard" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/cursor" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/cursor" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/cursoranim" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/cursoranim" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/defaults" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/defaults" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/empty" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/empty" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/events" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/events" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/fsaa" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/fsaa" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/gamma" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/gamma" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/examples/gears" afterPath="$PROJECT_DIR$/dependencies/glfw/build/examples/gears" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/glfwinfo" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/glfwinfo" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/examples/heightmap" afterPath="$PROJECT_DIR$/dependencies/glfw/build/examples/heightmap" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/iconify" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/iconify" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/joysticks" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/joysticks" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/src/libglfw3.a" afterPath="$PROJECT_DIR$/dependencies/glfw/build/src/libglfw3.a" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/modes" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/modes" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/examples/particles" afterPath="$PROJECT_DIR$/dependencies/glfw/build/examples/particles" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/peter" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/peter" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/reopen" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/reopen" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/sharing" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/sharing" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/examples/simple" afterPath="$PROJECT_DIR$/dependencies/glfw/build/examples/simple" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/examples/splitview" afterPath="$PROJECT_DIR$/dependencies/glfw/build/examples/splitview" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/tearing" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/tearing" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/threads" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/threads" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/title" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/title" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/examples/wave" afterPath="$PROJECT_DIR$/dependencies/glfw/build/examples/wave" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/tests/windows" afterPath="$PROJECT_DIR$/dependencies/glfw/build/tests/windows" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config_file.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config_file.hpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/particles_system.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/particles_system.hpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config/render_quality.info" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config/render_window.info" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/Doxyfile" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/Doxyfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/annotated.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/annotated.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/bug.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/bug.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/build.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/build.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/build_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/build_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/bumpmapping.frag" afterPath="$PROJECT_DIR$/resources/shaders/bumpmapping.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/classes.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/classes.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/compat.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/compat.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/compat_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/compat_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/compile.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/compile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/compile_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/compile_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/context.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/context.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/context_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/context_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo_scene.cpp" afterPath="$PROJECT_DIR$/demo_scene.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/dir_7d046523570a4bf058ddf3b10b545b6c.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/dir_7d046523570a4bf058ddf3b10b545b6c.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/dir_d44c64559bbebec7f509842c48db8b23.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/dir_d44c64559bbebec7f509842c48db8b23.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/files.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/files.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/functions.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/functions.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/functions_vars.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/functions_vars.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/glfw3_8h.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/glfw3_8h.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/glfw3_8h_source.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/glfw3_8h_source.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/glfw3native_8h.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/glfw3native_8h.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/glfw3native_8h_source.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/glfw3native_8h_source.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_b.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_b.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_c.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_c.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_d.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_d.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_b.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_b.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_c.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_c.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_d.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_d.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_f.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_f.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_g.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_g.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_i.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_i.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_j.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_j.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_k.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_k.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_l.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_l.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_m.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_m.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_n.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_n.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_o.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_o.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_p.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_p.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_r.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_r.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_s.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_s.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_v.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_defs_v.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_e.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_e.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_f.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_f.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_func.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_func.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_g.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_g.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_h.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_h.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_i.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_i.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_j.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_j.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_k.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_k.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_l.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_l.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_m.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_m.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_n.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_n.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_o.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_o.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_p.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_p.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_r.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_r.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_s.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_s.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_t.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_t.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_type.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_type.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_v.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_v.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_w.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/globals_w.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_program.cpp" afterPath="$PROJECT_DIR$/gpu_program.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_program.hpp" afterPath="$PROJECT_DIR$/gpu_program.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__buttons.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__buttons.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__context.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__context.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__errors.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__errors.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__init.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__init.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__input.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__input.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__joysticks.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__joysticks.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__keys.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__keys.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__mods.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__mods.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__monitor.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__monitor.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__native.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__native.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__window.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/group__window.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/index.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/input.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/input.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/input_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/input_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/intro.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/intro.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/intro_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/intro_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/main_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/main_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/modules.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/modules.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/monitor.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/monitor.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/monitor_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/monitor_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/moving.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/moving.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/moving_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/moving_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/news.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/news.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/news_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/news_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/pages.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/pages.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/quick.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/quick.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/quick_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/quick_8dox.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_resources.hpp" afterPath="$PROJECT_DIR$/render_resources.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_resources_impl.hpp" afterPath="$PROJECT_DIR$/render_resources_impl.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_window.cpp" afterPath="$PROJECT_DIR$/render_window.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_window.hpp" afterPath="$PROJECT_DIR$/render_window.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resource_manager.hpp" afterPath="$PROJECT_DIR$/resource_manager.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resource_manager_impl.hpp" afterPath="$PROJECT_DIR$/resource_manager_impl.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/rift.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/rift.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/rift_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/rift_8dox.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/screen_overlay.cpp" afterPath="$PROJECT_DIR$/screen_overlay.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/shader.vert" afterPath="$PROJECT_DIR$/resources/shaders/shader.vert" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/ssao-1.frag" afterPath="$PROJECT_DIR$/resources/shaders/ssao-1.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/statistics.cpp" afterPath="$PROJECT_DIR$/statistics.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/structGLFWgammaramp.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/structGLFWgammaramp.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/structGLFWimage.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/structGLFWimage.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/structGLFWvidmode.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/structGLFWvidmode.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volumetric_fog.cpp" afterPath="$PROJECT_DIR$/volumetric_fog.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/water_plane.cpp" afterPath="$PROJECT_DIR$/water_plane.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/window.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/window.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/window_8dox.html" afterPath="$PROJECT_DIR$/dependencies/glfw/build/docs/html/window_8dox.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/tangent_frame.geom" afterPath="$PROJECT_DIR$/resources/shaders/tangent_frame.geom" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="glGraphics.iws" />
@@ -174,81 +44,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="gpu_program.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gpu_program.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="10056" max-vertical-offset="10416">
-              <caret line="419" column="0" selection-start-line="419" selection-start-column="0" selection-end-line="419" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="resource_manager.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resource_manager.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="2227">
-              <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="render_resources.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/render_resources.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1651">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="demo_scene.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="demo_scene.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo_scene.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="5904" max-vertical-offset="10699">
-              <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.025723472" vertical-offset="1176" max-vertical-offset="10725">
+              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tangent_frame.geom" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/shaders/tangent_frame.geom">
+      <file leaf-file-name="config_file.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config_file.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5292172" vertical-offset="216" max-vertical-offset="2827">
-              <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="2013">
+              <caret line="25" column="7" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bumpmapping.frag" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/shaders/bumpmapping.frag">
+      <file leaf-file-name="config_file.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config_file.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3763">
-              <caret line="88" column="21" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1941">
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="shader.vert" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/shaders/shader.vert">
+      <file leaf-file-name="render_resources_impl.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/render_resources_impl.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="1987">
-              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="render_window.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/render_window.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2208" max-vertical-offset="5395">
-              <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2469">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -257,18 +87,18 @@
       <file leaf-file-name="render_window.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/render_window.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2803">
-              <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="2781">
+              <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="demo_scene.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/demo_scene.hpp">
+      <file leaf-file-name="render_window.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/render_window.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1728" max-vertical-offset="3499">
-              <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="793" max-vertical-offset="5469">
+              <caret line="55" column="33" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -287,10 +117,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/scene.cpp" />
         <option value="$PROJECT_DIR$/scene.hpp" />
         <option value="$PROJECT_DIR$/statistics.hpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/mesh_renderable_object.hpp" />
         <option value="$PROJECT_DIR$/mesh_renderable_object.cpp" />
         <option value="$PROJECT_DIR$/transformable_object.hpp" />
@@ -319,22 +147,27 @@
         <option value="$PROJECT_DIR$/volumetric_fog.cpp" />
         <option value="$PROJECT_DIR$/screen_overlay.cpp" />
         <option value="$PROJECT_DIR$/gpu_program.hpp" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/resource_manager.hpp" />
-        <option value="$PROJECT_DIR$/render_resources.hpp" />
-        <option value="$PROJECT_DIR$/render_resources_impl.hpp" />
         <option value="$PROJECT_DIR$/resource_manager_impl.hpp" />
         <option value="$PROJECT_DIR$/render_resources.cpp" />
         <option value="$PROJECT_DIR$/demo_scene.hpp" />
         <option value="$PROJECT_DIR$/resources/shaders/ssao-1.frag" />
-        <option value="$PROJECT_DIR$/render_window.hpp" />
-        <option value="$PROJECT_DIR$/render_window.cpp" />
         <option value="$PROJECT_DIR$/statistics.cpp" />
         <option value="$PROJECT_DIR$/gpu_program.cpp" />
         <option value="$PROJECT_DIR$/demo_scene.cpp" />
         <option value="$PROJECT_DIR$/resources/shaders/shader.vert" />
         <option value="$PROJECT_DIR$/resources/shaders/bumpmapping.frag" />
         <option value="$PROJECT_DIR$/resources/shaders/tangent_frame.geom" />
+        <option value="$PROJECT_DIR$/particles_system.hpp" />
+        <option value="$PROJECT_DIR$/particles_system.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/render_resources.hpp" />
+        <option value="$PROJECT_DIR$/render_resources_impl.hpp" />
+        <option value="$PROJECT_DIR$/config_file.hpp" />
+        <option value="$PROJECT_DIR$/config_file.cpp" />
+        <option value="$PROJECT_DIR$/render_window.cpp" />
+        <option value="$PROJECT_DIR$/render_window.hpp" />
+        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -664,22 +497,28 @@
       <option name="project" value="LOCAL" />
       <updated>1417350875722</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="TBN in geometry shader">
+      <created>1417416853283</created>
+      <option name="number" value="00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1417416853283</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="24" width="1861" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298647" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21928374" sideWeight="0.6139438" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22203857" sideWeight="0.6139438" order="3" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47658688" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5109261" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47658688" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5369407" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21928374" sideWeight="0.38605618" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22203857" sideWeight="0.38605618" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39958376" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -743,7 +582,8 @@
     <MESSAGE value="text rendering + parallax + some refactoring" />
     <MESSAGE value="volumetric fog + splines (int; non-compilable)" />
     <MESSAGE value="splines recording" />
-    <option name="LAST_COMMIT_MESSAGE" value="splines recording" />
+    <MESSAGE value="TBN in geometry shader" />
+    <option name="LAST_COMMIT_MESSAGE" value="TBN in geometry shader" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -764,63 +604,6 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/shaders/ssao.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6251378" vertical-offset="567" max-vertical-offset="3175">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/transformable_object.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41675854" vertical-offset="0" max-vertical-offset="1264">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/shadowmap_gen.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1138">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/shadowmap_gen.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22508039" vertical-offset="0" max-vertical-offset="1122">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mesh.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1426" max-vertical-offset="3826">
-          <caret line="98" column="40" selection-start-line="98" selection-start-column="40" selection-end-line="98" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static_mesh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="882" max-vertical-offset="2608">
-          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sky_box.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="177" max-vertical-offset="1600">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/water_plane.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1537">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/simple.vert">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1201">
@@ -905,13 +688,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.332696" vertical-offset="282" max-vertical-offset="1075">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/camera.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2106" max-vertical-offset="2923">
@@ -989,13 +765,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07717042" vertical-offset="0" max-vertical-offset="1293">
-          <caret line="3" column="89" selection-start-line="3" selection-start-column="89" selection-end-line="3" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gpu_program.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="696" max-vertical-offset="4293">
@@ -1007,27 +776,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4922049" vertical-offset="3835" max-vertical-offset="7505">
           <caret line="169" column="0" selection-start-line="169" selection-start-column="0" selection-end-line="169" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/render_resources.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="72" max-vertical-offset="2035">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/render_resources_impl.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="245" max-vertical-offset="2275">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resource_manager_impl.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7409041" vertical-offset="0" max-vertical-offset="3931">
-          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -1052,14 +800,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gpu_program.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="9678" max-vertical-offset="11251">
-          <caret line="419" column="0" selection-start-line="419" selection-start-column="0" selection-end-line="419" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/render_resources.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1651">
@@ -1068,43 +808,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resource_manager.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="2227">
-          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/render_window.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1704" max-vertical-offset="5395">
-          <caret line="92" column="0" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/shader.vert">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="1987">
           <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/render_window.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="2803">
-          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo_scene.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5904" max-vertical-offset="10699">
-          <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1120,14 +827,155 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1800" max-vertical-offset="3763">
           <caret line="88" column="21" selection-start-line="88" selection-start-column="21" selection-end-line="88" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/tangent_frame.geom">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5292172" vertical-offset="216" max-vertical-offset="2827">
-          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2803">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gpu_program.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4597574" vertical-offset="8996" max-vertical-offset="11251">
+          <caret line="430" column="5" selection-start-line="430" selection-start-column="5" selection-end-line="430" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/particles_system.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1075">
+          <caret line="7" column="4" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/particles_system.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="120" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2" max-vertical-offset="1267">
+          <caret line="4" column="76" selection-start-line="4" selection-start-column="76" selection-end-line="4" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource_manager_impl.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7409041" vertical-offset="0" max-vertical-offset="3931">
+          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resource_manager.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23814774" vertical-offset="0" max-vertical-offset="2227">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_resources.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1113561" vertical-offset="0" max-vertical-offset="2107">
+          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/4.9/bits/unique_ptr.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6499" max-vertical-offset="19241">
+          <caret line="277" column="0" selection-start-line="277" selection-start-column="0" selection-end-line="277" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.47629547" vertical-offset="432" max-vertical-offset="2827">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/boost/property_tree/string_path.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.323043" vertical-offset="1651" max-vertical-offset="7555">
+          <caret line="81" column="10" selection-start-line="81" selection-start-column="10" selection-end-line="81" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/boost/property_tree/detail/ptree_implementation.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2800441" vertical-offset="13354" max-vertical-offset="22819">
+          <caret line="567" column="0" selection-start-line="567" selection-start-column="0" selection-end-line="567" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config_file.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="2013">
+          <caret line="25" column="7" selection-start-line="25" selection-start-column="7" selection-end-line="25" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config_file.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1941">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_window.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="793" max-vertical-offset="5469">
+          <caret line="55" column="33" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_window.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="2781">
+          <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.488746" vertical-offset="456" max-vertical-offset="2829">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_resources_impl.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2469">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo_scene.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.025723472" vertical-offset="1176" max-vertical-offset="10725">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
           <folding />
         </state>
       </provider>

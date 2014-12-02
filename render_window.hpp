@@ -47,12 +47,12 @@ public:
 
 
 private:
-    render_window (unsigned width, unsigned height, const string &title);
+    render_window (unsigned width, unsigned height, const string &title, bool fullscreen = false);
 
     void _handleWindowResize (unsigned width, unsigned height);
     void _handleKeyEvent (int key, int scancode, int action, int mods);
     void _handleKeyPressed (int key);
-    void _initWindow (const string &title);
+    void _initWindow (const string &title, bool fullscreen);
 
     static void _windowSizeCallback (GLFWwindow* window, int width, int height);
     static void _keyboardCallback (GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -60,7 +60,7 @@ private:
 
 public:
     declare_ptr (render_window)
-    static render_window::ptr create (unsigned width, unsigned height, const string &title);
+    static render_window::ptr create (unsigned width, unsigned height, const string &title, bool fullscreen = false);
 
     void runLoop();
     void saveScreenshot (const string &fileToSave);
@@ -76,5 +76,3 @@ public:
 //----------------------------------------------------------------------------------------------------------------------
 
 #endif
-
-

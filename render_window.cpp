@@ -16,9 +16,11 @@ weak_ptr<render_window>  render_window::_singleton;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-render_window::render_window (unsigned width, unsigned height, const string &title) : _width (width), _height (height)
+render_window::render_window (unsigned width, unsigned height, const string &title, bool fullscreen)
+    : _width (width),
+      _height (height)
 {
-    _initWindow (title);
+    _initWindow (title, fullscreen);
 
     debug::log::println ("initializing OpenGL lazy binding ...");
     glbinding::Binding::initialize (false);
@@ -42,7 +44,7 @@ render_window::render_window (unsigned width, unsigned height, const string &tit
 }
 
 
-render_window::ptr render_window::create (unsigned width, unsigned height, const string &title)
+render_window::ptr render_window::create (unsigned width, unsigned height, const string &title, bool fullscreen)
 {
     if (_singleton.lock())
     {
@@ -50,7 +52,7 @@ render_window::ptr render_window::create (unsigned width, unsigned height, const
         return _singleton.lock();
     }
 
-    auto newRenderWindow = shared_ptr<render_window> (new render_window (width, height, title));
+    auto newRenderWindow = shared_ptr<render_window> (new render_window (width, height, title, fullscreen));
     _singleton = newRenderWindow;
     return newRenderWindow;
 }
@@ -136,7 +138,7 @@ unsigned render_window::getHeight() const
 }
 
 
-void render_window::_initWindow (const string &title)
+void render_window::_initWindow (const string &title, bool fullscreen)
 {
     if (!glfwInit())
     {
@@ -153,7 +155,7 @@ void render_window::_initWindow (const string &title)
     glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, true);
     glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    _window = glfwCreateWindow (_width, _height, title.c_str(), nullptr, nullptr);
+    _window = glfwCreateWindow (_width, _height, title.c_str(), fullscreen ? glfwGetPrimaryMonitor() : nullptr, nullptr);
     if (!_window)
     {
         debug::log::println_err ("failed to create rendering window");

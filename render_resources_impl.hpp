@@ -46,6 +46,13 @@ namespace render
     }
 
 
+    template<>
+    config_set::ptr resources::requestFromFile<config_set> (const string &fileName)
+    {
+        return _configFilesManager.request (fileName);
+    }
+
+
     /*template<>
     font::ptr resources::requestFromFile<font> (const string &fileName)
     {
