@@ -34,12 +34,20 @@ statistics::statistics (render_window &renderWindow, resources &res, screen_over
 
     _renderLabel->setColor (color_rgb<float> (0.9, 0.9, 0.5));
     _overlayLayer->addOverlay (_renderLabel);
+
+    _trianglesLabel = text_label::alloc (_defaultFont,
+                                         math3d::vector2_f (0.003, 0.065),
+                                         math3d::vector2_f (0.026, 0.036),
+                                         mkstr ("-------------------------------"));
+
+    _trianglesLabel->setColor (color_rgb<float> (0.9, 0.9, 0.5));
+    _overlayLayer->addOverlay (_trianglesLabel);
 }
 
 
 void statistics::draw (graphics_renderer &renderer)
 {
-    if ((int)renderer.getFrameCount() % 10 == 0)
+    if ((unsigned) renderer.getFrameCount() % _updatePeriodFrames == 0)
     {
         double frameTime = _renderWindow.getFrameTime();
         double avgFrameTime = _renderWindow.getAverageFrameTime();
@@ -54,6 +62,9 @@ void statistics::draw (graphics_renderer &renderer)
 
         string renderLabelText = mkstr (frameStatistics.getDrawCalls(), " draw calls");
         _renderLabel->changeText (renderLabelText);
+
+        string triangleCountLabelText = mkstr (frameStatistics.getTriangleCount() / 1000, " ktris");
+        _trianglesLabel->changeText (triangleCountLabelText);
     }
 
     _overlayLayer->draw (renderer);

@@ -5,51 +5,76 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 #include "oo_extensions.hpp"
-#include "resource.hpp"
+#include "transformable_object.hpp"
+#include "gpu_buffer.hpp"
+#include "material.hpp"
+#include "render_resources.hpp"
 
-#include <unordered_map>
-#include <unordered_set>
-#include <boost/filesystem.hpp>
-
-using oo_extensions::mkstr;
-namespace fs = boost::filesystem;
+using math3d::vector2_f;
+using math3d::vector3_f;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-template<typename resource_t>
-class resource_manager:
-        public oo_extensions::non_copyable
+namespace render
 {
-    std::unordered_set<string> _fileLocations;
-    std::unordered_map<string, typename resource_t::ptr> _loadedResources;
+    class billboard_particle
+    {
+        vector2_d  _size;
 
-protected:
-    bool _findFile (const string &fileName, fs::path& foundIn, const vector<string> &additionalSearchLocations);
-
-    template<typename ...args_t>
-    typename resource_t::ptr _request (const string& hashString, args_t&&... ctorArgs);
-
-    template<typename ...args_t>
-    typename resource_t::ptr _requestFromFile (const string& fileName, const vector<string> &additionalSearchLocations, args_t&&... ctorArgs);
+    public:
+        property_get_ref (Size, _size)
 
 
-public:
-    void addFileSearchLocation (const string &location);
-    string locateFile (string filename);
+    public:
+        declare_ptr_alloc (billboard_particle)
+        billboard_particle (const vector2_d &size);
+    };
 
-    template<typename ...args_t>
-    typename resource_t::ptr request (const typename resource_t::id &resourceId, args_t&&... ctorArgs);
+//----------------------------------------------------------------------------------------------------------------------
 
-    template<typename ...args_t>
-    typename resource_t::ptr requestWithAdditionalLoactions (const string &fileName,
-            const vector<string> &additionalSearchLocations,
-            args_t&&... ctorArgs);
+    class particle_system_object :
+        public transformable_renderable_object
+    {
+    public:
+        struct particle_vertex
+        {
+            vector2_f  size;
+            vector3_f  position;
+        };
 
-    template<typename ...args_t>
-    typename resource_t::ptr request (const string &fileName, args_t&&... ctorArgs);
 
-    void releaseUnused();
-};
+        struct particle_vertex_layout : vertex_layout<particle_vertex>
+        {
+        protected:
+            virtual void _registerAttributes()
+            {
+                _registerAttribute ("aSize", attribute::tFloat, offsetof (particle_vertex, size), 2);
+                _registerAttribute ("aPosition", attribute::tFloat, offsetof (particle_vertex, position), 3);
+            }
+
+        public:
+            declare_ptr_alloc (particle_vertex_layout)
+            particle_vertex_layout()  { _registerAttributes(); }
+        };
+
+
+    private:
+        material::ptr  _material;
+        vertex_buffer<particle_vertex>::ptr  _vertexBuffer;
+
+
+    protected:
+        void _generateVertexBuffer();
+        void _modifyParticles (particle_vertex *vertices)  const;
+        void _sortParticles (particle_vertex *vertices, graphics_renderer &renderer)  const;
+
+    public:
+        declare_ptr_alloc (particle_system_object)
+        particle_system_object (const transform_d &transform, resources &res);
+
+        virtual  void draw (graphics_renderer &renderer)  const;
+    };
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 

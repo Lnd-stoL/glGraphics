@@ -832,9 +832,15 @@ namespace math3d
         }
 
 
-        vector3<numeric_t> rowVec3 (int row)
+        vector3<numeric_t> row3 (unsigned row)
         {
             return vector3<numeric_t> (base_t::_matrix[row][0], base_t::_matrix[row][1], base_t::_matrix[row][2]);
+        }
+
+
+        vector3<numeric_t> col3 (unsigned col)
+        {
+            return vector3<numeric_t> (base_t::_matrix[0][col], base_t::_matrix[1][col], base_t::_matrix[2][col]);
         }
 
 
@@ -1549,9 +1555,9 @@ namespace math3d
             {
                 _rotation.write2Matrix (_cachedMatrix);
 
-                _cachedMatrix.at (0, 3) = _cachedMatrix.rowVec3 (0) * _translation;
-                _cachedMatrix.at (1, 3) = _cachedMatrix.rowVec3 (1) * _translation;
-                _cachedMatrix.at (2, 3) = _cachedMatrix.rowVec3 (2) * _translation;
+                _cachedMatrix.at (0, 3) = _cachedMatrix.row3 (0) * _translation;
+                _cachedMatrix.at (1, 3) = _cachedMatrix.row3 (1) * _translation;
+                _cachedMatrix.at (2, 3) = _cachedMatrix.row3 (2) * _translation;
                 _cachedMatrix.at (3, 3) = 1;
 
                 if (!_identScale) //TODO: Strange issue with ident scale

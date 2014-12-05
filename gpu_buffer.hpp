@@ -170,8 +170,8 @@ namespace render
         gpu_buffer_of (GLenum target, const std::vector<element_t> &data, preferred_access_t preferredAccess,
                        change_rate_t changeRate);
 
-        element_t* lock (mapping_access_t access);
-        void unlock();
+        element_t*cpuAccess (mapping_access_t access);
+        void gpuAccess ();
     };
 
 //----------------------------------------------------------------------------------------------------------------------

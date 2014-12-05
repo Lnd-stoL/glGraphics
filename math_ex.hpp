@@ -22,6 +22,21 @@ namespace math_ex
     {
         return std::sqrt (op);
     }
+
+
+    inline float nextRandomFloat()
+    {
+        return float (rand()) /  RAND_MAX;
+    }
+
+
+    inline float linearStep (float from, float to, float val)
+    {
+        if (val <= from)  return 0;
+        if (val >= to)    return 1;
+
+        return (val - from) / (from - to);
+    }
 }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -248,4 +248,83 @@ namespace render
     {
         return _textureType == GL_TEXTURE_2D;
     }
+
+
+    bool texture::is3D() const
+    {
+        return _textureType == GL_TEXTURE_3D;
+    }
+
+
+    texture::ptr  texture::create3D (vector3<unsigned> dimensions, float *voxels)
+    {
+        glEnable (GL_TEXTURE_3D);
+
+        auto txt = new texture();
+        txt->_textureType = GL_TEXTURE_3D;
+
+        txt->use();
+        glTexImage3D (txt->_textureType, 0, (GLint) GL_RED,
+                      dimensions.getX(), dimensions.getY(), dimensions.getZ(), 0,
+                      GL_RED, GL_FLOAT, voxels);
+        debug::gl::test();
+        glGenerateMipmap (GL_TEXTURE_3D);
+
+        txt->filtering (texture::linear, texture::linear);
+        txt->uvRepeating();
+        //glTexParameteri (GL_TEXTURE_3D, GL_TEXTURE_MAX_LEVEL, 0);
+        glTexParameteri (GL_TEXTURE_3D, GL_TEXTURE_BASE_LEVEL, 0);
+        debug::gl::test();
+
+        debug::log::println (mkstr ("created 3d float texture ", dimensions.asString()));
+        return texture::ptr (txt);
+    }
+
+
+    texture::ptr  texture::create3D (vector3<unsigned> dimensions, uint8_t *voxels)
+    {
+        glEnable (GL_TEXTURE_3D);
+
+        auto txt = new texture();
+        txt->_textureType = GL_TEXTURE_3D;
+
+        txt->use();
+        glTexImage3D (txt->_textureType, 0, (GLint) GL_RED,
+                      dimensions.getX(), dimensions.getY(), dimensions.getZ(), 0,
+                      GL_RED, GL_UNSIGNED_BYTE, voxels);
+        debug::gl::test();
+        //glGenerateMipmap (txt->_textureType);
+
+        txt->filtering (texture::linear, texture::linear);
+        txt->uvRepeating();
+        glTexParameteri (GL_TEXTURE_3D, GL_TEXTURE_MAX_LEVEL, 0);
+        glTexParameteri (GL_TEXTURE_3D, GL_TEXTURE_BASE_LEVEL, 0);
+
+        debug::log::println (mkstr ("created 3d unsigned byte texture ", dimensions.asString()));
+        return texture::ptr (txt);
+    }
+
+
+    void texture::uvRepeating()
+    {
+        glTexParameteri (_textureType, GL_TEXTURE_WRAP_S, (GLint) GL_REPEAT);
+        glTexParameteri (_textureType, GL_TEXTURE_WRAP_T, (GLint) GL_REPEAT);
+        if (is3D())  glTexParameteri (_textureType, GL_TEXTURE_WRAP_R, (GLint) GL_REPEAT);
+    }
+
+
+    void texture::uvClamping()
+    {
+        glTexParameteri (_textureType, GL_TEXTURE_WRAP_S, (GLint) GL_CLAMP_TO_EDGE);
+        glTexParameteri (_textureType, GL_TEXTURE_WRAP_T, (GLint) GL_CLAMP_TO_EDGE);
+        if (is3D())  glTexParameteri (_textureType, GL_TEXTURE_WRAP_R, (GLint) GL_CLAMP_TO_EDGE);
+    }
+
+
+    void texture::uvRepeating (bool uMode, bool vMode, bool tMode)
+    {
+        glTexParameteri (_textureType, GL_TEXTURE_WRAP_S, (GLint) (uMode ? GL_REPEAT : GL_CLAMP_TO_EDGE));
+        glTexParameteri (_textureType, GL_TEXTURE_WRAP_T, (GLint) (vMode ? GL_REPEAT : GL_CLAMP_TO_EDGE));
+        if (is3D())  glTexParameteri (_textureType, GL_TEXTURE_WRAP_R, (GLint) (tMode ? GL_REPEAT : GL_CLAMP_TO_EDGE));
+    }
 }

@@ -84,7 +84,8 @@ namespace render
             camera::ptr  _camera;
             material::ptr  _material;
             frame_buffer::ptr  _frameBuffer;
-
+            bool  _blend = false;
+            bool  _testDepth = true;
 
         public:
             property_get_ref (Object2ScreenTransform, _object2ScreenTransform)
@@ -92,6 +93,8 @@ namespace render
             property_get (Material, _material)
             property_get (RenderingProgram, _material->getTechnique()->getRenderingProgram())
             property_get (FrameBuffer, _frameBuffer)
+            property_get (Blend, _blend)
+
 
         public:
             friend class graphics_renderer;
@@ -102,9 +105,11 @@ namespace render
         class frame_statistics
         {
             unsigned  _drawCalls = 0;
+            unsigned  _trianglesCount = 0;
 
         public:
             property_get (DrawCalls, _drawCalls)
+            property_get (TriangleCount, _trianglesCount)
 
         public:
             friend class graphics_renderer;
@@ -150,6 +155,9 @@ namespace render
         void use (camera::ptr cam);
         void use (material::ptr mat);
 
+        void blend (bool enabled);
+        void testDepth (bool enabled);
+
         void renderTo (frame_buffer::ptr frameBuffer, bool autoClear = true);
         void renderTo (render_window &wnd, bool autoClear = true);
 
@@ -157,6 +165,7 @@ namespace render
         void stopForcingMaterial();
 
         void draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer, uint8_t bytesPerIndex = 2, unsigned indicesCount = 0);
+        void drawPoints (gpu_buffer &vertexBuffer);
 
         void renderScene (scene::ptr sceneToRender);
     };

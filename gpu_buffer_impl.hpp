@@ -48,7 +48,7 @@ namespace render
 
 
     template<typename element_t>
-    element_t* gpu_buffer_of<element_t>::lock (mapping_access_t access)
+    element_t* gpu_buffer_of<element_t>::cpuAccess (mapping_access_t access)
     {
         use();
         return (element_t *) glMapBuffer (_target, (GLenum) access);
@@ -56,7 +56,7 @@ namespace render
 
 
     template<typename element_t>
-    void gpu_buffer_of<element_t>::unlock()
+    void gpu_buffer_of<element_t>::gpuAccess ()
     {
         use();
         glUnmapBuffer (_target);

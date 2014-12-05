@@ -7,8 +7,11 @@
 #include "resource.hpp"
 #include "gl_bindable.hpp"
 #include "gl_binding.hpp"
+#include "math3D.hpp"
 
 #include <map>
+
+using math3d::vector3;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -61,9 +64,14 @@ namespace render
         static texture::ptr createEmptyRgb (unsigned width, unsigned height);
         static texture::ptr createEmptyRgbMultisampled (unsigned width, unsigned height, unsigned samples);
         static texture::ptr createEmptyDepth (unsigned width, unsigned height);
+        static texture::ptr create3D (vector3<unsigned> dimensions, float *voxels);
+        static texture::ptr create3D (vector3<unsigned> dimensions, uint8_t *voxels);
 
         void use() const;
         void filtering (filtering_t shrinkFilter, filtering_t expFilter = filtering_t::linear);
+        void uvClamping();
+        void uvRepeating ();
+        void uvRepeating (bool uMode, bool vMode, bool tMode = false);
         void setupForShadowSampler();
         void saveToFile (const string &fileName);
 
@@ -73,6 +81,7 @@ namespace render
         bool isMultisample() const;
         bool isCubemap() const;
         bool isRegular() const;
+        bool is3D() const;
 
         virtual string asString() const;
     };

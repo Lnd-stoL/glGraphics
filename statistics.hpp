@@ -21,10 +21,12 @@ class statistics :
 
     font::ptr  _defaultFont;
     screen_overlay_layer::ptr  _overlayLayer;
+    unsigned  _updatePeriodFrames = 15;
 
     text_label::ptr  _frameTimeLabel;
     text_label::ptr  _avgFrameTimeLabel;
     text_label::ptr  _renderLabel;
+    text_label::ptr  _trianglesLabel;
 
 public:
     property_get (DefaultFont, _defaultFont)

@@ -15,6 +15,7 @@
 #include "statistics.hpp"
 #include "volumetric_fog.hpp"
 #include "spline_path.hpp"
+#include "particles_system.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3d;
@@ -58,6 +59,7 @@ class demo_scene :
     math3d::vector3_f _sunPosition;
     sf::Image  _horizonColorMap;
     volumetric_fog::ptr  _fogObject;
+    particle_system_object::ptr  _particles;
 
     screen_overlay_layer::ptr  _screenOverlay;
     statistics::ptr  _statisticsOverlay;

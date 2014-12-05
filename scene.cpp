@@ -102,6 +102,7 @@ namespace render
     void graphics_renderer::draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer, uint8_t bytesPerIndex, unsigned indicesCount)
     {
         if (indicesCount == 0)  indicesCount = indexBuffer.getSize();
+        _frameStatistics._trianglesCount += indicesCount / 3;
 
         indexBuffer.use();
         vertexBuffer.use();
@@ -113,6 +114,21 @@ namespace render
         _beforeDrawCallEvent (*this);
         GLenum indexType = bytesPerIndex == sizeof (uint32_t) ? GL_UNSIGNED_INT : GL_UNSIGNED_SHORT;
         glDrawElements (GL_TRIANGLES, indicesCount, indexType, nullptr);
+
+        _frameStatistics._drawCalls++;
+    }
+
+
+    void graphics_renderer::drawPoints (gpu_buffer &vertexBuffer)
+    {
+        vertexBuffer.use();
+        _frameStatistics._trianglesCount += vertexBuffer.getSize() * 2;
+
+        _state._material->setup (*this);
+        _setupShaderBeforeDraw();
+
+        _beforeDrawCallEvent (*this);
+        glDrawArrays (GL_POINTS, 0, vertexBuffer.getSize());
 
         _frameStatistics._drawCalls++;
     }
@@ -161,5 +177,38 @@ namespace render
 
         _lastFrameStatistics = _frameStatistics;
         _frameStatistics = frame_statistics();
+    }
+
+
+    void graphics_renderer::blend (bool enabled)
+    {
+        if (enabled && !_state._blend)
+        {
+            glEnable (GL_BLEND);
+            glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+
+        if (!enabled &&  _state._blend)
+        {
+            glDisable (GL_BLEND);
+        }
+
+        _state._blend = enabled;
+    }
+
+
+    void graphics_renderer::testDepth (bool enabled)
+    {
+        if (enabled && !_state._testDepth)
+        {
+            glEnable (GL_DEPTH_TEST);
+        }
+
+        if (!enabled && _state._testDepth)
+        {
+            glDisable (GL_DEPTH_TEST);
+        }
+
+        _state._testDepth = enabled;
     }
 }

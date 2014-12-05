@@ -69,7 +69,7 @@ namespace render
     void text_label::_updateTextMesh (text_renderer::ptr textRenderer)
     {
         _vBuffNeeded (textRenderer);
-        text_renderer::text_vertex *vBuffData = _textMeshVB->lock (gpu_buffer::accessReadWrite);
+        text_renderer::text_vertex *vBuffData = _textMeshVB->cpuAccess (gpu_buffer::accessReadWrite);
 
         static const vector2_f texCoordsSrc[4] = { {0, 0}, {0, 1}, {1, 0}, {1, 1} };
         vector2_f texUVScaling (1.0f / 16.0f, 1.0f / 16.0f);
@@ -89,7 +89,7 @@ namespace render
             }
         }
 
-        _textMeshVB->unlock();
+        _textMeshVB->gpuAccess ();
         _meshUpdateNeeded = false;
     }
 

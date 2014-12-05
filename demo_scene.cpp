@@ -162,6 +162,9 @@ void demo_scene::_initObjects()
     //_testPath->playOnCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
     //_testPathRecorder.recordFromCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
 
+    _particles = particle_system_object::alloc (transform_d (vector3_d (-8, 5, -8), rotation_d()), _resources);
+    _scene->addRenderableObject (_particles, 2);
+
     _horizonColorMap.loadFromFile (_resources.texturesManager().locateFile ("skybox/horizon.png"));
 }
 

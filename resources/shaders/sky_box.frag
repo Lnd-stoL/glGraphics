@@ -6,6 +6,7 @@
 
 uniform samplerCube  uSkyBox_Cubemap;
 uniform sampler2D  uClouds;
+uniform sampler3D  uClouds3D;
 uniform float  uFrameCount;
 
 uniform vec3 lightdir;
@@ -124,11 +125,14 @@ vec3 calcSkyColor (vec3 eyedir)
 
 vec4 sampleCloudsPlane (float frameTime, vec2 offset)
 {
-    float sphereProjHeight = vTexCube.y + 0.25;
+    float sphereProjHeight = vTexCube.y + 0.2;
     vec2 cloudsUV = vec2 ((vTexCube.x + offset.x) / sphereProjHeight / 5 + frameTime / 10,
                           (vTexCube.z + offset.y) / sphereProjHeight / 7 + frameTime / 5);
 
-    return texture (uClouds, cloudsUV);
+    float cint;
+    cint = texture (uClouds3D, vec3 (cloudsUV, frameTime / 2)).r;
+    //return texture (uClouds, cloudsUV);
+    return vec4 (vec3 (cint), cint);
 }
 
 
@@ -143,20 +147,23 @@ void main()
     float frameTime = uFrameCount * 3;
     //lightdir = normalize (vec3 (cos (frameTime), sin (frameTime), 0.2));
 
-    vec4 cloudColor = sampleCloudsPlane (frameTime, vec2 (0, 0));
+    vec4 cloudColor = sampleCloudsPlane (frameTime, vec2 (0, 0)) * vec4 ((uLightColor + vec3 (1)) / 2, 1);
 
     float cloudTexturePixel = 0.01;
     float cloudNormalDX = length (sampleCloudsPlane (frameTime, vec2 (cloudTexturePixel, 0))) -
                             length (sampleCloudsPlane (frameTime, vec2 (-cloudTexturePixel, 0)));
     float cloudNormalDZ = length (sampleCloudsPlane (frameTime, vec2 (0, cloudTexturePixel))) -
                           length (sampleCloudsPlane (frameTime, vec2 (0, -cloudTexturePixel)));
-    vec3 cloudNormal = normalize (vec3 (cloudNormalDX, 0.5, cloudNormalDZ));
+    vec3 cloudNormal = normalize (vec3 (cloudNormalDX, 0.9, cloudNormalDZ));
 
     float cloudLight = clamp (dot (cloudNormal, lightdir /** 10000 - vec3 (cloudsUV.x * 500, 500, cloudsUV.y * 500)*/), 0, 1);
+    cloudLight =  pow (cloudLight, 0.5);
+    cloudLight = 1;
 
     vec3 skyColor = calcSkyColor (normalize (vTexCube));
 
     //color = mix (color, vec3 (1, 1, 1), 0.05);
     //cloudColor *= cloudLight;
-    out_Color = mix (skyColor, cloudColor.rgb * uLightColor + vec3 (0.2, 0.2, 0.2), cloudColor.a * 0.96 * cloudLight);
+    out_Color = mix (skyColor, cloudColor.rgb * (uLightColor + vec3 (0.2, 0.2, 0.2)), cloudColor.a * 0.96 * cloudLight);
+    //out_Color = cloudColor.rgb;
 }

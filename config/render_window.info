@@ -1,7 +1,7 @@
 
 render_window
 {
-    fullscreen  true
+    fullscreen  false
     width       1400
     height      1100
     title       "OpenGL graphics tech demo (by Leonid Stolyarov aka Lnd-stoL)"
