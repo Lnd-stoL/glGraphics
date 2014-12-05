@@ -16,7 +16,7 @@ statistics::statistics (render_window &renderWindow, resources &res, screen_over
                                          math3d::vector2_f (0.031, 0.04),
                                          mkstr ("---------------------"));
 
-    _frameTimeLabel->setColor (color_rgb<float> (1, 1, 1));
+    _frameTimeLabel->labelColor (color_rgb<float> (1, 1, 1));
     _overlayLayer->addOverlay (_frameTimeLabel);
 
     _avgFrameTimeLabel = text_label::alloc (_defaultFont,
@@ -24,7 +24,7 @@ statistics::statistics (render_window &renderWindow, resources &res, screen_over
                                             math3d::vector2_f (0.025, 0.031),
                                             mkstr ("----------------------"));
 
-    _avgFrameTimeLabel->setColor (color_rgb<float> (0.8, 0.8, 0.8));
+    _avgFrameTimeLabel->labelColor (color_rgb<float> (0.8, 0.8, 0.8));
     _overlayLayer->addOverlay (_avgFrameTimeLabel);
 
     _renderLabel = text_label::alloc (_defaultFont,
@@ -32,7 +32,7 @@ statistics::statistics (render_window &renderWindow, resources &res, screen_over
                                       math3d::vector2_f (0.026, 0.036),
                                       mkstr ("-------------------------------"));
 
-    _renderLabel->setColor (color_rgb<float> (0.9, 0.9, 0.5));
+    _renderLabel->labelColor (color_rgb<float> (0.9, 0.9, 0.5));
     _overlayLayer->addOverlay (_renderLabel);
 
     _trianglesLabel = text_label::alloc (_defaultFont,
@@ -40,30 +40,33 @@ statistics::statistics (render_window &renderWindow, resources &res, screen_over
                                          math3d::vector2_f (0.026, 0.036),
                                          mkstr ("-------------------------------"));
 
-    _trianglesLabel->setColor (color_rgb<float> (0.9, 0.9, 0.5));
+    _trianglesLabel->labelColor (color_rgb<float> (0.9, 0.9, 0.5));
     _overlayLayer->addOverlay (_trianglesLabel);
 }
 
 
 void statistics::draw (graphics_renderer &renderer)
 {
-    if ((unsigned) renderer.getFrameCount() % _updatePeriodFrames == 0)
+    if ((unsigned) renderer.frameCount() % _updatePeriodFrames == 0)
     {
-        double frameTime = _renderWindow.getFrameTime();
-        double avgFrameTime = _renderWindow.getAverageFrameTime();
-        auto frameStatistics = renderer.getLastFrameStatistics();
+        double frameTime = _renderWindow.frameTime();
+        double avgFrameTime = _renderWindow.averageFrameTime();
+        auto frameStatistics = renderer.lastFrameStatistics();
 
-        string frameTimeLabelText = mkstr ((unsigned) (1000.0 / frameTime), " (", std::setprecision (3), (float) frameTime, " ms)");
+        auto frametimeStr = ((std::stringstream&)(std::ostringstream() << std::setprecision (3) << (float) frameTime)).str();
+        auto avgFrametimeStr = ((std::stringstream&)(std::ostringstream() << std::setprecision (3) << (float) avgFrameTime)).str();
+
+        string frameTimeLabelText = mkstr (int (std::floor (1000.0 / frameTime)), " (", frametimeStr, " ms)");
         _frameTimeLabel->changeText (frameTimeLabelText);
 
-        string avgFrameTimeLabelText = mkstr ("on average: ", (unsigned) (1000.0 / avgFrameTime), " (",
-                                              std::setprecision (3), (float) avgFrameTime, " ms)");
+        string avgFrameTimeLabelText = mkstr ("on average: ", int (std::floor (1000.0 / avgFrameTime)),
+                                              " (", avgFrametimeStr, " ms)");
         _avgFrameTimeLabel->changeText (avgFrameTimeLabelText);
 
-        string renderLabelText = mkstr (frameStatistics.getDrawCalls(), " draw calls");
+        string renderLabelText = mkstr (frameStatistics.drawCalls(), " draw calls");
         _renderLabel->changeText (renderLabelText);
 
-        string triangleCountLabelText = mkstr (frameStatistics.getTriangleCount() / 1000, " ktris");
+        string triangleCountLabelText = mkstr (frameStatistics.triangleCount() / 1000, " ktris");
         _trianglesLabel->changeText (triangleCountLabelText);
     }
 

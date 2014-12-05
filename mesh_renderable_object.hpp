@@ -18,7 +18,7 @@ class mesh_renderable_object : public transformable_renderable_object
     mesh::ptr   _mesh;
 
 public:
-    property_get (Mesh, _mesh)
+    property_get (underlyingMesh, _mesh)
 
 
 public:

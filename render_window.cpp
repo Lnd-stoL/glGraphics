@@ -25,7 +25,9 @@ render_window::render_window (unsigned width, unsigned height, const string &tit
     debug::log::println ("initializing OpenGL lazy binding ...");
     glbinding::Binding::initialize (false);
 
-    debug::log::println_mrk (mkstr ("succesfully initialized ", glbinding::ContextInfo::version(), " context"));
+    std::ostringstream glVersion;
+    glVersion << glbinding::ContextInfo::version();
+    debug::log::println_mrk (mkstr ("succesfully initialized ", glVersion.str(), " context"));
     debug::log::println (mkstr ("rendering device: ", glbinding::ContextInfo::vendor(),
                                 " ", glbinding::ContextInfo::renderer()));
 

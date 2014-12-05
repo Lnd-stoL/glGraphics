@@ -84,9 +84,9 @@ void spline_path::save (const string &fileName)
 	file << _path.size() << std::endl;
 	for (auto& nextNode : _path)
 	{
-		file << nextNode.position.getX() << " " << nextNode.position.getY() << " " << nextNode.position.getZ() << " ";
-		file << nextNode.rotation.getX() << " " << nextNode.rotation.getY() << " " << nextNode.rotation.getZ() << " " <<
-				nextNode.rotation.getW() << " ";
+		file << nextNode.position.x() << " " << nextNode.position.y() << " " << nextNode.position.z() << " ";
+		file << nextNode.rotation.x() << " " << nextNode.rotation.y() << " " << nextNode.rotation.z() << " " <<
+				nextNode.rotation.w() << " ";
 	    file << nextNode.duration << "\n";
 	}
 
@@ -109,9 +109,9 @@ vector3_d spline_path::_catmullRom (const vector3_d &yn1, const vector3_d &y0, c
 								    double dx, double t)
 {
 	return vector3_d (
-			_catmullRom (yn1.getX(), y0.getX(), y1.getX(), y2.getX(), dx, t),
-			_catmullRom (yn1.getY(), y0.getY(), y1.getY(), y2.getY(), dx, t),
-			_catmullRom (yn1.getZ(), y0.getZ(), y1.getZ(), y2.getZ(), dx, t)
+			_catmullRom (yn1.x(), y0.x(), y1.x(), y2.x(), dx, t),
+			_catmullRom (yn1.y(), y0.y(), y1.y(), y2.y(), dx, t),
+			_catmullRom (yn1.z(), y0.z(), y1.z(), y2.z(), dx, t)
 	);
 }
 
@@ -120,8 +120,8 @@ vector2_d spline_path::_catmullRom (const vector2_d &yn1, const vector2_d &y0, c
 								    double dx, double t)
 {
 	return vector2_d (
-			_catmullRom (yn1.getX(), y0.getX(), y1.getX(), y2.getX(), dx, t),
-			_catmullRom (yn1.getY(), y0.getY(), y1.getY(), y2.getY(), dx, t)
+			_catmullRom (yn1.x(), y0.x(), y1.x(), y2.x(), dx, t),
+			_catmullRom (yn1.y(), y0.y(), y1.y(), y2.y(), dx, t)
 	);
 }
 
@@ -130,10 +130,10 @@ quaternion_d spline_path::_catmullRom (const quaternion_d &yn1, const quaternion
 									   const quaternion_d &y2, double dx, double t)
 {
 	return quaternion_d (
-			_catmullRom (yn1.getX(), y0.getX(), y1.getX(), y2.getX(), dx, t),
-			_catmullRom (yn1.getY(), y0.getY(), y1.getY(), y2.getY(), dx, t),
-			_catmullRom (yn1.getZ(), y0.getZ(), y1.getZ(), y2.getZ(), dx, t),
-			_catmullRom (yn1.getW(), y0.getW(), y1.getW(), y2.getW(), dx, t)
+			_catmullRom (yn1.x(), y0.x(), y1.x(), y2.x(), dx, t),
+			_catmullRom (yn1.y(), y0.y(), y1.y(), y2.y(), dx, t),
+			_catmullRom (yn1.z(), y0.z(), y1.z(), y2.z(), dx, t),
+			_catmullRom (yn1.w(), y0.w(), y1.w(), y2.w(), dx, t)
 	);
 }
 
@@ -288,11 +288,11 @@ void spline_path_recorder::_onUpdatePlay()
 
 	if (_timeSinceLastNode >= _samplingRate || _lastUpdateTime < 0)
 	{
-		const transform_d &camTransform = _camera->getTransform();
+		const transform_d &camTransform = _camera->transform();
 
 		spline_path::spline_node nextNode;
-		nextNode.position = camTransform.getTranslation();
-		nextNode.rotation = camTransform.getRotation().asQuaternion();
+		nextNode.position = camTransform.ttranslation();
+		nextNode.rotation = camTransform.trotation().asQuaternion();
 		nextNode.duration = _timeSinceLastNode;
 
 		_path.emplace_back (std::move (nextNode));

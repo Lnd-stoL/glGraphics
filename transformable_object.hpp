@@ -25,7 +25,7 @@ protected:
     transform_d  _transform;
 
 public:
-    property_rw_ref (Transform, _transform)
+    property_rw_ref (transform, _transform)
 
 
 protected:

@@ -13,7 +13,7 @@ using oo_extensions::mkstr;
 void water_plane::draw (graphics_renderer &renderer) const
 {
     //glDisable (GL_CULL_FACE);
-    renderer.use (renderer.state().getCamera()->object2ScreenTransform (transform_d()));
+    renderer.use (renderer.state().activeCamera()->object2ScreenTransform (transform_d()));
     _mesh->draw (renderer);
     //glEnable (GL_CULL_FACE);
 }
@@ -60,7 +60,7 @@ void water_plane::useRefractionTextures (texture::ptr refractTexture, texture::p
 
 void water_plane::drawReflections (graphics_renderer &renderer, scene &reflectibleScene)
 {
-    _reflectionsCamera->asInverseYOf (*(renderer.state().getCamera()), _surfaceHeight);
+    _reflectionsCamera->asInverseYOf (*(renderer.state().activeCamera()), _surfaceHeight);
 
     renderer.renderTo (_reflectionsFrameBuffer);
     renderer.use (_reflectionsCamera);

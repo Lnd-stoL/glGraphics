@@ -10,8 +10,8 @@ using math_ex::nextRandomFloat;
 
 clouds_noise_3d::clouds_noise_3d (vector3<unsigned> dimensions) : _dimensions (dimensions)
 {
-    _noise = new uint8_t[dimensions.getX() * dimensions.getY() * dimensions.getZ()];
-    _layerSize = dimensions.getX() * dimensions.getY();
+    _noise = new uint8_t[dimensions.x() * dimensions.y() * dimensions.z()];
+    _layerSize = dimensions.x() * dimensions.y();
 
     debug::log::println ("generating clouds ...");
     _generate();
@@ -96,7 +96,7 @@ void clouds_noise_3d::_generate()
     unsigned overallThreadsCount = concurrentThreadsSupported;
     unsigned spawnThreadsCount = concurrentThreadsSupported - 1;
 
-    unsigned overallComplexity = _dimensions.getX() * _dimensions.getY() * _dimensions.getZ();
+    unsigned overallComplexity = _dimensions.x() * _dimensions.y() * _dimensions.z();
     unsigned partComplexity = overallComplexity / overallThreadsCount;
 
     unsigned partWidth  = 0;
@@ -105,7 +105,7 @@ void clouds_noise_3d::_generate()
 
     if (_layerSize >= partComplexity)
     {
-        if (_dimensions.getX() >= partComplexity)
+        if (_dimensions.x() >= partComplexity)
         {
             partWidth = partComplexity;
             partHeight = 1;
@@ -113,11 +113,11 @@ void clouds_noise_3d::_generate()
 
         else
         {
-            unsigned stringsCount = partComplexity / _dimensions.getX();
-            if (partComplexity % _dimensions.getX())  ++stringsCount;
+            unsigned stringsCount = partComplexity / _dimensions.x();
+            if (partComplexity % _dimensions.x())  ++stringsCount;
 
             partHeight = stringsCount;
-            partWidth = _dimensions.getX();
+            partWidth = _dimensions.x();
         }
 
         partDepth = 1;
@@ -125,8 +125,8 @@ void clouds_noise_3d::_generate()
 
     else
     {
-        partWidth  = _dimensions.getX();
-        partHeight = _dimensions.getY();
+        partWidth  = _dimensions.x();
+        partHeight = _dimensions.y();
 
         unsigned numLayers = (partComplexity / _layerSize);
         if (partComplexity % _layerSize)  ++numLayers;
@@ -134,14 +134,14 @@ void clouds_noise_3d::_generate()
     }
 
 
-    unsigned partTileWidth  = _dimensions.getX() / partWidth;
-    if (_dimensions.getX() % partWidth)  ++partTileWidth;
+    unsigned partTileWidth  = _dimensions.x() / partWidth;
+    if (_dimensions.x() % partWidth)  ++partTileWidth;
 
-    unsigned partTileHeight = _dimensions.getY() / partHeight;
-    if (_dimensions.getY() % partHeight)  ++partTileHeight;
+    unsigned partTileHeight = _dimensions.y() / partHeight;
+    if (_dimensions.y() % partHeight)  ++partTileHeight;
 
-    unsigned partTileDepth  = _dimensions.getZ() / partDepth;
-    if (_dimensions.getZ() % partDepth)  ++partTileDepth;
+    unsigned partTileDepth  = _dimensions.z() / partDepth;
+    if (_dimensions.z() % partDepth)  ++partTileDepth;
 
 
     unsigned tileLayerSize = partTileHeight * partTileWidth;
@@ -155,9 +155,9 @@ void clouds_noise_3d::_generate()
             unsigned threadsArrayOffset = t0 * tileLayerSize + y0 * partTileWidth;
             for (unsigned x0 = 0; x0 < partTileWidth; ++x0)
             {
-                partWidth  = std::min (partWidth,  _dimensions.getX() - x0);
-                partHeight = std::min (partHeight, _dimensions.getY() - y0);
-                partDepth  = std::min (partDepth,  _dimensions.getZ() - t0);
+                partWidth  = std::min (partWidth,  _dimensions.x() - x0);
+                partHeight = std::min (partHeight, _dimensions.y() - y0);
+                partDepth  = std::min (partDepth,  _dimensions.z() - t0);
 
                 auto partCalcFunction = [this, x0, y0, t0, partWidth, partHeight, partDepth] ()
                 {
@@ -241,7 +241,7 @@ void clouds_noise_3d::_generatePart (unsigned x0, unsigned y0, unsigned t0, unsi
     {
         for (unsigned y = y0; y < y0 + height; ++y)
         {
-            unsigned rawDataOffset = t * _layerSize + y * _dimensions.getX();
+            unsigned rawDataOffset = t * _layerSize + y * _dimensions.x();
             for (unsigned x = x0; x < x0 + width; ++x)
             {
                 //float nextRand = nextRandomFloat();
@@ -261,14 +261,14 @@ void clouds_noise_3d::_generatePart (unsigned x0, unsigned y0, unsigned t0, unsi
                 }
                 value /= 1.5f;
 
-                float seamlessBlurRadiusX = float (0.06 * _dimensions.getX());
-                float seamlessBlurRadiusY = float (0.06 * _dimensions.getY());
+                float seamlessBlurRadiusX = float (0.06 * _dimensions.x());
+                float seamlessBlurRadiusY = float (0.06 * _dimensions.y());
 
                 if (x < seamlessBlurRadiusX)  value *= sqrt (float (x) / seamlessBlurRadiusX);
                 if (y < seamlessBlurRadiusY)  value *= sqrt (float (y) / seamlessBlurRadiusY);
 
-                if (x > _dimensions.getX() - seamlessBlurRadiusX)  value *= sqrt (float (_dimensions.getX() - x) / seamlessBlurRadiusX);
-                if (y > _dimensions.getY() - seamlessBlurRadiusY)  value *= sqrt (float (_dimensions.getY() - y) / seamlessBlurRadiusY);
+                if (x > _dimensions.x() - seamlessBlurRadiusX)  value *= sqrt (float (_dimensions.x() - x) / seamlessBlurRadiusX);
+                if (y > _dimensions.y() - seamlessBlurRadiusY)  value *= sqrt (float (_dimensions.y() - y) / seamlessBlurRadiusY);
 
 
                 _noise[rawDataOffset + x] = (uint8_t) (std::max (0.08f, (std::min (value * value, 0.999f))) * 255);

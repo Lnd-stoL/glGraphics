@@ -26,12 +26,12 @@ namespace render
         vector3_d _forward = vector3_d (0, 1, -1);
 
     public:
-        property_get_ref (Transform,         _transform)
-        property_get_ref (InversedTransform, _inversedTransform)
+        property_get_ref (transform,         _transform)
+        property_get_ref (inversedTransform, _inversedTransform)
 
-        property_get_ref (UpVector,      _up)
-        property_get_ref (RightVector,   _right)
-        property_get_ref (ForwardVector, _forward)
+        property_get_ref (upVector,      _up)
+        property_get_ref (rightVector,   _right)
+        property_get_ref (forwardVector, _forward)
 
 
     protected:

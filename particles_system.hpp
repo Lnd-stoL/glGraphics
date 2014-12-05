@@ -22,7 +22,7 @@ namespace render
         vector2_d  _size;
 
     public:
-        property_get_ref (Size, _size)
+        property_get_ref (size, _size)
 
 
     public:

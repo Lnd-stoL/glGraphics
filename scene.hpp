@@ -24,8 +24,8 @@ namespace render
         renderable::ptr _renderableObject;
 
     public:
-        property_get (RenderQueue, _renderQueue)
-        property_get (Renderable,  _renderableObject)
+        property_get (renderQueue, _renderQueue)
+        property_get (underlyingRenderable,  _renderableObject)
 
     public:
         declare_ptr_alloc (scene_object)
@@ -55,9 +55,9 @@ namespace render
         color_rgb<float>  _sunColor;
 
     public:
-        property_get_ref (Objects, _sceneObjects)
-        property_get_ref (SunPosition, _sunPosition)
-        property_get_ref (SunColor,  _sunColor);
+        property_get_ref (objects, _sceneObjects)
+        property_get_ref (sunPosition, _sunPosition)
+        property_get_ref (sunColor,  _sunColor);
 
 
     public:
@@ -78,7 +78,7 @@ namespace render
     class graphics_renderer
     {
     public:
-        class rendering_state
+        class renderer_state
         {
             math3d::object2screen_transform_d  _object2ScreenTransform;
             camera::ptr  _camera;
@@ -88,12 +88,12 @@ namespace render
             bool  _testDepth = true;
 
         public:
-            property_get_ref (Object2ScreenTransform, _object2ScreenTransform)
-            property_get (Camera, _camera)
-            property_get (Material, _material)
-            property_get (RenderingProgram, _material->getTechnique()->getRenderingProgram())
-            property_get (FrameBuffer, _frameBuffer)
-            property_get (Blend, _blend)
+            property_get_ref (object2ScreenTransform, _object2ScreenTransform)
+            property_get (activeCamera, _camera)
+            property_get (activeMaterial, _material)
+            property_get (activeRenderingProgram, _material->renderingTechnique()->renderingProgram())
+            property_get (activeFrameBuffer, _frameBuffer)
+            property_get (blendingEnabled, _blend)
 
 
         public:
@@ -108,8 +108,8 @@ namespace render
             unsigned  _trianglesCount = 0;
 
         public:
-            property_get (DrawCalls, _drawCalls)
-            property_get (TriangleCount, _trianglesCount)
+            property_get (drawCalls, _drawCalls)
+            property_get (triangleCount, _trianglesCount)
 
         public:
             friend class graphics_renderer;
@@ -118,7 +118,7 @@ namespace render
 //----------------------------------------------------------------------------------------------------------------------
 
     private:
-        rendering_state  _state;
+        renderer_state _state;
         frame_statistics  _lastFrameStatistics;
         frame_statistics  _frameStatistics;
         scene::ptr _scene;
@@ -134,10 +134,10 @@ namespace render
 
     public:
         property_ref (state, _state)
-        property_get_ref (FrameStatistics, _frameStatistics)
-        property_get_ref (LastFrameStatistics, _lastFrameStatistics)
-        property_get (Scene, _scene)
-        property_get (FrameCount, _frameCount / _frameCountScale)
+        property_get_ref (frameStatistics, _frameStatistics)
+        property_get_ref (lastFrameStatistics, _lastFrameStatistics)
+        property_get (currentScene, _scene)
+        property_get (frameCount, _frameCount / _frameCountScale)
 
         event_access (beforeDrawCall, _beforeDrawCallEvent)
 

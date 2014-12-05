@@ -54,7 +54,7 @@ namespace render
         mesh::ptr _mesh;
 
     public:
-        property_get (RenderableMesh, _mesh)
+        property_get (renderableMesh, _mesh)
 
 
     public:

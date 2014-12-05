@@ -17,9 +17,6 @@ class sky_box : public renderable
     mesh::ptr  _mesh;
     material::ptr  _material;
 
-public:
-    property_get (Mesh, _mesh)
-
 
 public:
     declare_ptr_alloc (sky_box)

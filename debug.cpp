@@ -7,14 +7,16 @@
 #include <iomanip>
 
 using oo_extensions::mkstr;
+using oo_extensions::mkfstr;
+using namespace std::chrono;
 
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace debug
 {
-    std::chrono::time_point<std::chrono::system_clock> log::_programStartClock
-        = std::chrono::system_clock::now();
+    time_point<system_clock>  log::_programStartClock = system_clock::now();
 
+//----------------------------------------------------------------------------------------------------------------------
 
     /*static*/ void log::print (const std::string &str)
     {
@@ -30,13 +32,14 @@ namespace debug
 
     /*static*/ void log::println (const std::string &str)
     {
-        std::chrono::time_point<std::chrono::system_clock> nowClock = std::chrono::system_clock::now();
-        std::chrono::duration<double> elapsedSeconds = nowClock - _programStartClock;
+        time_point<system_clock> nowClock = system_clock::now();
+        duration<double> elapsedSeconds = nowClock - _programStartClock;
 
-        print (mkstr ("[", std::setw (7), std::setfill ('x'), std::fixed, std::setprecision (0),
-               elapsedSeconds.count() * 1000.0, " ms]: "));
+        //std::ostringstream timeLabel;
+        auto timeLabel = mkfstr ("[", std::setw (7), std::setfill ('x'), std::fixed, std::setprecision (0),
+               elapsedSeconds.count() * 1000.0, " ms]: ");
+        print (mkstr (timeLabel, str));
 
-        print (str);
         nextln();
     }
 
@@ -83,6 +86,6 @@ namespace debug
         else errorString = "Unknown internal error.";
 
 
-        log::println_err (mkstr ("OpenGL reported an error: (", errorCode, ") ", errorString));
+        log::println_err (mkstr ("OpenGL reported an error: (", (unsigned) errorCode, ") ", errorString));
     }
 }

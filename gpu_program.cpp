@@ -193,7 +193,7 @@ namespace render
 
     void gpu_program::_bindVertexAttributes()
     {
-        auto attributes = _vertexLayout->getAttributes();
+        auto attributes = _vertexLayout->attributes();
         for (unsigned i = 0; i < attributes.size(); ++i)
         {
             glEnableVertexAttribArray (i);
@@ -208,7 +208,7 @@ namespace render
     {
         resource::_changedAfterLoading();
 
-        if (!attachement->getCompiled())
+        if (!attachement->isCompiled())
         {
             debug::log::println_err (
                 mkstr ("can't attach ", attachement->asString(), " to ", asString(), " until it is compiled."));
@@ -216,7 +216,7 @@ namespace render
             return;
         }
 
-        glAttachShader (_programId, attachement->getGlId());
+        glAttachShader (_programId, attachement->glId());
         if (!debug::gl::test()) return;
         debug::log::println (mkstr (attachement->asString(), " successfully attached to ", asString()));
     }
@@ -289,14 +289,14 @@ namespace render
             glDisableVertexAttribArray (i);
         }
 
-        auto attributes = _vertexLayout->getAttributes();
+        auto attributes = _vertexLayout->attributes();
         for (unsigned i = 0; i < attributes.size(); ++i)
         {
             glEnableVertexAttribArray (i);
             glVertexAttribPointer (i, attributes[i].dimension,
                                            (GLenum) attributes[i].type,
                                            (GLboolean) attributes[i].normalized,
-                                           (GLsizei) _vertexLayout->getStrideInBytes(),
+                                           (GLsizei) _vertexLayout->strideInBytes(),
                                            (GLvoid *) attributes[i].offset);
         }
     }
@@ -350,7 +350,7 @@ namespace render
         GLuint location = _locateUniform (name, ignoreIfNotExists);
         if (location == GL_INVALID_INDEX) return;
 
-        glUniform3f (location, value.getX(), value.getY(), value.getZ());
+        glUniform3f (location, value.x(), value.y(), value.z());
     }
 
 
@@ -361,7 +361,7 @@ namespace render
         GLuint location = _locateUniform (name, ignoreIfNotExists);
         if (location == GL_INVALID_INDEX) return;
 
-        glUniform2f (location, value.getX(), value.getY());
+        glUniform2f (location, value.x(), value.y());
     }
 
 

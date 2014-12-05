@@ -46,6 +46,6 @@ volumetric_fog::ptr volumetric_fog::createLayer (resources& renderRes, interval_
 {
     auto cubeMesh = renderRes.requestFromFile<exs3d_mesh> ("cube-textured.exs3d");
     transform_d trans (vector3_d (0, heightInterval.average(), 0), rotation_d(),
-                       vector3_d (size.getX(), heightInterval.length(), size.getY()));
-    return volumetric_fog::alloc (renderRes, cubeMesh->getRenderableMesh()->getComponent ("Cube"), trans);
+                       vector3_d (size.x(), heightInterval.length(), size.y()));
+    return volumetric_fog::alloc (renderRes, cubeMesh->renderableMesh()->component ("Cube"), trans);
 }

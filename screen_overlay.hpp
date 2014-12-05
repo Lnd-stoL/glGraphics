@@ -32,9 +32,9 @@ namespace render
         vector2_f  _size;
 
     public:
-        property_rw  (ScreenPosition, _position)
-        property_rw  (ScreenSize, _size)
-        property_get (Visible, _visible)
+        property_rw  (screenPosition, _position)
+        property_rw  (screenSize, _size)
+        property_get (isVisible,  _visible)
 
 
     public:
@@ -91,9 +91,9 @@ namespace render
         void _generateIndices();
 
     public:
-        property_get (TextRenderingTechnique, _technique)
-        property_get (TextLineVertices, _vertices);
-        property_get (TextLineIndexBuffer, _indices);
+        property_get (textRenderingTechnique, _technique)
+        property_get (textLineVertices, _vertices);
+        property_get (textLineIndexBuffer, _indices);
 
     public:
         declare_ptr_alloc (text_renderer)
@@ -111,7 +111,7 @@ namespace render
         vector<screen_overlay::ptr>  _overlays;
 
     public:
-        property_get (TextRenderer, _textRenderer);
+        property_get (textRenderer, _textRenderer);
 
     public:
         declare_ptr_alloc (screen_overlay_layer)
@@ -139,9 +139,9 @@ namespace render
 
 
     public:
-        property_get_ref (Text, _text)
-        property_get (Font, _font)
-        property_rw (Color, _color);
+        property_get_ref (text, _text)
+        property_get (labelFont, _font)
+        property_rw (labelColor, _color);
 
 
     protected:

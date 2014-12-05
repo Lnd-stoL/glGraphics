@@ -42,7 +42,7 @@ namespace render
                                               change_rate_t changeRate)
     {
         use();
-        glBufferData (target, getSizeInBytes(), data, _bufferUsage (preferredAccess, changeRate));
+        glBufferData (target, sizeInBytes(), data, _bufferUsage (preferredAccess, changeRate));
         debug::gl::test();
     }
 

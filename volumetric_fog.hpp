@@ -19,9 +19,6 @@ class volumetric_fog : public transformable_renderable_object
     a_mesh_component::ptr  _mesh;
     material::ptr  _material;
 
-public:
-    property_get (Mesh, _mesh)
-
 
 public:
     declare_ptr_alloc (volumetric_fog)

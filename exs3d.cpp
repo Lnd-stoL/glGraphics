@@ -344,8 +344,8 @@ namespace render
 
     void exs3d_loader::_reportComponentLoaded (const a_mesh_component &meshComponent)
     {
-        debug::log::println (mkstr ("component '", meshComponent.getName(),
-                                    "' loaded: ", meshComponent.getVertexBuffer().getSize(), " vertices;  ",
-                                    meshComponent.getIndexBuffer().getSize() / 3, " faces"));
+        debug::log::println (mkstr ("component '", meshComponent.name(),
+                                    "' loaded: ", meshComponent.vertexBuffer().size(), " vertices;  ",
+                                    meshComponent.indexBuffer().size() / 3, " faces"));
     }
 }

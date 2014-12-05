@@ -25,10 +25,10 @@ vector3_d fps_camera_controller::_updateTranslation()
 {
     vector3_d translation;
 
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::D))  translation +=  _controlledCamera->getRightVector();
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::A))  translation += -_controlledCamera->getRightVector();
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::W))  translation +=  _controlledCamera->getForwardVector();
-    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::S))  translation += -_controlledCamera->getForwardVector();
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::D))  translation +=  _controlledCamera->rightVector();
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::A))  translation += -_controlledCamera->rightVector();
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::W))  translation +=  _controlledCamera->forwardVector();
+    if (sf::Keyboard::isKeyPressed (sf::Keyboard::Key::S))  translation += -_controlledCamera->forwardVector();
 
     return translation * _translationSpeed;
 }

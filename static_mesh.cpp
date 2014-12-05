@@ -17,7 +17,7 @@ namespace render
     {
         for (auto i = _components.begin(); i != _components.end(); ++i)
         {
-            if ((*i)->getName() == name)  i = _components.erase (i);
+            if ((*i)->name() == name)  i = _components.erase (i);
         }
     }
 
@@ -72,11 +72,11 @@ namespace render
     }
 
 
-    a_mesh_component::ptr mesh::getComponent (const string &name)
+    a_mesh_component::ptr mesh::component (const string &name)
     {
         for (auto i = _components.begin(); i != _components.end(); ++i)
         {
-            if ((*i)->getName() == name)  return *i;
+            if ((*i)->name() == name)  return *i;
         }
     }
 }

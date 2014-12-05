@@ -19,8 +19,8 @@ namespace render
         material::ptr _material;
 
     public:
-        property_get (Material, _material)
-        property_get_ref (Name, _name)
+        property_get (componentMaterial, _material)
+        property_get_ref (name, _name)
 
 
     public:
@@ -34,8 +34,8 @@ namespace render
 
         void changeMaterial (material::ptr newMaterial);
 
-        virtual  const gpu_buffer&  getVertexBuffer() const = 0;
-        virtual  const gpu_buffer&  getIndexBuffer()  const = 0;
+        virtual  const gpu_buffer &vertexBuffer() const = 0;
+        virtual  const gpu_buffer &indexBuffer()  const = 0;
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -49,8 +49,8 @@ namespace render
         typename index_buffer<index_t>::ptr   _indexBuffer;
 
     public:
-        virtual  const gpu_buffer&  getVertexBuffer() const  { return *_vertexBuffer; }
-        virtual  const gpu_buffer&  getIndexBuffer()  const  { return *_indexBuffer;  }
+        virtual  const gpu_buffer&  vertexBuffer() const  { return *_vertexBuffer; }
+        virtual  const gpu_buffer&  indexBuffer()  const  { return *_indexBuffer;  }
 
 
     public:
@@ -86,7 +86,7 @@ namespace render
         vector<a_mesh_component::ptr> _components;
 
     public:
-        property_get_ref (Components, _components)
+        property_get_ref (components, _components)
 
 
     public:
@@ -96,7 +96,7 @@ namespace render
         void addComponent (a_mesh_component::ptr component);
         void removeComponent (const string &name);
 
-        a_mesh_component::ptr getComponent (const string &name);
+        a_mesh_component::ptr  component (const string &name);
 
         virtual void draw (graphics_renderer &renderer) const;
     };

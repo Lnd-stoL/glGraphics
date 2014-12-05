@@ -30,16 +30,16 @@ namespace render
     {
         if (!_visible)  return;
 
-        auto textRenderer = overlayLayer.getTextRenderer();
+        auto textRenderer = overlayLayer.textRenderer();
         if (!_material)         _loadMaterial (textRenderer);
         if (_meshUpdateNeeded)  _updateTextMesh (textRenderer);
 
-        _material->vec2Params()["uOffset"] = vector2_f (_position.getX() * 2 - 1, 1 - _position.getY() * 2);
+        _material->vec2Params()["uOffset"] = vector2_f (_position.x() * 2 - 1, 1 - _position.y() * 2);
         _material->vec2Params()["uScale"]  = _size;
         _material->vec3Params()["uColor"]  = _color.asVector();
 
         renderer.use (_material);
-        auto pIndexBuffer = textRenderer->getTextLineIndexBuffer();
+        auto pIndexBuffer = textRenderer->textLineIndexBuffer();
         renderer.draw (*_textMeshVB, *pIndexBuffer, sizeof (uint16_t), (unsigned) _text.size() * 6);
     }
 
@@ -49,7 +49,7 @@ namespace render
         if (_text.length() <= _vBuffCapacity)  return;
 
         _vBuffCapacity = (unsigned) std::max (_vBuffCapacity * 1.5 + 1, (double) _text.length());
-        vector<text_renderer::text_vertex>  vertices = textRenderer->getTextLineVertices();
+        vector<text_renderer::text_vertex>  vertices = textRenderer->textLineVertices();
         if (_vBuffCapacity > vertices.size())  _vBuffCapacity = (unsigned) vertices.size();
         vertices.resize (_vBuffCapacity * 4);
 
@@ -61,8 +61,8 @@ namespace render
 
     void text_label::_loadMaterial (text_renderer::ptr textRenderer)
     {
-        _material = material::alloc (textRenderer->getTextRenderingTechnique());
-        _material->textures()["uFontBitmap"] = _font->getBitmap();
+        _material = material::alloc (textRenderer->textRenderingTechnique());
+        _material->textures()["uFontBitmap"] = _font->bitmap();
     }
 
 
@@ -89,7 +89,7 @@ namespace render
             }
         }
 
-        _textMeshVB->gpuAccess ();
+        _textMeshVB->gpuAccess();
         _meshUpdateNeeded = false;
     }
 
@@ -134,7 +134,7 @@ namespace render
 
         for (auto nextOverlay : _overlays)
         {
-            if (nextOverlay->getVisible())
+            if (nextOverlay->isVisible())
             {
                 nextOverlay->draw (*this, renderer);
             }

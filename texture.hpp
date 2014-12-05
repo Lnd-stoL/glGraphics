@@ -46,8 +46,8 @@ namespace render
         GLenum _textureType = GL_TEXTURE_2D;
 
     public:
-        property_get (GlId, _textureId);
-        property_get (GlTarget, _textureType);
+        property_get (glId, _textureId);
+        property_get (glTarget, _textureType);
 
     protected:
         bool _testValid() const;
@@ -75,8 +75,8 @@ namespace render
         void setupForShadowSampler();
         void saveToFile (const string &fileName);
 
-        unsigned getHeight() const;
-        unsigned getWidth() const;
+        unsigned height() const;
+        unsigned width()  const;
 
         bool isMultisample() const;
         bool isCubemap() const;

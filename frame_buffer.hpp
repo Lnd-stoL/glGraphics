@@ -30,9 +30,9 @@ namespace render
 
 
     public:
-        property_get (GlId,   _frameBufferId);
-        property_get (Width,  _width);
-        property_get (Height, _height);
+        property_get (glId,   _frameBufferId);
+        property_get (width,  _width);
+        property_get (height, _height);
 
 
     protected:

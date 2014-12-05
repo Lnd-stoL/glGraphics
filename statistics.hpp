@@ -29,7 +29,7 @@ class statistics :
     text_label::ptr  _trianglesLabel;
 
 public:
-    property_get (DefaultFont, _defaultFont)
+    property_get (defaultFont, _defaultFont)
 
 
 public:

@@ -14,7 +14,7 @@ void sky_box::draw (graphics_renderer &renderer) const
 {
     glFrontFace (GL_CW);
 
-    renderer.use (renderer.state().getCamera()->object2ScreenTransform (transform_d()));
+    renderer.use (renderer.state().activeCamera()->object2ScreenTransform (transform_d()));
     _mesh->draw (renderer);
 
     glFrontFace (GL_CCW);
@@ -27,8 +27,8 @@ sky_box::sky_box (resources& renderRes)
     auto skyboxShader = renderRes.gpuProgramsManager().request (skyboxShaderId, renderRes);
     _material = material::alloc (technique::alloc (skyboxShader));
 
-    _mesh = renderRes.requestFromFile<exs3d_mesh> ("sphere.exs3d")->getRenderableMesh();
-    _mesh->getComponents()[0]->changeMaterial (_material);
+    _mesh = renderRes.requestFromFile<exs3d_mesh> ("sphere.exs3d")->renderableMesh();
+    _mesh->components()[0]->changeMaterial (_material);
 
     glEnable (GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
@@ -52,7 +52,7 @@ sky_box::sky_box (resources& renderRes)
 
     vector3<unsigned> clouds3dSize (512, 512, 8);
     clouds_noise_3d  cloudsNoise (clouds3dSize);
-    texture::ptr clouds3dTexture = texture::create3D (clouds3dSize, cloudsNoise.getVoxelRawData());
+    texture::ptr clouds3dTexture = texture::create3D (clouds3dSize, cloudsNoise.voxelRawData());
 
     //auto cubeMap = texture::alloc (cubeMapFaces);
     //_material->textures()["uSkyBox_CubeMap"] = cubeMap;

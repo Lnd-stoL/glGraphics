@@ -58,13 +58,14 @@ namespace render
 
     public:
         declare_ptr (i_vertex_layout)
-        property_get_ref (Attributes, _attributes)
-        virtual size_t getStrideInBytes() const = 0;
+        property_get_ref (attributes, _attributes)
+        virtual size_t strideInBytes() const = 0;
+
 
         string hashString() const
         {
             std::stringstream tmp;
-            for (auto nextAttribute : getAttributes())  tmp << nextAttribute.hashString() << '*';
+            for (auto nextAttribute : attributes())  tmp << nextAttribute.hashString() << '*';
             return tmp.str();
         }
     };
@@ -78,7 +79,7 @@ namespace render
     public:
         declare_ptr (vertex_layout)
 
-        virtual size_t getStrideInBytes() const
+        virtual size_t strideInBytes () const
         {
             return sizeof (vertex_t);
         }
@@ -99,7 +100,7 @@ namespace render
         dynamic_vertex_layout (size_t vertexSizeInBytes) : _vertexSizeInBytes (vertexSizeInBytes)
         { }
 
-        virtual size_t getStrideInBytes() const  { return _vertexSizeInBytes; };
+        virtual size_t strideInBytes () const  { return _vertexSizeInBytes; };
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -132,9 +133,9 @@ namespace render
 
 
     public:
-        property_get (GlId,  _bufferId)
-        property_get (Size,  _size)
-        property_get (SizeInBytes, _size * _bytesPerElement)
+        property_get (glId,  _bufferId)
+        property_get (size,  _size)
+        property_get (sizeInBytes, _size * _bytesPerElement)
 
 
     protected:

@@ -39,7 +39,7 @@ namespace render
     {
         for (auto nextObj : _sceneObjects)
         {
-            nextObj->getRenderable()->draw (renderer);
+            nextObj->underlyingRenderable()->draw (renderer);
         }
     }
 
@@ -101,7 +101,7 @@ namespace render
 
     void graphics_renderer::draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer, uint8_t bytesPerIndex, unsigned indicesCount)
     {
-        if (indicesCount == 0)  indicesCount = indexBuffer.getSize();
+        if (indicesCount == 0)  indicesCount = indexBuffer.size();
         _frameStatistics._trianglesCount += indicesCount / 3;
 
         indexBuffer.use();
@@ -122,13 +122,13 @@ namespace render
     void graphics_renderer::drawPoints (gpu_buffer &vertexBuffer)
     {
         vertexBuffer.use();
-        _frameStatistics._trianglesCount += vertexBuffer.getSize() * 2;
+        _frameStatistics._trianglesCount += vertexBuffer.size() * 2;
 
         _state._material->setup (*this);
         _setupShaderBeforeDraw();
 
         _beforeDrawCallEvent (*this);
-        glDrawArrays (GL_POINTS, 0, vertexBuffer.getSize());
+        glDrawArrays (GL_POINTS, 0, vertexBuffer.size());
 
         _frameStatistics._drawCalls++;
     }
@@ -149,7 +149,7 @@ namespace render
         _state._frameBuffer = frameBuffer;
 
         frameBuffer->use();
-        glViewport (0, 0, frameBuffer->getWidth(), frameBuffer->getHeight());
+        glViewport (0, 0, frameBuffer->width(), frameBuffer->height());
         if (autoClear)  frameBuffer->clear();
     }
 
@@ -158,14 +158,14 @@ namespace render
     {
         if (_scene)
         {
-            _state.getRenderingProgram()->setUniform ("uLightPos", _scene->getSunPosition().convertType<float>(), true);
-            _state.getRenderingProgram()->setUniform ("uLightColor", _scene->getSunColor().asVector(), true);
-            _state.getRenderingProgram()->setUniform ("uFrameCount", _frameCount, true);
+            _state.activeRenderingProgram()->setUniform ("uLightPos", _scene->sunPosition().convertType<float>(), true);
+            _state.activeRenderingProgram()->setUniform ("uLightColor", _scene->sunColor().asVector(), true);
+            _state.activeRenderingProgram()->setUniform ("uFrameCount", _frameCount, true);
         }
 
-        auto viewInt = _state.getCamera()->getProjection()->getViewInterval();
-        _state.getRenderingProgram()->setUniform ("uClipNearFar",
-                                                  math3d::vector2_f ((float) viewInt.getFrom(), (float) viewInt.getTo()), true);
+        auto viewInt = _state.activeCamera()->getProjection()->viewInterval();
+        _state.activeRenderingProgram()->setUniform ("uClipNearFar",
+                                                  math3d::vector2_f ((float) viewInt.from(), (float) viewInt.to()), true);
 
     }
 

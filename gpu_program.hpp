@@ -22,8 +22,9 @@ namespace render
         bool   _compiled  = false;
 
     public:
-        property_get (Compiled, _compiled)
-        property_get (GlId,     _shaderId)
+        property_get (isCompiled, _compiled)
+        property_get (glId,       _shaderId)
+
 
     protected:
         void _initializeGLShader (GLenum shaderType);
@@ -101,9 +102,9 @@ namespace render
         i_vertex_layout::ptr _vertexLayout;
 
     public:
-        property_get (GlId,         _programId)
-        property_get (Linked,       _linked)
-        property_get (VertexLayout, _vertexLayout)
+        property_get (glId,         _programId)
+        property_get (linked,       _linked)
+        property_get (vertexLayout, _vertexLayout)
 
 
     protected:

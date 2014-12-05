@@ -110,7 +110,7 @@ namespace render
         }
 
         _bind();
-        glFramebufferTexture2D (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture->getGlId(), 0);
+        glFramebufferTexture2D (GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTexture->glId(), 0);
 
         _bindDefault();
         _hasDepthBuffer = true;
@@ -168,9 +168,9 @@ namespace render
 
     void frame_buffer::clear()
     {
-        glClearColor (_clearColor.getR(), _clearColor.getG(), _clearColor.getB(), 1);
+        glClearColor (_clearColor.r(), _clearColor.g(), _clearColor.b(), 1);
 
-        glbinding::SharedBitfield<AttribMask, ClearBufferMask> flags = 0;
+        glbinding::SharedBitfield<AttribMask, ClearBufferMask>  flags = 0;
         if (_numColorBuffers)  flags = flags | GL_COLOR_BUFFER_BIT;
         if (_hasDepthBuffer)   flags = flags | GL_DEPTH_BUFFER_BIT;
 
@@ -205,7 +205,7 @@ namespace render
         }
 
         _bind();
-        glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + _numColorBuffers, txt->getGlTarget(), txt->getGlId(), 0);
+        glFramebufferTexture2D (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + _numColorBuffers, txt->glTarget(), txt->glId(), 0);
         debug::gl::test();
         ++_numColorBuffers;
 

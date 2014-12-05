@@ -27,7 +27,7 @@ namespace render
         texture::ptr _fontBitmap;
 
     public:
-        property_get (Bitmap, _fontBitmap)
+        property_get (bitmap, _fontBitmap)
 
     public:
         declare_ptr_alloc (font)

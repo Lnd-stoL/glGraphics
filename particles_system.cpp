@@ -14,7 +14,7 @@ namespace render
     {
         transformable_renderable_object::_setupObject2ScreenTransform (renderer);
 
-        matrix_4x4_f mvpMatrix = renderer.state().getObject2ScreenTransform().getWorldTransform().asMatrix().convertType<float>();
+        matrix_4x4_f mvpMatrix = renderer.state().object2ScreenTransform().worldTransform().asMatrix().convertType<float>();
         vector3_f baseUp    = mvpMatrix.col3 (1);
         vector3_f baseRight = mvpMatrix.col3 (0);
 
@@ -75,7 +75,7 @@ namespace render
 
     void particle_system_object::_modifyParticles (particle_vertex *vertices)  const
     {
-        for (unsigned i = 0; i < _vertexBuffer->getSize(); ++i)
+        for (unsigned i = 0; i < _vertexBuffer->size(); ++i)
         {
             float rnd1 = float (std::rand() % 1000) / 500 - 1;
             float rnd2 = float (std::rand() % 1000) / 500 - 1;
@@ -89,7 +89,7 @@ namespace render
 
     void particle_system_object::_sortParticles (particle_vertex *vertices , graphics_renderer &renderer)  const
     {
-        vector3_f viewerPos = renderer.state().getCamera()->getTransform().getTranslation().convertType<float>();
+        vector3_f viewerPos = renderer.state().activeCamera()->transform().ttranslation().convertType<float>();
 
         auto sortingComparer = [viewerPos] (const particle_vertex& v1, const particle_vertex &v2)
         {
@@ -97,7 +97,7 @@ namespace render
                    (viewerPos - v2.position).squaredLength() + 0.00001f;
         };
 
-        std::sort (vertices, vertices + _vertexBuffer->getSize(), sortingComparer);
+        std::sort (vertices, vertices + _vertexBuffer->size(), sortingComparer);
     }
 
 }

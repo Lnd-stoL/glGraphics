@@ -39,9 +39,9 @@ private:
 	event<const render_window&>  *_updateEvent = nullptr;
 
 public:
-	property_get (Duration, _wholeDuration)
-	property_get (ControlledCamera, _camera)
-	property_rw  (PlaySpeed, _playSpeed)
+	property_get (duration, _wholeDuration)
+	property_get (controlledCamera, _camera)
+	property_rw  (playSpeed, _playSpeed)
 
 
 private:

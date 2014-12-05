@@ -72,6 +72,6 @@ namespace render
 
     /*virtual*/ string gpu_buffer::asString() const
     {
-        return mkstr ("gpu_buffer [with id ", _bufferId, " of size ", _size, " (", getSizeInBytes(), " bytes)]");
+        return mkstr ("gpu_buffer [with id ", _bufferId, " of size ", _size, " (", sizeInBytes(), " bytes)]");
     }
 }

@@ -31,8 +31,8 @@ class fps_camera_controller
 
 
 public:
-    property_rw (RotationSpeed,    _rotationSpeed)
-    property_rw (TranslationSpeed, _translationSpeed)
+    property_rw (rotationSpeed,    _rotationSpeed)
+    property_rw (translationSpeed, _translationSpeed)
 
 
 protected:

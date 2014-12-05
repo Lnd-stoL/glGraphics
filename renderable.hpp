@@ -21,7 +21,7 @@ namespace render
         bool _visible = true;
 
     public:
-        property_get (Visible, _visible)
+        property_get (visible, _visible)
 
     public:
         declare_ptr (renderable);

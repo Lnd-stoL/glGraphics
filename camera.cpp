@@ -16,8 +16,8 @@ namespace render
 
     void camera::_updateBasis()
     {
-        _up      = _inversedTransform.getRotation().apply (vector3_d (0, 1, 0));
-        _right   = _inversedTransform.getRotation().apply (vector3_d (1, 0, 0));
+        _up      = _inversedTransform.trotation().apply (vector3_d (0, 1, 0));
+        _right   = _inversedTransform.trotation().apply (vector3_d (1, 0, 0));
         _forward = _up.crossProduct (_right);
     }
 
@@ -76,10 +76,10 @@ namespace render
 
     void camera::asInverseYOf (const camera &cam, float y)
     {
-        auto trans = cam._transform.getTranslation();
-        trans.setY (-2*y + trans.getY());
+        auto trans = cam._transform.ttranslation();
+        trans.y (-2*y + trans.y());
 
-        _transform = transform_d (trans, cam._transform.getRotation(), vector3_d (1, 1 - 2 * y, 1));
+        _transform = transform_d (trans, cam._transform.trotation(), vector3_d (1, 1 - 2 * y, 1));
 
         _updateCached();
     }

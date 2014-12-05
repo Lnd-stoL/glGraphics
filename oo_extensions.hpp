@@ -18,20 +18,21 @@ using std::make_shared;
 using std::unique_ptr;
 using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::to_string;
 
 //----------------------------------------------------------------------------------------------------------------------
 
 #define property_get(public_name, private_name)              \
-    inline decltype(private_name) get##public_name() const   \
+    inline decltype(private_name) public_name() const        \
     {                                                        \
         return private_name;                                 \
     }
 
 
-#define property_get_ref(public_name, private_name)          \
-    inline const decltype(private_name)& get##public_name() const   \
-    {                                                        \
-        return private_name;                                 \
+#define property_get_ref(public_name, private_name)           \
+    inline const decltype(private_name)& public_name() const  \
+    {                                                         \
+        return private_name;                                  \
     }
 
 
@@ -43,14 +44,14 @@ using std::dynamic_pointer_cast;
 
 
 #define property_set(public_name, private_name)                 \
-    inline void set##public_name(decltype(private_name) value)  \
+    inline void public_name(decltype(private_name) value)       \
     {                                                           \
         private_name = value;                                   \
     }
 
 
 #define property_set_ref(public_name, private_name)              \
-    inline void set##public_name(decltype(private_name) &value)  \
+    inline void public_name(decltype(private_name) &value)       \
     {                                                            \
         private_name = value;                                    \
     }
@@ -66,7 +67,7 @@ using std::dynamic_pointer_cast;
     property_get_ref(public_name, private_name)
 
 
-#define prevent_copying(class_name)             \
+#define prevent_copying(class_name)                       \
     protected: class_name (const class_name &)  = delete; \
     protected: class_name (const class_name &&) = delete;
 
@@ -101,44 +102,117 @@ namespace oo_extensions
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    template<typename T>
+    inline string make_string (T arg)
+        { return to_string (arg);  }
+
+    template<>
+    inline string make_string<string> (string arg)
+        { return arg; }
+
+    template<>
+    inline string make_string<const char*> (const char *arg)
+        { return string (arg); }
+
+
     template<typename T1>
     inline string mkstr (T1 x1)
-        { return ((std::ostringstream &)(std::ostringstream() << x1)).str(); }
+        { return make_string (x1); }
+
 
     template<typename T1, typename T2>
     inline string mkstr (T1 x1, T2 x2)
-        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2)).str(); }
+        { return mkstr (x1).append (make_string (x2)); }
+
 
     template<typename T1, typename T2, typename T3>
     inline string mkstr (T1 x1, T2 x2, T3 x3)
-        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3)).str(); }
+        { return mkstr (x1, x2).append (make_string (x3)); }
+
 
     template<typename T1, typename T2, typename T3, typename T4>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4)
-        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4)).str(); }
+        { return mkstr (x1, x2, x3).append (make_string (x4)); }
+
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5)
-        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5)).str(); }
+        { return mkstr (x1, x2, x3, x4).append (make_string (x5)); }
+
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6)
-        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6)).str(); }
+        { return mkstr (x1, x2, x3, x4, x5).append (make_string (x6)); }
+
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7)
-        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7)).str(); }
+        { return mkstr (x1, x2, x3, x4, x5, x6).append (make_string (x7)); }
+
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8)
-        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8)).str(); }
+        { return mkstr (x1, x2, x3, x4, x5, x6, x7).append (make_string (x8)); }
+
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8, T9 x9)
-        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8 << x9)).str(); }
+        { return mkstr (x1, x2, x3, x4, x5, x6, x7, x8).append (make_string (x9)); }
+
 
     template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10>
     inline string mkstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8, T9 x9, T10 x10)
+        { return mkstr (x1, x2, x3, x4, x5, x6, x7, x8, x9).append (make_string (x10)); }
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    template<typename T1>
+    inline string mkfstr (T1 x1)
+        { return ((std::ostringstream &)(std::ostringstream() << x1)).str(); }
+
+
+    template<typename T1, typename T2>
+    inline string mkfstr (T1 x1, T2 x2)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2)).str(); }
+
+
+    template<typename T1, typename T2, typename T3>
+    inline string mkfstr (T1 x1, T2 x2, T3 x3)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3)).str(); }
+
+
+    template<typename T1, typename T2, typename T3, typename T4>
+    inline string mkfstr (T1 x1, T2 x2, T3 x3, T4 x4)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4)).str(); }
+
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5>
+    inline string mkfstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5)).str(); }
+
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+    inline string mkfstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6)).str(); }
+
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
+    inline string mkfstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7)).str(); }
+
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
+    inline string mkfstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8)).str(); }
+
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
+    inline string mkfstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8, T9 x9)
+        { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8 << x9)).str(); }
+
+
+    template<typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9, typename T10>
+    inline string mkfstr (T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 x6, T7 x7, T8 x8, T9 x9, T10 x10)
         { return ((std::ostringstream &)(std::ostringstream() << x1 << x2 << x3 << x4 << x5 << x6 << x7 << x8 << x9 << x10)).str(); }
 
 

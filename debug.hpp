@@ -39,7 +39,7 @@ namespace debug
         GLenum _glErrorCode = GL_NO_ERROR;
 
     public:
-        property_get (GLErrorCode, _glErrorCode)
+        property_get (glErrorCode, _glErrorCode)
 
     public:
         gl_exception (GLenum glErrorCode, const std::string &description = "") : _glErrorCode (glErrorCode)

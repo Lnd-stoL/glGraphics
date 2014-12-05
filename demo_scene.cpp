@@ -6,6 +6,8 @@
 #include "render_resources_impl.hpp"
 #include "mesh_impl.hpp"
 
+using oo_extensions::mkfstr;
+
 //----------------------------------------------------------------------------------------------------------------------
 
 demo_scene::demo_scene (graphics_renderer& renderer, render_window &renderWindow, resources &res) :
@@ -98,7 +100,7 @@ void demo_scene::_initResourceManagers()
 void demo_scene::_initObjects()
 {
     _scene = scene::alloc();
-    _scene->setSun (_lightTransform.getTranslation(), color_rgb<float> (1, 1, 1));
+    _scene->setSun (_lightTransform.ttranslation(), color_rgb<float> (1, 1, 1));
 
     debug::log::println ("loading scene objects ...");
 
@@ -106,13 +108,13 @@ void demo_scene::_initObjects()
     //auto islandMesh = _resources.requestFromFile<exs3d_mesh> ("some-terrain/terrain.exs3d");
     //transform_d islandTransform (vector3_d (0, 23, 0), rotation_d (vector3_d (1, 0, 0), 3.14 + 0.8).combine (rotation_d (vector3_d (0, 0, -1), 0.2)), vector3_d (3, 3, 3));
     transform_d islandTransform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.05));
-    _islandObject = mesh_renderable_object::alloc (islandMesh->getRenderableMesh(), islandTransform);
+    _islandObject = mesh_renderable_object::alloc (islandMesh->renderableMesh(), islandTransform);
     _scene->addRenderableObject (_islandObject, 1);
 
 
     auto rocksMesh = _resources.requestFromFile<exs3d_mesh> ("some-terrain/terrain.exs3d");
     transform_d rocksTransform (vector3_d (45, 15, 0), rotation_d (vector3_d (1, 0, 0), 3.14 + 0.9).combine (rotation_d (vector3_d (0, 0, -1), 0.3)), vector3_d (2, 3.5, 2));
-    _scene->addRenderableObject (mesh_renderable_object::alloc (rocksMesh->getRenderableMesh(), rocksTransform), 1);
+    _scene->addRenderableObject (mesh_renderable_object::alloc (rocksMesh->renderableMesh(), rocksTransform), 1);
 
     auto stoneMesh = _resources.requestFromFile<exs3d_mesh> ("some-stone/mesh.exs3d");
     auto bumpMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
@@ -122,9 +124,9 @@ void demo_scene::_initObjects()
     stoneBumpMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("models/some-stone/Stone_5_DiffuseMap.jpg");
     stoneBumpMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("models/some-stone/Stone_5_LOD1NormalsMap.jpg");
     stoneBumpMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("models/some-stone/heightmap.jpg");
-    stoneMesh->getRenderableMesh()->getComponents()[0]->changeMaterial (stoneBumpMappedMaterial);
+    stoneMesh->renderableMesh()->components()[0]->changeMaterial (stoneBumpMappedMaterial);
     transform_d stoneTransform (vector3_d (14, 2, 0), rotation_d(), vector3_d (0.05));
-    _scene->addRenderableObject (mesh_renderable_object::alloc (stoneMesh->getRenderableMesh(), stoneTransform), 1);
+    _scene->addRenderableObject (mesh_renderable_object::alloc (stoneMesh->renderableMesh(), stoneTransform), 1);
 
     auto cubeMesh = _resources.requestFromFile<exs3d_mesh> ("cube-textured.exs3d");
     auto parallaxMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
@@ -139,9 +141,9 @@ void demo_scene::_initObjects()
     parallaxMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("rockwall/rockwall_normal.tga");
     parallaxMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("rockwall/rockwall_height.dds");
 
-    cubeMesh->getRenderableMesh()->getComponents()[0]->changeMaterial (parallaxMappedMaterial);
+    cubeMesh->renderableMesh()->components()[0]->changeMaterial (parallaxMappedMaterial);
     transform_d cubeTransform (vector3_d (-14, 2, 0), rotation_d(), vector3_d (1));
-    _scene->addRenderableObject (mesh_renderable_object::alloc (cubeMesh->getRenderableMesh(), cubeTransform), 1);
+    _scene->addRenderableObject (mesh_renderable_object::alloc (cubeMesh->renderableMesh(), cubeTransform), 1);
 
     //auto island2Mesh = _resources.requestFromFile<exs3d_mesh> ("island-001/island.exs3d");
     //transform_d island2Transform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04));
@@ -240,13 +242,14 @@ void demo_scene::_frameUpdate()
 
     rotation_d lightRot (vector3_d (0, 0, 1), _sunPosition.convertType<double>());
     //rotation_d lightRot (vector3_d (1, 0, 0), _time);
-    auto shadowmapCameraPos = _scene->getSunPosition() / 4;
+    auto shadowmapCameraPos = _scene->sunPosition() / 4;
     _shadowmapCamera->changeTransform (shadowmapCameraPos, lightRot);
 
-    if (_viewPosLabel->getVisible())
+    if (_viewPosLabel->isVisible())
     {
-        auto viewPos = _viewerCamera->getTransform().getTranslation();
-        string viewPosText = mkstr (std::setprecision (4), viewPos.getX(), " ", viewPos.getY(), " ", viewPos.getZ());
+        auto viewPos = _viewerCamera->transform().ttranslation();
+
+        string viewPosText = mkfstr (std::setprecision (4), viewPos.x(), " ", viewPos.y(), " ", viewPos.z());
         _viewPosLabel->changeText (viewPosText);
     }
 }
@@ -273,18 +276,18 @@ void demo_scene::_frameRender()
 
     auto beforeDrawLambda = [this] (graphics_renderer &renderer){
         object2screen_transform_d shadowmapTranfrom (
-                renderer.state().getObject2ScreenTransform().getWorldTransform(),
-                _shadowmapCamera->getInversedTransform(), _shadowmapCamera->getProjection());
+                renderer.state().object2ScreenTransform().worldTransform(),
+                _shadowmapCamera->inversedTransform(), _shadowmapCamera->getProjection());
         matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
         matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
         auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
         matBias.multiply (matShadowmapTransform);
 
         //renderer.state().getMaterial()->textures()["uShadowMapFlat"] = _shadowmapTexture;
-        renderer.state().getMaterial()->textures()["uShadowMap"] = _shadowmapTexture;
-        renderer.state().getMaterial()->setup (renderer);
+        renderer.state().activeMaterial()->textures()["uShadowMap"] = _shadowmapTexture;
+        renderer.state().activeMaterial()->setup (renderer);
 
-        renderer.state().getRenderingProgram()->setUniform ("uShadowmapTransform", matBias, true);
+        renderer.state().activeRenderingProgram()->setUniform ("uShadowmapTransform", matBias, true);
     };
 
     auto handlerId = _renderer.beforeDrawCallEvent().handleWith (beforeDrawLambda);
@@ -305,7 +308,7 @@ void demo_scene::_frameRender()
     glDepthMask (GL_FALSE);
 
     auto invProjMat = _viewerCamera->getProjection()->asInverseMatrix();
-    _drawScreenMaterial->getTechnique()->getRenderingProgram()->setUniform ("uMatInvProjection",
+    _drawScreenMaterial->renderingTechnique()->renderingProgram()->setUniform ("uMatInvProjection",
                                                                             invProjMat.convertType<float>());
     _screenQuad->draw (_renderer);
 
@@ -386,11 +389,11 @@ void demo_scene::_initOverlays()
     _screenOverlay = screen_overlay_layer::alloc (_resources);
     _statisticsOverlay = statistics::alloc (_renderWindow, _resources, _screenOverlay);
 
-    _viewPosLabel = text_label::alloc (_statisticsOverlay->getDefaultFont(),
+    _viewPosLabel = text_label::alloc (_statisticsOverlay->defaultFont(),
                                        math3d::vector2_f (0.34, 0.02),
                                        math3d::vector2_f (0.06, 0.06));
 
-    _viewPosLabel->setColor (color_rgb<float> (0.4, 0.9, 0.5));
+    _viewPosLabel->labelColor (color_rgb<float> (0.4, 0.9, 0.5));
     _viewPosLabel->hide();
     _screenOverlay->addOverlay (_viewPosLabel);
 }
@@ -406,7 +409,7 @@ void demo_scene::_keyPressed (int key)
 
     if (key == GLFW_KEY_P)
     {
-        if (_viewPosLabel->getVisible())  _viewPosLabel->hide();
-        else                              _viewPosLabel->makeVisible();
+        if (_viewPosLabel->isVisible())  _viewPosLabel->hide();
+        else                             _viewPosLabel->makeVisible();
     }
 }

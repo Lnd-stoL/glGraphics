@@ -22,9 +22,9 @@ namespace render
         component_t _b = component_t();
 
     public:
-        property_get (R, _r)
-        property_get (G, _g)
-        property_get (B, _b)
+        property_get (r, _r)
+        property_get (g, _g)
+        property_get (b, _b)
 
 
     public:
@@ -66,7 +66,7 @@ namespace render
         bool _withoutTransform = false;
 
     public:
-        property_get (RenderingProgram, _renderingProgram)
+        property_get (renderingProgram, _renderingProgram)
 
 
     public:
@@ -92,9 +92,10 @@ namespace render
         std::map<string, math3d::vector2_f>  _vec2Params;
 
     public:
-        property_get (Technique, _technique)
-        property_ref (textures, _textures)
-        property_ref (scalarParams, _scalarParams)
+        property_get (renderingTechnique, _technique)
+        property_ref (textures,           _textures)
+        property_ref (scalarParams,       _scalarParams)
+
         property_ref (vec3Params, _vec3Params)
         property_ref (vec2Params, _vec2Params)
 

@@ -42,8 +42,8 @@ public:
     event_access (sizeChanged, _sizeChangedEvent)
     event_access (keyPressed,  _keyPressedEvent)
 
-    property_get (FrameTime,        _frameTime)
-    property_get (AverageFrameTime, _avgFrameTime / _frameTimeSamples)
+    property_get (frameTime,        _frameTime)
+    property_get (averageFrameTime, _avgFrameTime / _frameTimeSamples)
 
 
 private:

@@ -83,8 +83,8 @@ namespace math3d
         numeric_t _end   = numeric_t();
 
     public:
-        property_get (From, _begin)
-        property_get (To,   _end)
+        property_get (from, _begin)
+        property_get (to,   _end)
 
 
     public:
@@ -167,8 +167,8 @@ namespace math3d
         numeric_t _x, _y;
 
     public:
-        property_rw (X, _x)
-        property_rw (Y, _y)
+        property_rw (x, _x)
+        property_rw (y, _y)
 
 
     public:
@@ -399,9 +399,9 @@ namespace math3d
 
 
     public:
-        property_rw (X, _x)
-        property_rw (Y, _y)
-        property_rw (Z, _z)
+        property_rw (x, _x)
+        property_rw (y, _y)
+        property_rw (z, _z)
 
 
     public:
@@ -660,7 +660,7 @@ namespace math3d
         numeric_t _matrix[sideN][sideN] = {};
 
     public:
-        property_get (Side, sideN)
+        property_get (side, sideN)
 
 
     protected:
@@ -909,13 +909,13 @@ namespace math3d
 
 
     public:
-        inline numeric_t getX() const  { return _im.getX(); }
-        inline numeric_t getY() const  { return _im.getY(); }
-        inline numeric_t getZ() const  { return _im.getZ(); }
-        inline numeric_t getW() const  { return _re; }
+        inline numeric_t x() const  { return _im.x(); }
+        inline numeric_t y() const  { return _im.y(); }
+        inline numeric_t z() const  { return _im.z(); }
+        inline numeric_t w() const  { return _re; }
 
-        property_rw  (Re, _re)
-        property_get (Im, _im)
+        property_rw  (re, _re)
+        property_get (im, _im)
 
 
     public:
@@ -969,10 +969,7 @@ namespace math3d
 
         numeric_t squaredLength() const
         {
-            return math_ex::square (_im.getX()) +
-                   math_ex::square (_im.getY()) +
-                   math_ex::square (_im.getZ()) +
-                   math_ex::square (_re);
+            return _im.squaredLength() + math_ex::square (_re);
         }
 
 
@@ -1110,7 +1107,7 @@ namespace math3d
         bool _ident = true;
 
     public:
-        property_get (IsIdent, _ident)
+        property_get (isIdent, _ident)
 
 
     public:
@@ -1163,9 +1160,9 @@ namespace math3d
             if (real_part < 1.e-6f * norm_u_norm_v)
             {
                 real_part = 0;
-                w = std::abs (from.getX()) > std::abs (from.getZ()) ?
-                        vector3<numeric_t> (-from.getY(), from.getX(), 0) :
-                        vector3<numeric_t> (0, -from.getZ(), from.getY());
+                w = std::abs (from.x()) > std::abs (from.z()) ?
+                        vector3<numeric_t> (-from.y(), from.x(), 0) :
+                        vector3<numeric_t> (0, -from.z(), from.y());
             }
             else w = from.crossProduct (to);
 
@@ -1180,15 +1177,15 @@ namespace math3d
 
         axis_angle asAxisAngle() const
         {
-            if (_quaternion.getRe() > 1)  _quaternion.normalize();
-            numeric_t angle = 2 * std::acos (_quaternion.getRe());
-            numeric_t s = math_ex::squareRoot (1 - math_ex::square (_quaternion.getRe()));
+            if (_quaternion.re() > 1)  _quaternion.normalize();
+            numeric_t angle = 2 * std::acos (_quaternion.re());
+            numeric_t s = math_ex::squareRoot (1 - math_ex::square (_quaternion.re()));
 
             vector3<numeric_t> axis (1, 0, 0);
 
             if (s > 0.000001)
             {
-                axis = _quaternion.getIm();
+                axis = _quaternion.im();
                 axis.scale (1 / s);
             }
 
@@ -1210,17 +1207,17 @@ namespace math3d
         {
             euler_angles angles;
 
-            numeric_t sqw = _quaternion.getIm() * _quaternion.getIm();
-            numeric_t sqx = _quaternion.getX() * _quaternion.getX();
-            numeric_t sqy = _quaternion.getY() * _quaternion.getY();
-            numeric_t sqz = _quaternion.getZ() * _quaternion.getZ();
+            numeric_t sqw = _quaternion.im() * _quaternion.im();
+            numeric_t sqx = _quaternion.x() * _quaternion.x();
+            numeric_t sqy = _quaternion.y() * _quaternion.y();
+            numeric_t sqz = _quaternion.z() * _quaternion.z();
 
             numeric_t unit = sqx + sqy + sqz + sqw;
-            numeric_t test = _quaternion.getX() * _quaternion.getY() + _quaternion.getZ() * _quaternion.getW();
+            numeric_t test = _quaternion.x() * _quaternion.y() + _quaternion.z() * _quaternion.getW();
 
             if (test > 0.49999 * unit)
             {
-                angles.yaw = 2 * std::atan2 (_quaternion.getX(), _quaternion.getW());
+                angles.yaw = 2 * std::atan2 (_quaternion.x(), _quaternion.getW());
                 angles.pitch = angle<numeric_t>::pi / 2;
                 angles.roll = 0;
 
@@ -1229,19 +1226,19 @@ namespace math3d
 
             if (test < -0.49999 * unit)
             {
-                angles.yaw = -2 * std::atan2 (_quaternion.getX(), _quaternion.getW());
+                angles.yaw = -2 * std::atan2 (_quaternion.x(), _quaternion.getW());
                 angles.pitch = - angle<numeric_t>::pi / 2;
                 angles.roll = 0;
 
                 return angles;
             }
 
-            angles.yaw   = std::atan2 (2 * (_quaternion.getY() * _quaternion.getW() - _quaternion.getX() * _quaternion.getZ()),
+            angles.yaw   = std::atan2 (2 * (_quaternion.y() * _quaternion.getW() - _quaternion.x() * _quaternion.z()),
                                        sqx - sqy - sqz + sqw);
 
             angles.pitch = std::asin (2 * test / unit);
 
-            angles.roll  = std::atan2 (2 * (_quaternion.getX() * _quaternion.getW() - _quaternion.getY() * _quaternion.getZ()),
+            angles.roll  = std::atan2 (2 * (_quaternion.x() * _quaternion.getW() - _quaternion.y() * _quaternion.z()),
                                        -sqx + sqy - sqz + sqw);
 
             return angles;
@@ -1296,7 +1293,7 @@ namespace math3d
             auto conjugated = _quaternion.conjugated();
             auto result = _quaternion.product (pseudoQuat);
 
-            return result.product (conjugated).getIm();
+            return result.product (conjugated).im();
         }
 
 
@@ -1305,21 +1302,21 @@ namespace math3d
             numeric_t wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
             numeric_t s  = 2.0 / _quaternion.length();
 
-            x2 = _quaternion.getX() * s;
-            y2 = _quaternion.getY() * s;
-            z2 = _quaternion.getZ() * s;
+            x2 = _quaternion.x() * s;
+            y2 = _quaternion.y() * s;
+            z2 = _quaternion.z() * s;
 
-            xx = _quaternion.getX() * x2;
-            xy = _quaternion.getX() * y2;
-            xz = _quaternion.getX() * z2;
+            xx = _quaternion.x() * x2;
+            xy = _quaternion.x() * y2;
+            xz = _quaternion.x() * z2;
 
-            yy = _quaternion.getY() * y2;
-            yz = _quaternion.getY() * z2;
-            zz = _quaternion.getZ() * z2;
+            yy = _quaternion.y() * y2;
+            yz = _quaternion.y() * z2;
+            zz = _quaternion.z() * z2;
 
-            wx = _quaternion.getW() * x2;
-            wy = _quaternion.getW() * y2;
-            wz = _quaternion.getW() * z2;
+            wx = _quaternion.w() * x2;
+            wy = _quaternion.w() * y2;
+            wz = _quaternion.w() * z2;
 
             transformMatrix.setCol3 (0,     1 - (yy + zz),   xy - wz,         xz + wy      );
             transformMatrix.setCol3 (1,     xy + wz,         1 - (xx + zz),   yz - wx      );
@@ -1338,8 +1335,8 @@ namespace math3d
         interval<numeric_t> _viewInterval = interval<numeric_t>();
 
     public:
-        property_get (Aspect,       _aspect)
-        property_get (ViewInterval, _viewInterval)
+        property_get (aspect,       _aspect)
+        property_get (viewInterval, _viewInterval)
 
 
     public:
@@ -1368,7 +1365,7 @@ namespace math3d
         numeric_t _a = 0, _b = 0, _c = 0, _d = 0, _e = 0;
 
     public:
-        property_get (Fov, _fovy)
+        property_get (fov, _fovy)
 
     protected:
         void _recalcCoefficients()
@@ -1380,7 +1377,7 @@ namespace math3d
 
             numeric_t viewLength = base_t::_viewInterval.length();
             _c = -base_t::_viewInterval.borderSumm() / viewLength;
-            _d = - (2 * base_t::_viewInterval.getFrom() * base_t::_viewInterval.getTo()) / viewLength;
+            _d = - (2 * base_t::_viewInterval.from() * base_t::_viewInterval.to()) / viewLength;
         }
 
 
@@ -1462,7 +1459,7 @@ namespace math3d
         numeric_t  _height = numeric_t();
 
     public:
-        property_get (Height, _height)
+        property_get (height, _height)
 
 
     public:
@@ -1530,9 +1527,9 @@ namespace math3d
         mutable bool _matrixCalculated = false;
 
     public:
-        property_get_ref (Translation, _translation)
-        property_get_ref (Rotation,    _rotation)
-        property_get_ref (Scale,       _scale)
+        property_get_ref (ttranslation, _translation)
+        property_get_ref (trotation,    _rotation)
+        property_get_ref (tscale,       _scale)
 
 
     private:
@@ -1540,14 +1537,14 @@ namespace math3d
         {
             if (!_inversed)
             {
-                _cachedMatrix.setCol (3, _translation.getX(), _translation.getY(), _translation.getZ(), 1.0);
+                _cachedMatrix.setCol (3, _translation.x(), _translation.y(), _translation.z(), 1.0);
                 _rotation.write2Matrix (_cachedMatrix);
 
                 if (!_identScale)
                 {
-                    _cachedMatrix.scaleCol3 (0, _scale.getX());
-                    _cachedMatrix.scaleCol3 (1, _scale.getY());
-                    _cachedMatrix.scaleCol3 (2, _scale.getZ());
+                    _cachedMatrix.scaleCol3 (0, _scale.x());
+                    _cachedMatrix.scaleCol3 (1, _scale.y());
+                    _cachedMatrix.scaleCol3 (2, _scale.z());
                 }
             }
 
@@ -1562,10 +1559,10 @@ namespace math3d
 
                 if (!_identScale) //TODO: Strange issue with ident scale
                 {
-                    //debug::log::println (mkstr (_scale.getX(), " ", _scale.getY(), " ", _scale.getZ()));
-                    _cachedMatrix.scaleCol3 (0, _scale.getX());
-                    _cachedMatrix.scaleCol3 (1, _scale.getY());
-                    _cachedMatrix.scaleCol3 (2, _scale.getZ());
+                    //debug::log::println (mkstr (_scale.x(), " ", _scale.y(), " ", _scale.z()));
+                    _cachedMatrix.scaleCol3 (0, _scale.x());
+                    _cachedMatrix.scaleCol3 (1, _scale.y());
+                    _cachedMatrix.scaleCol3 (2, _scale.z());
                 }
             }
 
@@ -1638,9 +1635,9 @@ namespace math3d
 
             if (!theOtherTransform._identScale)
             {
-                _scale = vector3<numeric_t> (_scale.getX() * theOtherTransform._scale.getX(),
-                                             _scale.getY() * theOtherTransform._scale.getY(),
-                                             _scale.getZ() * theOtherTransform._scale.getZ());
+                _scale = vector3<numeric_t> (_scale.x() * theOtherTransform._scale.x(),
+                                             _scale.y() * theOtherTransform._scale.y(),
+                                             _scale.z() * theOtherTransform._scale.z());
             }
 
             _matrixCalculated = false;
@@ -1683,9 +1680,9 @@ namespace math3d
 
         void scale (const vector3<numeric_t> &scaleVec)
         {
-            _scale.setX (_scale.getX() * scaleVec.getX());
-            _scale.setY (_scale.getY() * scaleVec.getY());
-            _scale.setZ (_scale.getZ() * scaleVec.getZ());
+            _scale.setX (_scale.x() * scaleVec.x());
+            _scale.setY (_scale.y() * scaleVec.y());
+            _scale.setZ (_scale.z() * scaleVec.z());
 
             _identScale = false;
             _matrixCalculated = false;
@@ -1706,10 +1703,10 @@ namespace math3d
 
 
     public:
-        property_get_ref (WorldTransform,  _worldTransform)
-        property_get_ref (CameraInverseTransform, _cameraInverseTransform)
-        property_get     (Projection,      _projection)
-        property_get_ref (WorldCamTransformMatrix, _cachedWCMatrix)
+        property_get_ref (worldTransform,          _worldTransform)
+        property_get_ref (cameraInverseTransform,  _cameraInverseTransform)
+        property_get     (cameraProjection,        _projection)
+        property_get_ref (worldCamTransformMatrix, _cachedWCMatrix)
 
         const matrix_4x4<numeric_t> getWorldTransformMatrix() const  { return _worldTransform.asMatrix(); }
 

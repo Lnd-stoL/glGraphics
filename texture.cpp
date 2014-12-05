@@ -102,8 +102,8 @@ namespace render
     {
         debug::log::println (mkstr ("saving ", asString(), " to file '", fileName, "'"));
 
-        unsigned width = getWidth();
-        unsigned height = getHeight();
+        unsigned width = this->width();
+        unsigned height = this->height();
 
         GLbyte *imageData = new GLbyte[width * height * 4];
         glGetTexImage (GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
@@ -115,7 +115,7 @@ namespace render
     }
 
 
-    unsigned texture::getWidth() const
+    unsigned texture::width () const
     {
         use();
         int width = 0;
@@ -124,7 +124,7 @@ namespace render
     }
 
 
-    unsigned texture::getHeight() const
+    unsigned texture::height () const
     {
         use();
         int height = 0;
@@ -265,7 +265,7 @@ namespace render
 
         txt->use();
         glTexImage3D (txt->_textureType, 0, (GLint) GL_RED,
-                      dimensions.getX(), dimensions.getY(), dimensions.getZ(), 0,
+                      dimensions.x(), dimensions.y(), dimensions.z(), 0,
                       GL_RED, GL_FLOAT, voxels);
         debug::gl::test();
         glGenerateMipmap (GL_TEXTURE_3D);
@@ -290,7 +290,7 @@ namespace render
 
         txt->use();
         glTexImage3D (txt->_textureType, 0, (GLint) GL_RED,
-                      dimensions.getX(), dimensions.getY(), dimensions.getZ(), 0,
+                      dimensions.x(), dimensions.y(), dimensions.z(), 0,
                       GL_RED, GL_UNSIGNED_BYTE, voxels);
         debug::gl::test();
         //glGenerateMipmap (txt->_textureType);

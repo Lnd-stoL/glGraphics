@@ -20,7 +20,7 @@ class clouds_noise_3d
     unsigned  _layerSize = 0;
 
 public:
-    property_get (VoxelRawData, _noise);
+    property_get (voxelRawData, _noise);
 
 
 protected:
