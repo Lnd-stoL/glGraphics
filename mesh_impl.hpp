@@ -1,7 +1,7 @@
 
 #include "mesh.hpp"
 #include "gpu_buffer_impl.hpp"
-#include "scene.hpp"
+#include "graphics_renderer.hpp"
 
 using oo_extensions::mkstr;
 

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/resources/shaders/ssao.frag" line="14" />
-    <bookmark url="file://$PROJECT_DIR$/scene.hpp" line="157" mnemonic="6" />
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true">
     <generated>
@@ -11,54 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0c923bbd-ed3c-4228-9ec7-fab229b74bf7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/camera.cpp" afterPath="$PROJECT_DIR$/camera.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/camera.hpp" afterPath="$PROJECT_DIR$/camera.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clouds_noise.cpp" afterPath="$PROJECT_DIR$/clouds_noise.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clouds_noise.hpp" afterPath="$PROJECT_DIR$/clouds_noise.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug.cpp" afterPath="$PROJECT_DIR$/debug.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/debug.hpp" afterPath="$PROJECT_DIR$/debug.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo_scene.cpp" afterPath="$PROJECT_DIR$/demo_scene.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exs3d.cpp" afterPath="$PROJECT_DIR$/exs3d.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exs3d.hpp" afterPath="$PROJECT_DIR$/exs3d.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/font_resource.hpp" afterPath="$PROJECT_DIR$/font_resource.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fps_camera.cpp" afterPath="$PROJECT_DIR$/fps_camera.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fps_camera.hpp" afterPath="$PROJECT_DIR$/fps_camera.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frame_buffer.cpp" afterPath="$PROJECT_DIR$/frame_buffer.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frame_buffer.hpp" afterPath="$PROJECT_DIR$/frame_buffer.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_buffer.cpp" afterPath="$PROJECT_DIR$/gpu_buffer.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_buffer.hpp" afterPath="$PROJECT_DIR$/gpu_buffer.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_buffer_impl.hpp" afterPath="$PROJECT_DIR$/gpu_buffer_impl.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_program.cpp" afterPath="$PROJECT_DIR$/gpu_program.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_program.hpp" afterPath="$PROJECT_DIR$/gpu_program.hpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/graphics_renderer.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/graphics_renderer.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/material.cpp" afterPath="$PROJECT_DIR$/material.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/material.hpp" afterPath="$PROJECT_DIR$/material.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/math3D.hpp" afterPath="$PROJECT_DIR$/math3D.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mesh.hpp" afterPath="$PROJECT_DIR$/mesh.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mesh_renderable_object.hpp" afterPath="$PROJECT_DIR$/mesh_renderable_object.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oo_extensions.hpp" afterPath="$PROJECT_DIR$/oo_extensions.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mesh_impl.hpp" afterPath="$PROJECT_DIR$/mesh_impl.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/particles_system.cpp" afterPath="$PROJECT_DIR$/particles_system.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/particles_system.hpp" afterPath="$PROJECT_DIR$/particles_system.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_window.cpp" afterPath="$PROJECT_DIR$/render_window.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_window.hpp" afterPath="$PROJECT_DIR$/render_window.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/renderable.hpp" afterPath="$PROJECT_DIR$/renderable.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scene.cpp" afterPath="$PROJECT_DIR$/scene.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scene.hpp" afterPath="$PROJECT_DIR$/scene.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/screen_overlay.cpp" afterPath="$PROJECT_DIR$/screen_overlay.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/screen_overlay.hpp" afterPath="$PROJECT_DIR$/screen_overlay.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sky_box.cpp" afterPath="$PROJECT_DIR$/sky_box.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sky_box.hpp" afterPath="$PROJECT_DIR$/sky_box.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spline_path.cpp" afterPath="$PROJECT_DIR$/spline_path.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spline_path.hpp" afterPath="$PROJECT_DIR$/spline_path.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static_mesh.cpp" afterPath="$PROJECT_DIR$/static_mesh.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/statistics.cpp" afterPath="$PROJECT_DIR$/statistics.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/statistics.hpp" afterPath="$PROJECT_DIR$/statistics.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/texture.cpp" afterPath="$PROJECT_DIR$/texture.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/texture.hpp" afterPath="$PROJECT_DIR$/texture.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transformable_object.cpp" afterPath="$PROJECT_DIR$/transformable_object.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transformable_object.hpp" afterPath="$PROJECT_DIR$/transformable_object.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volumetric_fog.cpp" afterPath="$PROJECT_DIR$/volumetric_fog.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volumetric_fog.hpp" afterPath="$PROJECT_DIR$/volumetric_fog.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/water_plane.cpp" afterPath="$PROJECT_DIR$/water_plane.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/water_plane.hpp" afterPath="$PROJECT_DIR$/water_plane.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -81,51 +45,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="oo_extensions.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/oo_extensions.hpp">
+      <file leaf-file-name="particles_system.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/particles_system.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="4397" max-vertical-offset="7433">
-              <caret line="217" column="0" selection-start-line="217" selection-start-column="0" selection-end-line="217" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2945">
+              <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="render_window.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/render_window.cpp">
+      <file leaf-file-name="material.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/material.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="547" max-vertical-offset="5491">
-              <caret line="45" column="1" selection-start-line="45" selection-start-column="1" selection-end-line="45" selection-end-column="1" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1841">
+              <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="render_window.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/render_window.hpp">
+      <file leaf-file-name="water_plane.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/water_plane.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2297">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2249">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="basic_string.h" pinned="false" current-in-tab="false">
-        <entry file="file:///usr/include/c++/4.9/bits/basic_string.h">
+      <file leaf-file-name="water_plane.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/water_plane.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="70651" max-vertical-offset="76745">
-              <caret line="2950" column="0" selection-start-line="2950" selection-start-column="0" selection-end-line="2950" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1819">
+              <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="debug.hpp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/debug.hpp">
+      <file leaf-file-name="volumetric_fog.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/volumetric_fog.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3439912" vertical-offset="0" max-vertical-offset="2827">
-              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1313">
+              <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -134,38 +98,38 @@
       <file leaf-file-name="statistics.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/statistics.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1099" max-vertical-offset="2659">
-              <caret line="62" column="46" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2201">
+              <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="demo_scene.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/demo_scene.cpp">
+      <file leaf-file-name="particles_system.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/particles_system.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10843">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="91" max-vertical-offset="2441">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scene.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scene.cpp">
+      <file leaf-file-name="screen_overlay.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/screen_overlay.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3811" max-vertical-offset="6019">
-              <caret line="166" column="65" selection-start-line="166" selection-start-column="65" selection-end-line="166" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5273">
+              <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gpu_buffer.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gpu_buffer.cpp">
+      <file leaf-file-name="graphics_renderer.hpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/graphics_renderer.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1512" max-vertical-offset="2731">
-              <caret line="74" column="84" selection-start-line="74" selection-start-column="84" selection-end-line="74" selection-end-column="84" />
+            <state vertical-scroll-proportion="-2.6990077" vertical-offset="2520" max-vertical-offset="3691">
+              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -184,57 +148,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/shaders/sky_box.frag" />
-        <option value="$PROJECT_DIR$/camera.hpp" />
-        <option value="$PROJECT_DIR$/clouds_noise.hpp" />
-        <option value="$PROJECT_DIR$/debug.hpp" />
         <option value="$PROJECT_DIR$/exs3d.hpp" />
         <option value="$PROJECT_DIR$/font_resource.hpp" />
         <option value="$PROJECT_DIR$/fps_camera.hpp" />
         <option value="$PROJECT_DIR$/frame_buffer.hpp" />
-        <option value="$PROJECT_DIR$/particles_system.hpp" />
         <option value="$PROJECT_DIR$/render_window.hpp" />
         <option value="$PROJECT_DIR$/renderable.hpp" />
         <option value="$PROJECT_DIR$/spline_path.hpp" />
         <option value="$PROJECT_DIR$/statistics.hpp" />
         <option value="$PROJECT_DIR$/texture.hpp" />
         <option value="$PROJECT_DIR$/transformable_object.hpp" />
-        <option value="$PROJECT_DIR$/volumetric_fog.hpp" />
-        <option value="$PROJECT_DIR$/water_plane.hpp" />
         <option value="$PROJECT_DIR$/clouds_noise.cpp" />
         <option value="$PROJECT_DIR$/static_mesh.cpp" />
         <option value="$PROJECT_DIR$/material.hpp" />
-        <option value="$PROJECT_DIR$/scene.hpp" />
         <option value="$PROJECT_DIR$/mesh_renderable_object.hpp" />
-        <option value="$PROJECT_DIR$/transformable_object.cpp" />
         <option value="$PROJECT_DIR$/sky_box.hpp" />
         <option value="$PROJECT_DIR$/gpu_program.hpp" />
         <option value="$PROJECT_DIR$/gpu_buffer.hpp" />
         <option value="$PROJECT_DIR$/gpu_program.cpp" />
         <option value="$PROJECT_DIR$/gpu_buffer_impl.hpp" />
         <option value="$PROJECT_DIR$/spline_path.cpp" />
-        <option value="$PROJECT_DIR$/particles_system.cpp" />
         <option value="$PROJECT_DIR$/mesh.hpp" />
         <option value="$PROJECT_DIR$/exs3d.cpp" />
         <option value="$PROJECT_DIR$/volumetric_fog.cpp" />
         <option value="$PROJECT_DIR$/screen_overlay.hpp" />
-        <option value="$PROJECT_DIR$/screen_overlay.cpp" />
         <option value="$PROJECT_DIR$/sky_box.cpp" />
         <option value="$PROJECT_DIR$/math3D.hpp" />
         <option value="$PROJECT_DIR$/frame_buffer.cpp" />
         <option value="$PROJECT_DIR$/gpu_buffer.cpp" />
         <option value="$PROJECT_DIR$/texture.cpp" />
         <option value="$PROJECT_DIR$/camera.cpp" />
-        <option value="$PROJECT_DIR$/material.cpp" />
         <option value="$PROJECT_DIR$/fps_camera.cpp" />
-        <option value="$PROJECT_DIR$/scene.cpp" />
         <option value="$PROJECT_DIR$/water_plane.cpp" />
         <option value="$PROJECT_DIR$/resources/shaders/shader.vert" />
         <option value="$PROJECT_DIR$/render_window.cpp" />
         <option value="$PROJECT_DIR$/oo_extensions.hpp" />
         <option value="$PROJECT_DIR$/demo_scene.cpp" />
-        <option value="$PROJECT_DIR$/statistics.cpp" />
         <option value="$PROJECT_DIR$/debug.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/graphics_renderer.hpp" />
+        <option value="$PROJECT_DIR$/graphics_renderer.cpp" />
+        <option value="$PROJECT_DIR$/scene.hpp" />
+        <option value="$PROJECT_DIR$/scene.cpp" />
+        <option value="$PROJECT_DIR$/transformable_object.cpp" />
+        <option value="$PROJECT_DIR$/mesh_impl.hpp" />
+        <option value="$PROJECT_DIR$/particles_system.hpp" />
+        <option value="$PROJECT_DIR$/screen_overlay.cpp" />
+        <option value="$PROJECT_DIR$/volumetric_fog.hpp" />
+        <option value="$PROJECT_DIR$/statistics.cpp" />
+        <option value="$PROJECT_DIR$/particles_system.cpp" />
+        <option value="$PROJECT_DIR$/material.cpp" />
+        <option value="$PROJECT_DIR$/water_plane.hpp" />
       </list>
     </option>
   </component>
@@ -582,7 +546,13 @@
       <option name="project" value="LOCAL" />
       <updated>1417759693204</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="*BIG* style refactoring">
+      <created>1417784187793</created>
+      <option name="number" value="00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1417784187794</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -664,7 +634,8 @@
     <MESSAGE value="TBN in geometry shader" />
     <MESSAGE value="config files" />
     <MESSAGE value="perlin clouds (everything works)" />
-    <option name="LAST_COMMIT_MESSAGE" value="perlin clouds (everything works)" />
+    <MESSAGE value="*BIG* style refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="*BIG* style refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -685,54 +656,6 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gl_binding.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1171">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gl_bindable.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2035">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/particles_system.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1056" max-vertical-offset="2827">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/render_resources.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2107">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/renderable.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1795">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resource.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1891">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resource_manager.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
@@ -773,22 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/volumetric_fog.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1747">
-          <caret line="19" column="29" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/water_plane.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1361">
-          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/clouds_noise.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="5683" max-vertical-offset="7097">
@@ -813,14 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scene.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3235" max-vertical-offset="4673">
-          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mesh_renderable_object.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="331" max-vertical-offset="1217">
@@ -833,14 +732,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="307" max-vertical-offset="1169">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/transformable_object.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="235" max-vertical-offset="857">
-          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -885,26 +776,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/particles_system.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2227" max-vertical-offset="2897">
-          <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mesh.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2227" max-vertical-offset="3785">
           <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="99" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exs3d.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8155" max-vertical-offset="8849">
-          <caret line="349" column="5" selection-start-line="349" selection-start-column="5" selection-end-line="349" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -921,14 +796,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="523" max-vertical-offset="4361">
           <caret line="36" column="34" selection-start-line="36" selection-start-column="34" selection-end-line="36" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/screen_overlay.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3115" max-vertical-offset="5273">
-          <caret line="137" column="13" selection-start-line="137" selection-start-column="13" selection-end-line="137" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -965,26 +832,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/material.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="427" max-vertical-offset="1841">
-          <caret line="25" column="99" selection-start-line="25" selection-start-column="99" selection-end-line="25" selection-end-column="99" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/fps_camera.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="499" max-vertical-offset="2153">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/water_plane.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1284" max-vertical-offset="2707">
-          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1039,14 +890,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scene.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3811" max-vertical-offset="5561">
-          <caret line="166" column="65" selection-start-line="166" selection-start-column="65" selection-end-line="166" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/c++/4.9/bits/basic_string.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="70651" max-vertical-offset="76745">
@@ -1071,14 +914,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/statistics.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1099" max-vertical-offset="2659">
-          <caret line="62" column="46" selection-start-line="62" selection-start-column="46" selection-end-line="62" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/debug.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31753033" vertical-offset="120" max-vertical-offset="3067">
@@ -1089,8 +924,144 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/debug.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3439912" vertical-offset="0" max-vertical-offset="2827">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2827">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07938258" vertical-offset="0" max-vertical-offset="1267">
+          <caret line="3" column="106" selection-start-line="3" selection-start-column="106" selection-end-line="3" selection-end-column="106" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphics_renderer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4939">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scene.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="216" max-vertical-offset="2131">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scene.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="2225">
+          <caret line="52" column="11" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/transformable_object.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="235" max-vertical-offset="857">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exs3d.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8849">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mesh_impl.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="857">
+          <caret line="3" column="32" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/particles_system.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="91" max-vertical-offset="2441">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/screen_overlay.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5273">
+          <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/volumetric_fog.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1313">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/statistics.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2201">
+          <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/particles_system.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2945">
+          <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/material.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1841">
+          <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/water_plane.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2249">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/renderable.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3439912" vertical-offset="72" max-vertical-offset="1795">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/water_plane.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1819">
+          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphics_renderer.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.6990077" vertical-offset="2520" max-vertical-offset="3691">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding />
         </state>
       </provider>

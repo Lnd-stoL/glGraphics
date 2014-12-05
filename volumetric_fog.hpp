@@ -11,6 +11,7 @@
 #include "transformable_object.hpp"
 
 using namespace render;
+using namespace math3d;
 
 //----------------------------------------------------------------------------------------------------------------------
 

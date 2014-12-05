@@ -1,6 +1,6 @@
 
 #include "transformable_object.hpp"
-#include "scene.hpp"
+#include "graphics_renderer.hpp"
 
 //----------------------------------------------------------------------------------------------------------------------
 

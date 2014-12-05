@@ -8,7 +8,7 @@
 #include "mesh.hpp"
 #include "renderable.hpp"
 #include "render_resources.hpp"
-#include "scene.hpp"
+#include "graphics_renderer.hpp"
 
 using namespace render;
 

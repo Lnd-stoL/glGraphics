@@ -2,7 +2,7 @@
 #include "screen_overlay.hpp"
 
 #include "debug.hpp"
-#include "scene.hpp"
+#include "graphics_renderer.hpp"
 #include "gpu_buffer_impl.hpp"
 #include "resource_manager_impl.hpp"
 

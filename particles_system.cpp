@@ -3,8 +3,10 @@
 
 #include "gpu_buffer_impl.hpp"
 #include "resource_manager_impl.hpp"
+#include "graphics_renderer.hpp"
 
 using oo_extensions::mkstr;
+using math3d::matrix_4x4_f;
 
 //----------------------------------------------------------------------------------------------------------------------
 

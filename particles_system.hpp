@@ -4,6 +4,7 @@
 
 //----------------------------------------------------------------------------------------------------------------------
 
+#include "math3D.hpp"
 #include "oo_extensions.hpp"
 #include "transformable_object.hpp"
 #include "gpu_buffer.hpp"
@@ -12,6 +13,8 @@
 
 using math3d::vector2_f;
 using math3d::vector3_f;
+using math3d::vector2_d;
+using math3d::vector3_d;
 
 //----------------------------------------------------------------------------------------------------------------------
 
