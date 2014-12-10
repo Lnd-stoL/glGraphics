@@ -10,10 +10,10 @@ using oo_extensions::mkfstr;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-demo_scene::demo_scene (graphics_renderer& renderer, render_window &renderWindow, resources &res) :
-        _renderer (renderer),
-        _renderWindow (renderWindow),
-        _resources (res)
+demo_scene::demo_scene (graphics_renderer& renderer, render_window::ptr renderWindow, resources &res) :
+    _renderer (renderer),
+    _renderWindow (renderWindow),
+    _resources (res)
 {
     _loadAndInitialize();
 }
@@ -22,7 +22,6 @@ demo_scene::demo_scene (graphics_renderer& renderer, render_window &renderWindow
 void demo_scene::_loadAndInitialize()
 {
     _setEventHandlers();
-    _initResourceManagers();
 
     _initViewer();
     _initShadowmaps();
@@ -39,15 +38,15 @@ void demo_scene::_initViewer()
     debug::log::println ("initializing viewer ...");
 
     unique_ptr<perspective_projection_d> projection (new perspective_projection_d (
-            angle_d::pi / 4, _renderWindow.getAspectRatio(), interval_d (1, 1000)));
+            angle_d::pi / 4, _renderWindow->aspectRatio(), interval_d (1, 1000)));
 
     _viewerCamera = camera::alloc (move (projection));
-    _viewerCamera->syncProjectionAspectRatio (_renderWindow.sizeChangedEvent());
+    _viewerCamera->syncProjectionAspectRatio (_renderWindow->sizeChangedEvent());
 
     transform_d initialCameraTransform (vector3_d (0, 8, 0), rotation_d (vector3_d (1, 0, 0), 0));
     _viewerCamera->addTransform (initialCameraTransform);
 
-    _fpsCameraController = fps_camera_controller::alloc (_renderWindow, _viewerCamera);
+    _fpsCameraController = fps_camera_controller::alloc (*_renderWindow, _viewerCamera);
 }
 
 
@@ -60,7 +59,7 @@ void demo_scene::_initShadowmaps()
     _lightTransform = transform_d (vector3_d (0, 30, 80), lightRot);
 
     unique_ptr<orthographic_projection_d> lightProj (
-            new orthographic_projection_d (100, _renderWindow.getAspectRatio(), interval_d (10, 200)));
+            new orthographic_projection_d (100, _renderWindow->aspectRatio(), interval_d (10, 200)));
 
     //unique_ptr<perspective_projection_d> lightProj (
     //        new perspective_projection_d (angle_d::pi / 3, _renderWindow.getAspectRatio(), interval_d (1, 100)));
@@ -68,32 +67,14 @@ void demo_scene::_initShadowmaps()
     _shadowmapCamera = render::camera::alloc (std::move (lightProj));
     //_shadowmapCamera->addTransform (_lightTransform);
 
-    _shadowmapFrameBuffer = frame_buffer::alloc (_renderWindow.getWidth() * 3, _renderWindow.getWidth() * 3);
-    _shadowmapTexture = _shadowmapFrameBuffer->attachDepthTexture();
-    _shadowmapTexture->setupForShadowSampler();
-
-    if (!_shadowmapFrameBuffer->readyForRender())
-        debug::log::println_err ("failed to initialize frame buffer for shadowmaps");
+    vector2<unsigned> shadowmapSize (_renderWindow->width() * 3, _renderWindow->width() * 3);
+    _shadowmapRT = offscreen_render_target::alloc (shadowmapSize, 0, true);
+    _shadowmapRT->depthTexture()->setupForShadowSampler();
 
     auto vertexLayout = shadowmapgen_vertex_layout::alloc();
-    //auto vertexLayout = exs3d_mesh::exs3d_vertex_layout::alloc();
     auto shadowmapGenProgramId = gpu_program::id (vertexLayout, "shadowmap_gen.vert", "shadowmap_gen.frag");
     auto shadowmapGenProgram = _resources.gpuProgramsManager().request (shadowmapGenProgramId, _resources);
     _shadowmapGenMaterial = material::alloc (technique::alloc (shadowmapGenProgram));
-}
-
-
-void demo_scene::_initResourceManagers()
-{
-    _resources.exs3dMeshesManager().addFileSearchLocation ("resources/models");
-    _resources.gpuProgramsManager().addFileSearchLocation ("resources/shaders");
-    _resources.vertexShadersManager().addFileSearchLocation ("resources/shaders");
-    _resources.fragmentShadersManager().addFileSearchLocation ("resources/shaders");
-    _resources.geometryShadersManager().addFileSearchLocation ("resources/shaders");
-    _resources.fontsManager().addFileSearchLocation ("resources/fonts");
-    _resources.texturesManager().addFileSearchLocation ("resources/textures");
-
-    _resources.addFilesSearchLocation ("resources");
 }
 
 
@@ -109,6 +90,7 @@ void demo_scene::_initObjects()
     //transform_d islandTransform (vector3_d (0, 23, 0), rotation_d (vector3_d (1, 0, 0), 3.14 + 0.8).combine (rotation_d (vector3_d (0, 0, -1), 0.2)), vector3_d (3, 3, 3));
     transform_d islandTransform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.05));
     _islandObject = mesh_renderable_object::alloc (islandMesh->renderableMesh(), islandTransform);
+    islandMesh->renderableMesh()->component ("island_mesh01_3")->backfaceCulling (false);
     _scene->addRenderableObject (_islandObject, 1);
 
 
@@ -121,9 +103,9 @@ void demo_scene::_initObjects()
                                                                                        "shader.vert", "tangent_frame.geom", "bumpmapping.frag"),
                                                                                        _resources);
     auto stoneBumpMappedMaterial = material::alloc (technique::alloc (bumpMappingShader));
-    stoneBumpMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("models/some-stone/Stone_5_DiffuseMap.jpg");
-    stoneBumpMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("models/some-stone/Stone_5_LOD1NormalsMap.jpg");
-    stoneBumpMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("models/some-stone/heightmap.jpg");
+    stoneBumpMappedMaterial->set ("uTexture", _resources.requestFromFile<texture> ("models/some-stone/Stone_5_DiffuseMap.jpg"));
+    stoneBumpMappedMaterial->set ("uNormalmap", _resources.requestFromFile<texture> ("models/some-stone/Stone_5_LOD1NormalsMap.jpg"));
+    stoneBumpMappedMaterial->set ("uHeightmap", _resources.requestFromFile<texture> ("models/some-stone/heightmap.jpg"));
     stoneMesh->renderableMesh()->components()[0]->changeMaterial (stoneBumpMappedMaterial);
     transform_d stoneTransform (vector3_d (14, 2, 0), rotation_d(), vector3_d (0.05));
     _scene->addRenderableObject (mesh_renderable_object::alloc (stoneMesh->renderableMesh(), stoneTransform), 1);
@@ -137,9 +119,9 @@ void demo_scene::_initObjects()
     //parallaxMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("rockwall/relief_bump.png");
     //parallaxMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("rockwall/relief_height.dds");
 
-    parallaxMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("rockwall/rockwall.tga");
-    parallaxMappedMaterial->textures()["uNormalmap"] = _resources.requestFromFile<texture> ("rockwall/rockwall_normal.tga");
-    parallaxMappedMaterial->textures()["uHeightmap"] = _resources.requestFromFile<texture> ("rockwall/rockwall_height.dds");
+    parallaxMappedMaterial->set ("uTexture", _resources.requestFromFile<texture> ("rockwall/rockwall.tga"));
+    parallaxMappedMaterial->set ("uNormalmap", _resources.requestFromFile<texture> ("rockwall/rockwall_normal.tga"));
+    parallaxMappedMaterial->set ("uHeightmap", _resources.requestFromFile<texture> ("rockwall/rockwall_height.dds"));
 
     cubeMesh->renderableMesh()->components()[0]->changeMaterial (parallaxMappedMaterial);
     transform_d cubeTransform (vector3_d (-14, 2, 0), rotation_d(), vector3_d (1));
@@ -150,15 +132,15 @@ void demo_scene::_initObjects()
     //auto island2Object = mesh_renderable_object::alloc (island2Mesh->getRenderableMesh(), island2Transform);
     //_scene->addRenderableObject (island2Object, 1);
 
-    _waterObject = water_plane::alloc (_resources, _renderWindow, 1);
-    _waterObject->useRefractionTextures (_sceneWithoutWater_Texture, _sceneWithoutWater_DepthTexture);
+    _waterObject = water_plane::alloc (_resources, *_renderWindow, 1);
+    _waterObject->useRefractionTextures (_solidSceneRT->colorTexture(), _solidSceneRT->depthTexture());
 
     _skyBox = sky_box::alloc (_resources);
     _scene->addRenderableObject (_skyBox, 0);
 
     _fogObject = volumetric_fog::createLayer (_resources, interval_d (0, 2.9), vector2_d (10, 10));
-    _fogObject->useDepthTexture (_sceneWithoutWater_DepthTexture);
-    _fogObject->useColorTexture (_sceneWithoutWater_Texture);
+    //_fogObject->useDepthTexture (_sceneWithoutWater_DepthTexture);
+    //_fogObject->useColorTexture (_sceneWithoutWater_Texture);
 
     _testPath = spline_path::alloc ("resources/recorded-path.path");
     //_testPath->playOnCamera (_viewerCamera, _renderWindow.frameUpdateEvent());
@@ -168,59 +150,33 @@ void demo_scene::_initObjects()
     _scene->addRenderableObject (_particles, 2);
 
     _horizonColorMap.loadFromFile (_resources.texturesManager().locateFile ("skybox/horizon.png"));
+
+    auto groupId = _scene->addRenderGroup ("water-reflections");
+    _scene->addRenderableObject (groupId, _skyBox);
 }
 
 
 void demo_scene::_initPosteffects()
 {
-    _sceneWithoutWater_FrameBuffer = frame_buffer::alloc (_renderWindow.getWidth(), _renderWindow.getHeight());
-    _sceneWithoutWater_FrameBuffer->clearColor (color_rgb<float> (1, 1, 1));
-    _sceneWithoutWater_DepthTexture = _sceneWithoutWater_FrameBuffer->attachDepthTexture();
-    _sceneWithoutWater_Texture = _sceneWithoutWater_FrameBuffer->attachColorTexture();
-    _sceneWithoutWater_NormalMap = texture::createEmptyRgb (_renderWindow.getWidth(), _renderWindow.getHeight());
-    _sceneWithoutWater_FrameBuffer->attachColorTexture (_sceneWithoutWater_NormalMap);
+    _solidSceneRT = offscreen_render_target::alloc (_renderWindow->size(), 2, true);
 
-    if (!_sceneWithoutWater_FrameBuffer->readyForRender())
-        debug::log::println_err ("failed to initialize frame buffer for scene without refractive rendering");
+    auto solidScenePostprocessRT = offscreen_render_target::alloc (_renderWindow->size(), 1, _solidSceneRT->depthTexture());
+    _solidScenePostprocess = gpu_image_processing_stage::alloc (_resources, "ssao-1.frag", solidScenePostprocessRT);
+    _solidScenePostprocess->input ("uNormalMap", _solidSceneRT->colorTextures()[1]);
+    _solidScenePostprocess->input ("uScreen",    _solidSceneRT->colorTextures()[0]);
+    _solidScenePostprocess->input ("uDepthMap",  _solidSceneRT->depthTexture());
 
-    auto screenQuadShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
-                                               "ssao.vert", "ssao-1.frag");
-    auto screenQuadShader = _resources.gpuProgramsManager().request (screenQuadShaderId, _resources);
-    auto screenQuadTechnique = technique::alloc (screenQuadShader);
-    screenQuadTechnique->transformNotNeeded();
-    _drawScreenMaterial = material::alloc (screenQuadTechnique);
-    _drawScreenMaterial->textures()["uNormalMap"] = _sceneWithoutWater_NormalMap;
-    _drawScreenMaterial->textures()["uScreen"] = _sceneWithoutWater_Texture;
-    _drawScreenMaterial->textures()["uDepthMap"] = _sceneWithoutWater_DepthTexture;
-
-    vector<elementary_shapes::simple_vertex> vertices;
-    vector<unsigned short> indices;
-    elementary_shapes::quadXY (vertices, indices);
-    _screenQuad = mesh_component<elementary_shapes::simple_vertex, unsigned short>::alloc (_drawScreenMaterial,
-                                                                                           vertices, indices);
-
-    _postprocess_FrameBuffer = frame_buffer::alloc (_renderWindow.getWidth(), _renderWindow.getHeight());
-    _postprocess_FrameBuffer->attachDepthTexture (_sceneWithoutWater_DepthTexture);
-    _postprocess_Texture = _postprocess_FrameBuffer->attachColorTexture();
-
-    if (!_postprocess_FrameBuffer->readyForRender())
-        debug::log::println_err ("failed to initialize frame buffer for postprocess");
-
-    auto postprocessShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
-                                               "screen_quad.vert", "fxaa.frag");
-    auto postprocessShader = _resources.gpuProgramsManager().request (postprocessShaderId, _resources);
-    auto postprocessTechnique = technique::alloc (postprocessShader);
-    postprocessTechnique->transformNotNeeded();
-    _postprocessMaterial = material::alloc (postprocessTechnique);
-    _postprocessMaterial->textures()["uScreen"] = _postprocess_Texture;
+    _finalPostprocess = gpu_image_processing_screen::alloc (_resources, "fxaa.frag", _renderWindow);
+    _finalPostprocess->input ("uTxtInput", _solidScenePostprocess->renderTarget()->colorTexture());
+    //_finalPostprocess->input ("uTxtInput", _solidSceneRT->colorTexture());
 }
 
 
 void demo_scene::_setEventHandlers()
 {
-    _renderWindow.frameUpdateEvent().handleWith ([this](const render_window&) { _frameUpdate(); });
-    _renderWindow.frameDrawEvent().handleWith   ([this](const render_window&) { _frameRender(); });
-    _renderWindow.keyPressedEvent().handleWith  ([this](int key) { _keyPressed (key); });
+    _renderWindow->frameUpdateEvent().handleWith ([this](const render_window&) { _frameUpdate();     });
+    _renderWindow->frameDrawEvent().handleWith   ([this](const render_window&) { _frameRender();    });
+    _renderWindow->keyPressedEvent().handleWith  ([this](int key)              { _keyPressed (key); });
 }
 
 
@@ -241,7 +197,6 @@ void demo_scene::_frameUpdate()
     _scene->setSun (_sunPosition.convertType<double>() * 450, sunColor);
 
     rotation_d lightRot (vector3_d (0, 0, 1), _sunPosition.convertType<double>());
-    //rotation_d lightRot (vector3_d (1, 0, 0), _time);
     auto shadowmapCameraPos = _scene->sunPosition() / 4;
     _shadowmapCamera->changeTransform (shadowmapCameraPos, lightRot);
 
@@ -252,27 +207,30 @@ void demo_scene::_frameUpdate()
         string viewPosText = mkfstr (std::setprecision (4), viewPos.x(), " ", viewPos.y(), " ", viewPos.z());
         _viewPosLabel->changeText (viewPosText);
     }
+
+    double minCameraY = _waterObject->surfaeHight() + 1.5;
+    if (_viewerCamera->position().y() < minCameraY)
+    {
+        auto cameraPos = _viewerCamera->position();
+        cameraPos.y (minCameraY);
+        _viewerCamera->changePosition (cameraPos);
+    }
 }
 
 
 void demo_scene::_frameRender()
 {
-    //_justTestDraw();
-    //return;
+    _renderer.testDepth (true);
 
-    glDisable (GL_CULL_FACE);   // TODO: So stupid model
+    // -------------------------------------------------------------------------------------------  Shadowmap generation
 
-    _renderer.renderTo (_shadowmapFrameBuffer);
+    _shadowmapRT->setup (_renderer);
     _renderer.forceMaterial (_shadowmapGenMaterial);
-
     _renderer.use (_shadowmapCamera);
     _renderer.renderScene (_scene);
-
     _renderer.stopForcingMaterial();
 
     // ---------------------------------------------------------------------------------------------  Render pass
-
-    _renderer.renderTo (_sceneWithoutWater_FrameBuffer);
 
     auto beforeDrawLambda = [this] (graphics_renderer &renderer){
         object2screen_transform_d shadowmapTranfrom (
@@ -283,8 +241,7 @@ void demo_scene::_frameRender()
         auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
         matBias.multiply (matShadowmapTransform);
 
-        //renderer.state().getMaterial()->textures()["uShadowMapFlat"] = _shadowmapTexture;
-        renderer.state().activeMaterial()->textures()["uShadowMap"] = _shadowmapTexture;
+        renderer.state().activeMaterial()->set ("uShadowMap", _shadowmapRT->depthTexture());
         renderer.state().activeMaterial()->setup (renderer);
 
         renderer.state().activeRenderingProgram()->setUniform ("uShadowmapTransform", matBias, true);
@@ -292,102 +249,47 @@ void demo_scene::_frameRender()
 
     auto handlerId = _renderer.beforeDrawCallEvent().handleWith (beforeDrawLambda);
 
+    _solidSceneRT->setup (_renderer);
     _renderer.use (_viewerCamera);
     _renderer.renderScene (_scene);
 
     // ---------------------------------------------------------------------------------------------  Reflections
 
+    _scene->selectRenderGroup ("water-reflections");
     _waterObject->drawReflections (_renderer, *_scene);
+    _scene->selectRenderGroup ("default");
+
     _renderer.beforeDrawCallEvent().stopHandlingWith (handlerId);
 
     // ---------------------------------------------------------------------------------------------  Draw water now
 
-    _renderer.renderTo (_postprocess_FrameBuffer, false);
-
-    glDisable (GL_DEPTH_TEST);
     glDepthMask (GL_FALSE);
-
     auto invProjMat = _viewerCamera->getProjection()->asInverseMatrix();
-    _drawScreenMaterial->renderingTechnique()->renderingProgram()->setUniform ("uMatInvProjection",
-                                                                            invProjMat.convertType<float>());
-    _screenQuad->draw (_renderer);
+    _solidScenePostprocess->program()->setUniform ("uMatInvProjection", invProjMat.convertType<float>());
+    _solidScenePostprocess->processUsing (_renderer);
+
 
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     _renderer.use (_viewerCamera);
-    //_fogObject->draw (_renderer);
-    glEnable (GL_DEPTH_TEST);
     _waterObject->draw (_renderer);
-    glDisable (GL_BLEND);
 
     glDepthMask (GL_TRUE);
+    glDisable (GL_BLEND);
 
     // ---------------------------------------------------------------------------------------------  Finally draw to screen
 
-    _renderer.renderTo (_renderWindow);
-    _renderer.forceMaterial (_postprocessMaterial);
-    glDisable (GL_DEPTH_TEST);
-    glDepthMask (GL_FALSE);
-    //glEnable (GL_FRAMEBUFFER_SRGB);
-    _screenQuad->draw (_renderer);
-    //glDisable (GL_FRAMEBUFFER_SRGB);
-    glEnable (GL_DEPTH_TEST);
-    glDepthMask (GL_TRUE);
-    _renderer.stopForcingMaterial();
+    _finalPostprocess->processUsing (_renderer);
 
     _statisticsOverlay->draw (_renderer);
-}
-
-
-void demo_scene::_justTestDraw()
-{
-    //glDisable (GL_CULL_FACE);
-
-    _renderer.renderTo (_renderWindow);
-    //glClear( GL_COLOR_BUFFER_BIT );
-
-    // Use our shader
-    //glUseProgram (programID->getGlId());
-
-    // 1rst attribute buffer : vertices
-    //glEnableVertexAttribArray(0);
-    //glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    /*glVertexAttribPointer(
-            0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-            3,                  // size
-            GL_FLOAT,           // type
-            GL_FALSE,           // normalized?
-            0,                  // stride
-            (void*)0            // array buffer offset
-    );*/
-
-    // Draw the triangle !
-    //glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
-
-    //_renderer.use (_viewerCamera);
-    _screenQuad->draw (_renderer);
-
-    //glDisableVertexAttribArray(0);
-
-    //_renderer.renderTo (_renderWindow);
-    //_renderer.use (_viewerCamera);
-
-    //_renderer.forceMaterial (_postprocessMaterial);
-    //glDisable (GL_DEPTH_TEST);
-    //glDepthMask (GL_FALSE);
-
-    //_screenQuad->draw (_renderer);
-
-    //glEnable (GL_DEPTH_TEST);
-    //glDepthMask (GL_TRUE);
-    //_renderer.stopForcingMaterial();
 }
 
 
 void demo_scene::_initOverlays()
 {
     _screenOverlay = screen_overlay_layer::alloc (_resources);
-    _statisticsOverlay = statistics::alloc (_renderWindow, _resources, _screenOverlay);
+    _statisticsOverlay = statistics::alloc (*_renderWindow, _resources, _screenOverlay);
 
     _viewPosLabel = text_label::alloc (_statisticsOverlay->defaultFont(),
                                        math3d::vector2_f (0.34, 0.02),

@@ -59,8 +59,8 @@ namespace render
         if (indicesCount == 0)  indicesCount = indexBuffer.size();
         _frameStatistics._trianglesCount += indicesCount / 3;
 
-        indexBuffer.use();
         vertexBuffer.use();
+        indexBuffer.use();
 
         _state._material->setup (*this);
 
@@ -94,7 +94,7 @@ namespace render
         _state._frameBuffer = nullptr;
 
         frame_buffer::useDefault();
-        glViewport (0, 0, wnd.getWidth(), wnd.getHeight());
+        glViewport (0, 0, wnd.width (), wnd.height());
         if (autoClear)  wnd.clear();
     }
 
@@ -154,16 +154,38 @@ namespace render
 
     void graphics_renderer::testDepth (bool enabled)
     {
-        if (enabled && !_state._testDepth)
+        if (enabled /*&& !_state._testDepth*/)
         {
             glEnable (GL_DEPTH_TEST);
         }
 
-        if (!enabled && _state._testDepth)
+        if (!enabled /*&& _state._testDepth*/)
         {
             glDisable (GL_DEPTH_TEST);
         }
 
         _state._testDepth = enabled;
+    }
+
+
+    void graphics_renderer::backfaceCulling (bool enabled)
+    {
+        if (enabled && !_state._backfaceCulling)
+        {
+            glEnable (GL_CULL_FACE);
+        }
+
+        if (!enabled && _state._backfaceCulling)
+        {
+            glDisable (GL_CULL_FACE);
+        }
+
+        _state._backfaceCulling = enabled;
+    }
+
+
+    void graphics_renderer::draw (const renderable &object)
+    {
+        object.draw (*this);
     }
 }

@@ -18,9 +18,14 @@ namespace render
         string _name;
         material::ptr _material;
 
+        bool _backfaceCulling = true;
+
+
     public:
         property_get (componentMaterial, _material)
         property_get_ref (name, _name)
+
+        property_rw (backfaceCulling, _backfaceCulling)
 
 
     public:

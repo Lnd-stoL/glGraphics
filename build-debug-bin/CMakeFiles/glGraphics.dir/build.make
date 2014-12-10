@@ -167,9 +167,55 @@ CMakeFiles/glGraphics.dir/clouds_noise.cpp.o.provides: CMakeFiles/glGraphics.dir
 
 CMakeFiles/glGraphics.dir/clouds_noise.cpp.o.provides.build: CMakeFiles/glGraphics.dir/clouds_noise.cpp.o
 
+CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o: CMakeFiles/glGraphics.dir/flags.make
+CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o: ../graphics_renderer.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o -c /home/leonid/Dev/glGraphics/graphics_renderer.cpp
+
+CMakeFiles/glGraphics.dir/graphics_renderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/glGraphics.dir/graphics_renderer.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/leonid/Dev/glGraphics/graphics_renderer.cpp > CMakeFiles/glGraphics.dir/graphics_renderer.cpp.i
+
+CMakeFiles/glGraphics.dir/graphics_renderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glGraphics.dir/graphics_renderer.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/leonid/Dev/glGraphics/graphics_renderer.cpp -o CMakeFiles/glGraphics.dir/graphics_renderer.cpp.s
+
+CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o.requires:
+.PHONY : CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o.requires
+
+CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o.provides: CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o.requires
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o.provides.build
+.PHONY : CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o.provides
+
+CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o.provides.build: CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o
+
+CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: CMakeFiles/glGraphics.dir/flags.make
+CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../gpu_image_processing.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_7)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o -c /home/leonid/Dev/glGraphics/gpu_image_processing.cpp
+
+CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/leonid/Dev/glGraphics/gpu_image_processing.cpp > CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.i
+
+CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/leonid/Dev/glGraphics/gpu_image_processing.cpp -o CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.s
+
+CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o.requires:
+.PHONY : CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o.requires
+
+CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o.provides: CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o.requires
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o.provides.build
+.PHONY : CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o.provides
+
+CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o.provides.build: CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o
+
 CMakeFiles/glGraphics.dir/render_resources.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/render_resources.cpp.o: ../render_resources.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/render_resources.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/render_resources.cpp.o -c /home/leonid/Dev/glGraphics/render_resources.cpp
 
@@ -192,7 +238,7 @@ CMakeFiles/glGraphics.dir/render_resources.cpp.o.provides.build: CMakeFiles/glGr
 
 CMakeFiles/glGraphics.dir/config_file.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/config_file.cpp.o: ../config_file.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/config_file.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/config_file.cpp.o -c /home/leonid/Dev/glGraphics/config_file.cpp
 
@@ -215,7 +261,7 @@ CMakeFiles/glGraphics.dir/config_file.cpp.o.provides.build: CMakeFiles/glGraphic
 
 CMakeFiles/glGraphics.dir/particles_system.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/particles_system.cpp.o: ../particles_system.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_10)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/particles_system.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/particles_system.cpp.o -c /home/leonid/Dev/glGraphics/particles_system.cpp
 
@@ -238,7 +284,7 @@ CMakeFiles/glGraphics.dir/particles_system.cpp.o.provides.build: CMakeFiles/glGr
 
 CMakeFiles/glGraphics.dir/transformable_object.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/transformable_object.cpp.o: ../transformable_object.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_11)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/transformable_object.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/transformable_object.cpp.o -c /home/leonid/Dev/glGraphics/transformable_object.cpp
 
@@ -261,7 +307,7 @@ CMakeFiles/glGraphics.dir/transformable_object.cpp.o.provides.build: CMakeFiles/
 
 CMakeFiles/glGraphics.dir/spline_path.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/spline_path.cpp.o: ../spline_path.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_10)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_12)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/spline_path.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/spline_path.cpp.o -c /home/leonid/Dev/glGraphics/spline_path.cpp
 
@@ -284,7 +330,7 @@ CMakeFiles/glGraphics.dir/spline_path.cpp.o.provides.build: CMakeFiles/glGraphic
 
 CMakeFiles/glGraphics.dir/volumetric_fog.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/volumetric_fog.cpp.o: ../volumetric_fog.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_11)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_13)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/volumetric_fog.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/volumetric_fog.cpp.o -c /home/leonid/Dev/glGraphics/volumetric_fog.cpp
 
@@ -307,7 +353,7 @@ CMakeFiles/glGraphics.dir/volumetric_fog.cpp.o.provides.build: CMakeFiles/glGrap
 
 CMakeFiles/glGraphics.dir/exs3d.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/exs3d.cpp.o: ../exs3d.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_12)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_14)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/exs3d.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/exs3d.cpp.o -c /home/leonid/Dev/glGraphics/exs3d.cpp
 
@@ -330,7 +376,7 @@ CMakeFiles/glGraphics.dir/exs3d.cpp.o.provides.build: CMakeFiles/glGraphics.dir/
 
 CMakeFiles/glGraphics.dir/screen_overlay.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/screen_overlay.cpp.o: ../screen_overlay.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_13)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_15)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/screen_overlay.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/screen_overlay.cpp.o -c /home/leonid/Dev/glGraphics/screen_overlay.cpp
 
@@ -353,7 +399,7 @@ CMakeFiles/glGraphics.dir/screen_overlay.cpp.o.provides.build: CMakeFiles/glGrap
 
 CMakeFiles/glGraphics.dir/sky_box.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/sky_box.cpp.o: ../sky_box.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_14)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_16)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/sky_box.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/sky_box.cpp.o -c /home/leonid/Dev/glGraphics/sky_box.cpp
 
@@ -376,7 +422,7 @@ CMakeFiles/glGraphics.dir/sky_box.cpp.o.provides.build: CMakeFiles/glGraphics.di
 
 CMakeFiles/glGraphics.dir/statistics.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/statistics.cpp.o: ../statistics.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_15)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_17)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/statistics.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/statistics.cpp.o -c /home/leonid/Dev/glGraphics/statistics.cpp
 
@@ -399,7 +445,7 @@ CMakeFiles/glGraphics.dir/statistics.cpp.o.provides.build: CMakeFiles/glGraphics
 
 CMakeFiles/glGraphics.dir/demo_scene.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/demo_scene.cpp.o: ../demo_scene.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_16)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_18)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/demo_scene.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/demo_scene.cpp.o -c /home/leonid/Dev/glGraphics/demo_scene.cpp
 
@@ -422,7 +468,7 @@ CMakeFiles/glGraphics.dir/demo_scene.cpp.o.provides.build: CMakeFiles/glGraphics
 
 CMakeFiles/glGraphics.dir/font_resource.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/font_resource.cpp.o: ../font_resource.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_17)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_19)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/font_resource.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/font_resource.cpp.o -c /home/leonid/Dev/glGraphics/font_resource.cpp
 
@@ -445,7 +491,7 @@ CMakeFiles/glGraphics.dir/font_resource.cpp.o.provides.build: CMakeFiles/glGraph
 
 CMakeFiles/glGraphics.dir/frame_buffer.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/frame_buffer.cpp.o: ../frame_buffer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_18)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_20)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/frame_buffer.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/frame_buffer.cpp.o -c /home/leonid/Dev/glGraphics/frame_buffer.cpp
 
@@ -468,7 +514,7 @@ CMakeFiles/glGraphics.dir/frame_buffer.cpp.o.provides.build: CMakeFiles/glGraphi
 
 CMakeFiles/glGraphics.dir/binary_stream.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/binary_stream.cpp.o: ../binary_stream.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_19)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_21)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/binary_stream.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/binary_stream.cpp.o -c /home/leonid/Dev/glGraphics/binary_stream.cpp
 
@@ -491,7 +537,7 @@ CMakeFiles/glGraphics.dir/binary_stream.cpp.o.provides.build: CMakeFiles/glGraph
 
 CMakeFiles/glGraphics.dir/material.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/material.cpp.o: ../material.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_20)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_22)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/material.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/material.cpp.o -c /home/leonid/Dev/glGraphics/material.cpp
 
@@ -514,7 +560,7 @@ CMakeFiles/glGraphics.dir/material.cpp.o.provides.build: CMakeFiles/glGraphics.d
 
 CMakeFiles/glGraphics.dir/water_plane.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../water_plane.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_21)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_23)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/water_plane.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/water_plane.cpp.o -c /home/leonid/Dev/glGraphics/water_plane.cpp
 
@@ -537,7 +583,7 @@ CMakeFiles/glGraphics.dir/water_plane.cpp.o.provides.build: CMakeFiles/glGraphic
 
 CMakeFiles/glGraphics.dir/gpu_buffer.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/gpu_buffer.cpp.o: ../gpu_buffer.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_22)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_24)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/gpu_buffer.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/gpu_buffer.cpp.o -c /home/leonid/Dev/glGraphics/gpu_buffer.cpp
 
@@ -560,7 +606,7 @@ CMakeFiles/glGraphics.dir/gpu_buffer.cpp.o.provides.build: CMakeFiles/glGraphics
 
 CMakeFiles/glGraphics.dir/camera.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/camera.cpp.o: ../camera.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_23)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_25)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/camera.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/camera.cpp.o -c /home/leonid/Dev/glGraphics/camera.cpp
 
@@ -583,7 +629,7 @@ CMakeFiles/glGraphics.dir/camera.cpp.o.provides.build: CMakeFiles/glGraphics.dir
 
 CMakeFiles/glGraphics.dir/texture.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/texture.cpp.o: ../texture.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_24)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_26)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/texture.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/texture.cpp.o -c /home/leonid/Dev/glGraphics/texture.cpp
 
@@ -606,7 +652,7 @@ CMakeFiles/glGraphics.dir/texture.cpp.o.provides.build: CMakeFiles/glGraphics.di
 
 CMakeFiles/glGraphics.dir/render_window.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/render_window.cpp.o: ../render_window.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_25)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_27)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/render_window.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/render_window.cpp.o -c /home/leonid/Dev/glGraphics/render_window.cpp
 
@@ -629,7 +675,7 @@ CMakeFiles/glGraphics.dir/render_window.cpp.o.provides.build: CMakeFiles/glGraph
 
 CMakeFiles/glGraphics.dir/mesh_renderable_object.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/mesh_renderable_object.cpp.o: ../mesh_renderable_object.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_26)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_28)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/mesh_renderable_object.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/mesh_renderable_object.cpp.o -c /home/leonid/Dev/glGraphics/mesh_renderable_object.cpp
 
@@ -652,7 +698,7 @@ CMakeFiles/glGraphics.dir/mesh_renderable_object.cpp.o.provides.build: CMakeFile
 
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../fps_camera.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_27)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_29)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/fps_camera.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/fps_camera.cpp.o -c /home/leonid/Dev/glGraphics/fps_camera.cpp
 
@@ -675,7 +721,7 @@ CMakeFiles/glGraphics.dir/fps_camera.cpp.o.provides.build: CMakeFiles/glGraphics
 
 CMakeFiles/glGraphics.dir/scene.cpp.o: CMakeFiles/glGraphics.dir/flags.make
 CMakeFiles/glGraphics.dir/scene.cpp.o: ../scene.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_28)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/leonid/Dev/glGraphics/build-debug-bin/CMakeFiles $(CMAKE_PROGRESS_30)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/glGraphics.dir/scene.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/glGraphics.dir/scene.cpp.o -c /home/leonid/Dev/glGraphics/scene.cpp
 
@@ -703,6 +749,8 @@ glGraphics_OBJECTS = \
 "CMakeFiles/glGraphics.dir/debug.cpp.o" \
 "CMakeFiles/glGraphics.dir/static_mesh.cpp.o" \
 "CMakeFiles/glGraphics.dir/clouds_noise.cpp.o" \
+"CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o" \
+"CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o" \
 "CMakeFiles/glGraphics.dir/render_resources.cpp.o" \
 "CMakeFiles/glGraphics.dir/config_file.cpp.o" \
 "CMakeFiles/glGraphics.dir/particles_system.cpp.o" \
@@ -735,6 +783,8 @@ glGraphics: CMakeFiles/glGraphics.dir/gpu_program.cpp.o
 glGraphics: CMakeFiles/glGraphics.dir/debug.cpp.o
 glGraphics: CMakeFiles/glGraphics.dir/static_mesh.cpp.o
 glGraphics: CMakeFiles/glGraphics.dir/clouds_noise.cpp.o
+glGraphics: CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o
+glGraphics: CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o
 glGraphics: CMakeFiles/glGraphics.dir/render_resources.cpp.o
 glGraphics: CMakeFiles/glGraphics.dir/config_file.cpp.o
 glGraphics: CMakeFiles/glGraphics.dir/particles_system.cpp.o
@@ -780,6 +830,8 @@ CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/gpu_program.cpp.o.
 CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/debug.cpp.o.requires
 CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/static_mesh.cpp.o.requires
 CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/clouds_noise.cpp.o.requires
+CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o.requires
+CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o.requires
 CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/render_resources.cpp.o.requires
 CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/config_file.cpp.o.requires
 CMakeFiles/glGraphics.dir/requires: CMakeFiles/glGraphics.dir/particles_system.cpp.o.requires

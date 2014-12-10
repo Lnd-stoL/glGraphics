@@ -3,7 +3,6 @@
 
 uniform sampler2D uTexture;
 uniform sampler2DShadow uShadowMap;
-uniform sampler2D uShadowMapFlat;
 
 uniform vec3 uLightColor;
 uniform vec3 uLightPos;
@@ -69,14 +68,15 @@ void main()
     vec3 vert2Eye   = normalize (vVert2Eye);
     vec3 diffColor = texture2D (uTexture, vTexUV).xyz;
 
-    float bias = 0.003 * tan (acos (dot (normal, light2Vert)));
+    float bias = 0.002 * tan (acos (dot (normal, light2Vert)));
     //bias = clamp (bias, 0.000001, 0.0001);
 
     vec3 vsv = vShadowmapVert.xyz / vShadowmapVert.w;
 
-    float depthDiff = abs (texture (uShadowMapFlat, vsv.xy).x - vsv.z);
-    float blurBase = 5000 - (depthDiff * 800) * 3000;
-    blurBase = 3000 + smoothstep (0, 100, -vShadowmapVert.z) * 5000;
+    //float depthDiff = abs (texture (uShadowMapFlat, vsv.xy).x - vsv.z);
+    //float blurBase = 5000 - (depthDiff * 800) * 3000;
+    //blurBase = 3000 + smoothstep (0, 100, -vShadowmapVert.z) * 5000;
+    float blurBase = 8000;
 
     float shadow = 0;
     for (int i = 0; i < 4; i++) {
@@ -107,7 +107,7 @@ void main()
 
     float shadowLightenFactor = 0.2;
     shadow = shadowLightenFactor + shadow * (1 - shadowLightenFactor);
-
+    //shadow = 1;
 
     float fogFactor = 0;
     float fogY0 = 0;

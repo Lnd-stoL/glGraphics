@@ -1,11 +1,12 @@
 
 #version 330 core
+#extension GL_ARB_explicit_uniform_location : require
 
 in vec3 aCoords;
 in vec3 aNormal;
 in vec2 aTexUV;
 
-uniform mat4 uMatTransform;
+layout (location = 0)  uniform mat4  uMatTransform;
 uniform mat4 uMatWorldTransform;
 uniform mat4 uMatWorldViewTransform;
 uniform vec3 uViewPos;

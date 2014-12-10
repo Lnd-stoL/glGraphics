@@ -332,6 +332,7 @@ namespace render
     }
 
 
+
     void gpu_program::setUniform (const std::string &name, float value, bool ignoreIfNotExists)
     {
         if (!_testValid()) return;
@@ -374,6 +375,51 @@ namespace render
 
         glUniform1i (location, textureIndex);
         debug::gl::test();
+    }
+
+
+    void gpu_program::setUniform (uniform_id uniformId, const math3d::matrix_4x4<float> &value)
+    {
+        if (!_testValid()) return;
+        _bind();
+
+        glUniformMatrix4fv (uniformId, 1, GL_TRUE, value.raw());
+    }
+
+
+    void gpu_program::setUniform (uniform_id uniformId, float value)
+    {
+        if (!_testValid()) return;
+        _bind();
+
+        glUniform1f (uniformId, value);
+    }
+
+
+    void gpu_program::setUniform (uniform_id uniformId, const math3d::vector3_f &value)
+    {
+        if (!_testValid()) return;
+        _bind();
+
+        glUniform3f (uniformId, value.x(), value.y(), value.z());
+    }
+
+
+    void gpu_program::setUniform (uniform_id uniformId, const math3d::vector2_f &value)
+    {
+        if (!_testValid()) return;
+        _bind();
+
+        glUniform2f (uniformId, value.x(), value.y());
+    }
+
+
+    void gpu_program::setUniformSampler (uniform_id uniformId, unsigned textureIndex)
+    {
+        if (!_testValid()) return;
+        _bind();
+
+        glUniform1i (uniformId, textureIndex);
     }
 
 
@@ -428,5 +474,17 @@ namespace render
         }
 
         link();
+    }
+
+
+    gpu_program::uniform_id  gpu_program::uniformLocation (const string &name, bool ignoreIfNotExists) const
+    {
+        return (gpu_program::uniform_id) _locateUniform (name, ignoreIfNotExists);
+    }
+
+
+    bool gpu_program::isValidUniformLocation (uniform_id uniformId)
+    {
+        return uniformId != gpu_program::invalidUniformId;
     }
 }

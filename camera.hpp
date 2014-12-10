@@ -33,6 +33,8 @@ namespace render
         property_get_ref (rightVector,   _right)
         property_get_ref (forwardVector, _forward)
 
+        property_ref (position, _transform.ttranslation())
+
 
     protected:
         void _updateBasis();
@@ -51,6 +53,7 @@ namespace render
         void translateChangeRotation (const vector3_d &trans, const rotation_d &rot);
         void changeTransform (const vector3_d &trans, const rotation_d &rot);
         void changeProjection (unique_ptr<projection_d> &&proj);
+        void changePosition (const vector3_d &pos);
         projection_d* getProjection() const;
         void changeRotation (const rotation_d &rot);
 

@@ -33,8 +33,8 @@ render_window::render_window (unsigned width, unsigned height, const string &tit
 
     if (glbinding::ContextInfo::version() < glbinding::Version (3, 3))
     {
-        debug::log::println_err ("warning: your supported OpenGL version is older than 3.3 core; "
-                                 "some feaures or event the whole demo may not work properly");
+        debug::log::println_err ("warning: your maximum supported OpenGL version is older than 3.3 core; "
+                                 "some feaures or even the whole demo may not work properly");
     }
 
     glfwSetKeyCallback (_window, _keyboardCallback);
@@ -74,6 +74,9 @@ void render_window::_keyboardCallback (GLFWwindow* window, int key, int scancode
 
 void render_window::runLoop()
 {
+    glfwRestoreWindow (_window);
+    glfwShowWindow (_window);
+
     while (!glfwWindowShouldClose (_window))
     {
         glfwPollEvents();
@@ -109,7 +112,7 @@ void render_window::_handleWindowResize (unsigned width, unsigned height)
 }
 
 
-double render_window::getAspectRatio() const
+double render_window::aspectRatio() const
 {
     return _width / _height;
 }
@@ -128,13 +131,13 @@ void render_window::clear()
 }
 
 
-unsigned render_window::getWidth() const
+unsigned render_window::width() const
 {
     return _width;
 }
 
 
-unsigned render_window::getHeight() const
+unsigned render_window::height() const
 {
     return _height;
 }
@@ -166,6 +169,9 @@ void render_window::_initWindow (const string &title, bool fullscreen)
     }
 
     glfwMakeContextCurrent (_window);
+
+    glfwHideWindow (_window);
+    glfwIconifyWindow (_window);
 }
 
 
@@ -189,4 +195,10 @@ void render_window::_handleKeyPressed (int key)
     }
 
     _keyPressedEvent (key);
+}
+
+
+math3d::vector2<unsigned> render_window::size() const
+{
+    return math3d::vector2<unsigned int> (width(), height());
 }

@@ -58,7 +58,7 @@ void main()
 {
     vec3 screenOriginalColor = texture (uScreen, vTexUV).rgb;
     out_Color = screenOriginalColor;
-    return;
+    //return;
 
     vec3 normal = normalize (normal_decode (texture (uNormalMap, vTexUV.xy).xy));
     float depth = texture (uDepthMap, vTexUV).r;
@@ -73,7 +73,7 @@ void main()
     else
     {
         float distanceThreshold = 0.05;
-        vec2 filterRadius = vec2 (0.06, 0.06);
+        vec2 filterRadius = vec2 (0.05, 0.05);
 
         float ambientOcclusion = 0;
         float normSumm = 0;

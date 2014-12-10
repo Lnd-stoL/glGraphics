@@ -55,7 +55,7 @@ namespace render
     {
         if (!supported())
         {
-            debug::log::println_err ("GLEW_ARB_framebuffer_object is not supported; can't use FBO with current driver");
+            debug::log::println_err ("ARB_framebuffer_object is not supported; can't use FBO with current driver");
             return;
         }
 
@@ -173,10 +173,6 @@ namespace render
         glbinding::SharedBitfield<AttribMask, ClearBufferMask>  flags = 0;
         if (_numColorBuffers)  flags = flags | GL_COLOR_BUFFER_BIT;
         if (_hasDepthBuffer)   flags = flags | GL_DEPTH_BUFFER_BIT;
-
-        //unsigned flags = 0;
-        //if (_numColorBuffers)  flags = flags | GL_COLOR_BUFFER_BIT;
-        //if (_hasDepthBuffer)   flags = flags | GL_DEPTH_BUFFER_BIT;
 
         glClear (flags);
     }

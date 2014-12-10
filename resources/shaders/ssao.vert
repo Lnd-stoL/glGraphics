@@ -4,8 +4,6 @@
 in vec3 aCoords;
 in vec2 aTexUV;
 
-uniform mat4 uMatTransform;
-
 out vec2 vTexUV;
 
 

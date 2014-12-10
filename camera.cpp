@@ -98,4 +98,11 @@ namespace render
 
         _updateCached();
     }
+
+
+    void camera::changePosition (const vector3_d &pos)
+    {
+        _transform.changeTranslation (pos);
+        _updateCached();
+    }
 }

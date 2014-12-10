@@ -126,8 +126,8 @@ vec3 calcSkyColor (vec3 eyedir)
 vec4 sampleCloudsPlane (float frameTime, vec2 offset)
 {
     float sphereProjHeight = vTexCube.y + 0.2;
-    vec2 cloudsUV = vec2 ((vTexCube.x + offset.x) / sphereProjHeight / 5 + frameTime / 10,
-                          (vTexCube.z + offset.y) / sphereProjHeight / 7 + frameTime / 5);
+    vec2 cloudsUV = vec2 ((vTexCube.x + offset.x) / sphereProjHeight / 5 + frameTime / 5,
+                          (vTexCube.z + offset.y) / sphereProjHeight / 5 + frameTime / 10);
 
     float cint;
     cint = texture (uClouds3D, vec3 (cloudsUV, frameTime / 2)).r;
@@ -140,7 +140,8 @@ void main()
 {
     if (vTexCube.y * 500 < -100)
     {
-        out_Color = vec3 (1, 1, 1);
+        discard;
+        //out_Color = vec3 (1, 1, 1);
         return;
     }
 
@@ -148,6 +149,7 @@ void main()
     //lightdir = normalize (vec3 (cos (frameTime), sin (frameTime), 0.2));
 
     vec4 cloudColor = sampleCloudsPlane (frameTime, vec2 (0, 0)) * vec4 ((uLightColor + vec3 (1)) / 2, 1);
+    //cloudColor = vec4 (texture (uClouds3D, normalize (vTexCube).xzy / (normalize (vTexCube).y + 0.5)).r);
 
     float cloudTexturePixel = 0.01;
     float cloudNormalDX = length (sampleCloudsPlane (frameTime, vec2 (cloudTexturePixel, 0))) -

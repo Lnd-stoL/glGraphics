@@ -1,5 +1,6 @@
 
 #include "mesh.hpp"
+
 #include "gpu_buffer_impl.hpp"
 #include "graphics_renderer.hpp"
 
@@ -13,6 +14,8 @@ namespace render
     void mesh_component<vertex_t, index_t>::draw (graphics_renderer &renderer) const
     {
         renderer.use (_material);
+
+        renderer.backfaceCulling (_backfaceCulling);
         renderer.draw (*_vertexBuffer, *_indexBuffer, _indexBuffer->bytesPerIndex());
     }
 }

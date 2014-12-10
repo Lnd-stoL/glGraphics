@@ -378,6 +378,30 @@ gpu_buffer.cpp.s:
 	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_buffer.cpp.s
 .PHONY : gpu_buffer.cpp.s
 
+gpu_image_processing.o: gpu_image_processing.cpp.o
+.PHONY : gpu_image_processing.o
+
+# target to build an object file
+gpu_image_processing.cpp.o:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o
+.PHONY : gpu_image_processing.cpp.o
+
+gpu_image_processing.i: gpu_image_processing.cpp.i
+.PHONY : gpu_image_processing.i
+
+# target to preprocess a source file
+gpu_image_processing.cpp.i:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.i
+.PHONY : gpu_image_processing.cpp.i
+
+gpu_image_processing.s: gpu_image_processing.cpp.s
+.PHONY : gpu_image_processing.s
+
+# target to generate assembly for a file
+gpu_image_processing.cpp.s:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.s
+.PHONY : gpu_image_processing.cpp.s
+
 gpu_program.o: gpu_program.cpp.o
 .PHONY : gpu_program.o
 
@@ -401,6 +425,30 @@ gpu_program.s: gpu_program.cpp.s
 gpu_program.cpp.s:
 	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_program.cpp.s
 .PHONY : gpu_program.cpp.s
+
+graphics_renderer.o: graphics_renderer.cpp.o
+.PHONY : graphics_renderer.o
+
+# target to build an object file
+graphics_renderer.cpp.o:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o
+.PHONY : graphics_renderer.cpp.o
+
+graphics_renderer.i: graphics_renderer.cpp.i
+.PHONY : graphics_renderer.i
+
+# target to preprocess a source file
+graphics_renderer.cpp.i:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/graphics_renderer.cpp.i
+.PHONY : graphics_renderer.cpp.i
+
+graphics_renderer.s: graphics_renderer.cpp.s
+.PHONY : graphics_renderer.s
+
+# target to generate assembly for a file
+graphics_renderer.cpp.s:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/graphics_renderer.cpp.s
+.PHONY : graphics_renderer.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -828,9 +876,15 @@ help:
 	@echo "... gpu_buffer.o"
 	@echo "... gpu_buffer.i"
 	@echo "... gpu_buffer.s"
+	@echo "... gpu_image_processing.o"
+	@echo "... gpu_image_processing.i"
+	@echo "... gpu_image_processing.s"
 	@echo "... gpu_program.o"
 	@echo "... gpu_program.i"
 	@echo "... gpu_program.s"
+	@echo "... graphics_renderer.o"
+	@echo "... graphics_renderer.i"
+	@echo "... graphics_renderer.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

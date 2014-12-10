@@ -19,6 +19,7 @@ void main()
     vec3 fogColor = vec3 (0.7, 0.7, 0.7);
     float fogFactor = pow ((1 - (proj.z - sceneDepth)), 10);
     out_Color = vec4 ((fogColor * fogFactor  + backColor.rgb) / (1 + fogFactor), 1);
+    out_Color = vec4 (1, 0, 0, 1);
 
     //if ( < proj.z)  out_Color = vec4 (texture (uColorMap, proj.xy).rgb, 1);
     //out_Color = vec4 (proj.xy, 0, 1);

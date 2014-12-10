@@ -67,10 +67,11 @@ public:
 
     void clear();
 
-    unsigned getWidth()  const;
-    unsigned getHeight() const;
+    unsigned width()  const;
+    unsigned height() const;
+    math3d::vector2<unsigned> size() const;
 
-    double getAspectRatio() const;
+    double aspectRatio() const;
 };
 
 //----------------------------------------------------------------------------------------------------------------------

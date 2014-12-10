@@ -15,6 +15,10 @@
 
 namespace render
 {
+
+
+//----------------------------------------------------------------------------------------------------------------------
+
     class graphics_renderer
     {
     public:
@@ -24,16 +28,22 @@ namespace render
             camera::ptr  _camera;
             material::ptr  _material;
             frame_buffer::ptr  _frameBuffer;
-            bool  _blend = false;
-            bool  _testDepth = true;
+
+            bool  _blend           = false;
+            bool  _testDepth       = false;
+            bool  _backfaceCulling = false;
+
 
         public:
             property_get_ref (object2ScreenTransform, _object2ScreenTransform)
             property_get (activeCamera, _camera)
             property_get (activeMaterial, _material)
-            property_get (activeRenderingProgram, _material->renderingTechnique()->renderingProgram())
+            property_get (activeRenderingProgram, _material->renderingTechnique()->gpuProgram())
             property_get (activeFrameBuffer, _frameBuffer)
+
             property_get (blendingEnabled, _blend)
+            property_get (testDepth, _testDepth)
+            property_get (backfaceCulling, _backfaceCulling)
 
 
         public:
@@ -97,6 +107,7 @@ namespace render
 
         void blend (bool enabled);
         void testDepth (bool enabled);
+        void backfaceCulling (bool enabled);
 
         void renderTo (frame_buffer::ptr frameBuffer, bool autoClear = true);
         void renderTo (render_window &wnd, bool autoClear = true);
@@ -106,6 +117,7 @@ namespace render
 
         void draw (gpu_buffer &vertexBuffer, gpu_buffer &indexBuffer, uint8_t bytesPerIndex = 2, unsigned indicesCount = 0);
         void drawPoints (gpu_buffer &vertexBuffer);
+        void draw (const renderable &object);
 
         void renderScene (scene::ptr sceneToRender);
     };

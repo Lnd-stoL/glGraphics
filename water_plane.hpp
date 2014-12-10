@@ -24,6 +24,9 @@ class water_plane : public renderable
     texture::ptr       _reflectionsTexture;
     camera::ptr        _reflectionsCamera;
 
+public:
+    property_get (surfaeHight, _surfaceHeight)
+
 
 public:
     declare_ptr_alloc (water_plane)

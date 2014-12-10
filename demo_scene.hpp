@@ -16,6 +16,7 @@
 #include "volumetric_fog.hpp"
 #include "spline_path.hpp"
 #include "particles_system.hpp"
+#include "gpu_image_processing.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3d;
@@ -26,29 +27,20 @@ using namespace render;
 class demo_scene :
     public oo_extensions::non_copyable
 {
-    graphics_renderer &_renderer;
-    render_window     &_renderWindow;
-    resources         &_resources;
+    graphics_renderer  &_renderer;
+    resources          &_resources;
+    render_window::ptr  _renderWindow;
 
-    camera::ptr    _viewerCamera;
-    fps_camera_controller::ptr _fpsCameraController;
+    camera::ptr  _viewerCamera;
+    fps_camera_controller::ptr  _fpsCameraController;
 
-    mesh_component<elementary_shapes::simple_vertex, unsigned short>::ptr  _screenQuad;
-    material::ptr      _drawScreenMaterial;
-    frame_buffer::ptr  _sceneWithoutWater_FrameBuffer;
-    texture::ptr       _sceneWithoutWater_Texture;
-    texture::ptr       _sceneWithoutWater_DepthTexture;
-    texture::ptr       _sceneWithoutWater_NormalMap;
-
-    material::ptr      _postprocessMaterial;
-    frame_buffer::ptr  _postprocess_FrameBuffer;
-    texture::ptr       _postprocess_Texture;
-    texture::ptr       _postprocess_DepthTexture;
+    offscreen_render_target::ptr      _shadowmapRT;
+    offscreen_render_target::ptr      _solidSceneRT;
+    gpu_image_processing_stage::ptr   _solidScenePostprocess;
+    gpu_image_processing_screen::ptr  _finalPostprocess;
 
     camera::ptr       _shadowmapCamera;
-    frame_buffer::ptr _shadowmapFrameBuffer;
     transform_d       _lightTransform;
-    texture::ptr      _shadowmapTexture;
     material::ptr     _shadowmapGenMaterial;
 
     scene::ptr  _scene;
@@ -72,7 +64,6 @@ protected:
     void _loadAndInitialize();
     void _setEventHandlers();
 
-    void _initResourceManagers();
     void _initViewer();
     void _initShadowmaps();
     void _initObjects();
@@ -83,11 +74,9 @@ protected:
     void _frameRender();
     void _keyPressed (int key);
 
-    void _justTestDraw();
-
 
 public:
-    demo_scene (graphics_renderer& renderer, render_window &renderWindow, resources &res);
+    demo_scene (graphics_renderer& renderer, render_window::ptr renderWindow, resources &res);
 };
 
 //----------------------------------------------------------------------------------------------------------------------

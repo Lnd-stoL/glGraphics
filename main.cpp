@@ -12,6 +12,7 @@ class application
 {
     resources  _resourceManagers;
     render_window::ptr  _renderWindow;
+
     unique_ptr<graphics_renderer>  _graphicsRenderer;
     unique_ptr<demo_scene>  _demoScene;
 
@@ -20,7 +21,17 @@ protected:
     void _initializeResources()
     {
         debug::log::println ("initializing resource managers ...");
+
         _resourceManagers.configFilesManager().addFileSearchLocation ("config");
+        _resourceManagers.exs3dMeshesManager().addFileSearchLocation ("resources/models");
+        _resourceManagers.gpuProgramsManager().addFileSearchLocation ("resources/shaders");
+        _resourceManagers.vertexShadersManager().addFileSearchLocation ("resources/shaders");
+        _resourceManagers.fragmentShadersManager().addFileSearchLocation ("resources/shaders");
+        _resourceManagers.geometryShadersManager().addFileSearchLocation ("resources/shaders");
+        _resourceManagers.fontsManager().addFileSearchLocation ("resources/fonts");
+        _resourceManagers.texturesManager().addFileSearchLocation ("resources/textures");
+
+        _resourceManagers.addFilesSearchLocation ("resources");
     }
 
 
@@ -44,7 +55,7 @@ public:
         _initializeRenderWindow();
 
         _graphicsRenderer = unique_ptr<graphics_renderer> (new graphics_renderer (_renderWindow));
-        _demoScene = unique_ptr<demo_scene> (new demo_scene (*_graphicsRenderer, *_renderWindow, _resourceManagers));
+        _demoScene = unique_ptr<demo_scene> (new demo_scene (*_graphicsRenderer, _renderWindow, _resourceManagers));
     }
 
 

@@ -4,6 +4,8 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/glGraphics.dir/debug.cpp.o"
   "CMakeFiles/glGraphics.dir/static_mesh.cpp.o"
   "CMakeFiles/glGraphics.dir/clouds_noise.cpp.o"
+  "CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o"
+  "CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o"
   "CMakeFiles/glGraphics.dir/render_resources.cpp.o"
   "CMakeFiles/glGraphics.dir/config_file.cpp.o"
   "CMakeFiles/glGraphics.dir/particles_system.cpp.o"

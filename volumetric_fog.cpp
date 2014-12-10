@@ -23,13 +23,13 @@ volumetric_fog::volumetric_fog (resources &renderRes, a_mesh_component::ptr mesh
 
 void volumetric_fog::useDepthTexture (texture::ptr depthTexture)
 {
-    _material->textures()["uDepthMap"] = depthTexture;
+    _material->set ("uDepthMap", depthTexture);
 }
 
 
 void volumetric_fog::useColorTexture (texture::ptr colorTexture)
 {
-    _material->textures()["uColorMap"] = colorTexture;
+    _material->set ("uColorMap", colorTexture);
 }
 
 

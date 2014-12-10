@@ -34,9 +34,9 @@ namespace render
         if (!_material)         _loadMaterial (textRenderer);
         if (_meshUpdateNeeded)  _updateTextMesh (textRenderer);
 
-        _material->vec2Params()["uOffset"] = vector2_f (_position.x() * 2 - 1, 1 - _position.y() * 2);
-        _material->vec2Params()["uScale"]  = _size;
-        _material->vec3Params()["uColor"]  = _color.asVector();
+        _material->set ("uOffset", vector2_f (_position.x() * 2 - 1, 1 - _position.y() * 2));
+        _material->set ("uScale",  _size);
+        _material->set ("uColor", _color.asVector());
 
         renderer.use (_material);
         auto pIndexBuffer = textRenderer->textLineIndexBuffer();
@@ -62,7 +62,7 @@ namespace render
     void text_label::_loadMaterial (text_renderer::ptr textRenderer)
     {
         _material = material::alloc (textRenderer->textRenderingTechnique());
-        _material->textures()["uFontBitmap"] = _font->bitmap();
+        _material->set ("uFontBitmap", _font->bitmap());
     }
 
 
@@ -126,8 +126,9 @@ namespace render
     {
         if (!_visible)  return;
 
-        glDisable (GL_CULL_FACE);
-        glDisable (GL_DEPTH_TEST);
+        renderer.backfaceCulling (false);
+        renderer.testDepth (false);
+
         glDepthMask (GL_FALSE);
         glEnable (GL_BLEND);
         glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -142,8 +143,9 @@ namespace render
 
         glDisable (GL_BLEND);
         glDepthMask (GL_TRUE);
-        glEnable (GL_CULL_FACE);
-        glEnable (GL_DEPTH_TEST);
+
+        //renderer.backfaceCulling (true);
+        renderer.testDepth (true);
     }
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -20,8 +20,8 @@ namespace render
         vector3_f baseUp    = mvpMatrix.col3 (1);
         vector3_f baseRight = mvpMatrix.col3 (0);
 
-        _material->vec3Params()["uBaseUp"]    = baseUp.normalized();
-        _material->vec3Params()["uBaseRight"] = baseRight.normalized();
+        _material->set ("uBaseUp", baseUp.normalized());
+        _material->set ("uBaseRight", baseRight.normalized());
 
         particle_vertex *vertices = _vertexBuffer->cpuAccess (gpu_buffer::accessReadWrite);
         _modifyParticles (vertices);
@@ -44,7 +44,7 @@ namespace render
                                                   "particle.vert", "particle.geom", "particle.frag");
         auto particleShader = res.gpuProgramsManager().request (particleShaderId, res);
         _material = material::alloc (technique::alloc (particleShader));
-        _material->textures()["uTexture"] = res.requestFromFile<texture> ("SmokeShape.png");
+        _material->set ("uTexture", res.requestFromFile<texture> ("SmokeShape.png"));
 
         _generateVertexBuffer();
     }

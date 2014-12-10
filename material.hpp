@@ -9,6 +9,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <map>
+#include <unordered_map>
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -42,9 +43,9 @@ namespace render
         color_rgb (component_t grayscale) : _r (grayscale), _g (grayscale), _b (grayscale)
         { }
 
-        color_rgb (math3d::vector3<component_t> colorAsVector) : _r (colorAsVector.getX()),
-                                                                 _g (colorAsVector.getY()),
-                                                                 _b (colorAsVector.getZ())
+        color_rgb (math3d::vector3<component_t> colorAsVector) : _r (colorAsVector.x()),
+                                                                 _g (colorAsVector.y()),
+                                                                 _b (colorAsVector.z())
         { }
 
         math3d::vector3<component_t> asVector() const
@@ -62,18 +63,27 @@ namespace render
     class technique
     {
     protected:
-        gpu_program::ptr  _renderingProgram;
-        bool _withoutTransform = false;
+        gpu_program::ptr  _gpuProgram;
+        bool  _withoutTransform = false;
+
+        gpu_program::uniform_id  _mvpMatrix_UniformId        =  gpu_program::invalidUniformId;
+        gpu_program::uniform_id  _worldMatrix_UniformId      =  gpu_program::invalidUniformId;
+        gpu_program::uniform_id  _viewMatrix_UniformId       =  gpu_program::invalidUniformId;
+        gpu_program::uniform_id  _worldViewMatrix_UniformId  =  gpu_program::invalidUniformId;
+
+        gpu_program::uniform_id  _viewPos_UniformId = gpu_program::invalidUniformId;
+
 
     public:
-        property_get (renderingProgram, _renderingProgram)
+        property_get (gpuProgram, _gpuProgram)
 
+
+    protected:
+        void _cacheUniformsLocations();
 
     public:
         declare_ptr_alloc (technique)
-
-        technique (gpu_program::ptr renderingProgram) : _renderingProgram (renderingProgram)
-        { }
+        technique (gpu_program::ptr renderingProgram);
 
         void setup (graphics_renderer &renderer) const;
 
@@ -86,24 +96,27 @@ namespace render
     {
     protected:
         technique::ptr  _technique;
-        std::map<string, texture::ptr>  _textures;
-        std::map<string, float> _scalarParams;
-        std::map<string, math3d::vector3_f>  _vec3Params;
-        std::map<string, math3d::vector2_f>  _vec2Params;
+
+        std::unordered_map<string, std::pair<texture::ptr, gpu_program::uniform_id>>  _textures;
+        std::unordered_map<string, std::pair<float, gpu_program::uniform_id>>         _scalarParams;
+        std::unordered_map<string, std::pair<math3d::vector3_f, gpu_program::uniform_id>>  _vec3Params;
+        std::unordered_map<string, std::pair<math3d::vector2_f, gpu_program::uniform_id>>  _vec2Params;
+
 
     public:
         property_get (renderingTechnique, _technique)
-        property_ref (textures,           _textures)
-        property_ref (scalarParams,       _scalarParams)
-
-        property_ref (vec3Params, _vec3Params)
-        property_ref (vec2Params, _vec2Params)
 
 
     public:
         declare_ptr_alloc (material)
+
         material (technique::ptr renderingTechnique) : _technique (renderingTechnique)
         { }
+
+        void set (const string &name, texture::ptr txt);
+        void set (const string &name, float param);
+        void set (const string &name, const math3d::vector3_f &param);
+        void set (const string &name, const math3d::vector2_f &param);
 
         void setup (graphics_renderer &renderer) const;
     };

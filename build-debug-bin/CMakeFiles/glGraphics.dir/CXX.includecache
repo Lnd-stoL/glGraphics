@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/leonid/Dev/glGraphics/binary_stream.cpp
+binary_stream.hpp
+/home/leonid/Dev/glGraphics/binary_stream.hpp
+
 /home/leonid/Dev/glGraphics/binary_stream.hpp
 oo_extensions.hpp
 /home/leonid/Dev/glGraphics/oo_extensions.hpp
@@ -36,6 +40,12 @@ oo_extensions.hpp
 math3D.hpp
 /home/leonid/Dev/glGraphics/math3D.hpp
 
+/home/leonid/Dev/glGraphics/config_file.cpp
+config_file.hpp
+/home/leonid/Dev/glGraphics/config_file.hpp
+debug.hpp
+/home/leonid/Dev/glGraphics/debug.hpp
+
 /home/leonid/Dev/glGraphics/config_file.hpp
 oo_extensions.hpp
 /home/leonid/Dev/glGraphics/oo_extensions.hpp
@@ -46,6 +56,18 @@ debug.hpp
 boost/property_tree/info_parser.hpp
 -
 boost/property_tree/ptree.hpp
+-
+
+/home/leonid/Dev/glGraphics/debug.cpp
+debug.hpp
+/home/leonid/Dev/glGraphics/debug.hpp
+iostream
+-
+ctime
+-
+cstdlib
+-
+iomanip
 -
 
 /home/leonid/Dev/glGraphics/debug.hpp
@@ -101,6 +123,8 @@ spline_path.hpp
 /home/leonid/Dev/glGraphics/spline_path.hpp
 particles_system.hpp
 /home/leonid/Dev/glGraphics/particles_system.hpp
+gpu_image_processing.hpp
+/home/leonid/Dev/glGraphics/gpu_image_processing.hpp
 
 /home/leonid/Dev/glGraphics/exs3d.cpp
 exs3d.hpp
@@ -204,6 +228,26 @@ exception
 stdexcept
 -
 
+/home/leonid/Dev/glGraphics/gpu_image_processing.cpp
+gpu_image_processing.hpp
+/home/leonid/Dev/glGraphics/gpu_image_processing.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
+
+/home/leonid/Dev/glGraphics/gpu_image_processing.hpp
+math3D.hpp
+/home/leonid/Dev/glGraphics/math3D.hpp
+renderable.hpp
+/home/leonid/Dev/glGraphics/renderable.hpp
+frame_buffer.hpp
+/home/leonid/Dev/glGraphics/frame_buffer.hpp
+mesh.hpp
+/home/leonid/Dev/glGraphics/mesh.hpp
+render_resources.hpp
+/home/leonid/Dev/glGraphics/render_resources.hpp
+render_window.hpp
+/home/leonid/Dev/glGraphics/render_window.hpp
+
 /home/leonid/Dev/glGraphics/gpu_program.cpp
 gpu_program.hpp
 /home/leonid/Dev/glGraphics/gpu_program.hpp
@@ -218,6 +262,24 @@ gpu_buffer.hpp
 resource.hpp
 /home/leonid/Dev/glGraphics/resource.hpp
 
+/home/leonid/Dev/glGraphics/graphics_renderer.cpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
+
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
+renderable.hpp
+/home/leonid/Dev/glGraphics/renderable.hpp
+camera.hpp
+/home/leonid/Dev/glGraphics/camera.hpp
+render_window.hpp
+/home/leonid/Dev/glGraphics/render_window.hpp
+material.hpp
+/home/leonid/Dev/glGraphics/material.hpp
+frame_buffer.hpp
+/home/leonid/Dev/glGraphics/frame_buffer.hpp
+scene.hpp
+/home/leonid/Dev/glGraphics/scene.hpp
+
 /home/leonid/Dev/glGraphics/main.cpp
 demo_scene.hpp
 /home/leonid/Dev/glGraphics/demo_scene.hpp
@@ -227,8 +289,8 @@ resource_manager_impl.hpp
 /home/leonid/Dev/glGraphics/material.cpp
 material.hpp
 /home/leonid/Dev/glGraphics/material.hpp
-scene.hpp
-/home/leonid/Dev/glGraphics/scene.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
 
 /home/leonid/Dev/glGraphics/material.hpp
 gpu_program.hpp
@@ -238,6 +300,8 @@ texture.hpp
 SFML/Graphics/Color.hpp
 -
 map
+-
+unordered_map
 -
 
 /home/leonid/Dev/glGraphics/math3D.hpp
@@ -271,8 +335,8 @@ mesh.hpp
 /home/leonid/Dev/glGraphics/mesh.hpp
 gpu_buffer_impl.hpp
 /home/leonid/Dev/glGraphics/gpu_buffer_impl.hpp
-scene.hpp
-/home/leonid/Dev/glGraphics/scene.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
 
 /home/leonid/Dev/glGraphics/mesh_renderable_object.cpp
 mesh_renderable_object.hpp
@@ -311,8 +375,12 @@ gpu_buffer_impl.hpp
 /home/leonid/Dev/glGraphics/gpu_buffer_impl.hpp
 resource_manager_impl.hpp
 /home/leonid/Dev/glGraphics/resource_manager_impl.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
 
 /home/leonid/Dev/glGraphics/particles_system.hpp
+math3D.hpp
+/home/leonid/Dev/glGraphics/math3D.hpp
 oo_extensions.hpp
 /home/leonid/Dev/glGraphics/oo_extensions.hpp
 transformable_object.hpp
@@ -407,18 +475,16 @@ boost/range/join.hpp
 /home/leonid/Dev/glGraphics/scene.cpp
 scene.hpp
 /home/leonid/Dev/glGraphics/scene.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
+algorithm
+-
 
 /home/leonid/Dev/glGraphics/scene.hpp
 renderable.hpp
 /home/leonid/Dev/glGraphics/renderable.hpp
-camera.hpp
-/home/leonid/Dev/glGraphics/camera.hpp
-render_window.hpp
-/home/leonid/Dev/glGraphics/render_window.hpp
 material.hpp
 /home/leonid/Dev/glGraphics/material.hpp
-frame_buffer.hpp
-/home/leonid/Dev/glGraphics/frame_buffer.hpp
 set
 -
 
@@ -427,8 +493,8 @@ screen_overlay.hpp
 /home/leonid/Dev/glGraphics/screen_overlay.hpp
 debug.hpp
 /home/leonid/Dev/glGraphics/debug.hpp
-scene.hpp
-/home/leonid/Dev/glGraphics/scene.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
 gpu_buffer_impl.hpp
 /home/leonid/Dev/glGraphics/gpu_buffer_impl.hpp
 resource_manager_impl.hpp
@@ -493,8 +559,8 @@ mesh.hpp
 /home/leonid/Dev/glGraphics/statistics.cpp
 statistics.hpp
 /home/leonid/Dev/glGraphics/statistics.hpp
-scene.hpp
-/home/leonid/Dev/glGraphics/scene.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
 
 /home/leonid/Dev/glGraphics/statistics.hpp
 render_window.hpp
@@ -529,8 +595,8 @@ map
 /home/leonid/Dev/glGraphics/transformable_object.cpp
 transformable_object.hpp
 /home/leonid/Dev/glGraphics/transformable_object.hpp
-scene.hpp
-/home/leonid/Dev/glGraphics/scene.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
 
 /home/leonid/Dev/glGraphics/transformable_object.hpp
 oo_extensions.hpp
@@ -585,8 +651,8 @@ renderable.hpp
 /home/leonid/Dev/glGraphics/renderable.hpp
 render_resources.hpp
 /home/leonid/Dev/glGraphics/render_resources.hpp
-scene.hpp
-/home/leonid/Dev/glGraphics/scene.hpp
+graphics_renderer.hpp
+/home/leonid/Dev/glGraphics/graphics_renderer.hpp
 
 /usr/local/include/GLFW/glfw3.h
 stddef.h

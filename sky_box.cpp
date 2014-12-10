@@ -12,12 +12,8 @@ using oo_extensions::mkstr;
 
 void sky_box::draw (graphics_renderer &renderer) const
 {
-    glFrontFace (GL_CW);
-
     renderer.use (renderer.state().activeCamera()->object2ScreenTransform (transform_d()));
     _mesh->draw (renderer);
-
-    glFrontFace (GL_CCW);
 }
 
 
@@ -29,6 +25,7 @@ sky_box::sky_box (resources& renderRes)
 
     _mesh = renderRes.requestFromFile<exs3d_mesh> ("sphere.exs3d")->renderableMesh();
     _mesh->components()[0]->changeMaterial (_material);
+    _mesh->components()[0]->backfaceCulling (false);
 
     glEnable (GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
@@ -57,11 +54,11 @@ sky_box::sky_box (resources& renderRes)
     //auto cubeMap = texture::alloc (cubeMapFaces);
     //_material->textures()["uSkyBox_CubeMap"] = cubeMap;
     //_material->textures()["uClouds"] = renderRes.requestFromFile<texture> (fileName);
-    _material->textures()["uClouds3D"] = clouds3dTexture;
+    _material->set ("uClouds3D", clouds3dTexture);
 }
 
 
 void sky_box::update (math3d::vector3_f sunPosition)
 {
-    _material->vec3Params()["lightdir"] = sunPosition;
+    _material->set ("lightdir", sunPosition);
 }

@@ -337,7 +337,7 @@ namespace render
                                                                                         _additionalSearchLocations);
             if (!txt)  return;
             txt->filtering (texture::linear_MipmapLinear, texture::linear_MipmapLinear);
-            mat->textures()["uTexture"] = txt;
+            mat->set ("uTexture", txt);
         }
     }
 

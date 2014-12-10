@@ -1,7 +1,7 @@
 
 #version 330 core
 
-uniform sampler2D  uScreen;
+uniform sampler2D  uTxtInput;
 
 in vec2  vTexUV;
 out vec3  out_Color;
@@ -11,8 +11,8 @@ vec2 texcoordOffset = vec2 (1.0 / 1400.0, 1.0 / 900.0);
 
 void main()
 {
-    //gl_FragColor = texture (uScreen, vTexUV);
-    //return;
+    out_Color = texture (uTxtInput, vTexUV).rgb;
+    /*return;
 
     float FXAA_SPAN_MAX = 9.0;
     float FXAA_REDUCE_MUL = 1.0 / 8.0;
@@ -64,7 +64,7 @@ void main()
         out_Color = rgbB;
     }
 
-    //out_Color = vec4 (1, 0, 0, 1);
     //gl_FragColor.a = 0.5;
     //gl_FragColor *= vertColor;
+    */
 }

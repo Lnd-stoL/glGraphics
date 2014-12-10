@@ -81,6 +81,11 @@ namespace render
         public gl_bindable<gpu_program>
     {
     public:
+        typedef GLint  uniform_id;
+        static constexpr uniform_id invalidUniformId = GL_INVALID_INDEX;
+
+
+    public:
         struct id : resource::id
         {
             i_vertex_layout::ptr _vertexLayout;
@@ -132,6 +137,15 @@ namespace render
         void setUniform (const string &name, const math3d::vector3_f &value, bool ignoreIfNotExists = false);
         void setUniform (const string &name, const math3d::vector2_f &value, bool ignoreIfNotExists = false);
         void setUniformSampler (const string &name, unsigned textureIndex, bool ignoreIfNotExists = false);
+
+        void setUniform (uniform_id uniformId, float value);
+        void setUniform (uniform_id uniformId, const math3d::matrix_4x4<float> &value);
+        void setUniform (uniform_id uniformId, const math3d::vector3_f &value);
+        void setUniform (uniform_id uniformId, const math3d::vector2_f &value);
+        void setUniformSampler (uniform_id uniformId, unsigned textureIndex);
+
+        uniform_id uniformLocation (const string &name, bool ignoreIfNotExists = false) const;
+        static bool isValidUniformLocation (uniform_id uniformId);
 
         virtual string asString() const;
     };
