@@ -48,6 +48,7 @@ namespace render
     {
     public:
         typedef unsigned  render_group_id;
+        static const render_group_id  defaultRenderGroupId = (render_group_id) -1;
 
 
     private:

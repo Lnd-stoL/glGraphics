@@ -33,10 +33,10 @@ namespace render
     }
 
 
-    void graphics_renderer::renderScene (scene::ptr scene)
+    void graphics_renderer::renderScene (scene::ptr scene, scene::render_group_id renderGroup)
     {
         _scene = scene;
-        scene->draw (*this);
+        scene->draw (*this, renderGroup);
     }
 
 

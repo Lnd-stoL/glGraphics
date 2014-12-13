@@ -61,31 +61,50 @@ namespace render
 
         for (auto param : _scalarParams)
         {
-            if (gpu_program::isValidUniformLocation (param.second.second))
-                _technique->gpuProgram()->setUniform (param.second.second, param.second.first);
+            uniform_info<float> &uniInfo = param.second;
+            if (!uniInfo.needsUpdate)  continue;
+            uniInfo.needsUpdate = false;
+
+            if (gpu_program::isValidUniformLocation (uniInfo.uniformId))
+                _technique->gpuProgram()->setUniform (uniInfo.uniformId, uniInfo.value);
         }
 
         for (auto param : _vec3Params)
         {
-            if (gpu_program::isValidUniformLocation (param.second.second))
-                _technique->gpuProgram()->setUniform (param.second.second, param.second.first);
+            uniform_info<vector3_f> &uniInfo = param.second;
+            if (!uniInfo.needsUpdate)  continue;
+            uniInfo.needsUpdate = false;
+
+            if (gpu_program::isValidUniformLocation (uniInfo.uniformId))
+                _technique->gpuProgram()->setUniform (uniInfo.uniformId, uniInfo.value);
         }
 
         for (auto param : _vec2Params)
         {
-            if (gpu_program::isValidUniformLocation (param.second.second))
-                _technique->gpuProgram()->setUniform (param.second.second, param.second.first);
+            uniform_info<vector2_f> &uniInfo = param.second;
+            if (!uniInfo.needsUpdate)  continue;
+            uniInfo.needsUpdate = false;
+
+            if (gpu_program::isValidUniformLocation (uniInfo.uniformId))
+                _technique->gpuProgram()->setUniform (uniInfo.uniformId, uniInfo.value);
         }
 
         unsigned i = 0;
         for (auto nextTexture : _textures)
         {
-            glActiveTexture (GL_TEXTURE0 + i);
-            texture::invalidateBinding();
-            nextTexture.second.first->use();
+            uniform_info<texture::ptr> &uniInfo = nextTexture.second;
+            if (!uniInfo.needsUpdate)  continue;
+            uniInfo.needsUpdate = false;
 
-            if (gpu_program::isValidUniformLocation (nextTexture.second.second))
-                _technique->gpuProgram()->setUniformSampler (nextTexture.second.second, i);
+            if (gpu_program::isValidUniformLocation (uniInfo.uniformId))
+            {
+                glActiveTexture (GL_TEXTURE0 + i);
+                texture::invalidateBinding();
+
+                uniInfo.value->use();
+                _technique->gpuProgram()->setUniformSampler (uniInfo.uniformId, i);
+            }
+
             ++i;
         }
     }
@@ -95,11 +114,17 @@ namespace render
     {
         auto existingIt = _textures.find (name);
 
-        if (existingIt != _textures.end())  existingIt->second.first = txt;
+        if (existingIt != _textures.end())
+        {
+            auto &uniformInfo = existingIt->second;
+            uniformInfo.value = txt;
+            uniformInfo.needsUpdate = true;
+        }
+
         else
         {
             gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
-            _textures[name] = { txt, uniformId };
+            _textures[name] = { txt, uniformId, true };
         }
     }
 
@@ -108,11 +133,17 @@ namespace render
     {
         auto existingIt = _scalarParams.find (name);
 
-        if (existingIt != _scalarParams.end())  existingIt->second.first = param;
+        if (existingIt != _scalarParams.end())
+        {
+            auto &uniformInfo = existingIt->second;
+            uniformInfo.value = param;
+            uniformInfo.needsUpdate = true;
+        }
+
         else
         {
             gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
-            _scalarParams[name] = { param, uniformId };
+            _scalarParams[name] = { param, uniformId, true };
         }
     }
 
@@ -121,11 +152,17 @@ namespace render
     {
         auto existingIt = _vec3Params.find (name);
 
-        if (existingIt != _vec3Params.end())  existingIt->second.first = param;
+        if (existingIt != _vec3Params.end())
+        {
+            auto &uniformInfo = existingIt->second;
+            uniformInfo.value = param;
+            uniformInfo.needsUpdate = true;
+        }
+
         else
         {
             gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
-            _vec3Params[name] = { param, uniformId };
+            _vec3Params[name] = { param, uniformId, true };
         }
     }
 
@@ -134,11 +171,17 @@ namespace render
     {
         auto existingIt = _vec2Params.find (name);
 
-        if (existingIt != _vec2Params.end())  existingIt->second.first = param;
+        if (existingIt != _vec2Params.end())
+        {
+            auto &uniformInfo = existingIt->second;
+            uniformInfo.value = param;
+            uniformInfo.needsUpdate = true;
+        }
+
         else
         {
             gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
-            _vec2Params[name] = { param, uniformId };
+            _vec2Params[name] = { param, uniformId, true };
         }
     }
 }

@@ -94,13 +94,23 @@ namespace render
 
     class material
     {
+    private:
+        template<typename value_t>
+        struct uniform_info
+        {
+            value_t  value;
+            gpu_program::uniform_id  uniformId;
+            bool  needsUpdate;
+        };
+
+
     protected:
         technique::ptr  _technique;
 
-        std::unordered_map<string, std::pair<texture::ptr, gpu_program::uniform_id>>  _textures;
-        std::unordered_map<string, std::pair<float, gpu_program::uniform_id>>         _scalarParams;
-        std::unordered_map<string, std::pair<math3d::vector3_f, gpu_program::uniform_id>>  _vec3Params;
-        std::unordered_map<string, std::pair<math3d::vector2_f, gpu_program::uniform_id>>  _vec2Params;
+        std::unordered_map<string, uniform_info<texture::ptr>>  _textures;
+        std::unordered_map<string, uniform_info<float>>         _scalarParams;
+        std::unordered_map<string, uniform_info<math3d::vector3_f>>  _vec3Params;
+        std::unordered_map<string, uniform_info<math3d::vector2_f>>  _vec2Params;
 
 
     public:

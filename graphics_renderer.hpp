@@ -119,7 +119,7 @@ namespace render
         void drawPoints (gpu_buffer &vertexBuffer);
         void draw (const renderable &object);
 
-        void renderScene (scene::ptr sceneToRender);
+        void renderScene (scene::ptr sceneToRender, scene::render_group_id renderGroup = scene::defaultRenderGroupId);
     };
 
 }

@@ -102,6 +102,8 @@ namespace render
 
     void scene::defaultRenderGroup (scene::render_group_id groupId)
     {
+        if (groupId == defaultRenderGroupId)  groupId = this->defaultRenderGroup();
+
         if (unsigned (groupId) > _renderGroups.size())
         {
             debug::log::println_err (mkstr ("failed to set default render group ", unsigned (groupId)));
@@ -120,6 +122,8 @@ namespace render
 
     string  scene::renderGroup (scene::render_group_id groupId)  const
     {
+        if (groupId == defaultRenderGroupId)  groupId = this->defaultRenderGroup();
+
         for (auto next : _renderGroupsNames)
         {
             if (next.second == groupId)  return next.first;
@@ -144,6 +148,8 @@ namespace render
 
     void scene::draw (graphics_renderer &renderer, scene::render_group_id renderGroupId) const
     {
+        if (renderGroupId == defaultRenderGroupId)  renderGroupId = this->defaultRenderGroup();
+
         auto &group = _renderGroups[unsigned (renderGroupId)];
         for (auto &nextObj : group)
         {
