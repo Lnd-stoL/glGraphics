@@ -54,7 +54,7 @@ namespace render
         void changeTransform (const vector3_d &trans, const rotation_d &rot);
         void changeProjection (unique_ptr<projection_d> &&proj);
         void changePosition (const vector3_d &pos);
-        projection_d* getProjection() const;
+        projection_d* projection() const;
         void changeRotation (const rotation_d &rot);
 
         void syncProjectionAspectRatio (event<unsigned, unsigned> &sizeChangeEvent);

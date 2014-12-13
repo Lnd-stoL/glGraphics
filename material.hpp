@@ -111,6 +111,7 @@ namespace render
         std::unordered_map<string, uniform_info<float>>         _scalarParams;
         std::unordered_map<string, uniform_info<math3d::vector3_f>>  _vec3Params;
         std::unordered_map<string, uniform_info<math3d::vector2_f>>  _vec2Params;
+        std::unordered_map<string, uniform_info<math3d::matrix_4x4_f>>  _mat4Params;
 
 
     public:
@@ -127,6 +128,7 @@ namespace render
         void set (const string &name, float param);
         void set (const string &name, const math3d::vector3_f &param);
         void set (const string &name, const math3d::vector2_f &param);
+        void set (const string &name, const math3d::matrix_4x4_f &param);
 
         void setup (graphics_renderer &renderer) const;
     };

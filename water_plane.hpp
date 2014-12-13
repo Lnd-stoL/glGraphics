@@ -33,7 +33,7 @@ public:
     water_plane (resources& renderRes, render_window &renderWindow, float y);
 
     void useRefractionTextures (texture::ptr refractTexture, texture::ptr depthTexture);
-    void drawReflections (graphics_renderer &renderer, scene &reflectibleScene);
+    void drawReflections (graphics_renderer &renderer, scene &reflectibleScene, scene::render_group_id reflectibleGroup);
     virtual void draw (graphics_renderer &renderer) const;
 };
 

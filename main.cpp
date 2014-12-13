@@ -71,6 +71,9 @@ public:
 
 int main (int argc, char **argv)
 {
+    math3d::matrix_4x4_d mm (1, 1, 1, 1);
+    math3d::matrix_4x4_d mc = mm;
+
     try
     {
         application app;

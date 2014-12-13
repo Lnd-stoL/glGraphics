@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <iomanip>
 #include <limits>
+#include <algorithm>
 
 #include "oo_extensions.hpp"
 #include "math_ex.hpp"
@@ -667,7 +668,7 @@ namespace math3d
         inline void _testBounds (int row, int col) const
         {
             if (row < 0 || col < 0 || row >= sideN || col >= sideN)
-                throw std::range_error (mkstr (" invalid matrix indexing: ", col, " ", row, " are out of 0 ", sideN));
+                throw std::range_error (mkstr ("invalid matrix indexing: ", col, " ", row, " are out of 0 ", sideN));
         }
 
     public:
@@ -704,18 +705,28 @@ namespace math3d
         matrix() {  }
 
 
-        void multiply (const this_t &operand)
+        matrix (const matrix<numeric_t, sideN> &src)
         {
-            //TODO: Common multiply
+            this->operator= (src);
         }
 
 
-        template<typename element_t>
-        void copyFrom (const matrix<element_t, sideN> &source)
+        matrix (const matrix<numeric_t, sideN> &&src)
         {
-            for (int i = 0; i < sideN; ++i)
-                for (int j = 0; j < sideN; ++j)
-                    _matrix[i][j] = source.get (i, j);
+            this->operator= (src);
+        }
+
+
+        matrix<numeric_t, sideN>& operator= (const matrix<numeric_t, sideN> &src)
+        {
+            numeric_t *mptr = (numeric_t *)src._matrix;
+            std::copy (mptr, mptr + sideN * sideN, (numeric_t *)_matrix);
+        }
+
+
+        void multiply (const this_t &operand)
+        {
+            //TODO: Common multiply
         }
 
 
@@ -732,6 +743,18 @@ namespace math3d
 
             return ss.str();
         }
+
+
+        template<typename another_numeric_t>
+        matrix<another_numeric_t, sideN> convertType() const
+        {
+            matrix<another_numeric_t, sideN> result;
+
+            for (unsigned i = 0; i < sideN * sideN; ++i)
+                ((another_numeric_t *)result._matrix)[i] = ((numeric_t *)_matrix)[i];
+
+            return std::move (result);
+        }
     };
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -744,6 +767,23 @@ namespace math3d
 
     public:
         matrix_4x4() {  }
+
+
+        matrix_4x4 (const matrix_4x4<numeric_t> &src) : base_t (src)
+        {
+        }
+
+
+        matrix_4x4 (const matrix_4x4<numeric_t> &&src) : base_t (src)
+        {
+        }
+
+
+        matrix_4x4<numeric_t>& operator= (const matrix_4x4<numeric_t> &src)
+        {
+            base_t::operator= (src);
+        }
+
 
         matrix_4x4 (numeric_t d0, numeric_t d1, numeric_t d2, numeric_t d3)
         {
@@ -890,7 +930,11 @@ namespace math3d
         matrix_4x4<another_numeric_t> convertType() const
         {
             matrix_4x4<another_numeric_t> result;
-            result.copyFrom (*this);
+
+            for (unsigned i = 0; i < base_t::side() * base_t::side(); ++i)
+                result.raw()[i] = ((numeric_t *)base_t::_matrix)[i];
+
+
             return std::move (result);
         }
     };
@@ -1515,6 +1559,7 @@ namespace math3d
     public:
         typedef transform<numeric_t> this_t;
 
+
     protected:
         vector3<numeric_t>  _translation  = vector3<numeric_t>::zero();
         rotation<numeric_t> _rotation     = rotation<numeric_t>();
@@ -1525,6 +1570,7 @@ namespace math3d
 
         mutable matrix_4x4<numeric_t> _cachedMatrix;
         mutable bool _matrixCalculated = false;
+
 
     public:
         property_get_ref (ttranslation, _translation)
@@ -1680,9 +1726,9 @@ namespace math3d
 
         void scale (const vector3<numeric_t> &scaleVec)
         {
-            _scale.setX (_scale.x() * scaleVec.x());
-            _scale.setY (_scale.y() * scaleVec.y());
-            _scale.setZ (_scale.z() * scaleVec.z());
+            _scale.x (_scale.x() * scaleVec.x());
+            _scale.y (_scale.y() * scaleVec.y());
+            _scale.z (_scale.z() * scaleVec.z());
 
             _identScale = false;
             _matrixCalculated = false;

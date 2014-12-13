@@ -86,7 +86,6 @@ void main()
 
     if (shadow < 0.999)
     {
-        //shadow = 0;
         for (int j = 1; j <= 2; j++)
             for (int i = 0; i < 4; i++)
             {
@@ -130,6 +129,7 @@ void main()
         float fogLen = length (fogIn - fogOut);
         fogFactor = fogLen / 10;
     }
+
 
     //float c = CalculateCaustic (vWorldSpaceCoords, uLightPos);
     float diffLight = max (0, dot (normal, light2Vert));

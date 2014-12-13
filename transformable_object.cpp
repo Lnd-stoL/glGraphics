@@ -14,5 +14,5 @@ transformable_renderable_object::transformable_renderable_object (const transfor
 void transformable_renderable_object::_setupObject2ScreenTransform (graphics_renderer &renderer) const
 {
     auto usedCamera = renderer.state().activeCamera();
-    renderer.use (object2screen_transform_d (_transform, usedCamera->inversedTransform(), usedCamera->getProjection()));
+    renderer.use (object2screen_transform_d (_transform, usedCamera->inversedTransform(), usedCamera->projection ()));
 }

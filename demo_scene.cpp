@@ -58,23 +58,9 @@ void demo_scene::_initShadowmaps()
     lightRot.combine (rotation_d (vector3_d (1, 0, 0), (angle_d::pi / 3, 0)));
     _lightTransform = transform_d (vector3_d (0, 30, 80), lightRot);
 
-    unique_ptr<orthographic_projection_d> lightProj (
-            new orthographic_projection_d (100, _renderWindow->aspectRatio(), interval_d (10, 200)));
-
-    //unique_ptr<perspective_projection_d> lightProj (
-    //        new perspective_projection_d (angle_d::pi / 3, _renderWindow.getAspectRatio(), interval_d (1, 100)));
-
-    _shadowmapCamera = render::camera::alloc (std::move (lightProj));
-    //_shadowmapCamera->addTransform (_lightTransform);
-
     vector2<unsigned> shadowmapSize (_renderWindow->width() * 3, _renderWindow->width() * 3);
-    _shadowmapRT = offscreen_render_target::alloc (shadowmapSize, 0, true);
-    _shadowmapRT->depthTexture()->setupForShadowSampler();
-
-    auto vertexLayout = shadowmapgen_vertex_layout::alloc();
-    auto shadowmapGenProgramId = gpu_program::id (vertexLayout, "shadowmap_gen.vert", "shadowmap_gen.frag");
-    auto shadowmapGenProgram = _resources.gpuProgramsManager().request (shadowmapGenProgramId, _resources);
-    _shadowmapGenMaterial = material::alloc (technique::alloc (shadowmapGenProgram));
+    _shadowsRenderer = shadowmap_shadows::alloc (_resources, shadowmapSize);
+    _shadowsRenderer->changeLight (_lightTransform.ttranslation(), _lightTransform.trotation());
 }
 
 
@@ -82,6 +68,11 @@ void demo_scene::_initObjects()
 {
     _scene = scene::alloc();
     _scene->setSun (_lightTransform.ttranslation(), color_rgb<float> (1, 1, 1));
+
+    auto waterReflectionsGroup = _scene->addRenderGroup ("water-reflections");
+    auto shadowRecvGroup = _scene->addRenderGroup ("shadow-recv");
+    auto shadowCastGroup = _scene->addRenderGroup ("shadow-cast");
+    auto solidNoShadowGroup = _scene->addRenderGroup ("solid-no-shadow");
 
     debug::log::println ("loading scene objects ...");
 
@@ -91,12 +82,13 @@ void demo_scene::_initObjects()
     transform_d islandTransform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.05));
     _islandObject = mesh_renderable_object::alloc (islandMesh->renderableMesh(), islandTransform);
     islandMesh->renderableMesh()->component ("island_mesh01_3")->backfaceCulling (false);
-    _scene->addRenderableObject (_islandObject, 1);
-
+    _scene->addRenderableObject (shadowRecvGroup, _islandObject, 1);
+    _scene->addRenderableObject (waterReflectionsGroup, _islandObject, 1);
+    _scene->addRenderableObject (shadowCastGroup, _islandObject, 1);
 
     auto rocksMesh = _resources.requestFromFile<exs3d_mesh> ("some-terrain/terrain.exs3d");
     transform_d rocksTransform (vector3_d (45, 15, 0), rotation_d (vector3_d (1, 0, 0), 3.14 + 0.9).combine (rotation_d (vector3_d (0, 0, -1), 0.3)), vector3_d (2, 3.5, 2));
-    _scene->addRenderableObject (mesh_renderable_object::alloc (rocksMesh->renderableMesh(), rocksTransform), 1);
+    _scene->addRenderableObject (shadowRecvGroup, mesh_renderable_object::alloc (rocksMesh->renderableMesh(), rocksTransform), 1);
 
     auto stoneMesh = _resources.requestFromFile<exs3d_mesh> ("some-stone/mesh.exs3d");
     auto bumpMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
@@ -108,7 +100,9 @@ void demo_scene::_initObjects()
     stoneBumpMappedMaterial->set ("uHeightmap", _resources.requestFromFile<texture> ("models/some-stone/heightmap.jpg"));
     stoneMesh->renderableMesh()->components()[0]->changeMaterial (stoneBumpMappedMaterial);
     transform_d stoneTransform (vector3_d (14, 2, 0), rotation_d(), vector3_d (0.05));
-    _scene->addRenderableObject (mesh_renderable_object::alloc (stoneMesh->renderableMesh(), stoneTransform), 1);
+    auto stoneMeshObject = mesh_renderable_object::alloc (stoneMesh->renderableMesh(), stoneTransform);
+    _scene->addRenderableObject (shadowRecvGroup, stoneMeshObject, 1);
+    _scene->addRenderableObject (shadowCastGroup, stoneMeshObject, 1);
 
     auto cubeMesh = _resources.requestFromFile<exs3d_mesh> ("cube-textured.exs3d");
     auto parallaxMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
@@ -125,7 +119,8 @@ void demo_scene::_initObjects()
 
     cubeMesh->renderableMesh()->components()[0]->changeMaterial (parallaxMappedMaterial);
     transform_d cubeTransform (vector3_d (-14, 2, 0), rotation_d(), vector3_d (1));
-    _scene->addRenderableObject (mesh_renderable_object::alloc (cubeMesh->renderableMesh(), cubeTransform), 1);
+    auto paraCubeObject = mesh_renderable_object::alloc (cubeMesh->renderableMesh(), cubeTransform);
+    _scene->addRenderableObject (solidNoShadowGroup, paraCubeObject, 1);
 
     //auto island2Mesh = _resources.requestFromFile<exs3d_mesh> ("island-001/island.exs3d");
     //transform_d island2Transform (vector3_d (0, 0, 0), rotation_d(), vector3_d (0.04));
@@ -136,7 +131,8 @@ void demo_scene::_initObjects()
     _waterObject->useRefractionTextures (_solidSceneRT->colorTexture(), _solidSceneRT->depthTexture());
 
     _skyBox = sky_box::alloc (_resources);
-    _scene->addRenderableObject (_skyBox, 0);
+    _scene->addRenderableObject (solidNoShadowGroup, _skyBox, 0);
+    _scene->addRenderableObject (waterReflectionsGroup, _skyBox);
 
     _fogObject = volumetric_fog::createLayer (_resources, interval_d (0, 2.9), vector2_d (10, 10));
     //_fogObject->useDepthTexture (_sceneWithoutWater_DepthTexture);
@@ -150,9 +146,6 @@ void demo_scene::_initObjects()
     _scene->addRenderableObject (_particles, 2);
 
     _horizonColorMap.loadFromFile (_resources.texturesManager().locateFile ("skybox/horizon.png"));
-
-    auto groupId = _scene->addRenderGroup ("water-reflections");
-    _scene->addRenderableObject (groupId, _skyBox);
 }
 
 
@@ -168,7 +161,6 @@ void demo_scene::_initPosteffects()
 
     _finalPostprocess = gpu_image_processing_screen::alloc (_resources, "fxaa.frag", _renderWindow);
     _finalPostprocess->input ("uTxtInput", _solidScenePostprocess->renderTarget()->colorTexture());
-    //_finalPostprocess->input ("uTxtInput", _solidSceneRT->colorTexture());
 }
 
 
@@ -198,7 +190,7 @@ void demo_scene::_frameUpdate()
 
     rotation_d lightRot (vector3_d (0, 0, 1), _sunPosition.convertType<double>());
     auto shadowmapCameraPos = _scene->sunPosition() / 4;
-    _shadowmapCamera->changeTransform (shadowmapCameraPos, lightRot);
+    _shadowsRenderer->changeLight (shadowmapCameraPos, lightRot);
 
     if (_viewPosLabel->isVisible())
     {
@@ -220,51 +212,23 @@ void demo_scene::_frameUpdate()
 
 void demo_scene::_frameRender()
 {
-    _renderer.testDepth (true);
-
-    // -------------------------------------------------------------------------------------------  Shadowmap generation
-
-    _shadowmapRT->setup (_renderer);
-    _renderer.forceMaterial (_shadowmapGenMaterial);
-    _renderer.use (_shadowmapCamera);
-    _renderer.renderScene (_scene);
-    _renderer.stopForcingMaterial();
+    _shadowsRenderer->generateShadowmap (_renderer, _scene, _scene->renderGroup ("shadow-cast"));
 
     // ---------------------------------------------------------------------------------------------  Render pass
 
-    auto beforeDrawLambda = [this] (graphics_renderer &renderer){
-        object2screen_transform_d shadowmapTranfrom (
-                renderer.state().object2ScreenTransform().worldTransform(),
-                _shadowmapCamera->inversedTransform(), _shadowmapCamera->getProjection());
-        matrix_4x4_f matBias (0.5f, 0.5f, 0.5f, 1.0f);
-        matBias.setCol3 (3, 0.5f, 0.5f, 0.5f);
-        auto matShadowmapTransform = shadowmapTranfrom.asMatrix().convertType<float>();
-        matBias.multiply (matShadowmapTransform);
-
-        renderer.state().activeMaterial()->set ("uShadowMap", _shadowmapRT->depthTexture());
-        renderer.state().activeMaterial()->setup (renderer);
-
-        renderer.state().activeRenderingProgram()->setUniform ("uShadowmapTransform", matBias, true);
-    };
-
-    auto handlerId = _renderer.beforeDrawCallEvent().handleWith (beforeDrawLambda);
-
     _solidSceneRT->setup (_renderer);
     _renderer.use (_viewerCamera);
-    _renderer.renderScene (_scene);
+    _shadowsRenderer->drawShadedScene (_renderer, _scene, _scene->renderGroup ("shadow-recv"));
+    _renderer.renderScene (_scene, _scene->renderGroup ("solid-no-shadow"));
 
     // ---------------------------------------------------------------------------------------------  Reflections
 
-    _scene->selectRenderGroup ("water-reflections");
-    _waterObject->drawReflections (_renderer, *_scene);
-    _scene->selectRenderGroup ("default");
-
-    _renderer.beforeDrawCallEvent().stopHandlingWith (handlerId);
+    _waterObject->drawReflections (_renderer, *_scene, _scene->renderGroup ("water-reflections"));
 
     // ---------------------------------------------------------------------------------------------  Draw water now
 
     glDepthMask (GL_FALSE);
-    auto invProjMat = _viewerCamera->getProjection()->asInverseMatrix();
+    auto invProjMat = _viewerCamera->projection ()->asInverseMatrix();
     _solidScenePostprocess->program()->setUniform ("uMatInvProjection", invProjMat.convertType<float>());
     _solidScenePostprocess->processUsing (_renderer);
 

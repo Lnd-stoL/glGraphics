@@ -20,9 +20,6 @@ namespace render
         //unsigned flags = 0;
         _textureId = SOIL_load_OGL_texture (fileName.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, flags);
 
-        //sf::Texture txt;
-        //txt.loadFromFile (fileName);
-
         if (_textureId == 0)
         {
             debug::log::println_err (mkstr ("error loading texture: ", SOIL_last_result()));
@@ -33,8 +30,7 @@ namespace render
         use();
         debug::log::println ("generating mipmaps for the texture ...");
         glGenerateMipmap (_textureType);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint) GL_REPEAT);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, (GLint) GL_REPEAT);
+        uvRepeating();
 
         resource::_loaded();
         debug::log::println_mrk (mkstr (asString(), " successfully loaded and is ready for use"));

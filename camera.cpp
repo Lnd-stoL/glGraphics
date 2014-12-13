@@ -61,7 +61,7 @@ namespace render
     }
 
 
-    projection_d *camera::getProjection() const
+    projection_d *camera::projection () const
     {
         return _projection->copy();
     }
@@ -87,7 +87,7 @@ namespace render
 
     object2screen_transform_d camera::object2ScreenTransform (const transform_d &worldTransform) const
     {
-        return object2screen_transform_d (worldTransform, _inversedTransform, getProjection());
+        return object2screen_transform_d (worldTransform, _inversedTransform, projection ());
     }
 
 

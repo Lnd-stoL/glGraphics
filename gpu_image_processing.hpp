@@ -1,3 +1,4 @@
+
 #ifndef __gpu_image_effect__included__
 #define __gpu_image_effect__included__
 

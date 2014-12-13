@@ -17,6 +17,7 @@
 #include "spline_path.hpp"
 #include "particles_system.hpp"
 #include "gpu_image_processing.hpp"
+#include "shadowmap_shadows.hpp"
 
 using oo_extensions::mkstr;
 using namespace math3d;
@@ -33,15 +34,13 @@ class demo_scene :
 
     camera::ptr  _viewerCamera;
     fps_camera_controller::ptr  _fpsCameraController;
+    transform_d       _lightTransform;
 
-    offscreen_render_target::ptr      _shadowmapRT;
+    shadowmap_shadows::ptr  _shadowsRenderer;
     offscreen_render_target::ptr      _solidSceneRT;
     gpu_image_processing_stage::ptr   _solidScenePostprocess;
     gpu_image_processing_screen::ptr  _finalPostprocess;
 
-    camera::ptr       _shadowmapCamera;
-    transform_d       _lightTransform;
-    material::ptr     _shadowmapGenMaterial;
 
     scene::ptr  _scene;
     mesh_renderable_object::ptr  _islandObject;
@@ -77,22 +76,6 @@ protected:
 
 public:
     demo_scene (graphics_renderer& renderer, render_window::ptr renderWindow, resources &res);
-};
-
-//----------------------------------------------------------------------------------------------------------------------
-
-struct shadowmapgen_vertex_layout : vertex_layout<exs3d_mesh::vertex>
-{
-protected:
-    virtual void _registerAttributes()
-    {
-        _attributes.clear();
-        _registerAttribute ("aCoords", attribute::tFloat, offsetof (exs3d_mesh::vertex, coords), 3);
-    }
-
-public:
-    declare_ptr_alloc (shadowmapgen_vertex_layout)
-    shadowmapgen_vertex_layout()  { _registerAttributes(); }
 };
 
 //----------------------------------------------------------------------------------------------------------------------

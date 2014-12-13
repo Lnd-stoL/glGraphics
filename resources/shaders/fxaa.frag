@@ -12,6 +12,7 @@ vec2 texcoordOffset = vec2 (1.0 / 1400.0, 1.0 / 900.0);
 void main()
 {
     out_Color = texture (uTxtInput, vTexUV).rgb;
+    //out_Color = vec3 (1, 0, 0);
     /*return;
 
     float FXAA_SPAN_MAX = 9.0;

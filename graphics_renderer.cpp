@@ -118,7 +118,7 @@ namespace render
             _state.activeRenderingProgram()->setUniform ("uFrameCount", _frameCount, true);
         }
 
-        auto viewInt = _state.activeCamera()->getProjection()->viewInterval();
+        auto viewInt = _state.activeCamera ()->projection ()->viewInterval();
         _state.activeRenderingProgram()->setUniform ("uClipNearFar",
                                                      math3d::vector2_f ((float) viewInt.from(), (float) viewInt.to()), true);
 

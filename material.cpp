@@ -89,6 +89,16 @@ namespace render
                 _technique->gpuProgram()->setUniform (uniInfo.uniformId, uniInfo.value);
         }
 
+        for (auto param : _mat4Params)
+        {
+            auto &uniInfo = param.second;
+            if (!uniInfo.needsUpdate)  continue;
+            uniInfo.needsUpdate = false;
+
+            if (gpu_program::isValidUniformLocation (uniInfo.uniformId))
+                _technique->gpuProgram()->setUniform (uniInfo.uniformId, uniInfo.value);
+        }
+
         unsigned i = 0;
         for (auto nextTexture : _textures)
         {
@@ -182,6 +192,25 @@ namespace render
         {
             gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
             _vec2Params[name] = { param, uniformId, true };
+        }
+    }
+
+
+    void material::set (const string &name, const math3d::matrix_4x4_f &param)
+    {
+        auto existingIt = _mat4Params.find (name);
+
+        if (existingIt != _mat4Params.end())
+        {
+            auto &uniformInfo = existingIt->second;
+            uniformInfo.value = param;
+            uniformInfo.needsUpdate = true;
+        }
+
+        else
+        {
+            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
+            _mat4Params[name] = { param, uniformId, true };
         }
     }
 }
