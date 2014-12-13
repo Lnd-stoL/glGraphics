@@ -109,7 +109,7 @@ void main()
     //shadow = 1;
 
     float fogFactor = 0;
-    float fogY0 = 0;
+    /*float fogY0 = 0;
     float fogY1 = 2.5;
 
     float t1 = (fogY1 - vWorldSpaceCoords.y) / vert2Eye.y;
@@ -129,7 +129,7 @@ void main()
         float fogLen = length (fogIn - fogOut);
         fogFactor = fogLen / 10;
     }
-
+*/
 
     //float c = CalculateCaustic (vWorldSpaceCoords, uLightPos);
     float diffLight = max (0, dot (normal, light2Vert));

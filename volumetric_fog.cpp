@@ -17,7 +17,8 @@ volumetric_fog::volumetric_fog (resources &renderRes, a_mesh_component::ptr mesh
     auto shaderId = gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(), "simple.vert", "volumetric_fog.frag");
     auto shader = renderRes.gpuProgramsManager().request (shaderId, renderRes);
     _material = material::alloc (technique::alloc (shader));
-    //mesh->changeMaterial (_material);
+
+    mesh->changeMaterial (_material);
 }
 
 
@@ -36,16 +37,19 @@ void volumetric_fog::useColorTexture (texture::ptr colorTexture)
 void volumetric_fog::draw (graphics_renderer &renderer) const
 {
     transformable_renderable_object::_setupObject2ScreenTransform (renderer);
-    //renderer.forceMaterial (_material);
+
+    renderer.blend (true);
     _mesh->draw (renderer);
-    //renderer.stopForcingMaterial();
 }
 
 
 volumetric_fog::ptr volumetric_fog::createLayer (resources& renderRes, interval_d heightInterval, vector2_d size)
 {
-    auto cubeMesh = renderRes.requestFromFile<exs3d_mesh> ("cube-textured.exs3d");
+    auto cubeMesh = renderRes.requestFromFile<exs3d_mesh> ("cube.exs3d");
     transform_d trans (vector3_d (0, heightInterval.average(), 0), rotation_d(),
                        vector3_d (size.x(), heightInterval.length(), size.y()));
-    return volumetric_fog::alloc (renderRes, cubeMesh->renderableMesh()->component ("Cube"), trans);
+
+    auto mesh = cubeMesh->renderableMesh()->component ("Cube");
+    //mesh->backfaceCulling (false);
+    return volumetric_fog::alloc (renderRes, mesh, trans);
 }

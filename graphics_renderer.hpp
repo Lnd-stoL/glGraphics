@@ -15,10 +15,6 @@
 
 namespace render
 {
-
-
-//----------------------------------------------------------------------------------------------------------------------
-
     class graphics_renderer
     {
     public:
@@ -32,6 +28,7 @@ namespace render
             bool  _blend           = false;
             bool  _testDepth       = false;
             bool  _backfaceCulling = false;
+            bool  _writeDepth      = true;
 
 
         public:
@@ -44,6 +41,7 @@ namespace render
             property_get (blendingEnabled, _blend)
             property_get (testDepth, _testDepth)
             property_get (backfaceCulling, _backfaceCulling)
+            property_get (writeDepth, _writeDepth)
 
 
         public:
@@ -107,6 +105,7 @@ namespace render
 
         void blend (bool enabled);
         void testDepth (bool enabled);
+        void writeDepth (bool enabled);
         void backfaceCulling (bool enabled);
 
         void renderTo (frame_buffer::ptr frameBuffer, bool autoClear = true);

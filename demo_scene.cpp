@@ -134,8 +134,8 @@ void demo_scene::_initObjects()
     _scene->addRenderableObject (solidNoShadowGroup, _skyBox, 0);
     _scene->addRenderableObject (waterReflectionsGroup, _skyBox);
 
-    _fogObject = volumetric_fog::createLayer (_resources, interval_d (0, 2.9), vector2_d (10, 10));
-    //_fogObject->useDepthTexture (_sceneWithoutWater_DepthTexture);
+    _fogObject = volumetric_fog::createLayer (_resources, interval_d (0, 2), vector2_d (6, 6));
+    _fogObject->useDepthTexture (_solidSceneRT->depthTexture());
     //_fogObject->useColorTexture (_sceneWithoutWater_Texture);
 
     _testPath = spline_path::alloc ("resources/recorded-path.path");
@@ -212,7 +212,14 @@ void demo_scene::_frameUpdate()
 
 void demo_scene::_frameRender()
 {
-    _shadowsRenderer->generateShadowmap (_renderer, _scene, _scene->renderGroup ("shadow-cast"));
+    //if (int (_renderer.frameCount()) % 2 == 0)
+        _shadowsRenderer->generateShadowmap (_renderer, _scene, _scene->renderGroup ("shadow-cast"));
+
+    // ---------------------------------------------------------------------------------------------  Reflections
+
+    _renderer.use (_viewerCamera);
+    //if (int (_renderer.frameCount()) % 2 == 0)
+        _waterObject->drawReflections (_renderer, *_scene, _scene->renderGroup ("water-reflections"));
 
     // ---------------------------------------------------------------------------------------------  Render pass
 
@@ -221,26 +228,26 @@ void demo_scene::_frameRender()
     _shadowsRenderer->drawShadedScene (_renderer, _scene, _scene->renderGroup ("shadow-recv"));
     _renderer.renderScene (_scene, _scene->renderGroup ("solid-no-shadow"));
 
-    // ---------------------------------------------------------------------------------------------  Reflections
-
-    _waterObject->drawReflections (_renderer, *_scene, _scene->renderGroup ("water-reflections"));
-
     // ---------------------------------------------------------------------------------------------  Draw water now
 
-    glDepthMask (GL_FALSE);
+    _renderer.writeDepth (false);
     auto invProjMat = _viewerCamera->projection ()->asInverseMatrix();
     _solidScenePostprocess->program()->setUniform ("uMatInvProjection", invProjMat.convertType<float>());
     _solidScenePostprocess->processUsing (_renderer);
 
-
-    glEnable (GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+    _renderer.blend (true);
     _renderer.use (_viewerCamera);
     _waterObject->draw (_renderer);
 
-    glDepthMask (GL_TRUE);
-    glDisable (GL_BLEND);
+    _particles->draw (_renderer);
+
+    // ---------------------------------------------------------------------------------------------  Draw fog now
+
+    _renderer.testDepth (true);
+    _fogObject->draw (_renderer);
+
+    _renderer.writeDepth (true);
+    _renderer.blend (false);
 
     // ---------------------------------------------------------------------------------------------  Finally draw to screen
 

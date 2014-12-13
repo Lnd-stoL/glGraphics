@@ -6,25 +6,24 @@ uniform sampler2D  uTxtInput;
 in vec2  vTexUV;
 out vec3  out_Color;
 
-vec2 texcoordOffset = vec2 (1.0 / 1400.0, 1.0 / 900.0);
+vec2 texcoordOffset = vec2 (1.0 / 1400.0, 1.0 / 1100.0);
 
 
 void main()
 {
-    out_Color = texture (uTxtInput, vTexUV).rgb;
+    //out_Color = texture (uTxtInput, vTexUV).rgb;
     //out_Color = vec3 (1, 0, 0);
-    /*return;
 
     float FXAA_SPAN_MAX = 9.0;
     float FXAA_REDUCE_MUL = 1.0 / 8.0;
     float FXAA_REDUCE_MIN = 1.0 / 64.0;
 
     vec2 screenUV = vTexUV + vec2 (0.5, 0.5) * texcoordOffset;
-    vec3 rgbNW = texture (uScreen, screenUV + (vec2 (-1.0, -1.0) * texcoordOffset)).xyz;
-    vec3 rgbNE = texture (uScreen, screenUV + (vec2 (+1.0, -1.0) * texcoordOffset)).xyz;
-    vec3 rgbSW = texture (uScreen, screenUV + (vec2 (-1.0, +1.0) * texcoordOffset)).xyz;
-    vec3 rgbSE = texture (uScreen, screenUV + (vec2 (+1.0, +1.0) * texcoordOffset)).xyz;
-    vec3 rgbM = texture (uScreen, screenUV).xyz;
+    vec3 rgbNW = texture (uTxtInput, screenUV + (vec2 (-1.0, -1.0) * texcoordOffset)).xyz;
+    vec3 rgbNE = texture (uTxtInput, screenUV + (vec2 (+1.0, -1.0) * texcoordOffset)).xyz;
+    vec3 rgbSW = texture (uTxtInput, screenUV + (vec2 (-1.0, +1.0) * texcoordOffset)).xyz;
+    vec3 rgbSE = texture (uTxtInput, screenUV + (vec2 (+1.0, +1.0) * texcoordOffset)).xyz;
+    vec3 rgbM = texture (uTxtInput, screenUV).xyz;
 
     vec3 luma = vec3 (0.299, 0.587, 0.114);
     float lumaNW = dot (rgbNW, luma);
@@ -48,12 +47,12 @@ void main()
               max (vec2 (-FXAA_SPAN_MAX, -FXAA_SPAN_MAX), dir * rcpDirMin)) * texcoordOffset;
 
     vec3 rgbA = (1.0 / 2.0) * (
-            texture (uScreen, vTexUV + dir * (1.0/3.0 - 0.5)).xyz +
-            texture (uScreen, vTexUV + dir * (2.0/3.0 - 0.5)).xyz);
+            texture (uTxtInput, vTexUV + dir * (1.0/3.0 - 0.5)).xyz +
+            texture (uTxtInput, vTexUV + dir * (2.0/3.0 - 0.5)).xyz);
 
     vec3 rgbB = rgbA * (1.0 / 2.0) + (1.0 / 4.0) * (
-            texture (uScreen, vTexUV + dir * (0.0 - 0.5)).xyz +
-            texture (uScreen, vTexUV + dir * (3.0/3.0 - 0.5)).xyz);
+            texture (uTxtInput, vTexUV + dir * (0.0 - 0.5)).xyz +
+            texture (uTxtInput, vTexUV + dir * (3.0/3.0 - 0.5)).xyz);
     float lumaB = dot (rgbB, luma);
 
     if ((lumaB < lumaMin) || (lumaB > lumaMax))
@@ -67,5 +66,4 @@ void main()
 
     //gl_FragColor.a = 0.5;
     //gl_FragColor *= vertColor;
-    */
 }

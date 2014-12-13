@@ -188,4 +188,20 @@ namespace render
     {
         object.draw (*this);
     }
+
+
+    void graphics_renderer::writeDepth (bool enabled)
+    {
+        if (enabled && !_state._writeDepth)
+        {
+            glDepthMask (GL_TRUE);
+        }
+
+        if (!enabled && _state._writeDepth)
+        {
+            glDepthMask (GL_FALSE);
+        }
+
+        _state._writeDepth = enabled;
+    }
 }

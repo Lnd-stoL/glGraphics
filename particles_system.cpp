@@ -32,7 +32,6 @@ namespace render
         renderer.blend (true);
         //renderer.testDepth (false);
         renderer.drawPoints (*_vertexBuffer);
-        renderer.blend (false);
         //renderer.testDepth (true);
     }
 

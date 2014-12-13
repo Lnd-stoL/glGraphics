@@ -2,25 +2,37 @@
 #version 330 core
 
 uniform sampler2D  uDepthMap;
-uniform sampler2D  uColorMap;
 
-in vec4  vScreenUV;
-out vec4  out_Color;
+uniform vec2  uFrameSize = vec2 (1400, 1100);
+uniform vec2  uClipNearFar;
+
+uniform float  uDensity = 0.17;
+uniform vec3   uColor   = vec3 (1, 1, 1);
+
+out vec4  oColor;
+
+
+float calculateLinearDepth (float zScreen)
+{
+    float zFar = uClipNearFar.y;
+    float zNear = uClipNearFar.x;
+
+    return zFar * zNear / (zFar - zScreen * (zFar - zNear));
+}
 
 
 void main()
 {
-    vec3 proj = (vScreenUV.xyz / vScreenUV.w) * 0.5 + 0.5;
-    float sceneDepth = texture (uDepthMap, proj.xy).r;
-    vec4 backColor = vec4 (texture (uColorMap, proj.xy).rgb, 1);
+    float originalZ = texture (uDepthMap, gl_FragCoord.xy / uFrameSize).r;
+    float originDepth = calculateLinearDepth (originalZ);
+    float fogDepth = calculateLinearDepth (gl_FragCoord.z);
 
-    out_Color = vec4 (vec3 (1), 0.5);
+    float deltaDepth = originDepth - fogDepth;
+    //deltaDepth = clamp (deltaDepth, 0, 5);
 
-    vec3 fogColor = vec3 (0.7, 0.7, 0.7);
-    float fogFactor = pow ((1 - (proj.z - sceneDepth)), 10);
-    out_Color = vec4 ((fogColor * fogFactor  + backColor.rgb) / (1 + fogFactor), 1);
-    out_Color = vec4 (1, 0, 0, 1);
+    float fogFactor = deltaDepth * uDensity;
+    fogFactor *= sqrt (fogFactor);
+    fogFactor = clamp (fogFactor, 0, 0.85);
 
-    //if ( < proj.z)  out_Color = vec4 (texture (uColorMap, proj.xy).rgb, 1);
-    //out_Color = vec4 (proj.xy, 0, 1);
+    oColor = vec4 (uColor, fogFactor);
 }

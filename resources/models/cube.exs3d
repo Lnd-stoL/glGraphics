@@ -1,6 +1,7 @@
 exs3d text
 
 component Cube
+texture empty
 
 vertices[8]
 1 1 -1 0.577349 0.577349 -0.577349 0 0 

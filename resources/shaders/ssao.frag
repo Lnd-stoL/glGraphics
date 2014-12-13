@@ -69,8 +69,8 @@ void main()
     vec3 screenOriginalColor = texture (uScreen, vTexUV).rgb;
 
     vec3 normal = normalize (texture (uNormalMap, vTexUV.xy).rgb * 2.0 - 1.0);
-    vec3 normal1 = normalize (texture (uNormalMap, vTexUV.xy + vec2 (1/1400, 1/900) * 2).rgb * 2.0 - 1.0);
-    vec3 normal2 = normalize (texture (uNormalMap, vTexUV.xy - vec2 (1/1400, 1/900) * 2).rgb * 2.0 - 1.0);
+    vec3 normal1 = normalize (texture (uNormalMap, vTexUV.xy + vec2 (1/1400, 1/1100) * 2).rgb * 2.0 - 1.0);
+    vec3 normal2 = normalize (texture (uNormalMap, vTexUV.xy - vec2 (1/1400, 1/1100) * 2).rgb * 2.0 - 1.0);
     normal = normalize (normal + normal1 + normal2);
 
     float depth = texture (uDepthMap, vTexUV).r;
