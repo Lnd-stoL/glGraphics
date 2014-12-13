@@ -62,7 +62,7 @@ namespace render
     void text_label::_loadMaterial (text_renderer::ptr textRenderer)
     {
         _material = material::alloc (textRenderer->textRenderingTechnique());
-        _material->set ("uFontBitmap", _font->bitmap());
+        _material->set ("uTxtFontBitmap", _font->bitmap());
     }
 
 
@@ -152,7 +152,7 @@ namespace render
 
     text_renderer::text_renderer (resources &renderRes)
     {
-        auto programId = gpu_program::id (text_vertex_layout::alloc(), "text_line.vert", "text_line.frag");
+        auto programId = gpu_program::id (text_vertex_layout::alloc(), "overlay/text_line.vert", "overlay/text_line.frag");
         _technique = technique::alloc (renderRes.gpuProgramsManager().request (programId, renderRes));
         _technique->transformNotNeeded();
 

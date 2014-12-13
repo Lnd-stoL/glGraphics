@@ -148,6 +148,7 @@ CMakeFiles/glGraphics.dir/demo_scene.cpp.o
  /home/leonid/Dev/glGraphics/debug.hpp
  /home/leonid/Dev/glGraphics/demo_scene.cpp
  /home/leonid/Dev/glGraphics/demo_scene.hpp
+ /home/leonid/Dev/glGraphics/dynamic_sky.hpp
  /home/leonid/Dev/glGraphics/exs3d.hpp
  /home/leonid/Dev/glGraphics/font_resource.hpp
  /home/leonid/Dev/glGraphics/fps_camera.hpp
@@ -176,13 +177,72 @@ CMakeFiles/glGraphics.dir/demo_scene.cpp.o
  /home/leonid/Dev/glGraphics/resource_manager_impl.hpp
  /home/leonid/Dev/glGraphics/scene.hpp
  /home/leonid/Dev/glGraphics/screen_overlay.hpp
- /home/leonid/Dev/glGraphics/sky_box.hpp
+ /home/leonid/Dev/glGraphics/shadowmap_shadows.hpp
  /home/leonid/Dev/glGraphics/spline_path.hpp
  /home/leonid/Dev/glGraphics/statistics.hpp
  /home/leonid/Dev/glGraphics/texture.hpp
  /home/leonid/Dev/glGraphics/transformable_object.hpp
  /home/leonid/Dev/glGraphics/volumetric_fog.hpp
  /home/leonid/Dev/glGraphics/water_plane.hpp
+ /usr/local/include/GLFW/glfw3.h
+ /usr/local/include/glbinding/AbstractFunction.h
+ /usr/local/include/glbinding/AbstractValue.h
+ /usr/local/include/glbinding/Binding.h
+ /usr/local/include/glbinding/ContextHandle.h
+ /usr/local/include/glbinding/Function.h
+ /usr/local/include/glbinding/Function.hpp
+ /usr/local/include/glbinding/ProcAddress.h
+ /usr/local/include/glbinding/SharedBitfield.h
+ /usr/local/include/glbinding/SharedBitfield.hpp
+ /usr/local/include/glbinding/Value.h
+ /usr/local/include/glbinding/Value.hpp
+ /usr/local/include/glbinding/callbacks.h
+ /usr/local/include/glbinding/gl/bitfield.h
+ /usr/local/include/glbinding/gl/bitfield33core.h
+ /usr/local/include/glbinding/gl/boolean.h
+ /usr/local/include/glbinding/gl/boolean.inl
+ /usr/local/include/glbinding/gl/enum.h
+ /usr/local/include/glbinding/gl/enum33core.h
+ /usr/local/include/glbinding/gl/extension.h
+ /usr/local/include/glbinding/gl/functions33core.h
+ /usr/local/include/glbinding/gl/gl33core.h
+ /usr/local/include/glbinding/gl/nogl.h
+ /usr/local/include/glbinding/gl/types.h
+ /usr/local/include/glbinding/gl/types.inl
+ /usr/local/include/glbinding/gl/values.h
+ /usr/local/include/glbinding/gl/values.inl
+ /usr/local/include/glbinding/glbinding_api.h
+CMakeFiles/glGraphics.dir/dynamic_sky.cpp.o
+ /home/leonid/Dev/glGraphics/binary_stream.hpp
+ /home/leonid/Dev/glGraphics/camera.hpp
+ /home/leonid/Dev/glGraphics/clouds_noise.hpp
+ /home/leonid/Dev/glGraphics/config_file.hpp
+ /home/leonid/Dev/glGraphics/debug.hpp
+ /home/leonid/Dev/glGraphics/dynamic_sky.cpp
+ /home/leonid/Dev/glGraphics/dynamic_sky.hpp
+ /home/leonid/Dev/glGraphics/exs3d.hpp
+ /home/leonid/Dev/glGraphics/font_resource.hpp
+ /home/leonid/Dev/glGraphics/frame_buffer.hpp
+ /home/leonid/Dev/glGraphics/gl_bindable.hpp
+ /home/leonid/Dev/glGraphics/gl_binding.hpp
+ /home/leonid/Dev/glGraphics/gpu_buffer.hpp
+ /home/leonid/Dev/glGraphics/gpu_buffer_impl.hpp
+ /home/leonid/Dev/glGraphics/gpu_program.hpp
+ /home/leonid/Dev/glGraphics/graphics_renderer.hpp
+ /home/leonid/Dev/glGraphics/material.hpp
+ /home/leonid/Dev/glGraphics/math3D.hpp
+ /home/leonid/Dev/glGraphics/math_ex.hpp
+ /home/leonid/Dev/glGraphics/mesh.hpp
+ /home/leonid/Dev/glGraphics/mesh_impl.hpp
+ /home/leonid/Dev/glGraphics/oo_extensions.hpp
+ /home/leonid/Dev/glGraphics/render_resources.hpp
+ /home/leonid/Dev/glGraphics/render_window.hpp
+ /home/leonid/Dev/glGraphics/renderable.hpp
+ /home/leonid/Dev/glGraphics/resource.hpp
+ /home/leonid/Dev/glGraphics/resource_manager.hpp
+ /home/leonid/Dev/glGraphics/resource_manager_impl.hpp
+ /home/leonid/Dev/glGraphics/scene.hpp
+ /home/leonid/Dev/glGraphics/texture.hpp
  /usr/local/include/GLFW/glfw3.h
  /usr/local/include/glbinding/AbstractFunction.h
  /usr/local/include/glbinding/AbstractValue.h
@@ -589,6 +649,7 @@ CMakeFiles/glGraphics.dir/main.cpp.o
  /home/leonid/Dev/glGraphics/config_file.hpp
  /home/leonid/Dev/glGraphics/debug.hpp
  /home/leonid/Dev/glGraphics/demo_scene.hpp
+ /home/leonid/Dev/glGraphics/dynamic_sky.hpp
  /home/leonid/Dev/glGraphics/exs3d.hpp
  /home/leonid/Dev/glGraphics/font_resource.hpp
  /home/leonid/Dev/glGraphics/fps_camera.hpp
@@ -615,7 +676,7 @@ CMakeFiles/glGraphics.dir/main.cpp.o
  /home/leonid/Dev/glGraphics/resource_manager_impl.hpp
  /home/leonid/Dev/glGraphics/scene.hpp
  /home/leonid/Dev/glGraphics/screen_overlay.hpp
- /home/leonid/Dev/glGraphics/sky_box.hpp
+ /home/leonid/Dev/glGraphics/shadowmap_shadows.hpp
  /home/leonid/Dev/glGraphics/spline_path.hpp
  /home/leonid/Dev/glGraphics/statistics.hpp
  /home/leonid/Dev/glGraphics/texture.hpp
@@ -993,10 +1054,9 @@ CMakeFiles/glGraphics.dir/screen_overlay.cpp.o
  /usr/local/include/glbinding/gl/values.h
  /usr/local/include/glbinding/gl/values.inl
  /usr/local/include/glbinding/glbinding_api.h
-CMakeFiles/glGraphics.dir/sky_box.cpp.o
+CMakeFiles/glGraphics.dir/shadowmap_shadows.cpp.o
  /home/leonid/Dev/glGraphics/binary_stream.hpp
  /home/leonid/Dev/glGraphics/camera.hpp
- /home/leonid/Dev/glGraphics/clouds_noise.hpp
  /home/leonid/Dev/glGraphics/config_file.hpp
  /home/leonid/Dev/glGraphics/debug.hpp
  /home/leonid/Dev/glGraphics/exs3d.hpp
@@ -1005,24 +1065,22 @@ CMakeFiles/glGraphics.dir/sky_box.cpp.o
  /home/leonid/Dev/glGraphics/gl_bindable.hpp
  /home/leonid/Dev/glGraphics/gl_binding.hpp
  /home/leonid/Dev/glGraphics/gpu_buffer.hpp
- /home/leonid/Dev/glGraphics/gpu_buffer_impl.hpp
+ /home/leonid/Dev/glGraphics/gpu_image_processing.hpp
  /home/leonid/Dev/glGraphics/gpu_program.hpp
  /home/leonid/Dev/glGraphics/graphics_renderer.hpp
  /home/leonid/Dev/glGraphics/material.hpp
  /home/leonid/Dev/glGraphics/math3D.hpp
  /home/leonid/Dev/glGraphics/math_ex.hpp
  /home/leonid/Dev/glGraphics/mesh.hpp
- /home/leonid/Dev/glGraphics/mesh_impl.hpp
  /home/leonid/Dev/glGraphics/oo_extensions.hpp
  /home/leonid/Dev/glGraphics/render_resources.hpp
  /home/leonid/Dev/glGraphics/render_window.hpp
  /home/leonid/Dev/glGraphics/renderable.hpp
  /home/leonid/Dev/glGraphics/resource.hpp
  /home/leonid/Dev/glGraphics/resource_manager.hpp
- /home/leonid/Dev/glGraphics/resource_manager_impl.hpp
  /home/leonid/Dev/glGraphics/scene.hpp
- /home/leonid/Dev/glGraphics/sky_box.cpp
- /home/leonid/Dev/glGraphics/sky_box.hpp
+ /home/leonid/Dev/glGraphics/shadowmap_shadows.cpp
+ /home/leonid/Dev/glGraphics/shadowmap_shadows.hpp
  /home/leonid/Dev/glGraphics/texture.hpp
  /usr/local/include/GLFW/glfw3.h
  /usr/local/include/glbinding/AbstractFunction.h

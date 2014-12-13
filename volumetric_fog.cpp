@@ -14,7 +14,9 @@ volumetric_fog::volumetric_fog (resources &renderRes, a_mesh_component::ptr mesh
     transformable_renderable_object (trans),
     _mesh (mesh)
 {
-    auto shaderId = gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(), "simple.vert", "volumetric_fog.frag");
+    auto shaderId = gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(), "utils/simple.vert",
+                                     "special/volumetric_fog.frag");
+
     auto shader = renderRes.gpuProgramsManager().request (shaderId, renderRes);
     _material = material::alloc (technique::alloc (shader));
 
@@ -39,6 +41,8 @@ void volumetric_fog::draw (graphics_renderer &renderer) const
     transformable_renderable_object::_setupObject2ScreenTransform (renderer);
 
     renderer.blend (true);
+    renderer.testDepth (true);
+
     _mesh->draw (renderer);
 }
 

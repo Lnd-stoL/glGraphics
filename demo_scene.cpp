@@ -92,7 +92,9 @@ void demo_scene::_initObjects()
 
     auto stoneMesh = _resources.requestFromFile<exs3d_mesh> ("some-stone/mesh.exs3d");
     auto bumpMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
-                                                                                       "shader.vert", "tangent_frame.geom", "bumpmapping.frag"),
+                                                                                       "solid_default.vert",
+                                                                                       "solid_default_tangent_frame.geom",
+                                                                                       "bumpmapping.frag"),
                                                                                        _resources);
     auto stoneBumpMappedMaterial = material::alloc (technique::alloc (bumpMappingShader));
     stoneBumpMappedMaterial->set ("uTexture", _resources.requestFromFile<texture> ("models/some-stone/Stone_5_DiffuseMap.jpg"));
@@ -106,7 +108,9 @@ void demo_scene::_initObjects()
 
     auto cubeMesh = _resources.requestFromFile<exs3d_mesh> ("cube-textured.exs3d");
     auto parallaxMappingShader = _resources.gpuProgramsManager().request (gpu_program::id (exs3d_mesh::exs3d_vertex_layout::alloc(),
-                                                                                       "shader.vert", "tangent_frame.geom", "bumpmapping.frag"),
+                                                                                           "solid_default.vert",
+                                                                                           "solid_default_tangent_frame.geom",
+                                                                                           "bumpmapping.frag"),
                                                                       _resources);
     auto parallaxMappedMaterial = material::alloc (technique::alloc (parallaxMappingShader));
     //parallaxMappedMaterial->textures()["uTexture"]   = _resources.requestFromFile<texture> ("rockwall/relief_wood.jpg");
@@ -130,7 +134,7 @@ void demo_scene::_initObjects()
     _waterObject = water_plane::alloc (_resources, *_renderWindow, 1);
     _waterObject->useRefractionTextures (_solidSceneRT->colorTexture(), _solidSceneRT->depthTexture());
 
-    _skyBox = sky_box::alloc (_resources);
+    _skyBox = dynamic_sky::alloc (_resources);
     _scene->addRenderableObject (solidNoShadowGroup, _skyBox, 0);
     _scene->addRenderableObject (waterReflectionsGroup, _skyBox);
 
@@ -151,24 +155,25 @@ void demo_scene::_initObjects()
 
 void demo_scene::_initPosteffects()
 {
-    _solidSceneRT = offscreen_render_target::alloc (_renderWindow->size(), 2, true);
+    _solidSceneRT = offscreen_render_target::alloc (_renderWindow->size() * 1, 2, true);
 
-    auto solidScenePostprocessRT = offscreen_render_target::alloc (_renderWindow->size(), 1, _solidSceneRT->depthTexture());
-    _solidScenePostprocess = gpu_image_processing_stage::alloc (_resources, "ssao-1.frag", solidScenePostprocessRT);
+    auto solidScenePostprocessRT = offscreen_render_target::alloc (_renderWindow->size() * 1, 1, _solidSceneRT->depthTexture());
+    _solidScenePostprocess = gpu_image_processing_stage::alloc (_resources, "postprocess/ssao-1.frag", solidScenePostprocessRT);
     _solidScenePostprocess->input ("uNormalMap", _solidSceneRT->colorTextures()[1]);
     _solidScenePostprocess->input ("uScreen",    _solidSceneRT->colorTextures()[0]);
     _solidScenePostprocess->input ("uDepthMap",  _solidSceneRT->depthTexture());
 
-    _finalPostprocess = gpu_image_processing_screen::alloc (_resources, "fxaa.frag", _renderWindow);
+    _finalPostprocess = gpu_image_processing_screen::alloc (_resources, "postprocess/fxaa.frag", _renderWindow);
     _finalPostprocess->input ("uTxtInput", _solidScenePostprocess->renderTarget()->colorTexture());
 }
 
 
 void demo_scene::_setEventHandlers()
 {
-    _renderWindow->frameUpdateEvent().handleWith ([this](const render_window&) { _frameUpdate();     });
+    _renderWindow->frameUpdateEvent().handleWith ([this](const render_window&) { _frameUpdate();    });
     _renderWindow->frameDrawEvent().handleWith   ([this](const render_window&) { _frameRender();    });
     _renderWindow->keyPressedEvent().handleWith  ([this](int key)              { _keyPressed (key); });
+    _renderWindow->sizeChangedEvent().handleWith ([this](unsigned, unsigned)   { _windowResized();  });
 }
 
 
@@ -243,7 +248,6 @@ void demo_scene::_frameRender()
 
     // ---------------------------------------------------------------------------------------------  Draw fog now
 
-    _renderer.testDepth (true);
     _fogObject->draw (_renderer);
 
     _renderer.writeDepth (true);
@@ -285,4 +289,13 @@ void demo_scene::_keyPressed (int key)
         if (_viewPosLabel->isVisible())  _viewPosLabel->hide();
         else                             _viewPosLabel->makeVisible();
     }
+}
+
+
+void demo_scene::_windowResized()
+{
+    _initPosteffects();
+
+    _waterObject->useRefractionTextures (_solidSceneRT->colorTexture(), _solidSceneRT->depthTexture());
+    _fogObject->useDepthTexture (_solidSceneRT->depthTexture());
 }

@@ -11,7 +11,7 @@
 #include "frame_buffer.hpp"
 #include "render_resources.hpp"
 #include "water_plane.hpp"
-#include "sky_box.hpp"
+#include "dynamic_sky.hpp"
 #include "statistics.hpp"
 #include "volumetric_fog.hpp"
 #include "spline_path.hpp"
@@ -45,7 +45,7 @@ class demo_scene :
     scene::ptr  _scene;
     mesh_renderable_object::ptr  _islandObject;
     water_plane::ptr  _waterObject;
-    sky_box::ptr  _skyBox;
+    dynamic_sky::ptr  _skyBox;
     float _time = 0;
     math3d::vector3_f _sunPosition;
     sf::Image  _horizonColorMap;
@@ -72,6 +72,7 @@ protected:
     void _frameUpdate();
     void _frameRender();
     void _keyPressed (int key);
+    void _windowResized();
 
 
 public:

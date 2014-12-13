@@ -8,7 +8,7 @@ namespace render
 {
     gpu_image_processing::gpu_image_processing (resources &renderRes, string const &fragShaderName)
     {
-        auto shaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(), "screen_quad.vert", fragShaderName);
+        auto shaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(), "utils/screen_quad.vert", fragShaderName);
         auto shader = renderRes.gpuProgramsManager().request (shaderId, renderRes);
         auto technique = technique::alloc (shader);
         technique->transformNotNeeded();
@@ -92,7 +92,11 @@ namespace render
         _target->setup (renderer);
 
         renderer.testDepth (false);
+        //renderer.writeDepth (false);
+
         _screenQuad->draw (renderer);
+
+        //renderer.writeDepth (true);
         renderer.testDepth (true);
     }
 

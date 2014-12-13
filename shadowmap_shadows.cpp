@@ -16,7 +16,8 @@ namespace render
         _lightCamera = render::camera::alloc (std::move (lightProj));
 
         auto vertexLayout = shadowmapgen_vertex_layout::alloc();
-        auto shadowmapGenProgramId = gpu_program::id (vertexLayout, "shadowmap_gen.vert", "shadowmap_gen.frag");
+        auto shadowmapGenProgramId = gpu_program::id (vertexLayout, "shadowmaps/shadowmap_generate.vert",
+                                                      "shadowmaps/shadowmap_generate.frag");
         auto shadowmapGenProgram = renderRes.gpuProgramsManager().request (shadowmapGenProgramId, renderRes);
         _shadowmapGenMaterial = material::alloc (technique::alloc (shadowmapGenProgram));
 
@@ -52,8 +53,8 @@ namespace render
             matrix_4x4_f biasedShadowmapTrasform = _matBias;
             biasedShadowmapTrasform.multiply (shadowmapTranfrom.asMatrix().convertType<float>());
 
-            rendererState.activeMaterial()->set ("uShadowMap", _shadowmapRT->depthTexture());
-            rendererState.activeMaterial()->set ("uShadowmapTransform", biasedShadowmapTrasform);
+            rendererState.activeMaterial()->set ("uTxtShadowMap", _shadowmapRT->depthTexture());
+            rendererState.activeMaterial()->set ("uMatShadowmapTransform", biasedShadowmapTrasform);
             rendererState.activeMaterial()->setup (renderer);
         };
 

@@ -40,7 +40,9 @@ namespace render
         : transformable_renderable_object (transform)
     {
         auto particleShaderId = gpu_program::id (particle_vertex_layout::alloc(),
-                                                  "particle.vert", "particle.geom", "particle.frag");
+                                                  "particles/particle.vert", "particles/particle.geom",
+                                                  "particles/particle.frag");
+
         auto particleShader = res.gpuProgramsManager().request (particleShaderId, res);
         _material = material::alloc (technique::alloc (particleShader));
         _material->set ("uTexture", res.requestFromFile<texture> ("SmokeShape.png"));

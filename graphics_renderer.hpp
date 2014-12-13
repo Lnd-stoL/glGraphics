@@ -30,6 +30,9 @@ namespace render
             bool  _backfaceCulling = false;
             bool  _writeDepth      = true;
 
+            unsigned _rtWidth = 0;
+            unsigned _rtHeight = 0;
+
 
         public:
             property_get_ref (object2ScreenTransform, _object2ScreenTransform)
@@ -42,6 +45,9 @@ namespace render
             property_get (testDepth, _testDepth)
             property_get (backfaceCulling, _backfaceCulling)
             property_get (writeDepth, _writeDepth)
+
+            property_get (renderTargetWidth,  _rtWidth)
+            property_get (renderTargetHeight, _rtHeight)
 
 
         public:

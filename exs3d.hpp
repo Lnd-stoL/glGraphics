@@ -35,9 +35,9 @@ namespace render
         protected:
             virtual void _registerAttributes()
             {
-                _registerAttribute ("aCoords", attribute::tFloat, offsetof (vertex, coords), 3);
-                _registerAttribute ("aNormal", attribute::tFloat, offsetof (vertex, normal), 3);
-                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (vertex, texUV), 2);
+                _registerAttribute ("iCoords", attribute::tFloat, offsetof (vertex, coords), 3);
+                _registerAttribute ("iNormal", attribute::tFloat, offsetof (vertex, normal), 3);
+                _registerAttribute ("iTexUV",  attribute::tFloat, offsetof (vertex, texUV), 2);
             }
 
         public:

@@ -68,8 +68,8 @@ namespace render
         protected:
             virtual void _registerAttributes()
             {
-                _registerAttribute ("aCoords", attribute::tFloat, offsetof (text_vertex, position), 2);
-                _registerAttribute ("aTexUV",  attribute::tFloat, offsetof (text_vertex, texUV),    2);
+                _registerAttribute ("iCoords", attribute::tFloat, offsetof (text_vertex, position), 2);
+                _registerAttribute ("iTexUV",  attribute::tFloat, offsetof (text_vertex, texUV),    2);
             }
 
         public:

@@ -47,7 +47,7 @@ namespace render
         virtual void _registerAttributes()
         {
             _attributes.clear();
-            _registerAttribute ("aCoords", attribute::tFloat, offsetof (exs3d_mesh::vertex, coords), 3);
+            _registerAttribute ("iCoords", attribute::tFloat, offsetof (exs3d_mesh::vertex, coords), 3);
         }
 
     public:

@@ -133,7 +133,7 @@ namespace render
 
         else
         {
-            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
+            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name, true);
             _textures[name] = { txt, uniformId, true };
         }
     }
@@ -152,7 +152,7 @@ namespace render
 
         else
         {
-            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
+            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name, true);
             _scalarParams[name] = { param, uniformId, true };
         }
     }
@@ -171,7 +171,7 @@ namespace render
 
         else
         {
-            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
+            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name, true);
             _vec3Params[name] = { param, uniformId, true };
         }
     }
@@ -190,7 +190,7 @@ namespace render
 
         else
         {
-            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
+            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name, true);
             _vec2Params[name] = { param, uniformId, true };
         }
     }
@@ -209,7 +209,7 @@ namespace render
 
         else
         {
-            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name);
+            gpu_program::uniform_id uniformId = _technique->gpuProgram()->uniformLocation (name, true);
             _mat4Params[name] = { param, uniformId, true };
         }
     }

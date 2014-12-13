@@ -258,6 +258,30 @@ demo_scene.cpp.s:
 	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/demo_scene.cpp.s
 .PHONY : demo_scene.cpp.s
 
+dynamic_sky.o: dynamic_sky.cpp.o
+.PHONY : dynamic_sky.o
+
+# target to build an object file
+dynamic_sky.cpp.o:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/dynamic_sky.cpp.o
+.PHONY : dynamic_sky.cpp.o
+
+dynamic_sky.i: dynamic_sky.cpp.i
+.PHONY : dynamic_sky.i
+
+# target to preprocess a source file
+dynamic_sky.cpp.i:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/dynamic_sky.cpp.i
+.PHONY : dynamic_sky.cpp.i
+
+dynamic_sky.s: dynamic_sky.cpp.s
+.PHONY : dynamic_sky.s
+
+# target to generate assembly for a file
+dynamic_sky.cpp.s:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/dynamic_sky.cpp.s
+.PHONY : dynamic_sky.cpp.s
+
 exs3d.o: exs3d.cpp.o
 .PHONY : exs3d.o
 
@@ -642,29 +666,29 @@ screen_overlay.cpp.s:
 	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/screen_overlay.cpp.s
 .PHONY : screen_overlay.cpp.s
 
-sky_box.o: sky_box.cpp.o
-.PHONY : sky_box.o
+shadowmap_shadows.o: shadowmap_shadows.cpp.o
+.PHONY : shadowmap_shadows.o
 
 # target to build an object file
-sky_box.cpp.o:
-	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/sky_box.cpp.o
-.PHONY : sky_box.cpp.o
+shadowmap_shadows.cpp.o:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/shadowmap_shadows.cpp.o
+.PHONY : shadowmap_shadows.cpp.o
 
-sky_box.i: sky_box.cpp.i
-.PHONY : sky_box.i
+shadowmap_shadows.i: shadowmap_shadows.cpp.i
+.PHONY : shadowmap_shadows.i
 
 # target to preprocess a source file
-sky_box.cpp.i:
-	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/sky_box.cpp.i
-.PHONY : sky_box.cpp.i
+shadowmap_shadows.cpp.i:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/shadowmap_shadows.cpp.i
+.PHONY : shadowmap_shadows.cpp.i
 
-sky_box.s: sky_box.cpp.s
-.PHONY : sky_box.s
+shadowmap_shadows.s: shadowmap_shadows.cpp.s
+.PHONY : shadowmap_shadows.s
 
 # target to generate assembly for a file
-sky_box.cpp.s:
-	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/sky_box.cpp.s
-.PHONY : sky_box.cpp.s
+shadowmap_shadows.cpp.s:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/shadowmap_shadows.cpp.s
+.PHONY : shadowmap_shadows.cpp.s
 
 spline_path.o: spline_path.cpp.o
 .PHONY : spline_path.o
@@ -861,6 +885,9 @@ help:
 	@echo "... demo_scene.o"
 	@echo "... demo_scene.i"
 	@echo "... demo_scene.s"
+	@echo "... dynamic_sky.o"
+	@echo "... dynamic_sky.i"
+	@echo "... dynamic_sky.s"
 	@echo "... exs3d.o"
 	@echo "... exs3d.i"
 	@echo "... exs3d.s"
@@ -909,9 +936,9 @@ help:
 	@echo "... screen_overlay.o"
 	@echo "... screen_overlay.i"
 	@echo "... screen_overlay.s"
-	@echo "... sky_box.o"
-	@echo "... sky_box.i"
-	@echo "... sky_box.s"
+	@echo "... shadowmap_shadows.o"
+	@echo "... shadowmap_shadows.i"
+	@echo "... shadowmap_shadows.s"
 	@echo "... spline_path.o"
 	@echo "... spline_path.i"
 	@echo "... spline_path.s"

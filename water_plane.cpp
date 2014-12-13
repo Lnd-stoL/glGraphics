@@ -23,7 +23,7 @@ water_plane::water_plane (resources& renderRes, render_window &renderWindow, flo
       _surfaceHeight (y)
 {
     auto waterplaneShaderId = gpu_program::id (elementary_shapes::simple_vertex_layout::alloc(),
-                                               "water_plane.vert", "water_plane.frag");
+                                               "special/water_plane.vert", "special/water_plane.frag");
     auto waterplaneShader = renderRes.gpuProgramsManager().request (waterplaneShaderId, renderRes);
     _material = material::alloc (technique::alloc (waterplaneShader));
 
@@ -38,17 +38,14 @@ water_plane::water_plane (resources& renderRes, render_window &renderWindow, flo
     normalMap->filtering (texture::linear_MipmapLinear, texture::linear_MipmapLinear);
     _material->set ("uNormalMap", normalMap);
 
-    _reflectionsFrameBuffer = frame_buffer::alloc (renderWindow.width () / 2, renderWindow.height() / 2);
-    _reflectionsFrameBuffer->clearColor (color_rgb<float> (1, 1, 1));
-    _reflectionsFrameBuffer->attachDepthTexture();
-    _reflectionsTexture = _reflectionsFrameBuffer->attachColorTexture();
+    _reflectionsRT = offscreen_render_target::alloc (renderWindow.size() / 2, 1, true);
 
     unique_ptr<perspective_projection_d> projection (new perspective_projection_d (
             angle_d::pi / 4, renderWindow.aspectRatio (), interval_d (1, 1000)));
 
     _reflectionsCamera = camera::alloc (std::move (projection));
 
-    _material->set ("uReflection", _reflectionsTexture);
+    _material->set ("uReflection", _reflectionsRT->colorTexture());
 }
 
 
@@ -63,7 +60,7 @@ void water_plane::drawReflections (graphics_renderer &renderer, scene &reflectib
 {
     _reflectionsCamera->asInverseYOf (*(renderer.state().activeCamera()), _surfaceHeight);
 
-    renderer.renderTo (_reflectionsFrameBuffer);
+    _reflectionsRT->setup (renderer);
     renderer.use (_reflectionsCamera);
 
     glEnable (GL_CLIP_DISTANCE0);

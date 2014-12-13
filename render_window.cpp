@@ -155,6 +155,7 @@ void render_window::_initWindow (const string &title, bool fullscreen)
     glfwDefaultWindowHints();
 
     glfwWindowHint (GLFW_SAMPLES, 0);
+    glfwWindowHint (GLFW_DEPTH_BITS, 0);
     glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, true);

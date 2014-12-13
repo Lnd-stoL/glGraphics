@@ -283,7 +283,7 @@ namespace render
     void  exs3d_loader::_initDefaults (resources &otherResources)
     {
         auto vertexLayout = exs3d_mesh::exs3d_vertex_layout::alloc();
-        auto shaderResourceId = gpu_program::id (vertexLayout, "shader.vert", "shader.frag");
+        auto shaderResourceId = gpu_program::id (vertexLayout, "solid_default.vert", "solid_default.frag");
         auto shader = otherResources.gpuProgramsManager().request (shaderResourceId, otherResources);
         _defaultTechnique = technique::alloc (shader);
     }
@@ -337,7 +337,7 @@ namespace render
                                                                                         _additionalSearchLocations);
             if (!txt)  return;
             txt->filtering (texture::linear_MipmapLinear, texture::linear_MipmapLinear);
-            mat->set ("uTexture", txt);
+            mat->set ("uTxtDiffuse", txt);
         }
     }
 

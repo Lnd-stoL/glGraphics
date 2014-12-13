@@ -9,6 +9,7 @@
 #include "renderable.hpp"
 #include "render_resources.hpp"
 #include "graphics_renderer.hpp"
+#include "gpu_image_processing.hpp"
 
 using namespace render;
 
@@ -20,9 +21,9 @@ class water_plane : public renderable
     float _surfaceHeight;
     material::ptr  _material;
 
-    frame_buffer::ptr  _reflectionsFrameBuffer;
-    texture::ptr       _reflectionsTexture;
-    camera::ptr        _reflectionsCamera;
+    offscreen_render_target::ptr  _reflectionsRT;
+    texture::ptr                  _reflectionsTexture;
+    camera::ptr                   _reflectionsCamera;
 
 public:
     property_get (surfaeHight, _surfaceHeight)
@@ -34,6 +35,7 @@ public:
 
     void useRefractionTextures (texture::ptr refractTexture, texture::ptr depthTexture);
     void drawReflections (graphics_renderer &renderer, scene &reflectibleScene, scene::render_group_id reflectibleGroup);
+
     virtual void draw (graphics_renderer &renderer) const;
 };
 

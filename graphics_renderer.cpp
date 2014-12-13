@@ -93,6 +93,9 @@ namespace render
     {
         _state._frameBuffer = nullptr;
 
+        _state._rtWidth = wnd.width();
+        _state._rtHeight = wnd.height();
+
         frame_buffer::useDefault();
         glViewport (0, 0, wnd.width (), wnd.height());
         if (autoClear)  wnd.clear();
@@ -102,6 +105,9 @@ namespace render
     void graphics_renderer::renderTo (frame_buffer::ptr frameBuffer, bool autoClear)
     {
         _state._frameBuffer = frameBuffer;
+
+        _state._rtWidth = frameBuffer->width();
+        _state._rtHeight = frameBuffer->height();
 
         frameBuffer->use();
         glViewport (0, 0, frameBuffer->width(), frameBuffer->height());
@@ -113,14 +119,16 @@ namespace render
     {
         if (_scene)
         {
-            _state.activeRenderingProgram()->setUniform ("uLightPos", _scene->sunPosition().convertType<float>(), true);
-            _state.activeRenderingProgram()->setUniform ("uLightColor", _scene->sunColor().asVector(), true);
-            _state.activeRenderingProgram()->setUniform ("uFrameCount", _frameCount, true);
+            _state.activeMaterial()->set ("uLightPos", _scene->sunPosition().convertType<float>());
+            _state.activeMaterial()->set ("uLightColor", _scene->sunColor().asVector());
         }
 
+        _state.activeMaterial()->set ("uFrameCount", _frameCount);
+        _state.activeMaterial()->set ("uFrameSize", math3d::vector2_f (_state._rtWidth, _state._rtHeight));
+
         auto viewInt = _state.activeCamera ()->projection ()->viewInterval();
-        _state.activeRenderingProgram()->setUniform ("uClipNearFar",
-                                                     math3d::vector2_f ((float) viewInt.from(), (float) viewInt.to()), true);
+        _state.activeMaterial()->set ("uClipNearFar",
+                                      math3d::vector2_f ((float) viewInt.from(), (float) viewInt.to()));
 
     }
 
