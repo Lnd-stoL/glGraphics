@@ -29,11 +29,12 @@ private:
     double  _frameTime        = 0;
     double  _avgFrameTime     = 0;
     double  _frameTimeSamples = 0;
+    double  _lastUpdateTime   = 0;
 
-    event<const render_window&>  _frameUpdateEvent;
-    event<const render_window&>  _frameDrawEvent;
-    event<unsigned, unsigned>    _sizeChangedEvent;
-    event<int>                   _keyPressedEvent;
+    event<double>               _frameUpdateEvent;
+    event<>                     _frameDrawEvent;
+    event<unsigned, unsigned>   _sizeChangedEvent;
+    event<int>                  _keyPressedEvent;
 
 
 public:

@@ -11,7 +11,7 @@ namespace render
         _shadowmapRT->depthTexture()->setupForShadowSampler();
 
         unique_ptr<orthographic_projection_d> lightProj (
-                new orthographic_projection_d (100, ((double) mapSize.x()) / mapSize.y(), interval_d (10, 200)));
+                new orthographic_projection_d (180, ((double) mapSize.x()) / mapSize.y(), interval_d (30, 250)));
 
         _lightCamera = render::camera::alloc (std::move (lightProj));
 
@@ -64,8 +64,8 @@ namespace render
     }
 
 
-    void shadowmap_shadows::changeLight (const vector3_d &position, const rotation_d &rotation)
+    void shadowmap_shadows::changeLight (const vector3_f &position, const rotation_d &rotation)
     {
-        _lightCamera->changeTransform (position, rotation);
+        _lightCamera->changeTransform (position.convertType<double>(), rotation);
     }
 }

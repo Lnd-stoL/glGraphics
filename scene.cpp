@@ -66,7 +66,7 @@ namespace render
     }
 
 
-    void scene::setSun (math3d::vector3_d position, color_rgb<float> color)
+    void scene::setDirectionalLight (math3d::vector3_f position, color_rgb<float> color)
     {
         _sunPosition = position;
         _sunColor = color;

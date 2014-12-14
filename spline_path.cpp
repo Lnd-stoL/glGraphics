@@ -138,7 +138,7 @@ quaternion_d spline_path::_catmullRom (const quaternion_d &yn1, const quaternion
 }
 
 
-void spline_path::playOnCamera (render::camera::ptr cam, event<const render_window&> &updateEvent)
+void spline_path::playOnCamera (render::camera::ptr cam, event<double> &updateEvent)
 {
 	stopPlaying();
 	resetPlaying();
@@ -146,7 +146,7 @@ void spline_path::playOnCamera (render::camera::ptr cam, event<const render_wind
 	_camera = cam;
 	_updateEvent = &updateEvent;
 
-	_updateHandler = updateEvent.handleWith ([this] (const render_window &) {
+	_updateHandler = updateEvent.handleWith ([this] (double) {
 		this->_onUpdatePlay();
 	});
 }
@@ -157,7 +157,7 @@ void spline_path::stopPlaying()
 	if (_updateEvent)  _updateEvent->stopHandlingWith (_updateHandler);
 
 	_updateEvent = nullptr;
-	_updateHandler = event<const render_window&>::handler_id();
+	_updateHandler = event<double>::handler_id();
 }
 
 
@@ -229,7 +229,7 @@ void spline_path::_onUpdatePlay()
 //----------------------------------------------------------------------------------------------------------------------
 
 void spline_path_recorder::recordFromCamera (render::camera::ptr cam,
-											 event<const render_window&> &updateEvent,
+											 event<double> &updateEvent,
 								             double samplingRate)
 {
 	if (_camera)
@@ -245,7 +245,7 @@ void spline_path_recorder::recordFromCamera (render::camera::ptr cam,
 	_lastUpdateTime = -1;
 	_timeSinceLastNode = 0;
 
-	_updateHandler = updateEvent.handleWith ([this] (const render_window &) {
+	_updateHandler = updateEvent.handleWith ([this] (double) {
 		this->_onUpdatePlay();
 	});
 }
@@ -256,7 +256,7 @@ spline_path::ptr spline_path_recorder::stopRecording()
 	if (_updateEvent)  _updateEvent->stopHandlingWith (_updateHandler);
 
 	_updateEvent = nullptr;
-	_updateHandler = event<const render_window&>::handler_id();
+	_updateHandler = event<double>::handler_id();
 
 	if (_path.size() == 0)
 	{

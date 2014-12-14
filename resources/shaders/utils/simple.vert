@@ -1,12 +1,15 @@
 
 #version 330 core
 
-in vec3 aCoords;
+//----------------------------------------------------------------------------------------------------------------------
+
+in vec3 iCoords;
 
 uniform mat4 uMatTransform;
 
+//----------------------------------------------------------------------------------------------------------------------
 
 void main()
 {
-    gl_Position = uMatTransform * vec4 (aCoords, 1);
+    gl_Position = uMatTransform * vec4 (iCoords, 1);
 }

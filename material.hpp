@@ -52,6 +52,33 @@ namespace render
         {
             return *((math3d::vector3<component_t>*) (this));
         }
+
+        color_rgb<component_t>& lighten (component_t amount)
+        {
+            _r += amount;
+            _g += amount;
+            _b += amount;
+
+            return *this;
+        }
+
+        color_rgb<component_t>& contrast (component_t amount)
+        {
+            _r *= amount;
+            _g *= amount;
+            _b *= amount;
+
+            return *this;
+        }
+
+        color_rgb<component_t>& mix (const color_rgb<component_t> &clr, component_t amount)
+        {
+            _r = _r * (1 - amount) + clr._r * amount;
+            _g = _g * (1 - amount) + clr._g * amount;
+            _b = _b * (1 - amount) + clr._b * amount;
+
+            return *this;
+        }
     };
 
 //----------------------------------------------------------------------------------------------------------------------

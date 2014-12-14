@@ -1,4 +1,9 @@
 
+#ifndef __config_file__included__
+#define __config_file__included__
+
+//----------------------------------------------------------------------------------------------------------------------
+
 #include "oo_extensions.hpp"
 #include "resource.hpp"
 #include "debug.hpp"
@@ -29,7 +34,7 @@ public:
     explicit config_set (const string &fileName);
     config_set (const ps::ptree &ptr);
 
-    config_set::ptr  getGroup (const string &name)  const;
+    config_set::ptr  group (const string &name)  const;
 
 
     template<typename value_t>
@@ -44,3 +49,7 @@ public:
         return value_t ();
     }
 };
+
+//----------------------------------------------------------------------------------------------------------------------
+
+#endif

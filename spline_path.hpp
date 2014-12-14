@@ -35,8 +35,8 @@ private:
 	double _lastUpdateTime = -1;
 	render::camera::ptr  _camera = nullptr;
 
-	event<const render_window&>::handler_id  _updateHandler;
-	event<const render_window&>  *_updateEvent = nullptr;
+	event<double>::handler_id  _updateHandler;
+	event<double>  *_updateEvent = nullptr;
 
 public:
 	property_get (duration, _wholeDuration)
@@ -74,7 +74,7 @@ public:
 
 	void save (const string& fileName);
 	
-	void playOnCamera (render::camera::ptr cam, event<const render_window&> &updateEvent);
+	void playOnCamera (render::camera::ptr cam, event<double> &updateEvent);
 	void stopPlaying();
 	void resetPlaying();
 
@@ -92,8 +92,8 @@ private:
 	vector<spline_path::spline_node>  _path;
 	render::camera::ptr  _camera;
 
-	event<const render_window&>::handler_id  _updateHandler;
-	event<const render_window&>  *_updateEvent = nullptr;
+	event<double>::handler_id  _updateHandler;
+	event<double>  *_updateEvent = nullptr;
 
 	double _samplingRate = 1;
 	double _timeSinceLastNode = 0;
@@ -106,7 +106,7 @@ private:
 public:
 	declare_ptr_alloc (spline_path_recorder)
 
-	void recordFromCamera (render::camera::ptr cam, event<const render_window&> &updateEvent, double samplingRate = 0.7);
+	void recordFromCamera (render::camera::ptr cam, event<double> &updateEvent, double samplingRate = 0.7);
 	spline_path::ptr stopRecording();
 };
 

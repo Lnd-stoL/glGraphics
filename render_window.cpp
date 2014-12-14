@@ -81,10 +81,12 @@ void render_window::runLoop()
     {
         glfwPollEvents();
         double startTime = glfwGetTime();
+        if (_lastUpdateTime == 0)  _lastUpdateTime = startTime;
 
-        _frameUpdateEvent (*this);
-        _frameDrawEvent (*this);
+        _frameUpdateEvent (startTime - _lastUpdateTime);
+        _lastUpdateTime = startTime;
 
+        _frameDrawEvent();
         glfwSwapBuffers (_window);
 
         _frameTime = (glfwGetTime() - startTime) * 1000.0;
@@ -126,7 +128,7 @@ void render_window::saveScreenshot (const string &fileToSave)
 
 void render_window::clear()
 {
-    glClearColor (0, 0, 0, 1);
+    glClearColor (0.5, 0.5, 0.5, 1);
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

@@ -59,7 +59,7 @@ namespace render
 
     void particle_system_object::_generateVertexBuffer()
     {
-        unsigned particlesNum = 30;
+        unsigned particlesNum = 1500;
         vector<particle_vertex>  vertices (particlesNum);
 
         for (unsigned i = 0; i < particlesNum; ++i)
@@ -69,7 +69,7 @@ namespace render
             float rnd3 = float (std::rand() % 1000) / 500 - 1;
 
             vertices[i].position = vector3_f (rnd1 * 2, rnd3 * 1, rnd2 * 2);
-            vertices[i].size = vector2_f (3, 3);
+            vertices[i].size = vector2_f (1.3, 1.3);
         }
 
         _vertexBuffer = vertex_buffer<particle_vertex>::alloc (vertices);
@@ -84,7 +84,7 @@ namespace render
             float rnd2 = float (std::rand() % 1000) / 500 - 1;
             float rnd3 = float (std::rand() % 1000) / 500 - 1;
 
-            vertices[i].position += vector3_f (rnd1, rnd3, rnd2) * 0.1;
+            vertices[i].position += vector3_f (rnd1, rnd3, rnd2) * 0.12;
             vertices[i].size += vector2_f (rnd1, rnd3) * 0.05;
         }
     }

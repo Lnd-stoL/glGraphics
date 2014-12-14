@@ -1,4 +1,3 @@
-
 #ifndef __water_plane__included__
 #define __water_plane__included__
 
@@ -26,7 +25,7 @@ class water_plane : public renderable
     camera::ptr                   _reflectionsCamera;
 
 public:
-    property_get (surfaeHight, _surfaceHeight)
+    property_get (surfaceHeight, _surfaceHeight)
 
 
 public:

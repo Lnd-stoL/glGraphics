@@ -1,34 +1,31 @@
 
 #version 330 core
 
-uniform sampler2D  uDepthMap;
+#with  ../common/linear_depth.glsl
 
-uniform vec2  uFrameSize = vec2 (1400, 1100);
+//----------------------------------------------------------------------------------------------------------------------
+
+uniform sampler2D  uTxtDepthMap;
+
+uniform vec2  uFrameSize;
 uniform vec2  uClipNearFar;
+
+//----------------------------------------------------------------------------------------------------------------------
 
 uniform float  uDensity = 0.17;
 uniform vec3   uColor   = vec3 (1, 1, 1);
 
 out vec4  oColor;
 
-
-float calculateLinearDepth (float zScreen)
-{
-    float zFar = uClipNearFar.y;
-    float zNear = uClipNearFar.x;
-
-    return zFar * zNear / (zFar - zScreen * (zFar - zNear));
-}
-
+//----------------------------------------------------------------------------------------------------------------------
 
 void main()
 {
-    float originalZ = texture (uDepthMap, gl_FragCoord.xy / uFrameSize).r;
-    float originDepth = calculateLinearDepth (originalZ);
-    float fogDepth = calculateLinearDepth (gl_FragCoord.z);
+    float originalZ = texture (uTxtDepthMap, gl_FragCoord.xy / uFrameSize).r;
+    float originDepth = calculateLinearDepth (uClipNearFar, originalZ);
+    float fogDepth = calculateLinearDepth (uClipNearFar, gl_FragCoord.z);
 
     float deltaDepth = originDepth - fogDepth;
-    //deltaDepth = clamp (deltaDepth, 0, 5);
 
     float fogFactor = deltaDepth * uDensity;
     fogFactor *= sqrt (fogFactor);

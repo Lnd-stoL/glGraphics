@@ -24,17 +24,21 @@ clouds_noise_3d::~clouds_noise_3d()
     if (_noise)  delete[] _noise;
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 
-float fade (float t) { return t * t * t * (t * (t * 6 - 15) + 10); }
-float lerp (float t, float a, float b) { return a + t * (b - a); }
+float fade (float t)                      { return t * t * t * (t * (t * 6 - 15) + 10); }
+float lerp (float t, float a, float b)    { return a + t * (b - a); }
+
 
 float grad (int hash, float x, float y, float z)
 {
-    int h = hash & 15;                      // CONVERT LO 4 BITS OF HASH CODE
-    float u = h<8 ? x : y,                 // INTO 12 GRADIENT DIRECTIONS.
-            v = h<4 ? y : h==12||h==14 ? x : z;
+    int h = hash & 15;
+    float u = h < 8 ? x : y;
+    float v = h < 4 ? y : h == 12 || h == 14 ? x : z;
+
     return ((h&1) == 0 ? u : -u) + ((h&2) == 0 ? v : -v);
 }
+
 
 int p[512];
 int permutation[] = { 151,160,137,91,90,15,
@@ -52,40 +56,43 @@ int permutation[] = { 151,160,137,91,90,15,
         138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 };
 
+
 inline int int_floor (float x)
 {
-    int i = (int) x; /* truncate */
-    return i - ( i > x ); /* convert trunc to floor */
+    int i = (int) x;
+    return i - ( i > x );
 }
+
 
 float noise (float x, float y, float z)
 {
-    int fx = int_floor(x);
-    int fy = int_floor(y);
-    int fz = int_floor(z);
+    int fx = int_floor (x);
+    int fy = int_floor (y);
+    int fz = int_floor (z);
 
-    int X = fx & 255,                  // FIND UNIT CUBE THAT
-    Y = fy & 255,                  // CONTAINS POINT.
+    int X = fx & 255,
+    Y = fy & 255,
     Z = fz & 255;
-    x -= fx;                                // FIND RELATIVE X,Y,Z
-    y -= fy;                                // OF POINT IN CUBE.
+    x -= fx;
+    y -= fy;
     z -= fz;
-    double u = fade(x),                                // COMPUTE FADE CURVES
-            v = fade(y),                                // FOR EACH OF X,Y,Z.
+    double u = fade(x),
+            v = fade(y),
             w = fade(z);
-    int A = p[X  ]+Y, AA = p[A]+Z, AB = p[A+1]+Z,      // HASH COORDINATES OF
-            B = p[X+1]+Y, BA = p[B]+Z, BB = p[B+1]+Z;      // THE 8 CUBE CORNERS,
+    int A = p[X  ]+Y, AA = p[A]+Z, AB = p[A+1]+Z,
+            B = p[X+1]+Y, BA = p[B]+Z, BB = p[B+1]+Z;
 
-    return lerp(w, lerp(v, lerp(u, grad(p[AA  ], x  , y  , z   ),  // AND ADD
-                                grad(p[BA  ], x-1, y  , z   )), // BLENDED
-                        lerp(u, grad(p[AB  ], x  , y-1, z   ),  // RESULTS
-                             grad(p[BB  ], x-1, y-1, z   ))),// FROM  8
-                lerp(v, lerp(u, grad(p[AA+1], x  , y  , z-1 ),  // CORNERS
-                             grad(p[BA+1], x-1, y  , z-1 )), // OF CUBE
+    return lerp(w, lerp(v, lerp(u, grad(p[AA  ], x  , y  , z   ),
+                                grad(p[BA  ], x-1, y  , z   )),
+                        lerp(u, grad(p[AB  ], x  , y-1, z   ),
+                             grad(p[BB  ], x-1, y-1, z   ))),
+                lerp(v, lerp(u, grad(p[AA+1], x  , y  , z-1 ),
+                             grad(p[BA+1], x-1, y  , z-1 )),
                      lerp(u, grad(p[AB+1], x  , y-1, z-1 ),
                           grad(p[BB+1], x-1, y-1, z-1 ))));
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 
 void clouds_noise_3d::_generate()
 {

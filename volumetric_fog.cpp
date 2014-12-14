@@ -26,19 +26,16 @@ volumetric_fog::volumetric_fog (resources &renderRes, a_mesh_component::ptr mesh
 
 void volumetric_fog::useDepthTexture (texture::ptr depthTexture)
 {
-    _material->set ("uDepthMap", depthTexture);
-}
-
-
-void volumetric_fog::useColorTexture (texture::ptr colorTexture)
-{
-    _material->set ("uColorMap", colorTexture);
+    _material->set ("uTxtDepthMap", depthTexture);
 }
 
 
 void volumetric_fog::draw (graphics_renderer &renderer) const
 {
     transformable_renderable_object::_setupObject2ScreenTransform (renderer);
+
+    _material->set ("uDensity", _density);
+    _material->set ("uColor", _color.asVector());
 
     renderer.blend (true);
     renderer.testDepth (true);

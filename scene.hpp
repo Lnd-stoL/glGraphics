@@ -60,7 +60,7 @@ namespace render
         std::map<string, render_group_id> _renderGroupsNames;
         render_group_id  _defaultRenderGroup = 0;
 
-        math3d::vector3_d  _sunPosition;
+        math3d::vector3_f  _sunPosition;
         color_rgb<float>  _sunColor;
 
 
@@ -95,7 +95,7 @@ namespace render
         void removeSceneObject (scene_object::ptr sceneObject);
         void removeSceneObject (render_group_id renderGroupId, scene_object::ptr sceneObject);
 
-        void setSun (math3d::vector3_d position, color_rgb<float> color);
+        void setDirectionalLight (math3d::vector3_f position, color_rgb<float> color);
 
         void draw (graphics_renderer &renderer) const;
         void draw (graphics_renderer &renderer, render_group_id renderGroupId) const;

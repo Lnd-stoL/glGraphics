@@ -36,7 +36,7 @@ namespace render
         void generateShadowmap (graphics_renderer &renderer, scene::ptr fromScene, scene::render_group_id shadowCasters);
         void drawShadedScene (graphics_renderer &renderer, scene::ptr fromScene, scene::render_group_id shadowRecv);
 
-        void changeLight (const vector3_d &position, const rotation_d &rotation);
+        void changeLight (const vector3_f &position, const rotation_d &rotation);
     };
 
 //----------------------------------------------------------------------------------------------------------------------

@@ -1,23 +1,11 @@
 
-#version 330 core
-
-//----------------------------------------------------------------------------------------------------------------------
-
-uniform sampler2D  uTxtInput;
-uniform vec2  uFrameSize;
-
-in vec2  vTexUV;
-out vec3  oColor;
-
-//----------------------------------------------------------------------------------------------------------------------
-
 float FXAA_SPAN_MAX   = 10.0;
 float FXAA_REDUCE_MUL = 1.0 / 16.0;
 float FXAA_REDUCE_MIN = 1.0 / 64.0;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-void main()
+vec3 applyFxaa()
 {
     vec2 screenUV = vTexUV + vec2 (0.5, 0.5) / uFrameSize;
     vec3 rgbNW = texture (uTxtInput, screenUV + (vec2 (-1.0, -1.0) / uFrameSize)).xyz;
@@ -56,6 +44,6 @@ void main()
             texture (uTxtInput, vTexUV + dir * (3.0/3.0 - 0.5)).xyz);
     float lumaB = dot (rgbB, luma);
 
-    if ((lumaB < lumaMin) || (lumaB > lumaMax))  oColor = rgbA;
-    else                                         oColor = rgbB;
+    if ((lumaB < lumaMin) || (lumaB > lumaMax))  return rgbA;
+    else                                         return rgbB;
 }

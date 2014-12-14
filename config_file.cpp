@@ -31,7 +31,7 @@ config_set::config_set (const ps::ptree &ptr)
 }
 
 
-config_set::ptr  config_set::getGroup (string const &name)  const
+config_set::ptr  config_set::group (string const &name)  const
 {
     return make_shared<config_set> (_prop.get_child (_pathFromString (name)));
 }

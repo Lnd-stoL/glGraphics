@@ -38,7 +38,7 @@ protected:
     void _initializeRenderWindow()
     {
         config_set::ptr renderWindowConfig =
-                _resourceManagers.requestFromFile<config_set> ("render_window.info")->getGroup ("render_window");
+                _resourceManagers.requestFromFile<config_set> ("render_window.info")->group ("render_window");
 
         debug::log::println ("initializing OpenGL rendering window ...");
         _renderWindow = render_window::create (renderWindowConfig->get<unsigned> ("width"),

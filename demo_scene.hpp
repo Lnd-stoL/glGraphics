@@ -34,27 +34,24 @@ class demo_scene :
 
     camera::ptr  _viewerCamera;
     fps_camera_controller::ptr  _fpsCameraController;
-    transform_d       _lightTransform;
 
     shadowmap_shadows::ptr  _shadowsRenderer;
     offscreen_render_target::ptr      _solidSceneRT;
     gpu_image_processing_stage::ptr   _solidScenePostprocess;
     gpu_image_processing_screen::ptr  _finalPostprocess;
 
-
     scene::ptr  _scene;
     mesh_renderable_object::ptr  _islandObject;
     water_plane::ptr  _waterObject;
-    dynamic_sky::ptr  _skyBox;
-    float _time = 0;
-    math3d::vector3_f _sunPosition;
-    sf::Image  _horizonColorMap;
+    dynamic_sky::ptr _skies;
     volumetric_fog::ptr  _fogObject;
     particle_system_object::ptr  _particles;
 
     screen_overlay_layer::ptr  _screenOverlay;
     statistics::ptr  _statisticsOverlay;
     text_label::ptr  _viewPosLabel;
+    text_label::ptr  _controlsLabel;
+    text_label::ptr  _timeControlsLabel;
     spline_path::ptr _testPath;
     spline_path_recorder _testPathRecorder;
 
@@ -69,7 +66,7 @@ protected:
     void _initPosteffects();
     void _initOverlays();
 
-    void _frameUpdate();
+    void _frameUpdate (double time);
     void _frameRender();
     void _keyPressed (int key);
     void _windowResized();

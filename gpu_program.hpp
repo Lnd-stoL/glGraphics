@@ -30,6 +30,7 @@ namespace render
         void _initializeGLShader (GLenum shaderType);
         explicit shader (GLenum shaderType);
         shader (const string &fileName, GLenum shaderType);
+        string _preprocessShaderSource (const string &src, const string& filename);
 
     public:
         declare_ptr (shader)

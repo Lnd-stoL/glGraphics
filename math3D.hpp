@@ -1257,11 +1257,11 @@ namespace math3d
             numeric_t sqz = _quaternion.z() * _quaternion.z();
 
             numeric_t unit = sqx + sqy + sqz + sqw;
-            numeric_t test = _quaternion.x() * _quaternion.y() + _quaternion.z() * _quaternion.getW();
+            numeric_t test = _quaternion.x() * _quaternion.y() + _quaternion.z() * _quaternion.w();
 
             if (test > 0.49999 * unit)
             {
-                angles.yaw = 2 * std::atan2 (_quaternion.x(), _quaternion.getW());
+                angles.yaw = 2 * std::atan2 (_quaternion.x(), _quaternion.w());
                 angles.pitch = angle<numeric_t>::pi / 2;
                 angles.roll = 0;
 
@@ -1270,19 +1270,19 @@ namespace math3d
 
             if (test < -0.49999 * unit)
             {
-                angles.yaw = -2 * std::atan2 (_quaternion.x(), _quaternion.getW());
+                angles.yaw = -2 * std::atan2 (_quaternion.x(), _quaternion.w());
                 angles.pitch = - angle<numeric_t>::pi / 2;
                 angles.roll = 0;
 
                 return angles;
             }
 
-            angles.yaw   = std::atan2 (2 * (_quaternion.y() * _quaternion.getW() - _quaternion.x() * _quaternion.z()),
+            angles.yaw   = std::atan2 (2 * (_quaternion.y() * _quaternion.w() - _quaternion.x() * _quaternion.z()),
                                        sqx - sqy - sqz + sqw);
 
             angles.pitch = std::asin (2 * test / unit);
 
-            angles.roll  = std::atan2 (2 * (_quaternion.x() * _quaternion.getW() - _quaternion.y() * _quaternion.z()),
+            angles.roll  = std::atan2 (2 * (_quaternion.x() * _quaternion.w() - _quaternion.y() * _quaternion.z()),
                                        -sqx + sqy - sqz + sqw);
 
             return angles;

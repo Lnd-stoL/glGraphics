@@ -179,6 +179,8 @@ namespace render
 
     texture::texture (std::map<string, string> cubeMapFaces)
     {
+        glEnable (GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
         unsigned flags = SOIL_FLAG_COMPRESS_TO_DXT;
 
         _textureId =

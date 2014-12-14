@@ -146,8 +146,12 @@ namespace render
         if (existingIt != _scalarParams.end())
         {
             auto &uniformInfo = existingIt->second;
-            uniformInfo.value = param;
-            uniformInfo.needsUpdate = true;
+
+            if (uniformInfo.value != param)
+            {
+                uniformInfo.value = param;
+                uniformInfo.needsUpdate = true;
+            }
         }
 
         else
@@ -165,8 +169,12 @@ namespace render
         if (existingIt != _vec3Params.end())
         {
             auto &uniformInfo = existingIt->second;
-            uniformInfo.value = param;
-            uniformInfo.needsUpdate = true;
+
+            if (uniformInfo.value != param)
+            {
+                uniformInfo.value = param;
+                uniformInfo.needsUpdate = true;
+            }
         }
 
         else
@@ -184,8 +192,12 @@ namespace render
         if (existingIt != _vec2Params.end())
         {
             auto &uniformInfo = existingIt->second;
-            uniformInfo.value = param;
-            uniformInfo.needsUpdate = true;
+
+            if (uniformInfo.value != param)
+            {
+                uniformInfo.value = param;
+                uniformInfo.needsUpdate = true;
+            }
         }
 
         else

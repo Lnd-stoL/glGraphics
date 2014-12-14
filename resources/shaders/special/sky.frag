@@ -2,59 +2,56 @@
 #version 330 core
 
 //----------------------------------------------------------------------------------------------------------------------
-// uniforms
 
-uniform samplerCube  uSkyBox_Cubemap;
-uniform sampler2D  uClouds;
-uniform sampler3D  uClouds3D;
-uniform float  uFrameCount;
+uniform sampler3D  uTxtClouds3D;
+uniform float  uDayTime;
 
-uniform vec3 lightdir;
-uniform vec3 uLightColor;
-
-//----------------------------------------------------------------------------------------------------------------------
-// input
-
-in vec3  vTexCube;
-out vec3  out_Color;
-
-//----------------------------------------------------------------------------------------------------------------------
-// global parameters
-
-vec3 Kr = vec3 (0.48867780436772762, 0.6978442963618773, 0.7616065586417131);
-
-const float rayleigh_brightness = 4.3;
-const float mie_brightness      = 0.09;
-const float spot_brightness     = 5;
-const float scatter_strength    = 0.048;
-const float rayleigh_strength   = 0.139; // 0.239
-const float mie_strength        = 0.0264;
-
-const float rayleigh_collection_power = 0.71;
-const float mie_collection_power      = 0.39;
-const float mie_distribution          = 0.63;
-
-const float surface_height = 0.995;
-const float intensity      = 1.9;
-const int step_count = 8;
+uniform vec3  uSunDir;
+uniform vec3  uSunColor;
+uniform float uSkySphereRadius;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-float atmospheric_depth (vec3 position, vec3 dir)
+in  vec3  vTexUVTCube;
+out vec3  oColor;
+
+//----------------------------------------------------------------------------------------------------------------------
+// tuning parameters
+
+vec3 _skyColorKr = vec3 (0.48867780436772762, 0.6978442963618773, 0.7616065586417131);
+
+const float _rayleighBrightness = 4.3;
+const float _mieBrightness      = 0.09;
+const float _spotBrightness     = 5;
+const float _scatterStrength    = 0.048;
+const float _rayleighStrength   = 0.139;  // 0.239
+const float _mieStrength        = 0.0264;
+
+const float _rayleighCollectionPower = 0.71;
+const float _mieCollectionPower      = 0.39;
+const float _mieDistribution         = 0.63;
+
+const float _surfaceHeight   = 0.995;
+const float _intensityLight  = 1.9;
+const int   _rayTracingSteps = 10;
+
+//----------------------------------------------------------------------------------------------------------------------
+
+float calcAtmosphericDepth (vec3 position, vec3 dir)
 {
     float a = dot (dir, dir);
     float b = 2.0 * dot (dir, position);
     float c = dot (position, position) - 1.0;
     float detSqrt = sqrt (b*b - a*c*4);
-    float q = (-b - detSqrt) / 2;
+    float q = (-b - detSqrt) / 2.0;
 
     return c / q;
 }
 
 
-float phase (float alpha, float g)
+float calcPhase (float alpha, float g)
 {
-    float sq_g = g * g;
+    float sq_g     = g * g;
     float sq_alpha = alpha * alpha;
 
     float a = 3 * (1 - sq_g);
@@ -66,7 +63,7 @@ float phase (float alpha, float g)
 }
 
 
-float horizon_extinction (vec3 position, vec3 dir, float radius)
+float calcHorizonExtinction (vec3 position, vec3 dir, float radius)
 {
     float u = dot (dir, -position);
     if (u < 0)  return 1.0;
@@ -84,88 +81,68 @@ float horizon_extinction (vec3 position, vec3 dir, float radius)
 
 vec3 absorb (float dist, vec3 color, float factor)
 {
-    return color - color * pow (Kr, vec3 (factor / dist));
+    return color - color * pow (_skyColorKr, vec3 (factor / dist));
 }
 
 
-vec3 calcSkyColor (vec3 eyedir)
+vec3 calcSkyColor (vec3 rayDir)
 {
-    float alpha = dot (eyedir, lightdir);
+    float alpha = dot (rayDir, uSunDir);
 
-    float rayleigh_factor = phase (alpha, -0.01) * rayleigh_brightness;
-    float mie_factor = phase (alpha, mie_distribution) * mie_brightness;
-    float spot = smoothstep (0.0, 15.0, phase (alpha, 0.9995)) * spot_brightness;
+    float rayleighFactor = calcPhase (alpha, -0.01) * _rayleighBrightness;
+    float mieFactor = calcPhase (alpha, _mieDistribution) * _mieBrightness;
+    float spot = smoothstep (0, 15.0, calcPhase (alpha, 0.9995)) * _spotBrightness;
 
-    vec3 eye_position = vec3 (0.0, surface_height, 0.0);
-    float eye_depth = atmospheric_depth (eye_position, eyedir);
-    float step_length = eye_depth / float (step_count);
-    float eye_extinction = horizon_extinction (eye_position, eyedir, surface_height - 0.15);
+    vec3 eyePosition = vec3 (0, _surfaceHeight, 0);
+    float eyeDepth = calcAtmosphericDepth (eyePosition, rayDir);
+    float fStepCount = float (_rayTracingSteps);
+    float stepLength = eyeDepth / fStepCount;
+    float eyeExtinction = calcHorizonExtinction (eyePosition, rayDir, _surfaceHeight - 0.15);
 
-    vec3 rayleigh_collected = vec3 (0.0, 0.0, 0.0);
-    vec3 mie_collected = vec3 (0.0, 0.0, 0.0);
+    vec3 rayleighCollected = vec3 (0.0, 0.0, 0.0);
+    vec3 mieCollected      = vec3 (0.0, 0.0, 0.0);
 
-    for (int i = 0; i < step_count; ++i)
+    for (int i = 0; i < _rayTracingSteps; ++i)
     {
-        float sample_distance = step_length * float(i);
-        vec3 position = eye_position + eyedir * sample_distance;
-        float extinction = horizon_extinction (position, lightdir, surface_height - 0.25);   // 0.35
-        float sample_depth = atmospheric_depth (position, lightdir);
-        vec3 influx = absorb (sample_depth, vec3 (intensity), scatter_strength) * extinction;
+        float sampleDistance = stepLength * float (i);
+        vec3 position = eyePosition + rayDir * sampleDistance;
 
-        rayleigh_collected += absorb (sample_distance, Kr * influx, rayleigh_strength);
-        mie_collected += absorb (sample_distance, influx, mie_strength);
+        float extinction   = calcHorizonExtinction (position, uSunDir, _surfaceHeight - 0.35);
+        float sampleDepth  = calcAtmosphericDepth (position, uSunDir);
+        vec3 influx = absorb (sampleDepth, vec3 (_intensityLight), _scatterStrength) * extinction;
+
+        rayleighCollected += absorb (sampleDistance, _skyColorKr * influx, _rayleighStrength);
+        mieCollected      += absorb (sampleDistance, influx, _mieStrength);
     }
 
-    rayleigh_collected = (rayleigh_collected * eye_extinction * pow (eye_depth, rayleigh_collection_power)) / float (step_count);
-    mie_collected = (mie_collected * eye_extinction * pow (eye_depth, mie_collection_power)) / float(step_count);
+    rayleighCollected = (rayleighCollected * eyeExtinction * pow (eyeDepth, _rayleighCollectionPower)) / fStepCount;
+    mieCollected      = (mieCollected * eyeExtinction * pow (eyeDepth, _mieCollectionPower)) / fStepCount;
 
-    return vec3 (spot*mie_collected + mie_factor*mie_collected + rayleigh_factor*rayleigh_collected);
+    return vec3 (spot * mieCollected + mieFactor * mieCollected + rayleighFactor * rayleighCollected);
 }
 
 
-vec4 sampleCloudsPlane (float frameTime, vec2 offset)
+float sampleCloudsPlane (float frameTime, vec2 offset)
 {
-    float sphereProjHeight = vTexCube.y + 0.2;
-    vec2 cloudsUV = vec2 ((vTexCube.x + offset.x) / sphereProjHeight / 5 + frameTime / 5,
-                          (vTexCube.z + offset.y) / sphereProjHeight / 5 + frameTime / 10);
+    float sphereProjHeight = vTexUVTCube.y + 0.25;
+    vec2 cloudsUV = vec2 ((vTexUVTCube.x + vTexUVTCube.x) / sphereProjHeight / 6 + frameTime / 5,
+                          (vTexUVTCube.z + vTexUVTCube.y) / sphereProjHeight / 3 + frameTime / 8);
 
-    float cint;
-    cint = texture (uClouds3D, vec3 (cloudsUV, frameTime / 2)).r;
-    //return texture (uClouds, cloudsUV);
-    return vec4 (vec3 (cint), cint);
+    return texture (uTxtClouds3D, vec3 (cloudsUV, frameTime / 3)).x * smoothstep (0, 1, sphereProjHeight);
 }
 
 
 void main()
 {
-    if (vTexCube.y * 500 < -100)
-    {
-        discard;
-        //out_Color = vec3 (1, 1, 1);
-        return;
-    }
+    if (vTexUVTCube.y * uSkySphereRadius < -uSkySphereRadius / 5)    { discard; return; }   // under water
 
-    float frameTime = uFrameCount * 3;
-    //lightdir = normalize (vec3 (cos (frameTime), sin (frameTime), 0.2));
+    vec3 cloudNormal = vec3 (0, -1, 0);
+    float cloudLightness = dot (cloudNormal, -uSunDir) + 0.3;
+    cloudLightness = clamp (cloudLightness, 0, 1);
 
-    vec4 cloudColor = sampleCloudsPlane (frameTime, vec2 (0, 0)) * vec4 ((uLightColor + vec3 (1)) / 2, 1);
-    //cloudColor = vec4 (texture (uClouds3D, normalize (vTexCube).xzy / (normalize (vTexCube).y + 0.5)).r);
+    float animationTime = uDayTime * 3;
+    float cloudColor = sampleCloudsPlane (animationTime, vec2 (0, 0));
 
-    float cloudTexturePixel = 0.01;
-    float cloudNormalDX = length (sampleCloudsPlane (frameTime, vec2 (cloudTexturePixel, 0))) -
-                            length (sampleCloudsPlane (frameTime, vec2 (-cloudTexturePixel, 0)));
-    float cloudNormalDZ = length (sampleCloudsPlane (frameTime, vec2 (0, cloudTexturePixel))) -
-                          length (sampleCloudsPlane (frameTime, vec2 (0, -cloudTexturePixel)));
-    vec3 cloudNormal = normalize (vec3 (cloudNormalDX, 0.9, cloudNormalDZ));
-
-    float cloudLight = clamp (dot (cloudNormal, lightdir /** 10000 - vec3 (cloudsUV.x * 500, 500, cloudsUV.y * 500)*/), 0, 1);
-    cloudLight =  pow (cloudLight, 0.5);
-    cloudLight = 1;
-
-    vec3 skyColor = calcSkyColor (normalize (vTexCube));
-
-    //color = mix (color, vec3 (1, 1, 1), 0.05);
-    //cloudColor *= cloudLight;
-    out_Color = mix (skyColor, cloudColor.rgb * (uLightColor + vec3 (0.2, 0.2, 0.2)), cloudColor.a * 0.96 * cloudLight);
-    //out_Color = cloudColor.rgb;
+    vec3 skyColor = calcSkyColor (normalize (vTexUVTCube));
+    oColor = mix (skyColor, (mix (uSunColor, vec3(1), 0.3) * cloudLightness), cloudColor * 0.95);
 }

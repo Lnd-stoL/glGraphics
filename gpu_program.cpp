@@ -3,7 +3,9 @@
 
 #include "render_resources.hpp"
 #include "resource_manager_impl.hpp"
+#include <boost/filesystem.hpp>
 
+namespace fs = boost::filesystem;
 using oo_extensions::mkstr;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -42,7 +44,58 @@ namespace render
         }
 
         std::string sourceFileContent ((std::istreambuf_iterator<char>(sourceFile)), std::istreambuf_iterator<char>());
+        sourceFile.close();
+        sourceFileContent = _preprocessShaderSource (sourceFileContent, fileName);
         compile (sourceFileContent);
+    }
+
+
+    string shader::_preprocessShaderSource (const string &src, const string& filename)
+    {
+        static const string includeKeyword = "#with ";
+
+        std::istringstream  srcStream (src);
+        string nextLine;
+        string resultSrc;
+        resultSrc.reserve ((size_t) (1.5 * src.size()));
+
+        while (std::getline (srcStream, nextLine))
+        {
+            if (nextLine.size() > includeKeyword.size() &&
+                nextLine.substr (0, includeKeyword.size()) == includeKeyword)
+            {
+                string includedFileName;
+                std::istringstream lineParser (nextLine.substr (includeKeyword.size()));
+                lineParser >> includedFileName;
+
+                fs::path shaderPath (filename);
+                shaderPath.remove_filename();
+                includedFileName = (shaderPath / includedFileName).string();
+                debug::log::println (mkstr ("shader includes '", includedFileName, "'"));
+
+                std::ifstream includedFile (includedFileName);
+                if (!includedFile.good())
+                    debug::log::println_err ("failed to open include file");
+
+                else
+                {
+                    std::string includeFileContent ((std::istreambuf_iterator<char> (includedFile)),
+                                                    std::istreambuf_iterator<char>());
+
+                    resultSrc.append (_preprocessShaderSource (includeFileContent, includedFileName));
+                    includedFile.close();
+                }
+            }
+
+            else
+            {
+                resultSrc.append (nextLine);
+                resultSrc.append ("\n");
+            }
+        }
+
+        resultSrc.append ("\n");
+        return resultSrc;
     }
 
 
