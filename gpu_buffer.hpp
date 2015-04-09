@@ -168,7 +168,7 @@ namespace render
         gpu_buffer_of (GLenum target, const element_t *data, unsigned size, preferred_access_t preferredAccess,
                        change_rate_t changeRate);
 
-        gpu_buffer_of (GLenum target, const std::vector<element_t> &data, preferred_access_t preferredAccess,
+        gpu_buffer_of (GLenum target, const vector<element_t> &data, preferred_access_t preferredAccess,
                        change_rate_t changeRate);
 
         element_t*cpuAccess (mapping_access_t access);
@@ -198,7 +198,7 @@ namespace render
             typename base_t::change_rate_t changeRate = base_t::staticData) :
                 base_t::gpu_buffer_of (GL_ARRAY_BUFFER, vertices, vertexCount, preferredAccess, changeRate) { }
 
-        vertex_buffer (const std::vector<vertex_t> &data,
+        vertex_buffer (const vector<vertex_t> &data,
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
                 base_t::gpu_buffer_of (GL_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
@@ -229,7 +229,7 @@ namespace render
             typename base_t::change_rate_t changeRate = base_t::staticData) :
                 base_t::gpu_buffer_of (GL_ELEMENT_ARRAY_BUFFER, indices, indexCount, preferredAccess, changeRate) { }
 
-        index_buffer (const std::vector<index_t> &data,
+        index_buffer (const vector<index_t> &data,
             typename base_t::preferred_access_t preferredAccess = base_t::fastGPU_Draw,
             typename base_t::change_rate_t changeRate = base_t::staticData) :
                 base_t::gpu_buffer_of (GL_ELEMENT_ARRAY_BUFFER, data, preferredAccess, changeRate) { }
@@ -242,4 +242,3 @@ namespace render
 //----------------------------------------------------------------------------------------------------------------------
 
 #endif
-

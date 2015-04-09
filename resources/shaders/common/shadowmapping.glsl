@@ -18,7 +18,7 @@ float shadowmapShading (vec4 v_shadowmapVert, sampler2DShadow txtShadowMap, floa
     float blurStrength = 1.0 / 3200.0;
 
     int softenRingsNum = 3;
-    int softenRingSamplesNum = 4;
+    int softenRingSamplesNum = 3;
 
     float shadow = 0;
     float dispScale = blurStrength * softenRingsNum;

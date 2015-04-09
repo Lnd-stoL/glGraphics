@@ -28,7 +28,7 @@ dynamic_sky::dynamic_sky (resources& renderRes, float skySphereRad) : _skySphere
     _mesh->components()[0]->changeMaterial (_material);
     _mesh->components()[0]->backfaceCulling (false);
 
-    string baseFilder = "skybox/day-2/";
+    string baseFolder = "skybox/day-2/";
     std::map<string, string> cubeMapFaces;
     /*cubeMapFaces["+X"] = renderRes.texturesManager().locateFile (mkstr (baseFilder, "right.jpg"));
     cubeMapFaces["-X"] = renderRes.texturesManager().locateFile (mkstr (baseFilder, "left.jpg"));
@@ -38,7 +38,7 @@ dynamic_sky::dynamic_sky (resources& renderRes, float skySphereRad) : _skySphere
     cubeMapFaces["-Z"] = renderRes.texturesManager().locateFile (mkstr (baseFilder, "back.jpg"));
     */
 
-    vector3<unsigned> clouds3dSize (512, 512, 8);
+    vector3<unsigned> clouds3dSize (512, 512, 4);
     clouds_noise_3d  cloudsNoise (clouds3dSize);
     texture::ptr clouds3dTexture = texture::create3D (clouds3dSize, cloudsNoise.voxelRawData());
     _material->set ("uTxtClouds3D", clouds3dTexture);

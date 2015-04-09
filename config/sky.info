@@ -1,0 +1,6 @@
+
+dynamic_sky
+{
+	time_multiplyer  0.051       // time of the day change speed
+	start_time       0.01        // time when the app starts 	
+}

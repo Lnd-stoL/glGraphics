@@ -11,6 +11,6 @@ namespace utils
         auto length = this->readUInt32();
         vector<element_t> array (length);
         this->read ((unsigned char *)array.data(), (unsigned) sizeof (element_t) * length);
-        return array;
+        return std::move (array);
     }
 }

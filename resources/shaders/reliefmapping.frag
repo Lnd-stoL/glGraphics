@@ -64,7 +64,7 @@ vec2 calcUVShifting()
         projHeight -= stepLength;
         shiftedUV  += deltaUV;
 
-        nextHeight = texture (uTxtHeightmap, shiftedUV).x + 0.01;
+        nextHeight = texture (uTxtHeightmap, shiftedUV).x;
     }
 
     vec2  prevDelta = shiftedUV - deltaUV;
@@ -95,9 +95,9 @@ void main()
     vec3 spec = vec3 (uLightColor) * pow (max (dot (light2Vert, reflect (-vert2Eye, normal)), 0), 50);
     oColor = ((diffLight*0.7 + 0.3)) * uLightColor * diffColor + spec;
 
-    float normalXlight2Vert = 0.5;
-    float shadow = shadowmapShading (gShadowmapVert, uTxtShadowMap, normalXlight2Vert);
-    oColor *= shadow;
+    //float normalXlight2Vert = 0.5;
+    //float shadow = shadowmapShading (gShadowmapVert, uTxtShadowMap, normalXlight2Vert);
+    //oColor *= shadow;
 
     oNormal = vec3 (gViewSpaceNormal / 2 + 0.5);
 }

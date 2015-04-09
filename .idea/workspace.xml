@@ -5,146 +5,43 @@
       <config projectName="glGraphics" targetName="glGraphics" />
     </generated>
   </component>
+  <component name="CMakeSettings" AUTO_RELOAD="false" GENERATION_PASS_SYSTEM_ENVIRONMENT="true">
+    <ADDITIONAL_GENERATION_ENVIRONMENT>
+      <envs />
+    </ADDITIONAL_GENERATION_ENVIRONMENT>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c923bbd-ed3c-4228-9ec7-fab229b74bf7" name="Default" comment="different refactorings">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/postprocess/fxaa_colortune.frag" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/common/lambert.glsl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/common/linear_depth.glsl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/common/poisson.glsl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/reliefmapping.frag" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/shaders/common/shadowmapping.glsl" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/fonts/default-semibold.ttf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/Island_001.max" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/Island_001.mtl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/island.exs3d" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/08ee0f4c.dds" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/165e9853.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/224c9cf6.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/30e5522d.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/60ea8579.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/63d9d8cd.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/836cb94c.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/BackGrownd.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/Dom_002.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/Fonar.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/Hibara_003.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/Pistol01.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/Rope.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/Shipyard.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/Stoun.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/Tavern.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/b81b5e3d.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/back_mountains.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/beton.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/d40839b9.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/dom004.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/dom005.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/dom008.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/dom009.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/dom_003.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/doma_hati.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/domedv.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/e1e075eb.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/ed79fe48.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/grotenve2.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/hibara_001.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/nebo001.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/nebo002.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/nebo003.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/nebo004.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/nebo005.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/osobnyk.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/pena1.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/plane.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/scaly.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/statui01.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/sunduki.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/tovar01.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/tovpalat.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/island-001/textures/viveski.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/some-stone/Stone_5NormalsMap.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/some-stone/heightmap-1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/some-stone/heightmap.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/some-terrain/L_o_35000.mtl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/some-terrain/untitled.blend" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/some-terrain/untitled.blend1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/some-terrain/untitled.blend2" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/Small_Tropical_Island.mtl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/island.exs3d" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/Leaf_CoconutGre0.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/Leaf_CoconutGre0_01.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/Leaf_CoconutGre1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/Small_Palm_Leaf0.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/Small_Palm_Leaf1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/dwd1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/fc1b.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/isld1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/tga1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/textures/wtrs2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/tp1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island-2/tp2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island/Small_Tropical_Island.mtl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island/island.blend1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/tropical-island/textures/terrain_mtl1_bumpamt.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/textures/0a565e37_D.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/textures/0a565e37_N.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/textures/6b696b5f_D.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/textures/6b696b5f_N.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/textures/a97ad49c_D.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/textures/a97ad49c_N.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/textures/cbdd7173_D.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/textures/cbdd7173_N.tga" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/wooden-house.blend" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/models/wooden-house/wooden-house.exs3d" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/textures/bitmap-font-1.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/bumpmapping.frag" afterPath="$PROJECT_DIR$/resources/shaders/bumpmapping.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clouds_noise.cpp" afterPath="$PROJECT_DIR$/clouds_noise.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config_file.cpp" afterPath="$PROJECT_DIR$/config_file.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config_file.hpp" afterPath="$PROJECT_DIR$/config_file.hpp" />
+    <list default="true" id="0c923bbd-ed3c-4228-9ec7-fab229b74bf7" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-debug-bin/glGraphics" afterPath="$PROJECT_DIR$/build-debug-bin/glGraphics" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/glGraphics" afterPath="$PROJECT_DIR$/build-release-bin/glGraphics" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-debug-bin/CMakeFiles/glGraphics.dir/CXX.includecache" afterPath="$PROJECT_DIR$/build-debug-bin/CMakeFiles/glGraphics.dir/CXX.includecache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/CXX.includecache" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/CXX.includecache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/DependInfo.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/Makefile2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/Makefile" afterPath="$PROJECT_DIR$/build-release-bin/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/binary_stream_impl.hpp" afterPath="$PROJECT_DIR$/binary_stream_impl.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/build.make" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/build.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/cmake_clean.cmake" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo_scene.cpp" afterPath="$PROJECT_DIR$/demo_scene.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo_scene.hpp" afterPath="$PROJECT_DIR$/demo_scene.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-debug-bin/CMakeFiles/glGraphics.dir/depend.internal" afterPath="$PROJECT_DIR$/build-debug-bin/CMakeFiles/glGraphics.dir/depend.internal" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/depend.internal" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/depend.internal" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-debug-bin/CMakeFiles/glGraphics.dir/depend.make" afterPath="$PROJECT_DIR$/build-debug-bin/CMakeFiles/glGraphics.dir/depend.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/depend.make" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/depend.make" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dynamic_sky.cpp" afterPath="$PROJECT_DIR$/dynamic_sky.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dynamic_sky.hpp" afterPath="$PROJECT_DIR$/dynamic_sky.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fps_camera.cpp" afterPath="$PROJECT_DIR$/fps_camera.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fps_camera.hpp" afterPath="$PROJECT_DIR$/fps_camera.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/postprocess/fxaa.frag" afterPath="$PROJECT_DIR$/resources/shaders/postprocess/fxaa.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_program.cpp" afterPath="$PROJECT_DIR$/gpu_program.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_program.hpp" afterPath="$PROJECT_DIR$/gpu_program.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/graphics_renderer.cpp" afterPath="$PROJECT_DIR$/graphics_renderer.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/postprocess/fxaa_colortune.frag" afterPath="$PROJECT_DIR$/resources/shaders/postprocess/fxaa_colortune.frag" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_buffer.hpp" afterPath="$PROJECT_DIR$/gpu_buffer.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_buffer_impl.hpp" afterPath="$PROJECT_DIR$/gpu_buffer_impl.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gpu_image_processing.cpp" afterPath="$PROJECT_DIR$/gpu_image_processing.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/link.txt" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/link.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/material.cpp" afterPath="$PROJECT_DIR$/material.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/material.hpp" afterPath="$PROJECT_DIR$/material.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/math3D.hpp" afterPath="$PROJECT_DIR$/math3D.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/particles/particle.frag" afterPath="$PROJECT_DIR$/resources/shaders/particles/particle.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/particles_system.cpp" afterPath="$PROJECT_DIR$/particles_system.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/oo_extensions.hpp" afterPath="$PROJECT_DIR$/oo_extensions.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/progress.make" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/glGraphics.dir/progress.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-release-bin/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/build-release-bin/CMakeFiles/progress.marks" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/recorded-path.path" afterPath="$PROJECT_DIR$/resources/recorded-path.path" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_window.cpp" afterPath="$PROJECT_DIR$/render_window.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/render_window.hpp" afterPath="$PROJECT_DIR$/render_window.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/reliefmapping.frag" afterPath="$PROJECT_DIR$/resources/shaders/reliefmapping.frag" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/render_window.info" afterPath="$PROJECT_DIR$/config/render_window.info" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scene.cpp" afterPath="$PROJECT_DIR$/scene.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scene.hpp" afterPath="$PROJECT_DIR$/scene.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/utils/screen_quad.frag" afterPath="$PROJECT_DIR$/resources/shaders/utils/screen_quad.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/utils/screen_quad.vert" afterPath="$PROJECT_DIR$/resources/shaders/utils/screen_quad.vert" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/shadowmaps/shadowmap_generate.frag" afterPath="$PROJECT_DIR$/resources/shaders/shadowmaps/shadowmap_generate.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/shadowmaps/shadowmap_generate.vert" afterPath="$PROJECT_DIR$/resources/shaders/shadowmaps/shadowmap_generate.vert" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shadowmap_shadows.cpp" afterPath="$PROJECT_DIR$/shadowmap_shadows.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shadowmap_shadows.hpp" afterPath="$PROJECT_DIR$/shadowmap_shadows.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/utils/simple.vert" afterPath="$PROJECT_DIR$/resources/shaders/utils/simple.vert" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/special/sky.frag" afterPath="$PROJECT_DIR$/resources/shaders/special/sky.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/special/sky.vert" afterPath="$PROJECT_DIR$/resources/shaders/special/sky.vert" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/solid_default.frag" afterPath="$PROJECT_DIR$/resources/shaders/solid_default.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/solid_default.vert" afterPath="$PROJECT_DIR$/resources/shaders/solid_default.vert" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/solid_default_tangent_frame.geom" afterPath="$PROJECT_DIR$/resources/shaders/solid_default_tangent_frame.geom" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spline_path.cpp" afterPath="$PROJECT_DIR$/spline_path.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spline_path.hpp" afterPath="$PROJECT_DIR$/spline_path.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/postprocess/ssao-1.frag" afterPath="$PROJECT_DIR$/resources/shaders/postprocess/ssao-1.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/texture.cpp" afterPath="$PROJECT_DIR$/texture.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volumetric_fog.cpp" afterPath="$PROJECT_DIR$/volumetric_fog.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/special/volumetric_fog.frag" afterPath="$PROJECT_DIR$/resources/shaders/special/volumetric_fog.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volumetric_fog.hpp" afterPath="$PROJECT_DIR$/volumetric_fog.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/special/water_plane.frag" afterPath="$PROJECT_DIR$/resources/shaders/special/water_plane.frag" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/water_plane.hpp" afterPath="$PROJECT_DIR$/water_plane.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/special/water_plane.vert" afterPath="$PROJECT_DIR$/resources/shaders/special/water_plane.vert" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/shaders/common/shadowmapping.glsl" afterPath="$PROJECT_DIR$/resources/shaders/common/shadowmapping.glsl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="glGraphics.iws" />
@@ -166,11 +63,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="demo_scene.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="demo_scene.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo_scene.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.42888644" vertical-offset="3835" max-vertical-offset="8419">
-              <caret line="176" column="102" selection-start-line="176" selection-start-column="102" selection-end-line="176" selection-end-column="102" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="306" column="0" selection-start-line="306" selection-start-column="0" selection-end-line="306" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sky.frag" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/shaders/special/sky.frag">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="148" column="0" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -179,88 +86,68 @@
       <file leaf-file-name="dynamic_sky.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dynamic_sky.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1224" max-vertical-offset="2947">
-              <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="15" column="44" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bumpmapping.frag" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/shaders/bumpmapping.frag">
+      <file leaf-file-name="binary_stream.hpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/binary_stream.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="particle.frag" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/shaders/particles/particle.frag">
+      <file leaf-file-name="exs3d.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/exs3d.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1363">
-              <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="particles_system.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/particles_system.cpp">
+      <file leaf-file-name="shadowmap_shadows.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shadowmap_shadows.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1656" max-vertical-offset="3427">
-              <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="screen_overlay.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/screen_overlay.hpp">
+      <file leaf-file-name="camera.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/camera.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3202" max-vertical-offset="4819">
-              <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="demo_scene.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/demo_scene.hpp">
+      <file leaf-file-name="fxaa_colortune.frag" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/shaders/postprocess/fxaa_colortune.frag">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="2827">
-              <caret line="53" column="28" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fps_camera.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fps_camera.cpp">
+      <file leaf-file-name="gpu_image_processing.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gpu_image_processing.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="859" max-vertical-offset="3139">
-              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reliefmapping.frag" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/shaders/reliefmapping.frag">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1812" max-vertical-offset="3355">
-              <caret line="76" column="1" selection-start-line="76" selection-start-column="1" selection-end-line="76" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="solid_default.frag" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/shaders/solid_default.frag">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="236" max-vertical-offset="2059">
-              <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="96" column="38" selection-start-line="96" selection-start-column="38" selection-end-line="96" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -279,18 +166,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/shaders/shadowmaps/shadowmap_generate.frag" />
-        <option value="$PROJECT_DIR$/resources/shaders/shadowmaps/shadowmap_generate.vert" />
-        <option value="$PROJECT_DIR$/material.cpp" />
-        <option value="$PROJECT_DIR$/resources/shaders/special/sky.vert" />
-        <option value="$PROJECT_DIR$/render_window.hpp" />
         <option value="$PROJECT_DIR$/render_window.cpp" />
         <option value="$PROJECT_DIR$/texture.cpp" />
         <option value="$PROJECT_DIR$/scene.cpp" />
         <option value="$PROJECT_DIR$/shadowmap_shadows.hpp" />
         <option value="$PROJECT_DIR$/scene.hpp" />
         <option value="$PROJECT_DIR$/graphics_renderer.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/config_file.hpp" />
         <option value="$PROJECT_DIR$/fps_camera.hpp" />
         <option value="$PROJECT_DIR$/dynamic_sky.hpp" />
@@ -310,31 +191,40 @@
         <option value="$PROJECT_DIR$/resources/shaders/solid_default.vert" />
         <option value="$PROJECT_DIR$/resources/shaders/solid_default_tangent_frame.geom" />
         <option value="$PROJECT_DIR$/resources/shaders/bumpmapping.frag" />
-        <option value="$PROJECT_DIR$/shadowmap_shadows.cpp" />
         <option value="$PROJECT_DIR$/resources/shaders/special/sky.frag" />
         <option value="$PROJECT_DIR$/resources/shaders/special/water_plane.vert" />
         <option value="$PROJECT_DIR$/clouds_noise.cpp" />
         <option value="$PROJECT_DIR$/spline_path.hpp" />
         <option value="$PROJECT_DIR$/spline_path.cpp" />
-        <option value="$PROJECT_DIR$/resources/shaders/common/shadowmapping.glsl" />
         <option value="$PROJECT_DIR$/resources/shaders/special/water_plane.frag" />
         <option value="$PROJECT_DIR$/resources/shaders/postprocess/fxaa.frag" />
         <option value="$PROJECT_DIR$/resources/shaders/common/poisson.glsl" />
         <option value="$PROJECT_DIR$/resources/shaders/postprocess/ssao-1.frag" />
-        <option value="$PROJECT_DIR$/resources/shaders/postprocess/fxaa_colortune.frag" />
         <option value="$PROJECT_DIR$/math3D.hpp" />
         <option value="$PROJECT_DIR$/fps_camera.cpp" />
         <option value="$PROJECT_DIR$/demo_scene.hpp" />
-        <option value="$PROJECT_DIR$/dynamic_sky.cpp" />
         <option value="$PROJECT_DIR$/particles_system.cpp" />
         <option value="$PROJECT_DIR$/resources/shaders/particles/particle.frag" />
         <option value="$PROJECT_DIR$/resources/shaders/reliefmapping.frag" />
+        <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/gpu_image_processing.cpp" />
+        <option value="$PROJECT_DIR$/gpu_buffer_impl.hpp" />
+        <option value="$PROJECT_DIR$/gpu_buffer.hpp" />
+        <option value="$PROJECT_DIR$/oo_extensions.hpp" />
+        <option value="$PROJECT_DIR$/resources/shaders/common/shadowmapping.glsl" />
+        <option value="$PROJECT_DIR$/resources/shaders/postprocess/fxaa_colortune.frag" />
+        <option value="$PROJECT_DIR$/binary_stream_impl.hpp" />
+        <option value="$PROJECT_DIR$/shadowmap_shadows.cpp" />
+        <option value="$PROJECT_DIR$/dynamic_sky.cpp" />
         <option value="$PROJECT_DIR$/demo_scene.cpp" />
       </list>
     </option>
   </component>
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
+  </component>
+  <component name="NamedScopeManager">
+    <order />
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
@@ -486,6 +376,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="special" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="glGraphics" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$1$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="glGraphics" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shaders" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="postprocess" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -598,6 +510,9 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/leonid/Dev/glGraphics/resources/shaders/bumpmapping.frag" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="Push.Settings">
     <excluded-roots>
@@ -605,15 +520,16 @@
     </excluded-roots>
   </component>
   <component name="RunManager" selected="Application.glGraphics">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="glGraphics" TARGET_NAME="glGraphics" CONFIG_NAME="Debug">
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
       <tasks />
+      <arguments />
       <pass-parent-envs>true</pass-parent-envs>
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="glGraphics" TARGET_NAME="glGraphics" CONFIG_NAME="Debug">
       <envs />
       <method />
     </configuration>
@@ -785,31 +701,37 @@
       <option name="project" value="LOCAL" />
       <updated>1418506936375</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="final">
+      <created>1418588115678</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1418588115678</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="58" y="-4" width="1863" height="1085" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5379813" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21763085" sideWeight="0.5952133" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25895315" sideWeight="0.54422474" order="3" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47658688" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5109261" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47658688" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298647" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5369407" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21763085" sideWeight="0.40478668" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25895315" sideWeight="0.45577523" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43288243" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5379813" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47658688" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5369407" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298647" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43288243" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -854,11 +776,12 @@
     <MESSAGE value="separated shadowmaps" />
     <MESSAGE value="volumetric fog&#10;" />
     <MESSAGE value="different refactorings" />
-    <option name="LAST_COMMIT_MESSAGE" value="different refactorings" />
+    <MESSAGE value="final" />
+    <option name="LAST_COMMIT_MESSAGE" value="final" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="61" />
+      <option name="time" value="64" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -875,395 +798,366 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/config_file.cpp">
+    <entry file="file://$PROJECT_DIR$/resources/shaders/postprocess/fxaa.frag">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="677" max-vertical-offset="1499">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.2965821">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
+    <entry file="file://$PROJECT_DIR$/resources/shaders/common/poisson.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="701" max-vertical-offset="3139">
-          <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
-          <folding />
+        <state vertical-scroll-proportion="0.50275636">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/include/boost/property_tree/detail/ptree_implementation.hpp">
+    <entry file="file://$PROJECT_DIR$/resources/shaders/postprocess/ssao-1.frag">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17971334" vertical-offset="1373" max-vertical-offset="22819">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.25723472">
+          <caret line="79" column="37" selection-start-line="79" selection-start-column="37" selection-end-line="79" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/render_window.cpp">
+    <entry file="file://$PROJECT_DIR$/resources/shaders/special/water_plane.vert">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.02646086" vertical-offset="1728" max-vertical-offset="5851">
-          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dynamic_sky.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="336" max-vertical-offset="2229">
-          <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gpu_program.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="466" max-vertical-offset="4651">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/c++/4.9/bits/basic_string.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33296582" vertical-offset="53074" max-vertical-offset="77203">
-          <caret line="2224" column="6" selection-start-line="2224" selection-start-column="6" selection-end-line="2224" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config_file.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46306506" vertical-offset="780" max-vertical-offset="2203">
-          <caret line="50" column="2" selection-start-line="50" selection-start-column="2" selection-end-line="50" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/common/linear_depth.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21168688" vertical-offset="0" max-vertical-offset="1075">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resource_manager_impl.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3931">
-          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exs3d.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6760" max-vertical-offset="9307">
-          <caret line="342" column="0" selection-start-line="342" selection-start-column="0" selection-end-line="342" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resource_manager.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
-          <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/utils/simple.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15876517" vertical-offset="0" max-vertical-offset="1243">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/utils/screen_quad.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44983461" vertical-offset="0" max-vertical-offset="1291">
+        <state vertical-scroll-proportion="0.0">
           <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/utils/screen_quad.frag">
+    <entry file="file://$PROJECT_DIR$/fps_camera.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37045205" vertical-offset="0" max-vertical-offset="1219">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.20685959">
+          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/volumetric_fog.cpp">
+    <entry file="file://$PROJECT_DIR$/spline_path.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="432" max-vertical-offset="2227">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="199" column="28" selection-start-line="199" selection-start-column="28" selection-end-line="199" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/special/volumetric_fog.frag">
+    <entry file="file://$PROJECT_DIR$/spline_path.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1723">
-          <caret line="12" column="83" selection-start-line="12" selection-start-column="83" selection-end-line="12" selection-end-column="83" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/common/lambert.glsl">
+    <entry file="file://$PROJECT_DIR$/math3D.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07938258" vertical-offset="0" max-vertical-offset="1003">
-          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1290" column="0" selection-start-line="1290" selection-start-column="0" selection-end-line="1290" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/material.hpp">
+    <entry file="file://$PROJECT_DIR$/screen_overlay.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1613" max-vertical-offset="4867">
-          <caret line="81" column="6" selection-start-line="81" selection-start-column="6" selection-end-line="81" selection-end-column="6" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gpu_program.cpp">
+    <entry file="file://$PROJECT_DIR$/resources/shaders/solid_default.frag">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1723" max-vertical-offset="13915">
-          <caret line="86" column="17" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/special/sky.vert">
+    <entry file="file://$PROJECT_DIR$/resources/shaders/particles/particle.frag">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7144432" vertical-offset="0" max-vertical-offset="1531">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/water_plane.cpp">
+    <entry file="file://$PROJECT_DIR$/resources/shaders/bumpmapping.frag">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1164" max-vertical-offset="2587">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fps_camera.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.5876516">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/particles_system.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42337376">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/special/water_plane.frag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3439912">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/reliefmapping.frag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.4630225">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/shaders/solid_default_tangent_frame.geom">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.84887457">
+          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/solid_default.vert">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="552" max-vertical-offset="2155">
-          <caret line="46" column="42" selection-start-line="46" selection-start-column="42" selection-end-line="46" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.5916399">
+          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/camera.cpp">
+    <entry file="file://$PROJECT_DIR$/material.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1584" max-vertical-offset="3475">
-          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="-2.881029">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/volumetric_fog.hpp">
+    <entry file="file://$PROJECT_DIR$/frame_buffer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1939">
+        <state vertical-scroll-proportion="0.4630225">
+          <caret line="108" column="19" selection-start-line="108" selection-start-column="19" selection-end-line="108" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gpu_buffer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="91" column="0" selection-start-line="91" selection-start-column="0" selection-end-line="91" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/font_resource.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4630225">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/camera.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="14" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config_file.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.47629547">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/4.9/array">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.47629547">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/4.9/bits/stl_vector.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.55567807">
+          <caret line="83" column="30" selection-start-line="83" selection-start-column="30" selection-end-line="83" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gpu_buffer.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gpu_buffer_impl.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/oo_extensions.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="117" column="0" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exs3d.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3862069">
           <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clouds_noise.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/clouds_noise.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1323043" vertical-offset="72" max-vertical-offset="7723">
+        <state vertical-scroll-proportion="0.0">
           <caret line="8" column="37" selection-start-line="8" selection-start-column="37" selection-end-line="8" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/shadowmap_shadows.cpp">
+    <entry file="file://$PROJECT_DIR$/binary_stream.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5821389" vertical-offset="0" max-vertical-offset="2587">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo_scene.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="18" selection-start-line="71" selection-start-column="18" selection-end-line="71" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/common/shadowmapping.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23814774" vertical-offset="144" max-vertical-offset="2035">
-          <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/recorded-path.path">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3439912">
+          <caret line="13" column="64" selection-start-line="13" selection-start-column="64" selection-end-line="13" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/textures/bitmap-font.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binary_stream_impl.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10584344">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/render_window.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3439912">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/volumetric_fog.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.3969129">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shadowmap_shadows.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/postprocess/fxaa.frag">
+    <entry file="file://$PROJECT_DIR$/exs3d.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2965821" vertical-offset="0" max-vertical-offset="2059">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="330" column="0" selection-start-line="330" selection-start-column="0" selection-end-line="330" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/special/sky.frag">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2940" max-vertical-offset="4435">
-          <caret line="142" column="39" selection-start-line="142" selection-start-column="39" selection-end-line="142" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="148" column="0" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/solid_default_tangent_frame.geom">
+    <entry file="file://$PROJECT_DIR$/gpu_image_processing.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="312" max-vertical-offset="2925">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="96" column="38" selection-start-line="96" selection-start-column="38" selection-end-line="96" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/common/poisson.glsl">
+    <entry file="file://$PROJECT_DIR$/camera.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50275636" vertical-offset="0" max-vertical-offset="1339">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/postprocess/ssao-1.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25723472" vertical-offset="1656" max-vertical-offset="3141">
-          <caret line="79" column="37" selection-start-line="79" selection-start-column="37" selection-end-line="79" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/render_window.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.024651662" vertical-offset="937" max-vertical-offset="2829">
-          <caret line="40" column="49" selection-start-line="40" selection-start-column="49" selection-end-line="40" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/special/water_plane.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1653">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fps_camera.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.20685959" vertical-offset="673" max-vertical-offset="2373">
-          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spline_path.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4603" max-vertical-offset="8133">
-          <caret line="199" column="28" selection-start-line="199" selection-start-column="28" selection-end-line="199" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="5" selection-start-line="73" selection-start-column="5" selection-end-line="73" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/shaders/postprocess/fxaa_colortune.frag">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37045205" vertical-offset="0" max-vertical-offset="1963">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spline_path.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1944" max-vertical-offset="3185">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/math3D.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="30595" max-vertical-offset="44899">
-          <caret line="1290" column="0" selection-start-line="1290" selection-start-column="0" selection-end-line="1290" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/special/water_plane.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3645">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fps_camera.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="859" max-vertical-offset="3139">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/screen_overlay.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3346" max-vertical-offset="4819">
-          <caret line="152" column="38" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo_scene.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="2827">
-          <caret line="53" column="28" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/solid_default.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="20" max-vertical-offset="2059">
-          <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/particles/particle.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1363">
-          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/particles_system.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1656" max-vertical-offset="3427">
-          <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/bumpmapping.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2227">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/shaders/reliefmapping.frag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1812" max-vertical-offset="3355">
-          <caret line="76" column="1" selection-start-line="76" selection-start-column="1" selection-end-line="76" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dynamic_sky.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1224" max-vertical-offset="2947">
-          <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/demo_scene.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42888644" vertical-offset="3835" max-vertical-offset="8419">
-          <caret line="176" column="102" selection-start-line="176" selection-start-column="102" selection-end-line="176" selection-end-column="102" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="306" column="0" selection-start-line="306" selection-start-column="0" selection-end-line="306" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dynamic_sky.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="44" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/binary_stream.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

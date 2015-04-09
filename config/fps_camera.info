@@ -1,0 +1,7 @@
+
+fps_camera
+{
+	rotation_speed       0.04
+	translation_speed    11.0
+	yaw_limit            true
+}

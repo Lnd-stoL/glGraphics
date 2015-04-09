@@ -2,6 +2,8 @@
 #include "gpu_image_processing.hpp"
 #include "graphics_renderer.hpp"
 
+#include "gpu_buffer_impl.hpp"
+
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace render

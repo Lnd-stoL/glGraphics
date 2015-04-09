@@ -16,6 +16,12 @@ oo_extensions.hpp
 math3D.hpp
 /home/leonid/Dev/glGraphics/math3D.hpp
 
+/home/leonid/Dev/glGraphics/clouds_noise.hpp
+oo_extensions.hpp
+/home/leonid/Dev/glGraphics/oo_extensions.hpp
+math3D.hpp
+/home/leonid/Dev/glGraphics/math3D.hpp
+
 /home/leonid/Dev/glGraphics/config_file.hpp
 oo_extensions.hpp
 /home/leonid/Dev/glGraphics/oo_extensions.hpp
@@ -86,6 +92,20 @@ gpu_image_processing.hpp
 shadowmap_shadows.hpp
 /home/leonid/Dev/glGraphics/shadowmap_shadows.hpp
 
+/home/leonid/Dev/glGraphics/dynamic_sky.cpp
+dynamic_sky.hpp
+/home/leonid/Dev/glGraphics/dynamic_sky.hpp
+config_file.hpp
+/home/leonid/Dev/glGraphics/config_file.hpp
+clouds_noise.hpp
+/home/leonid/Dev/glGraphics/clouds_noise.hpp
+gpu_buffer_impl.hpp
+/home/leonid/Dev/glGraphics/gpu_buffer_impl.hpp
+mesh_impl.hpp
+/home/leonid/Dev/glGraphics/mesh_impl.hpp
+resource_manager_impl.hpp
+/home/leonid/Dev/glGraphics/resource_manager_impl.hpp
+
 /home/leonid/Dev/glGraphics/dynamic_sky.hpp
 mesh.hpp
 /home/leonid/Dev/glGraphics/mesh.hpp
@@ -93,6 +113,8 @@ render_resources.hpp
 /home/leonid/Dev/glGraphics/render_resources.hpp
 scene.hpp
 /home/leonid/Dev/glGraphics/scene.hpp
+SFML/Graphics.hpp
+/home/leonid/Dev/glGraphics/SFML/Graphics.hpp
 
 /home/leonid/Dev/glGraphics/exs3d.hpp
 mesh.hpp
@@ -121,6 +143,8 @@ render_window.hpp
 /home/leonid/Dev/glGraphics/render_window.hpp
 camera.hpp
 /home/leonid/Dev/glGraphics/camera.hpp
+config_file.hpp
+/home/leonid/Dev/glGraphics/config_file.hpp
 SFML/Graphics.hpp
 -
 functional
@@ -264,6 +288,8 @@ vector
 memory
 -
 algorithm
+-
+array
 -
 
 /home/leonid/Dev/glGraphics/particles_system.hpp
@@ -443,6 +469,8 @@ render_resources.hpp
 /home/leonid/Dev/glGraphics/render_resources.hpp
 graphics_renderer.hpp
 /home/leonid/Dev/glGraphics/graphics_renderer.hpp
+gpu_image_processing.hpp
+/home/leonid/Dev/glGraphics/gpu_image_processing.hpp
 
 /usr/local/include/GLFW/glfw3.h
 stddef.h

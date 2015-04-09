@@ -25,7 +25,7 @@ void demo_scene::_loadAndInitialize()
 
     _initViewer();
     _initShadowmaps();
-    _initPosteffects();
+    _initRenderTargets ();
     _initOverlays();
 
     _initObjects();
@@ -142,7 +142,7 @@ void demo_scene::_initObjects()
 }
 
 
-void demo_scene::_initPosteffects()
+void demo_scene::_initRenderTargets()
 {
     _solidSceneRT = offscreen_render_target::alloc (_renderWindow->size() * 1, 2, true);
 
@@ -173,7 +173,7 @@ void demo_scene::_frameUpdate (double time)
     _fogObject->color (_skies->sunColor().lighten (0.1));
     _fogObject->density (_fogObject->density() * 0.998f);
 
-    _finalPostprocess->program()->setUniform ("uGamma", 1.4 - std::sin (_skies->dayTime()) * 0.6);
+    //_finalPostprocess->program()->setUniform ("uGamma", 1.4 - std::sin (_skies->dayTime()) * 0.6);
     //_skies->timeMultiplyer (_skies->timeMultiplyer() * (std::cos (_skies->dayTime()) * 1.1 + 0.01));
 
     rotation_d lightRot (vector3_d (0, 0, 1), _skies->sunDirection().convertType<double>());
@@ -247,7 +247,7 @@ void demo_scene::_initOverlays()
     _screenOverlay->addOverlay (_viewPosLabel);
 
     _controlsLabel = text_label::alloc (_statisticsOverlay->defaultFont(),
-                                        math3d::vector2_f (0.21, 1 - 0.08),
+                                        math3d::vector2_f (0.21, 1 - 0.08f),
                                         math3d::vector2_f (0.045, 0.045));
 
     _controlsLabel->changeText ("press <space> to enter free camera mode");
@@ -255,7 +255,7 @@ void demo_scene::_initOverlays()
     _screenOverlay->addOverlay (_controlsLabel);
 
     _timeControlsLabel = text_label::alloc (_statisticsOverlay->defaultFont(),
-                                        math3d::vector2_f (0.18, 1 - 0.05),
+                                        math3d::vector2_f (0.18, 1 - 0.05f),
                                         math3d::vector2_f (0.032, 0.032));
 
     _timeControlsLabel->changeText ("<8> - pause/unpause time; <9> <0> - speed up / slow down time");
@@ -307,7 +307,7 @@ void demo_scene::_keyPressed (int key)
 
 void demo_scene::_windowResized()
 {
-    _initPosteffects();
+    _initRenderTargets();
 
     _waterObject->useRefractionTextures (_solidSceneRT->colorTexture(), _solidSceneRT->depthTexture());
     _fogObject->useDepthTexture (_solidSceneRT->depthTexture());

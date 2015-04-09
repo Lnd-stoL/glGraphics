@@ -63,7 +63,7 @@ protected:
     void _initViewer();
     void _initShadowmaps();
     void _initObjects();
-    void _initPosteffects();
+    void _initRenderTargets ();
     void _initOverlays();
 
     void _frameUpdate (double time);

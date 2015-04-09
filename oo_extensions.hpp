@@ -10,6 +10,7 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <array>
 
 using std::shared_ptr;
 using std::vector;
@@ -19,6 +20,7 @@ using std::unique_ptr;
 using std::weak_ptr;
 using std::dynamic_pointer_cast;
 using std::to_string;
+using std::array;
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -223,8 +225,8 @@ namespace oo_extensions
         public non_copyable
     {
     public:
-        typedef std::function<void(handler_args_t...)>  handler_t;
-        typedef typename vector<handler_t>::const_iterator   handler_id;
+        typedef  std::function<void(handler_args_t...)>       handler_t;
+        typedef  typename vector<handler_t>::const_iterator   handler_id;
 
     protected:
         vector<handler_t> _handlers;

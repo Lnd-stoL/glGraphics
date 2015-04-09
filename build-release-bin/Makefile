@@ -258,6 +258,30 @@ demo_scene.cpp.s:
 	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/demo_scene.cpp.s
 .PHONY : demo_scene.cpp.s
 
+dynamic_sky.o: dynamic_sky.cpp.o
+.PHONY : dynamic_sky.o
+
+# target to build an object file
+dynamic_sky.cpp.o:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/dynamic_sky.cpp.o
+.PHONY : dynamic_sky.cpp.o
+
+dynamic_sky.i: dynamic_sky.cpp.i
+.PHONY : dynamic_sky.i
+
+# target to preprocess a source file
+dynamic_sky.cpp.i:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/dynamic_sky.cpp.i
+.PHONY : dynamic_sky.cpp.i
+
+dynamic_sky.s: dynamic_sky.cpp.s
+.PHONY : dynamic_sky.s
+
+# target to generate assembly for a file
+dynamic_sky.cpp.s:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/dynamic_sky.cpp.s
+.PHONY : dynamic_sky.cpp.s
+
 exs3d.o: exs3d.cpp.o
 .PHONY : exs3d.o
 
@@ -378,6 +402,30 @@ gpu_buffer.cpp.s:
 	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_buffer.cpp.s
 .PHONY : gpu_buffer.cpp.s
 
+gpu_image_processing.o: gpu_image_processing.cpp.o
+.PHONY : gpu_image_processing.o
+
+# target to build an object file
+gpu_image_processing.cpp.o:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o
+.PHONY : gpu_image_processing.cpp.o
+
+gpu_image_processing.i: gpu_image_processing.cpp.i
+.PHONY : gpu_image_processing.i
+
+# target to preprocess a source file
+gpu_image_processing.cpp.i:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.i
+.PHONY : gpu_image_processing.cpp.i
+
+gpu_image_processing.s: gpu_image_processing.cpp.s
+.PHONY : gpu_image_processing.s
+
+# target to generate assembly for a file
+gpu_image_processing.cpp.s:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.s
+.PHONY : gpu_image_processing.cpp.s
+
 gpu_program.o: gpu_program.cpp.o
 .PHONY : gpu_program.o
 
@@ -401,6 +449,30 @@ gpu_program.s: gpu_program.cpp.s
 gpu_program.cpp.s:
 	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/gpu_program.cpp.s
 .PHONY : gpu_program.cpp.s
+
+graphics_renderer.o: graphics_renderer.cpp.o
+.PHONY : graphics_renderer.o
+
+# target to build an object file
+graphics_renderer.cpp.o:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/graphics_renderer.cpp.o
+.PHONY : graphics_renderer.cpp.o
+
+graphics_renderer.i: graphics_renderer.cpp.i
+.PHONY : graphics_renderer.i
+
+# target to preprocess a source file
+graphics_renderer.cpp.i:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/graphics_renderer.cpp.i
+.PHONY : graphics_renderer.cpp.i
+
+graphics_renderer.s: graphics_renderer.cpp.s
+.PHONY : graphics_renderer.s
+
+# target to generate assembly for a file
+graphics_renderer.cpp.s:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/graphics_renderer.cpp.s
+.PHONY : graphics_renderer.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -594,29 +666,29 @@ screen_overlay.cpp.s:
 	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/screen_overlay.cpp.s
 .PHONY : screen_overlay.cpp.s
 
-sky_box.o: sky_box.cpp.o
-.PHONY : sky_box.o
+shadowmap_shadows.o: shadowmap_shadows.cpp.o
+.PHONY : shadowmap_shadows.o
 
 # target to build an object file
-sky_box.cpp.o:
-	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/sky_box.cpp.o
-.PHONY : sky_box.cpp.o
+shadowmap_shadows.cpp.o:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/shadowmap_shadows.cpp.o
+.PHONY : shadowmap_shadows.cpp.o
 
-sky_box.i: sky_box.cpp.i
-.PHONY : sky_box.i
+shadowmap_shadows.i: shadowmap_shadows.cpp.i
+.PHONY : shadowmap_shadows.i
 
 # target to preprocess a source file
-sky_box.cpp.i:
-	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/sky_box.cpp.i
-.PHONY : sky_box.cpp.i
+shadowmap_shadows.cpp.i:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/shadowmap_shadows.cpp.i
+.PHONY : shadowmap_shadows.cpp.i
 
-sky_box.s: sky_box.cpp.s
-.PHONY : sky_box.s
+shadowmap_shadows.s: shadowmap_shadows.cpp.s
+.PHONY : shadowmap_shadows.s
 
 # target to generate assembly for a file
-sky_box.cpp.s:
-	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/sky_box.cpp.s
-.PHONY : sky_box.cpp.s
+shadowmap_shadows.cpp.s:
+	$(MAKE) -f CMakeFiles/glGraphics.dir/build.make CMakeFiles/glGraphics.dir/shadowmap_shadows.cpp.s
+.PHONY : shadowmap_shadows.cpp.s
 
 spline_path.o: spline_path.cpp.o
 .PHONY : spline_path.o
@@ -813,6 +885,9 @@ help:
 	@echo "... demo_scene.o"
 	@echo "... demo_scene.i"
 	@echo "... demo_scene.s"
+	@echo "... dynamic_sky.o"
+	@echo "... dynamic_sky.i"
+	@echo "... dynamic_sky.s"
 	@echo "... exs3d.o"
 	@echo "... exs3d.i"
 	@echo "... exs3d.s"
@@ -828,9 +903,15 @@ help:
 	@echo "... gpu_buffer.o"
 	@echo "... gpu_buffer.i"
 	@echo "... gpu_buffer.s"
+	@echo "... gpu_image_processing.o"
+	@echo "... gpu_image_processing.i"
+	@echo "... gpu_image_processing.s"
 	@echo "... gpu_program.o"
 	@echo "... gpu_program.i"
 	@echo "... gpu_program.s"
+	@echo "... graphics_renderer.o"
+	@echo "... graphics_renderer.i"
+	@echo "... graphics_renderer.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -855,9 +936,9 @@ help:
 	@echo "... screen_overlay.o"
 	@echo "... screen_overlay.i"
 	@echo "... screen_overlay.s"
-	@echo "... sky_box.o"
-	@echo "... sky_box.i"
-	@echo "... sky_box.s"
+	@echo "... shadowmap_shadows.o"
+	@echo "... shadowmap_shadows.i"
+	@echo "... shadowmap_shadows.s"
 	@echo "... spline_path.o"
 	@echo "... spline_path.i"
 	@echo "... spline_path.s"

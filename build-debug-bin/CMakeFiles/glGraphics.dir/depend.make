@@ -378,6 +378,7 @@ CMakeFiles/glGraphics.dir/font_resource.cpp.o: /usr/local/include/glbinding/gl/v
 CMakeFiles/glGraphics.dir/font_resource.cpp.o: /usr/local/include/glbinding/glbinding_api.h
 
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../camera.hpp
+CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../config_file.hpp
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../debug.hpp
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../fps_camera.cpp
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../fps_camera.hpp
@@ -386,6 +387,7 @@ CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../math3D.hpp
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../math_ex.hpp
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../oo_extensions.hpp
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../render_window.hpp
+CMakeFiles/glGraphics.dir/fps_camera.cpp.o: ../resource.hpp
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: /usr/local/include/GLFW/glfw3.h
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: /usr/local/include/glbinding/AbstractFunction.h
 CMakeFiles/glGraphics.dir/fps_camera.cpp.o: /usr/local/include/glbinding/AbstractValue.h
@@ -502,6 +504,7 @@ CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../frame_buffer.hpp
 CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../gl_bindable.hpp
 CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../gl_binding.hpp
 CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../gpu_buffer.hpp
+CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../gpu_buffer_impl.hpp
 CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../gpu_image_processing.cpp
 CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../gpu_image_processing.hpp
 CMakeFiles/glGraphics.dir/gpu_image_processing.cpp.o: ../gpu_program.hpp
@@ -1402,6 +1405,7 @@ CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../gl_bindable.hpp
 CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../gl_binding.hpp
 CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../gpu_buffer.hpp
 CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../gpu_buffer_impl.hpp
+CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../gpu_image_processing.hpp
 CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../gpu_program.hpp
 CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../graphics_renderer.hpp
 CMakeFiles/glGraphics.dir/water_plane.cpp.o: ../material.hpp

@@ -8,10 +8,10 @@ uniform vec2       uFrameSize;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-uniform float  uGamma      = 0.92;
+uniform float  uGamma      = 1.02;
 uniform float  uBrightness = 1.01;
 uniform float  uContrast   = 1.05;
-uniform float  uSaturation = 0.15;
+uniform float  uSaturation = 0.05;
 
 //----------------------------------------------------------------------------------------------------------------------
 

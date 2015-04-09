@@ -28,7 +28,7 @@ namespace render
 
 
     template<typename element_t>
-    gpu_buffer_of<element_t>::gpu_buffer_of (GLenum target, const std::vector<element_t> &data,
+    gpu_buffer_of<element_t>::gpu_buffer_of (GLenum target, const vector<element_t> &data,
                                              preferred_access_t preferredAccess,
                                              change_rate_t changeRate)
         : gpu_buffer (target, data.size(), (unsigned short) sizeof (element_t))
