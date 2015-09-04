@@ -8,6 +8,7 @@ Was initially developed for my home work on computer graphics at MSU.
 
 Here are just some screenshots:
 ==========
+sample scene "tropical island"
 
 ![alt tag](https://github.com/Lnd-stoL/glGraphics/blob/master/screenshots/screenshot-1416312257.jpg)
 
